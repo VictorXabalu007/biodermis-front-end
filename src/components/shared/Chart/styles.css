@@ -1,0 +1,8 @@
+
+
+.apexcharts-legend{
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+}
