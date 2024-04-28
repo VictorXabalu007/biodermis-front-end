@@ -8,19 +8,26 @@ export const HomeTemplate = () => {
 
     return (
 
-        <Home.Layout>
+            <Home.Layout>
 
-            <Home.Header />
-            
-            <Home.Content >
+                <Home.Header />
+                
+                <Home.Content >
 
-                    <Home.Cards />
-
-                    <Home.Chart/>
+                        <Home.Cards />
+                        
+                        <Home.Wrapper>
+                        
+                            <Home.Chart/>
+                            <Home.Tables />
+                        
+                        </Home.Wrapper> 
+               
                     
-            </Home.Content>
+                </Home.Content>
 
-        </Home.Layout>
+            </Home.Layout>
+
         
     )
 

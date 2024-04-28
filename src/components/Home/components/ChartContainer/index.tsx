@@ -1,6 +1,7 @@
+
 import { BORDER_GRAY } from "../../../../constants/classnames/classnames"
 import { Chart } from "../../../shared/Chart"
-import { ChartHeader } from "./util/components/ChartHeader"
+import { ChartHeader } from "./components/ChartHeader"
 import { options } from "./util/options"
 import { series } from "./util/series"
 
@@ -8,10 +9,12 @@ import { series } from "./util/series"
 
 export const ChartContainer = () => {
 
+
+    
     return (
 
         <div style={{border:BORDER_GRAY}} 
-        className="rounded-md flex flex-col w-full"
+        className="rounded-md mb-auto flex flex-col w-full"
         >
             <ChartHeader />
 
@@ -20,6 +23,7 @@ export const ChartContainer = () => {
             options={options}
             series={series}
             type="bar"
+            
             />
 
         </div>

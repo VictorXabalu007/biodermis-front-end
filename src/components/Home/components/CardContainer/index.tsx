@@ -8,6 +8,7 @@ export const CardContainer = () => {
 
 
     return (
+        
     <article className="flex gap-3 items-center flex-wrap">
 
         {cardItems.map((item,index) => {
@@ -28,6 +29,7 @@ export const CardContainer = () => {
 
             )
         })}
+
     </article>
 
     );

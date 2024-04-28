@@ -13,12 +13,12 @@ export const Layout = ({children}:LayoutProps) => {
 
   return (
 
-    <Root>
+    <Root >
 
       <Sider />
 
         <Root>
-
+          
           {children}
 
         </Root>

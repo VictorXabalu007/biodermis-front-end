@@ -7,7 +7,7 @@ export const Content = ({children}:{children: ReactNode}) => {
 
     const {
 
-        token: { colorBgContainer, borderRadiusLG },
+        token: { colorBgContainer },
     
       } = theme.useToken();
 
@@ -18,13 +18,12 @@ export const Content = ({children}:{children: ReactNode}) => {
 
         <div
           style={{
-            padding: 24,
-            minHeight: 'auto',
+            padding: '0 24px',
             background: colorBgContainer,
-            borderRadius: borderRadiusLG,
+            height: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            gap: '2em'
+            gap: '2em',
           }}
         >
 

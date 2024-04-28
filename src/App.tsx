@@ -1,5 +1,6 @@
 
 
+import { AppProvider } from './context'
 import { AppRoutes } from './routes'
 import './styles/global.css'
 
@@ -8,7 +9,17 @@ function App() {
 
   return (
 
-        <AppRoutes />
+
+      <main className="mn-w-screen min-h-screen">
+
+      <AppProvider>
+
+      <AppRoutes />
+
+      </AppProvider>
+
+
+      </main>
         
   )
 

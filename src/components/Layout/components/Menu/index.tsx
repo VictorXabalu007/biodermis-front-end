@@ -5,13 +5,19 @@ import './styles.css'
 import { Link } from "../../../shared/Link";
 import { LinkContent } from "../../../shared/Link/LinkContent";
 import { Exit } from "./components/Exit";
+import './styles.css'
+import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+
+
 
 export const Menu = () => {
 
-    const [selectedKey, setSelectedKey] = useState('1');
+    const [selectedKey, setSelectedKey] = useState(location.pathname);
 
-    const handleMenuSelect = ({ key }: any) => {
+    const handleMenuSelect = ({ key }: {key:string}) => {
+
         setSelectedKey(key);
+
     };
 
     const getBackgroundColor = (key: string) => {
@@ -19,7 +25,7 @@ export const Menu = () => {
     };
 
     const getTextColor = (key: string) => {
-        return selectedKey === key ? 'rgba(200, 130, 183)' : 'rgba(152, 152, 152)';
+        return selectedKey === key ? BRAND_PURPLE : 'rgba(152, 152, 152)';
     };
 
     const getFontWeightColor = (key: string) => {
@@ -30,27 +36,18 @@ export const Menu = () => {
         return selectedKey === key ? '4px solid rgba(200, 130, 183)' : 'none';
     }
 
-    const getHoverStyles = (key: string) => {
-        return selectedKey !== key ? {
-            ":hover": {
-                background: 'rgba(200, 130, 183, .2)',
-                color: 'rgba(200, 130, 183)',
-                fontWeight: '600',
-            }
-        } : {};
-    };
-
 
     return (
 
         <M
             mode="inline"
+
             style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '.5em',
                 padding: 0,
-                minHeight: '100vh',
+                height: 'auto',
                 marginTop: '2.2em',
            
             }}
@@ -61,6 +58,7 @@ export const Menu = () => {
                 {items.map((item) => (
 
                         <M.Item 
+                            
                             style={{
 
                                 borderRadius: '0',
@@ -69,32 +67,35 @@ export const Menu = () => {
                                 fontWeight: getFontWeightColor(item.key),
                                 borderLeft: getBorder(item.key),
                                 transition: 'ease-in-out .1s',
-                                ...getHoverStyles(item.key),
                                 padding: '1.7em',
-                                width: '100%'
+                                width: '100%',
+                         
                                 
                             }}
                             
                             key={item.key}
                             >   
                             
-                            <Link.Root 
-                                className="text-brand-purple flex gap-2 items-center" 
+                             <Link.Root 
+                                
+                                className="flex hover:font-semibold gap-2 items-center" 
                                 path={item.path}
                                 >
                                 
-                                <Link.Icon icon={item.icon} />
+                              
+                                <Link.Icon
+                                style={{fill: getTextColor(item.key)}} 
+                                icon={item.icon} />
+
                                 <LinkContent content={item.label} /> 
 
-                            </Link.Root>
-
+                            </Link.Root> 
+                        
                         </M.Item>
 
-                
-
-
                 ))}
-        
+
+       
             <Exit />
        
 

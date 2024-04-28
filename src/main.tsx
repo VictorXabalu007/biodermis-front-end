@@ -11,8 +11,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <ConfigProvider 
     locale={ptBR}
     >
-
-      <App /> 
+      
+        <App /> 
+     
 
   </ConfigProvider>
 

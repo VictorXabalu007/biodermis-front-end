@@ -15,20 +15,21 @@ interface ChartType {
 type ChartProps = {
     options: ApexOptions,
     series: Series[],
+    width?: number | string;
 } & ChartType;
 
-export const Chart = ({options,series,type}:ChartProps) => {
-    
+export const Chart = ({options,series,type, width}:ChartProps) => {
+
     return (
 
-        <div className="mt-3 z-50 h-[500px] flex-1 mixed-chart">
+        <div className="mt-3 z-50 h-[300px] flex-1 mixed-chart">
 
             <ReactApexChart 
             options={options}
             series={series}
             type={type}
             height={400}
-       
+            width={width}
             
             />
 

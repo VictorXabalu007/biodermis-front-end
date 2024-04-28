@@ -1,0 +1,15 @@
+
+
+
+span svg {
+    fill: #FFF; 
+}
+
+.ant-picker .ant-picker-input input::placeholder {
+    color: #FFF;
+    text-align: center;
+}
+.ant-picker .ant-picker-input input {
+    text-align: center;
+}
+

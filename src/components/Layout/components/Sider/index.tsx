@@ -20,7 +20,8 @@ export const S = () => {
     return (
 
         <Sider
-        width={280}
+        width={240}
+        
         style={{ background: colorBgContainer , borderRight: BORDER_GRAY}}
         breakpoint="lg"
         collapsedWidth="0"

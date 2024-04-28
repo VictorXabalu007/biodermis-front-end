@@ -4,6 +4,8 @@ import { Content } from "../Layout/components/Content";
 import { Header } from "../Layout/components/Header";
 import { CardContainer } from "./components/CardContainer";
 import { ChartContainer } from "./components/ChartContainer";
+import { TableContainer } from "./components/TableContainer";
+import { HomeWrapper } from "./components/Wrapper";
 
 
 export const Home = {
@@ -13,6 +15,8 @@ export const Home = {
     Content: Content,
     Cards: CardContainer,
     Chart: ChartContainer,
+    Tables: TableContainer,
+    Wrapper:HomeWrapper,
 
 }
 

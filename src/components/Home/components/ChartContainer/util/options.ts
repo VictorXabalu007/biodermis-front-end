@@ -4,6 +4,15 @@ import { GREEN_700, RED_500 } from "../../../../../constants/classnames/classnam
 
 export const options = {
 
+    chart: {
+      width: '0',
+      events: {
+        mounted: (chart:any) => {
+          chart.windowResizeHandler();
+        }
+      }
+    },
+
     colors:[RED_500, GREEN_700],
 
     xaxis: {
@@ -26,6 +35,7 @@ export const options = {
 
     },
 
+
     plotOptions: {
         bar: {
             horizontal: false,
@@ -35,11 +45,13 @@ export const options = {
     dataLabels: {
         enabled: false,
     },
+    
     stroke: {
         show: true,
         width: 5,
-        colors: ['transparent']
+        colors: ['transparent'],
     },
+
     legend: {
         
         

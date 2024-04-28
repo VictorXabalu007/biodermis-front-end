@@ -1,9 +1,10 @@
-import { ElementType } from "react";
+
+import { IconProps } from "../../../@types/Icon/IconProps";
 
 
 
-export const LinkIcon = ({icon: Icon} : {icon: ElementType}) => {
+export const LinkIcon = ({icon: Icon, style} : IconProps) => {
 
-    return (<Icon />);
+    return (<Icon style={style}/>);
 
 }
