@@ -4,8 +4,8 @@ import { BRAND_PURPLE, GREEN_800, YEALLOW_700 } from "../../../../../constants/c
 
 export const items = [
 
-    {
-        cardColor : 'border border-purple-solid-600 bg-purple-solid-600/25',
+    {      
+        key: '1',
         percent: 100,
         title: 'R$ 10.000',
         subText: 'Total de pagamentos',
@@ -14,8 +14,8 @@ export const items = [
         '50%': BRAND_PURPLE,
         '100%': BRAND_PURPLE}
     },
-    {
-        cardColor : 'border border-green-solid-800 bg-green-solid-800/25',
+    {       
+        key: '2',
         percent: 50,
         title: 'R$ 5.000',
         subText: 'Pagamentos aprovados',
@@ -24,8 +24,8 @@ export const items = [
         '50%': GREEN_800,
         '100%': GREEN_800}
     },
-    {
-        cardColor : 'border border-yeallow-solid-700 bg-yeallow-solid-400/25',
+    {      
+        key: '3',
         percent: 50,
         title: 'R$ 5.000',
         subText: 'Aguardando pagamento',

@@ -1,15 +1,15 @@
 import { Heading } from "../../../../../shared/Heading"
-import { DatePicker } from "../../../../../shared/Input/DatePicker"
+import { InputRangePicker } from "../../../../../shared/Input/RangePicker"
 
 
 export const TableHeader = () => {
     return (
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between">
             <Heading.Root>
                 <Heading.Content content="Pedidos" />
             </Heading.Root>
 
-            <DatePicker />
+            <InputRangePicker />
         </div>
     )
 }

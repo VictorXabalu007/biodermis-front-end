@@ -1,7 +1,8 @@
 import { Table as TB } from 'antd';
 import { TableProps } from 'antd/lib';
 import { CSSProperties } from 'react';
-import './styles.css'
+import * as C from './styles'
+
 
 type TableConfig <T> = {
 
@@ -16,14 +17,21 @@ export const Table = ({data,columns,style,className}:TableConfig<any>) => {
 
     return (
 
-        <TB
-        className={className}
-        style={style}
-        columns={columns}
-        dataSource={data}
-        pagination={false} 
-        
-        />
+      <C.Wrapper>
+
+            <TB
+
+            className={className}
+            style={style}
+            columns={columns}
+            dataSource={data}
+            pagination={false} 
+            size='small'
+            scroll={{ x: "max-content" }}
+            
+            />
+
+      </C.Wrapper>
 
     )
 

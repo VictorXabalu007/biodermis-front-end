@@ -1,16 +1,18 @@
 import { ReactNode } from "react";
+import { CSSProperties } from "styled-components";
 import { twMerge } from "tailwind-merge";
 
 
 type ProgressCardRootProps = {
     children:ReactNode,
     className?:string,
+    style?:CSSProperties
 }
 
-export const ProgressCardRoot = ({children,className}:ProgressCardRootProps) => {
+export const ProgressCardRoot = ({style,children,className}:ProgressCardRootProps) => {
 
     return (
-        <div className={twMerge("p-5 flex-1 items-center gap-3 flex rounded-md",className)}>
+        <div style={style} className={twMerge(`p-5 flex-1 items-center gap-3 flex rounded-md`,className)}>
 
             {children}
 

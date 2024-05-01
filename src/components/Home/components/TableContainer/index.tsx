@@ -12,10 +12,10 @@ export const TableContainer = () => {
 
         <div className="flex w-full lg:w-[40%] flex-col gap-5 px-2 pb-2">
 
-                {items.map(item => {
+                {items.map((item,index) => {
                     return (
 
-                    <div className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3" >
+                    <div key={index} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3" >
                         <div className="flex justify-between">
 
                             <Heading.Root className="text-[16px]">

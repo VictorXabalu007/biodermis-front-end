@@ -13,3 +13,5 @@ export const GREEN_800 = '#52B788'
 export const YEALLOW_700 = '#FFE566'
 
 export const BRAND_PURPLE = '#C882B7';
+
+export const PURPLE_600 = '#B475A5';

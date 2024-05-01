@@ -1,6 +1,6 @@
 import { FaMoneyBills } from "react-icons/fa6"
 import { Heading } from "../../../../../shared/Heading"
-import { DatePicker } from "../../../../../shared/Input/DatePicker"
+import { InputRangePicker } from "../../../../../shared/Input/RangePicker"
 
 
 
@@ -22,7 +22,7 @@ export const ChartHeader = () => {
             </div>
 
             <div className="mt-3">
-                <DatePicker />
+                <InputRangePicker />
             </div>
 
         </div>

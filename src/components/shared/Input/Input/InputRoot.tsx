@@ -1,11 +1,17 @@
-import { ReactNode } from "react"
+import { twMerge } from "tailwind-merge";
 
 
 
-export const InputRoot = ({children}:{children:ReactNode}) => {
+
+type InpytRootProps = {
+    className?:string;
+    children: React.ReactNode;
+}
+
+export const InputRoot = ({children,className}:InpytRootProps) => {
 
     return (
-        <div className="flex flex-col text-start">
+        <div className={twMerge("flex flex-col text-start",className)}>
             {children}
         </div>
     )

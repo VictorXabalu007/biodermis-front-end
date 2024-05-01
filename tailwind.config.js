@@ -16,19 +16,26 @@ export default {
           'neutral-200' : '#DCDCDC',
           'neutral-400': '#989898',
           'neutral-600': '#656565',
+          'neutral-950' : '#292929'
         },
         'green': {
+          'solid-300' : '#D8F3DC',
           'solid-800': '#52B788',
-          'solid-600': '#95D5B2'
+          'solid-600': '#95D5B2',
+          'solid-900' : '#40916C'
         },
 
         'yeallow' : {
           'solid-400': '#FFF8D7',
-          'solid-700': '#FFE566'
+          'solid-700': '#FFE566',
+          'solid-900' : '#FFD400'
         },
 
         'purple' : {
-          'solid-600' : '#B475A5'
+          'solid-200' : '#F7ECF4',
+          'solid-500' : '#B475A5',
+          'solid-600' : '#B475A5',
+          'solid-950' : '#462E40'
         },
 
         'gold-light': '#FBE588',
