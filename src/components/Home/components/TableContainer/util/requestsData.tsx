@@ -1,11 +1,11 @@
 import { TableProps } from 'antd/lib';
-import { Text } from '../../../../shared/Text';
-import { NameItem } from './components/NameItem.tsx';
+import { NumericFormatter } from '../../../../shared/Formatter/NumericFormatter.tsx';
+import { NameItem } from '../../../../shared/Image/NameItem.tsx';
 
 type DataType = {
 
     key: string,
-    value: string,
+    value: number,
     name: string,
 
 }
@@ -15,17 +15,17 @@ export const requestData: DataType[] = [
 
     {   
         key: '1',
-        value:'R$ 1,500.00',
+        value:1500,
         name: 'Username'
     },
     {   
         key: '2',
-        value: 'R$ 1,500.00',
+        value: 1500,
         name: 'Username'
     },
     {   
         key: '3',
-        value:'R$ 1,500.00',
+        value:1500,
         name: 'Username'
     },
 
@@ -54,9 +54,9 @@ export const requestColumns : TableProps<DataType>['columns'] = [
         render: (value) => {
             return (
 
-                <Text.Root className='font-semibold text-gray-neutral-600'>
-                    <Text.Content content={value} />
-                </Text.Root>
+                <NumericFormatter
+                value={value}
+                />
               
             )
     }

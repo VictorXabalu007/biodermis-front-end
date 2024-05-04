@@ -1,30 +1,42 @@
 import { IoCalendarNumberOutline } from "react-icons/io5";
+import { KeyType } from "../@types/KeyType";
+import { Options } from "../../../../../../../@types/Options/Options";
 
 
 
-export const selectOptions = [
+type SelectOptions = {
+
+    options: Options[],
+    defaultValue: string,
+    icon?: React.ReactNode,
+    key: KeyType;
+
+}
+
+export const selectOptions:SelectOptions[] = [
 
     {
        options: [
         {
-            value: '90days',
+            value: 'last90Days',
             label: 'Últimos 90 dias'
         },
         {
-            value: '45days',
+            value: 'last45Days',
             label: 'Últimos 45 dias'
         },
         {
-            value: '20days',
+            value: 'last20Days',
             label: 'Últimos 20 dias'
         },
         {
-            value: '10days',
+            value: 'last10Days',
             label: 'Últimos 10 dias'
         },
        ],
        defaultValue: 'Últimos 90 dias',
-       icon: <IoCalendarNumberOutline className="fill-gray-400 text-xl" />
+       icon: <IoCalendarNumberOutline className="fill-gray-400 text-xl" />,
+       key: 'latestDays',
     },
     {
        options: [
@@ -44,7 +56,7 @@ export const selectOptions = [
        ],
 
        defaultValue: 'Pedidos: Em andamento',
-
+       key: 'requests'
     },
     {
        options: [
@@ -57,8 +69,10 @@ export const selectOptions = [
        ],
 
        defaultValue: 'Status: Todos',
+       key: 'status'
 
     },
+
     {
        options: [
         {
@@ -70,6 +84,7 @@ export const selectOptions = [
        ],
 
        defaultValue: 'Canal de venda: Todos',
+       key: 'sellChannel'
 
     },
 

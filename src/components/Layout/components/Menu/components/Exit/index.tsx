@@ -7,7 +7,7 @@ export const Exit = () => {
 
     return (
 
-        <Link.Root className="p-[1.7rem] my-auto text-brand-purple flex items-center justify-start gap-2" path="">
+        <Link.Root className="p-[1.7rem] mt-24 text-brand-purple flex items-center justify-start gap-2" path="">
 
             <Link.Icon icon={FaArrowRightFromBracket} />
             <Link.Content content="Sair" />

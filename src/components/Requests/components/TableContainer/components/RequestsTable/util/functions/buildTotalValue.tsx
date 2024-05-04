@@ -3,11 +3,12 @@ import { PaymentType } from "../@types/PaymentType";
 import { MdOutlinePix } from "react-icons/md";
 import { FiCreditCard } from "react-icons/fi";
 import { ElementType } from "react";
+import { NumericFormatter } from "../../../../../../../shared/Formatter/NumericFormatter";
 
 
 type TotalValueProps = {
 
-    value:string;
+    value:number;
     icon: ElementType;
 }
 
@@ -15,7 +16,7 @@ const TotalValueComponent = ({value, icon:Icon}:TotalValueProps) => {
     
     return (
             <div className="flex gap-2 items-center">
-                <p>{value}</p>
+                <NumericFormatter value={value} />
                 <Icon className="text-[15px]"/>
             </div>
         );
@@ -23,7 +24,7 @@ const TotalValueComponent = ({value, icon:Icon}:TotalValueProps) => {
 }
 
 
-export const buildTotalValue = (value: string, paymentType: PaymentType) => {
+export const buildTotalValue = (value: number, paymentType: PaymentType) => {
 
     switch(paymentType){
         case 'PIX':

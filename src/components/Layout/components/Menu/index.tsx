@@ -45,9 +45,9 @@ export const Menu = () => {
             style={{
                 display: 'flex',
                 flexDirection: 'column',
+                justifyContent: 'space-between',
                 gap: '.5em',
                 padding: 0,
-                height: 'auto',
                 marginTop: '2.2em',
            
             }}

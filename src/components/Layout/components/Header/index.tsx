@@ -5,7 +5,7 @@ import { Heading } from "../../../shared/Heading";
 import { Text } from "../../../shared/Text";
 
 
-export const Header = () => {
+export const Header = ({heading}:{heading:string}) => {
 
     const {
 
@@ -13,8 +13,6 @@ export const Header = () => {
     
       } = theme.useToken();
     
-    const path = location.pathname.replace('/', '');
-    const formattedPath = path.charAt(0).toUpperCase() + path.slice(1).toLowerCase();
       
     return (
         <>
@@ -32,7 +30,7 @@ export const Header = () => {
             >
             <div >
                 <Heading.Root>
-                    <Heading.Content content={formattedPath} />
+                    <Heading.Content content={heading} />
                 </Heading.Root> 
                 <Text.Root>
                     <Text.Content content="Lorem ipsum dolor sit amet consectetur."/>

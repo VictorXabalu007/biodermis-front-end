@@ -3,7 +3,10 @@ import { InputRangePicker } from "../../../../../shared/Input/RangePicker"
 
 
 export const TableHeader = () => {
+
+    
     return (
+
         <div className="flex flex-wrap justify-between">
             <Heading.Root>
                 <Heading.Content content="Pedidos" />
@@ -11,5 +14,6 @@ export const TableHeader = () => {
 
             <InputRangePicker />
         </div>
+        
     )
 }

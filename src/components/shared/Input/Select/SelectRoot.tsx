@@ -44,6 +44,14 @@ export const SelectRoot = ({children,icon, className}:SelectRootProps) => {
             color: #7C7C7C;
         }
 
+        .ant-select-selector {
+
+            &:hover {
+                border: 1px solid #989898 !important; 
+            }
+            
+        }
+
     `;
 
 

@@ -1,6 +1,4 @@
 import { ReactNode } from "react";
-import { TableProps } from 'antd/lib';
-import { PiArrowsDownUpFill } from "react-icons/pi";
 import { PaymentStatus } from "./@types/PaymentStatus";
 import { DeliveryStatys } from "./@types/DeliveryStatus";
 import { buildDeliveryStatus } from "./functions/buildDeliveryStatus";
@@ -10,15 +8,17 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { buildTotalValue } from "./functions/buildTotalValue";
 import { PaymentType } from "./@types/PaymentType";
 import { TableActions } from "../components/TableActions";
+import { TableColumnsType } from "antd";
+import { ArrowUpDownIcon } from "../../../../../../shared/Icon/ArrowUpDownIcon";
 
 
 
-type TotalValue = {
-    value:string;
+export type TotalValue = {
+    value:number;
     paymentType: PaymentType;
 }
 
-type DataType = {
+export type DataType = {
 
     key: string,
     actions: ReactNode, //acções
@@ -28,7 +28,7 @@ type DataType = {
     paymentStatus: PaymentStatus, // Status pagamento
     deliveryStatus: DeliveryStatys, // Status da entrega
     sellOrSupply: SellOrSupply, // Abastecimento/venda
-    shippingValue: string, //valor frete
+    shippingValue: number, //valor frete
     totalValue: TotalValue, // valor total
     whatsaap: ReactNode
 
@@ -45,8 +45,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aprovado',
         deliveryStatus: 'Em andamento',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Boleto'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'Boleto'},
         whatsaap: <></>
 
     },
@@ -59,8 +59,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aguardando',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Venda',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Cartão de crédito'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'Cartão de crédito'},
         whatsaap: <></>
 
     },
@@ -73,8 +73,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aguardando',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'PIX'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'PIX'},
         whatsaap: <></>
 
     },
@@ -87,8 +87,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aprovado',
         deliveryStatus: 'Em andamento',
         sellOrSupply: 'Venda',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Boleto'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'Boleto'},
         whatsaap: <></>
 
     },
@@ -101,8 +101,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aprovado',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Boleto'},
+        shippingValue:  20,
+        totalValue: {value: 150, paymentType: 'Boleto'},
         whatsaap: <></>
 
     },
@@ -115,8 +115,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aguardando',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Venda',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'PIX'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'PIX'},
         whatsaap: <></>
 
     },
@@ -129,8 +129,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aguardando',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Cartão de crédito'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'Cartão de crédito'},
         whatsaap: <></>
 
     },
@@ -143,8 +143,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aguardando',
         deliveryStatus: 'Recebido',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'PIX'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'PIX'},
         whatsaap: <></>
 
     },
@@ -157,8 +157,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aprovado',
         deliveryStatus: 'Em andamento',
         sellOrSupply: 'Venda',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'PIX'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'PIX'},
         whatsaap: <></>
 
     },
@@ -171,8 +171,8 @@ export const requestData : DataType[] = [
         paymentStatus: 'Aprovado',
         deliveryStatus: 'Em andamento',
         sellOrSupply: 'Abastecimento',
-        shippingValue: 'R$ 20,00',
-        totalValue: {value: 'R$ 150,00', paymentType: 'Boleto'},
+        shippingValue: 20,
+        totalValue: {value: 150, paymentType: 'Boleto'},
         whatsaap: <></>
 
     },
@@ -181,7 +181,7 @@ export const requestData : DataType[] = [
 
 
 
-export const requestColumns: TableProps<DataType>['columns'] = [
+export const requestColumns: TableColumnsType<DataType> = [
 
     {
         title: <p>Ações</p>,
@@ -197,7 +197,7 @@ export const requestColumns: TableProps<DataType>['columns'] = [
         }
     },
     {
-        title: <div className={'flex gap-2'}>Pedidos <PiArrowsDownUpFill className="text-xl text-brand-purple" /></div>,
+        title: <div className={'flex gap-2'}>Pedidos <ArrowUpDownIcon /></div>,
         key: 'requests',
         dataIndex: 'requests',
         render: (request) => {
@@ -208,7 +208,9 @@ export const requestColumns: TableProps<DataType>['columns'] = [
 
             )
     
-        }
+        },
+        // onFilter: (value,request) => request.includes(value as string)
+        
     },
     {
         title: <p>Nome comprador</p>,

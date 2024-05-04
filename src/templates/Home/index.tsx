@@ -10,7 +10,7 @@ export const HomeTemplate = () => {
 
             <Home.Layout>
 
-                <Home.Header />
+                <Home.Header heading="Home" />
                 
                 <Home.Content >
 

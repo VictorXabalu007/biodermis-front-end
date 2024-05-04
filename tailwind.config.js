@@ -22,7 +22,8 @@ export default {
           'solid-300' : '#D8F3DC',
           'solid-800': '#52B788',
           'solid-600': '#95D5B2',
-          'solid-900' : '#40916C'
+          'solid-900' : '#40916C',
+          'flat' : '#52B788',
         },
 
         'yeallow' : {
@@ -36,6 +37,12 @@ export default {
           'solid-500' : '#B475A5',
           'solid-600' : '#B475A5',
           'solid-950' : '#462E40'
+        },
+
+        'red' : {
+          'solid-400' : '#FEF3F2',
+          'solid-800' : '#F77B72',
+          'solid-950' : '#EE5045'
         },
 
         'gold-light': '#FBE588',

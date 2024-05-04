@@ -4,16 +4,19 @@ import { CSSProperties } from 'react';
 import * as C from './styles'
 
 
-type TableConfig <T> = {
+
+
+interface TableConfig <T> extends Omit<TableProps<T>, 'columns' | 'dataSource' | 'onChange'> {
 
   data: T[],
   columns: TableProps<T>['columns']
   style?: CSSProperties,
   className?:string,
+  onChange?: (...args: any) => void
 
 }
 
-export const Table = ({data,columns,style,className}:TableConfig<any>) => {
+export const Table = ({data,columns,style,className,onChange, ...rest}:TableConfig<any>) => {
 
     return (
 
@@ -21,13 +24,15 @@ export const Table = ({data,columns,style,className}:TableConfig<any>) => {
 
             <TB
 
-            className={className}
-            style={style}
-            columns={columns}
-            dataSource={data}
-            pagination={false} 
-            size='small'
-            scroll={{ x: "max-content" }}
+              className={className}
+              style={style}
+              columns={columns}
+              dataSource={data}
+              pagination={false} 
+              size='small'
+              scroll={{ x: "max-content" }}
+              onChange={onChange}
+              {...rest}
             
             />
 

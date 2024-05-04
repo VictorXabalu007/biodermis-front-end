@@ -6,20 +6,25 @@ export const RequestsTemplate = () => {
 
 
     return (
-        <Requests.Layout>
 
-            <Requests.Header />
+        <Requests.Provider>
 
-            <Requests.Content>
+            <Requests.Layout>
 
-                    <Requests.Cards />
+                <Requests.Header heading="Pedidos" />
 
-                    <Requests.Table />
+                <Requests.Content>
 
-            </Requests.Content>
+                        <Requests.Cards />
+
+                        <Requests.Table />
+
+                </Requests.Content>
 
 
-        </Requests.Layout>
+            </Requests.Layout>
+            
+        </Requests.Provider>
     )
 
 

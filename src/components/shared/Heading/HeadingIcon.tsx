@@ -1,8 +1,13 @@
 import { ElementType } from "react"
 
 
+type HeadingIconProps = {
+    icon:ElementType,
+    className?:string,
+}
 
+export const HeadingIcon = ({icon:Icon,className}:HeadingIconProps) => {
 
-export const HeadingIcon = ({icon:Icon}:{icon:ElementType}) => {
-    return <Icon />;
+    return <Icon className={className} />;
+    
 }
