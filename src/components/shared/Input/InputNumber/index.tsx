@@ -1,9 +1,11 @@
 
-import { InputHTMLAttributes, useEffect, useState } from 'react';
+import { Input } from 'antd';
+import { InputProps } from 'antd/lib';
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 
-interface InputMoneyProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputMoneyProps extends InputProps {
 
   value: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,7 +14,7 @@ interface InputMoneyProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const DECIMAL_SIZE = 2;
 
-const InputMoney = ({ value, onChange, className }: InputMoneyProps) => {
+const InputMoney = ({ value, onChange, className,...rest }: InputMoneyProps) => {
     
   const [currentValue, setCurrentValue] = useState<string>(`${value}`);
 
@@ -49,13 +51,14 @@ const InputMoney = ({ value, onChange, className }: InputMoneyProps) => {
   };
 
   return (
-
-    <input
-
+    
+    <Input
+      
       type='text'
       className={twMerge('bg-transparent placeholder-gray-neutral-600 p-0 border-b-2 border-gray-neutral-200 text-gray-neutral-600 border-l-0 border-r-0 border-t-0 w-full',className)}
       value={currentValue}
       onChange={handleOnChange}
+      {...rest}
 
     />
 

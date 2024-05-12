@@ -1,7 +1,7 @@
-import { IoIosArrowForward, IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { Text } from "../../../../shared/Text";
 import { PaymentStatus } from "../@types/PaymentStatus";
-import { Button } from "../../../../shared/Button";
+import { WithdrawalActions } from "../../WithdrawalActions";
 
 
 
@@ -33,15 +33,7 @@ export const buildPaymentStatus = (status:PaymentStatus) => {
 
             return (
 
-                <Button.Root className="w-2/3 font-semibold">
-
-                    <Button.Wrapper>
-
-                        <Button.Content content="Efetuar Pagamento" />
-                        <Button.Icon icon={IoIosArrowForward } />
-
-                    </Button.Wrapper>
-                </Button.Root>
+                <WithdrawalActions />
 
             )
     }

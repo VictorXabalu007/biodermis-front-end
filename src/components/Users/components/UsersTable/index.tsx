@@ -5,7 +5,7 @@ import { Table } from "../../../shared/Table"
 import { UserType } from "./util/@types/UserType.ts"
 import { TableActions } from "./components/TableActions.tsx"
 import { ArrowUpDownIcon } from "../../../shared/Icon/ArrowUpDownIcon/index.tsx"
-import { NameItem } from "../../../shared/Image/NameItem.tsx"
+import { NameItem } from "../../../shared/Image/NameItem/NameItem.tsx"
 
 
 

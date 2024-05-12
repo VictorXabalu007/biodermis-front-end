@@ -11,9 +11,7 @@ export const CardContainer = () => {
         <div className="flex gap-6 flex-col">
             
             <div className="ms-auto">
-                <InputRangePicker
-                
-                />
+                <InputRangePicker/>
             </div>
 
             <article className="flex gap-3 items-center flex-wrap">

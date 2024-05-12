@@ -6,11 +6,15 @@ import { Button } from "../../../../../shared/Button"
 import { FaPlus } from "react-icons/fa6"
 import { TableHeaderWrapper } from "../../../../../shared/Table/components/TableHeaderWrapper"
 import { SearchIcon } from "../../../../../shared/Icon/SearchIcon"
+import { useNavigate } from "react-router-dom"
+import { REGISTER_CONSULTOR } from "../../../../../../constants/paths/paths"
 
 
 
 
 export const TableHeader = () => {
+
+    const navigate = useNavigate();
 
     return (
 
@@ -43,7 +47,9 @@ export const TableHeader = () => {
                     
                     <InputRangePicker />
 
-                    <Button.Root className="bg-white border border-purple-solid-500 text-purple-solid-500 hover:bg-purple-solid-200 flex-1">
+                    <Button.Root 
+                     onClick={()=>navigate(REGISTER_CONSULTOR)}
+                     className="bg-white border border-purple-solid-500 text-purple-solid-500 hover:bg-purple-solid-200 flex-1">
                         <Button.Content content="Cadastrar um consultor" />
                         <Button.Icon icon={FaPlus} />
                     </Button.Root>

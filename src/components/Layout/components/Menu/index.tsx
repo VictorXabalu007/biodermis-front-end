@@ -1,12 +1,13 @@
 import { Menu as M } from "antd";
 import { items } from "./util/items";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './styles.css'
 import { Link } from "../../../shared/Link";
 import { LinkContent } from "../../../shared/Link/LinkContent";
 import { Exit } from "./components/Exit";
 import './styles.css'
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+import { CONSULTORS, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
 
 
 
@@ -19,6 +20,17 @@ export const Menu = () => {
         setSelectedKey(key);
 
     };
+
+    useEffect(()=> {
+
+        if(location.pathname === REGISTER_CONSULTOR){
+            setSelectedKey(CONSULTORS)
+        }
+        if(location.pathname === REGISTER_PRODUCTS){
+            setSelectedKey(PRODUCTS)
+        }
+
+    },[location.pathname,selectedKey])
 
     const getBackgroundColor = (key: string) => {
         return selectedKey === key ? 'rgba(200, 130, 183, .2)' : 'transparent';

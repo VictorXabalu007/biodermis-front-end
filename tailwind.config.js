@@ -14,6 +14,7 @@ export default {
         'gray': {
           'neutral-100' : '#EFEFEF',
           'neutral-200' : '#DCDCDC',
+          'neutral-300' : '#BDBDBD',
           'neutral-400': '#989898',
           'neutral-600': '#656565',
           'neutral-950' : '#292929'

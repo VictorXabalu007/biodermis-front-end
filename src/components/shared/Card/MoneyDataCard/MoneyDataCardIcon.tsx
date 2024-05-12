@@ -1,5 +1,6 @@
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io"
 import { MoneyCardType } from "./@types/MoneyCardType"
+import { ElementType } from "react"
 
 
 const buildCardIcon = (cardType:MoneyCardType) => {
@@ -31,18 +32,26 @@ const buildCardIcon = (cardType:MoneyCardType) => {
         
             )
 
+    
     }
 
 }
 
+type MoneyDataCardIconProps = {
+    
+    cardType: MoneyCardType,
+    icon: ElementType
+    
+}
 
-export const MoneyDataCardIcon = ({cardType}:{cardType:MoneyCardType}) => {
 
+export const MoneyDataCardIcon = ({cardType}:MoneyDataCardIconProps) => {
 
     return (
-        buildCardIcon(cardType)
-    )
 
+        buildCardIcon(cardType)
+
+    )
 
 
 }

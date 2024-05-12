@@ -1,16 +1,21 @@
+import { LabelHTMLAttributes } from "react"
 import { twMerge } from "tailwind-merge"
 
 
-type InputLabelProps = {
-    content: string,
-    inputId: string
+interface InputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
+
+    content: string
     className? : string
+
 }
 
-export const InputLabel = ({content,inputId,className}:InputLabelProps) => {
+export const InputLabel = ({content,className,...rest}:InputLabelProps) => {
 
     return (
-        <label className={twMerge("text-purple-solid-500 my-2 text-[14px] fw-medium", className)} htmlFor={inputId}>
+        <label 
+        className={twMerge("text-purple-solid-500 mb-2 text-[14px] fw-medium", className)}
+        {...rest}
+        >
             {content}
         </label>
     )

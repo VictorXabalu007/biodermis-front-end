@@ -28,6 +28,16 @@ const buildMoneyData = ( value:number,cardType:MoneyCardType) => {
 
                 </Text.Root>
             )
+        default:
+            return (
+
+                <Text.Root className="text-purple-solid-950 font-medium font-[600]">
+                        
+                    <NumericFormatter value={value} />
+
+                </Text.Root>
+                
+            )
     }
 }
 

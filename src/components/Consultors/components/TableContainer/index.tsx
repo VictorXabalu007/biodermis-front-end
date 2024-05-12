@@ -10,13 +10,14 @@ export const TableContainer = () => {
 
     return (
 
-        <TableWrapper>
 
-            <TableHeader />
+            <TableWrapper>
 
-            <ConsultorsTable />
+                <TableHeader />
 
-        </TableWrapper>
+                <ConsultorsTable />
+
+            </TableWrapper>
 
     );
 

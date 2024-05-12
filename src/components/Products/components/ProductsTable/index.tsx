@@ -60,12 +60,20 @@ export const ProductsTable = () => {
                 return (
                     <div>
                         <p>{record.viewMore}</p>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div 
+                        style={
+                            { display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center' }}
+                        >
 
                             {expandedRowKey === record.key ? (
 
                                 <div className="border border-purple-solid-500 p-1 p-1 text-purple-solid-500 rounded-md cursor-pointer">
-                                    <IoIosArrowUp onClick={() => setExpandedRowKey(undefined)} />
+                                    <IoIosArrowUp 
+                                    className="transition-all"
+                                    onClick={() => setExpandedRowKey(undefined)} 
+                                    />
                                 </div>
                             
                             ) : (

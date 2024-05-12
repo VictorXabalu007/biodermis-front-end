@@ -1,3 +1,3 @@
 
 
-export type MoneyCardType = 'input' | 'output'
+export type MoneyCardType = 'input' | 'output' | 'generic'

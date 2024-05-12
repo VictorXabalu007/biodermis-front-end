@@ -1,0 +1,12 @@
+
+
+.ant-modal-confirm-body .anticon-exclamation-circle {
+    display:none;
+}
+
+.ant-modal-confirm-body {
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}

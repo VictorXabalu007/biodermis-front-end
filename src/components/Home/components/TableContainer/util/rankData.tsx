@@ -1,6 +1,6 @@
 import { TableProps } from 'antd/lib';
 import { buildPodium } from '../../../../shared/Table/functions/buildPodium';
-import { NameItem } from '../../../../shared/Image/NameItem';
+import { NameItem } from '../../../../shared/Image/NameItem/NameItem';
 
 
 type DataType = {

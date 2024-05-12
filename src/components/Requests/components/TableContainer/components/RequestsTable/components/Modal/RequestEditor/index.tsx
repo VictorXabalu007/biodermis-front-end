@@ -1,16 +1,24 @@
+import { ElementType } from "react";
 import { Heading } from "../../../../../../../../shared/Heading";
 import { InputDatePicker } from "../../../../../../../../shared/Input/DatePicker";
 import { Input } from "../../../../../../../../shared/Input/Input";
 import { Text } from "../../../../../../../../shared/Text";
+import { HiMiniPencilSquare } from "react-icons/hi2";
 
 
-const data = [
+type TitleData = {
+    title: string,
+    icon? : ElementType,
+    label: string,
+}
+const data: TitleData[] = [
     {
         title: '2925',
         label: 'Codigo do pedido'
     },
     {
-        title: <>SEDEX</>,
+        title: 'SEDEX',
+        icon: HiMiniPencilSquare,
         label: 'Forma de envio'
     },
     {
@@ -28,7 +36,7 @@ export const RequestEditor = () => {
             <div className="mb-10">
 
                 <Heading.Root>
-                    <Heading.Content content="Adiconar código de envio" />
+                    <Heading.Content content="Adicionar código de envio" />
                 </Heading.Root>
 
             </div>
@@ -36,21 +44,22 @@ export const RequestEditor = () => {
             <div className="mx-auto flex px-4 gap-12 items-center">
 
 
-                {data.map(item => {
+                {data.map((item,index) => {
                     
                     return(
 
-                    <div className="text-center">
+                        <div key={index} className="flex items-center flex-col">
 
-                        <Heading.Root>
-                            {item.title}
-                        </Heading.Root>
+                            <Heading.Root>
+                                {item.title}
+                                {item.icon && <Heading.Icon className="text-brand-purple" icon={item.icon} />}
+                            </Heading.Root>
 
-                        <Text.Root className="text-gray-neutral-950 my-3">
-                            <Text.Content content={item.label} />
-                        </Text.Root>
+                            <Text.Root className="text-gray-neutral-950 my-3">
+                                <Text.Content content={item.label} />
+                            </Text.Root>
 
-                    </div>
+                        </div>
 
                     )
                 })}

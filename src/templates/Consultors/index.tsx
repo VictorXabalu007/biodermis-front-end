@@ -5,6 +5,7 @@ export const ConsultorsTemplate = () => {
 
 
     return (
+        
         <Consultors.Layout>
 
             <Consultors.Header heading="Consultores" />
@@ -18,6 +19,7 @@ export const ConsultorsTemplate = () => {
 
 
         </Consultors.Layout>
+        
     )
 
 

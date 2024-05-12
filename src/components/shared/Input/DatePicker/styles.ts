@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
     .ant-picker .ant-picker-input input {
         text-align: start;
         font-weight: 600;
-        color: #462E40;
     }
 
 

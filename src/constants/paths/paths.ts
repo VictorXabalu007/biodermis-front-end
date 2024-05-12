@@ -16,3 +16,7 @@ export const PRODUCTS = '/produtos';
 export const WITHDRAWAL = '/pedidos+de+saque';
 
 export const INVOICING = '/faturamento';
+
+export const REGISTER_CONSULTOR = '/consultores/registrar+consultor'
+
+export const REGISTER_PRODUCTS = '/produtos/registrar+produto'

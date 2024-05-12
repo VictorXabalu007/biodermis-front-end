@@ -1,6 +1,6 @@
 import { TableProps } from 'antd/lib';
 import { NumericFormatter } from '../../../../shared/Formatter/NumericFormatter.tsx';
-import { NameItem } from '../../../../shared/Image/NameItem.tsx';
+import { NameItem } from '../../../../shared/Image/NameItem/NameItem.tsx';
 
 type DataType = {
 

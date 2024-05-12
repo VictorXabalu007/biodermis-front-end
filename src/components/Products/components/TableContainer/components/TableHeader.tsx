@@ -4,10 +4,14 @@ import { Input } from "../../../../shared/Input/Input"
 import { Select } from "../../../../shared/Input/Select"
 import { TableHeaderWrapper } from "../../../../shared/Table/components/TableHeaderWrapper"
 import { SearchIcon } from "../../../../shared/Icon/SearchIcon"
+import { useNavigate } from "react-router-dom"
+import { REGISTER_PRODUCTS } from "../../../../../constants/paths/paths"
 
 
 
 export const TableHeader = () => {
+
+    const navigate = useNavigate();
 
     return (
 
@@ -38,7 +42,9 @@ export const TableHeader = () => {
 
                 <div className="flex flex-wrap gap-2">
 
-                    <Button.Root>
+                    <Button.Root
+                        onClick={()=>navigate(REGISTER_PRODUCTS)}
+                        >
                         <Button.Content content="Adicionar um produto" />
                         <Button.Icon icon={FaPlus} />
                     </Button.Root>

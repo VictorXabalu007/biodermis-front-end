@@ -8,7 +8,8 @@ import { buildStatus } from "./util/functions/buildStatus.tsx";
 import { TableActions } from "./util/components/TableActions.tsx";
 import { NumericFormatter } from "../../../../../shared/Formatter/NumericFormatter.tsx";
 import { ArrowUpDownIcon } from "../../../../../shared/Icon/ArrowUpDownIcon/index.tsx";
-import { NameItem } from "../../../../../shared/Image/NameItem.tsx";
+import { NameItem } from "../../../../../shared/Image/NameItem/NameItem.tsx";
+
 
 
 
@@ -46,8 +47,8 @@ export const ConsultorsTable = () => {
         },
         {
             title: <div className="flex gap-2">Nomes <ArrowUpDownIcon /> </div>,
-            key: 'names',
-            dataIndex: 'names',
+            key: 'name',
+            dataIndex: 'name',
             render: (name) => {
 
                 return (
@@ -120,11 +121,13 @@ export const ConsultorsTable = () => {
             title:  <p>Ações</p>,
             key: 'actions',
             dataIndex: 'actions',
-            render: () => {
+            render: (_,record) => {
 
                 return (
 
-                    <TableActions />
+                    <TableActions
+                    
+                    />
 
                 );
 
@@ -138,13 +141,15 @@ export const ConsultorsTable = () => {
     return (
 
 
-        <Table 
-        
-        data={consultorsData}
-        columns={columns}
-        
-        
-        />
+
+                <Table 
+                
+                    data={consultorsData}
+                    columns={columns}
+                
+                />
+
+
 
 
     );

@@ -14,7 +14,7 @@ export const SelectRoot = ({children,icon, className}:SelectRootProps) => {
     const Wrapper = styled.div`
 
         position: relative;
-
+   
         .prefix-icon-wrapper {
             position: absolute;
             z-index: 1;
@@ -31,7 +31,7 @@ export const SelectRoot = ({children,icon, className}:SelectRootProps) => {
         }`}
 
         .ant-select .ant-select-selector {
-            padding: 1.3rem;
+            padding: 1.25rem;
         }
 
         .ant-select .ant-select-arrow {

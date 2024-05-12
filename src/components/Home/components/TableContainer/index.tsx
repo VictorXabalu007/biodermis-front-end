@@ -10,7 +10,7 @@ export const TableContainer = () => {
 
     return (
 
-        <div className="flex w-full lg:w-[40%] flex-col gap-5 px-2 pb-2">
+        <div className="flex w-full lg:w-[40%] flex-col gap-5 pb-2">
 
                 {items.map((item,index) => {
                     return (
@@ -36,9 +36,9 @@ export const TableContainer = () => {
                         
                      </div>
 
-                    );
+                    )
 
-                })};
+                })}
            
         </div>
 

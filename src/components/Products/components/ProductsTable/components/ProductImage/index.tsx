@@ -11,6 +11,7 @@ export const ProductImage = ({productName}:ProductImageProps) => {
     
 
     return (
+        
         <div className="w-full">
         {/* TODO implementar caminho para imagem do produto aqui depois */}
 
