@@ -5,11 +5,11 @@ import { RiTruckLine } from "react-icons/ri";
 import { BiUser } from "react-icons/bi";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
-import { CONSULTORS, HOME, INVOICING, PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "../../../../../constants/paths/paths";
+import { CONSULTORS, DEFAULT_PATH, INVOICING, PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "../../../../../constants/paths/paths";
 
 export const items = [
 
-  { icon: GoHome, label: 'Home', path: HOME },
+  { icon: GoHome, label: 'Home', path: DEFAULT_PATH },
   { icon: RiTruckLine , label: 'Pedidos', path: REQUESTS },
   { icon: GoPeople, label: 'Consultores', path: CONSULTORS},
   { icon: BiUser, label: 'Usuários', path: USERS },

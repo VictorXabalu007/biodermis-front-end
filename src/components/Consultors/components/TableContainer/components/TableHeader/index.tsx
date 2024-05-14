@@ -43,7 +43,7 @@ export const TableHeader = () => {
                     </Select.Root>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex mt-3 xl:mt-0 flex-wrap gap-2">
                     
                     <InputRangePicker />
 

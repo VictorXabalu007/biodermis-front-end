@@ -4,8 +4,6 @@ import { CSSProperties } from 'react';
 import * as C from './styles'
 
 
-
-
 interface TableConfig <T> extends Omit<TableProps<T>, 'columns' | 'dataSource' | 'onChange'> {
 
   data: T[],
@@ -16,27 +14,33 @@ interface TableConfig <T> extends Omit<TableProps<T>, 'columns' | 'dataSource' |
 
 }
 
-export const Table = ({data,columns,style,className,onChange, ...rest}:TableConfig<any>) => {
+
+
+export const Table:React.FC<TableConfig<any>> = ({data,columns,style,className,onChange, ...rest}) => {
 
     return (
 
-      <C.Wrapper>
+      <div>
+        <C.Wrapper>
 
-            <TB
-
-              className={className}
-              style={style}
-              columns={columns}
-              dataSource={data}
-              pagination={false} 
-              size='small'
-              scroll={{ x: "max-content" }}
-              onChange={onChange}
-              {...rest}
+              <TB
+                
+                className={className}
+                style={style}
+                columns={columns}
+                dataSource={data}
+                size='small'
+                scroll={{ x: "max-content" }}
+                onChange={onChange}
+                {...rest}
+                
             
-            />
+              />
 
-      </C.Wrapper>
+
+
+        </C.Wrapper>
+      </div>
 
     )
 

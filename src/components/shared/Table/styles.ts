@@ -1,10 +1,7 @@
 import styled from "styled-components";
 
-
-
-
-
 export const Wrapper = styled.div`
+
 
     .ant-table-thead .ant-table-cell {
         background-color: #EFEFEF !important;
@@ -15,7 +12,16 @@ export const Wrapper = styled.div`
         color: #656565;
         font-weight: 400;
     }
+ 
+      
+      .ant-pagination-item-link {
 
+        svg {
+
+            fill: #dedede;
+        }
+       
+       }
 
 
 `;

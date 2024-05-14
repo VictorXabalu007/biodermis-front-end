@@ -2,9 +2,7 @@ import { Home } from "../../components/Home"
 
 
 
-
 export const HomeTemplate = () => {
-
 
     return (
 
@@ -27,9 +25,8 @@ export const HomeTemplate = () => {
                 </Home.Content>
 
             </Home.Layout>
-
-        
-    )
+     
+    );
 
 
 }

@@ -85,7 +85,7 @@ export const TableActions = () => {
         
         <>
         
-            <div className="flex gap-2 text-xl items-center">
+            <div className="flex gap-2 text-xl justify-center items-center">
 
                 <BsExclamationSquare onClick={showRequestStats} className="text-purple-solid-600 hover:text-purple-solid-600/50" />
                 <FiPrinter onClick={showRequestEditor} className="text-purple-solid-600 hover:text-purple-solid-600/50" />

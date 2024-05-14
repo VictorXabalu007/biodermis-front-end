@@ -13,7 +13,7 @@ export const Layout = ({children}:LayoutProps) => {
 
   return (
 
-    <Root >
+    <Root>
 
       <Sider />
 
@@ -26,5 +26,6 @@ export const Layout = ({children}:LayoutProps) => {
     </Root>
 
   );
+  
 };
 

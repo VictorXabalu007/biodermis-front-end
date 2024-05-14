@@ -4,7 +4,7 @@ import { Table } from "../../../shared/Table"
 import { items } from "./util/items";
 
 
-export const TableContainer = () => {
+export const HomeTables = () => {
 
     const TABLE_WIDTH = 'auto';
 
@@ -27,11 +27,11 @@ export const TableContainer = () => {
                             </Button.Root>
 
                         </div>
-
-                        <Table
-                        style={{width: TABLE_WIDTH}}
-                        columns={item.columns}
-                        data={item.data}
+                            
+                            <Table
+                            style={{width: TABLE_WIDTH}}
+                            columns={item.columns}
+                            data={item.data}
                         />
                         
                      </div>

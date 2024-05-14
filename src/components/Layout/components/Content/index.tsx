@@ -20,7 +20,7 @@ export const Content = ({children}:{children: ReactNode}) => {
           style={{
             padding: '0 24px',
             background: colorBgContainer,
-            height: 'auto',
+
             display: 'flex',
             flexDirection: 'column',
             gap: '2em',

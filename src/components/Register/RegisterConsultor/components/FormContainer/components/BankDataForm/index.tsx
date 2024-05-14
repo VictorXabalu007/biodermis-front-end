@@ -239,19 +239,17 @@ export const BankDataForm = ({errors,control}:RegisterFieldProps<ConsultorsData>
 
             <Form.InputWrapper>
 
-
-
             <Controller 
             control={control}
             name="bankData.pix"
-            render={({field})=> {
+            render={({field}) => {
 
               return (
 
                 <Input.Root>
 
                   <Input.Label 
-                  content="Chavep pix"
+                  content="Chave pix"
                   className="text-black"
                   htmlFor="pixkey"
                   />
@@ -275,22 +273,6 @@ export const BankDataForm = ({errors,control}:RegisterFieldProps<ConsultorsData>
               )}}
 
             />
-
-                {/* <label>
-                   Pix
-                </label>
-                
-                    <input 
-                        className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                        {...register('bankData.pix')}
-                        placeholder="123"
-                        onChange={handlePixkeyChange}
-                        value={pixKey}
-                    />
-                                    
-                {errors.bankData?.pix && (
-                    <p className="text-red-600">{errors.bankData?.pix?.message}</p>
-                )} */}
 
             </Form.InputWrapper>
 
