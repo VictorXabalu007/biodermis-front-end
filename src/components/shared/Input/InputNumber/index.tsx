@@ -55,7 +55,7 @@ const InputMoney = ({ value, onChange, className,...rest }: InputMoneyProps) => 
     <Input
       
       type='text'
-      className={twMerge('bg-transparent placeholder-gray-neutral-600 p-0 border-b-2 border-gray-neutral-200 text-gray-neutral-600 border-l-0 border-r-0 border-t-0 w-full',className)}
+      className={twMerge('bg-transparent placeholder-gray-neutral-600 p-0 border-b-1 border-gray-neutral-200 text-gray-neutral-600 border-l-0 border-r-0 border-t-0 w-full',className)}
       value={currentValue}
       onChange={handleOnChange}
       {...rest}

@@ -20,9 +20,9 @@ export const ProductDescription = ({ ...data }: DataType) => {
 
       <form>
 
-        <div className="flex max-w-4xl mt-4 gap-10 items-center">
+        <div className="flex max-w-3xl mt-4 gap-10 items-center">
 
-          <div className="flex w-2/5 gap-6 flex-col">
+          <div className="flex w-1/2 gap-6 flex-col">
 
             <Form.InputWrapper>
               <InputRoot>
@@ -47,6 +47,7 @@ export const ProductDescription = ({ ...data }: DataType) => {
                 />
 
                 <InputMoney
+                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
                   value={100}
                   onChange={(e) => console.log(e)}
                   prefix={"R$"}
@@ -105,6 +106,7 @@ export const ProductDescription = ({ ...data }: DataType) => {
                 />
 
                 <InputMoney
+                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
                   value={100}
                   onChange={(e) => console.log(e)}
                   prefix={"R$"}
@@ -154,6 +156,7 @@ export const ProductDescription = ({ ...data }: DataType) => {
               />
 
               <InputMoney
+                className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
                 prefix="R$"
                 readOnly
                 onChange={(value) => console.log(value)}
