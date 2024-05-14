@@ -1,8 +1,6 @@
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
-import { ConsultorsTable } from "./components/ConsultorsTable";
+import { ConsultorsTable } from "./components/CTable";
 import { TableHeader } from "./components/TableHeader";
-
-
 
 
 

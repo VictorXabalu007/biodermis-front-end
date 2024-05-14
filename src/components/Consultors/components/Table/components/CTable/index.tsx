@@ -121,7 +121,7 @@ export const ConsultorsTable = () => {
             title:  <p>Ações</p>,
             key: 'actions',
             dataIndex: 'actions',
-            render: (_,record) => {
+            render: () => {
 
                 return (
 

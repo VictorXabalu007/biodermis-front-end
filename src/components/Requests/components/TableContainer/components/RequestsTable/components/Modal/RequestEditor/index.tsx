@@ -82,7 +82,7 @@ export const RequestEditor = () => {
 
                         <Input.Label 
                         content="Código de envio"
-                        inputId="sendCode" 
+                        htmlFor="sendCode" 
                         className="text-gray-neutral-600 font-[600]"
                          />
 

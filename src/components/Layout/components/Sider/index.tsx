@@ -9,7 +9,7 @@ import { theme } from "antd";
 
 export const S = () => {
 
-    const [collapsed,setCollapsed] = useState(false);
+    const [_,setCollapsed] = useState(false);
 
     const {
 

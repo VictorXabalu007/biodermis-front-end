@@ -40,7 +40,7 @@ const buildCardIcon = (cardType:MoneyCardType) => {
 type MoneyDataCardIconProps = {
     
     cardType: MoneyCardType,
-    icon: ElementType
+    icon?: ElementType
     
 }
 

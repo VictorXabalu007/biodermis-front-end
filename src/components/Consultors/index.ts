@@ -1,7 +1,8 @@
 import { Layout } from "../Layout/Layout";
 import { Content } from "../Layout/components/Content";
 import { Header } from "../Layout/components/Header";
-import { TableContainer } from "./components/TableContainer";
+import { TableContainer } from "./components/Table";
+
 
 
 

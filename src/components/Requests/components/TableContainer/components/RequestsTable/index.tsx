@@ -68,7 +68,7 @@ const columns = [
 
 export const RequestsTable = () => {
 
-    const [requests,setRequests] = useState(requestData)
+    const [requests,_] = useState(requestData)
 
     const table = useReactTable({
         data:requests,
