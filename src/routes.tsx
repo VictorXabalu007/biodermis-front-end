@@ -1,7 +1,7 @@
 
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CONSULTORS, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
+import { CONSULTORS, DEFAULT_PATH, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -21,7 +21,7 @@ export const AppRoutes = () => {
 
             <Routes>
 
-                <Route path={HOME} element={<HomeTemplate />} />
+                <Route path={DEFAULT_PATH} element={<HomeTemplate />} />
                 <Route path={REQUESTS} element={<RequestsTemplate />} />
 
                 <Route path={CONSULTORS} element={<ConsultorsTemplate />} />
