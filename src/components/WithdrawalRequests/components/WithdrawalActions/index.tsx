@@ -34,7 +34,7 @@ export const WithdrawalActions = () => {
 
         
         <Button.Root 
-                className="w-2/3 font-semibold"
+                className="font-semibold"
                 onClick={showRequestStats}
         >
 
