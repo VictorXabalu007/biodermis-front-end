@@ -3,8 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-
-  "homepage": "https://leonardo-mazzuca.github.io/biodermis-front-end/",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
