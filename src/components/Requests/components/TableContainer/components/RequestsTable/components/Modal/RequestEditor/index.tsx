@@ -11,6 +11,7 @@ type TitleData = {
     icon? : ElementType,
     label: string,
 }
+
 const data: TitleData[] = [
     {
         title: '2925',
@@ -97,7 +98,6 @@ export const RequestEditor = () => {
 
 
             </div>
-
 
 
         </div>
