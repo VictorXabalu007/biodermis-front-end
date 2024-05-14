@@ -1,7 +1,7 @@
 
 
 
-export const DEFAULT_PATH = '/biodermis-frontend';
+export const DEFAULT_PATH = '/biodermis-front-end';
 
 export const HOME = '/home';
 
