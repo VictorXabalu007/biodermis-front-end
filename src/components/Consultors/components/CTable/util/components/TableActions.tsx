@@ -5,17 +5,12 @@ import { HiOutlinePencilAlt } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 
 import './styles.css'
-import { DataType } from "../consultorsData";
+
 import { ModalNavigator } from "../../../Modal/Navigator";
 import { BRAND_PURPLE } from "../../../../../../constants/classnames/classnames";
 
 
 
-export type RecordProps = {
-
-    record: DataType;
-
-}
 
 export const TableActions = () => {
 
