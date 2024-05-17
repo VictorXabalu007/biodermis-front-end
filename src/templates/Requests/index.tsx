@@ -7,7 +7,7 @@ export const RequestsTemplate = () => {
 
     return (
 
-        <Requests.Provider>
+
 
             <Requests.Layout>
 
@@ -23,9 +23,8 @@ export const RequestsTemplate = () => {
 
 
             </Requests.Layout>
-            
-        </Requests.Provider>
-    )
+
+    );
 
 
 }

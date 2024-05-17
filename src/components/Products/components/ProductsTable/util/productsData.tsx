@@ -1,9 +1,9 @@
 
 
-export type DataType = {
+export type Products = {
 
-    key: string,
-    productImage: React.ReactNode,
+    key: string
+    productImage: string,
     SKU: string,
     productName: string,
     price: number,
@@ -13,11 +13,11 @@ export type DataType = {
     
 }
 
-export const productsData: DataType[] = [
+export const productsData: Products[] = [
 
     {
         key: '1',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -27,7 +27,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '2',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#02Produto',
         productName: 'Filtro solar',
         price: 150,
@@ -37,7 +37,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '3',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#03Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -47,7 +47,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '4',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -57,7 +57,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '5',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -67,7 +67,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '6',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -77,7 +77,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '7',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -87,7 +87,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '8',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -97,7 +97,7 @@ export const productsData: DataType[] = [
     },
     {
         key: '9',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
@@ -107,12 +107,22 @@ export const productsData: DataType[] = [
     },
     {
         key: '10',
-        productImage: <></>,
+        productImage: 'https://picsum.photos/200',
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
         stock: 123,
         totalSold: '1.000',
+        viewMore: <></>
+    },
+    {
+        key: '11',
+        productImage: 'https://picsum.photos/200',
+        SKU: 'Teste',
+        productName: 'Hidratante capilar',
+        price: 150,
+        stock: 123,
+        totalSold: '10.000',
         viewMore: <></>
     },
 

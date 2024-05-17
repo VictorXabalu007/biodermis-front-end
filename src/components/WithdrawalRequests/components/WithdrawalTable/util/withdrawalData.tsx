@@ -3,9 +3,9 @@ import { PaymentStatus } from "../@types/PaymentStatus";
 
 
 
-export type DataType = {
+export type WithDrawal = {
     
-    key: string,
+  
     name: string,
     totalValueCurrent: number,
     avaliableWithdrawal: number,
@@ -14,10 +14,10 @@ export type DataType = {
 }
 
 
-export const withdrawalData: DataType[] = [
+export const withdrawalData: WithDrawal[] = [
 
     {
-        key: '1',
+      
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -26,7 +26,25 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '2',
+        
+        name: 'Macucu',
+        totalValueCurrent: 1400,
+        avaliableWithdrawal: 1500,
+        solicitedValue: 15000,
+        paymentStatus: 'efetuar'
+
+    },
+    {
+       
+        name: 'João Victor',
+        totalValueCurrent: 1500,
+        avaliableWithdrawal: 1500,
+        solicitedValue: 1500,
+        paymentStatus: 'pago'
+
+    },
+    {
+     
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -35,7 +53,16 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '3',
+ 
+        name: 'Gustavo Henrique',
+        totalValueCurrent: 1500,
+        avaliableWithdrawal: 1500,
+        solicitedValue: 1500,
+        paymentStatus: 'efetuar'
+
+    },
+    {
+   
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -44,7 +71,7 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '4',
+ 
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -53,16 +80,7 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '5',
-        name: 'Gustavo Henrique',
-        totalValueCurrent: 1500,
-        avaliableWithdrawal: 1500,
-        solicitedValue: 1500,
-        paymentStatus: 'efetuar'
-
-    },
-    {
-        key: '6',
+  
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -71,7 +89,7 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '7',
+    
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -80,25 +98,7 @@ export const withdrawalData: DataType[] = [
 
     },
     {
-        key: '8',
-        name: 'Gustavo Henrique',
-        totalValueCurrent: 1500,
-        avaliableWithdrawal: 1500,
-        solicitedValue: 1500,
-        paymentStatus: 'pago'
-
-    },
-    {
-        key: '9',
-        name: 'Gustavo Henrique',
-        totalValueCurrent: 1500,
-        avaliableWithdrawal: 1500,
-        solicitedValue: 1500,
-        paymentStatus: 'efetuar'
-
-    },
-    {
-        key: '10',
+    
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,

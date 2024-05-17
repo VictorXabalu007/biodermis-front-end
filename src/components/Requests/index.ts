@@ -2,10 +2,7 @@ import { Layout } from "../Layout/Layout";
 import { Content } from "../Layout/components/Content";
 import { Header } from "../Layout/components/Header";
 import { CardContainer } from "./components/CardContainer";
-import { TableContainer } from "./components/TableContainer";
-import { RequestFilterProvider } from "./context/FilterContext";
-
-
+import { RequestsTable } from "./components/RequestsTable";
 
 export const Requests = {
 
@@ -13,7 +10,6 @@ export const Requests = {
     Header: Header,
     Content: Content,
     Cards:CardContainer,
-    Table: TableContainer,
-    Provider: RequestFilterProvider
+    Table: RequestsTable,
     
 }

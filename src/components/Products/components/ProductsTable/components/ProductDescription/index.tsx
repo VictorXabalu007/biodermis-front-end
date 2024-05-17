@@ -2,10 +2,11 @@ import { Form } from "../../../../../shared/Form";
 import { Input } from "../../../../../shared/Input/Input";
 import { InputRoot } from "../../../../../shared/Input/Input/InputRoot";
 import InputMoney from "../../../../../shared/Input/InputNumber";
-import { DataType } from "../../util/productsData";
+import { Products } from "../../util/productsData";
+
 import { ProductImage } from "../ProductImage";
 
-export const ProductDescription = ({ ...data }: DataType) => {
+export const ProductView = ({ ...data }: Products) => {
 
 
   return (

@@ -1,8 +1,8 @@
+
 import { Layout } from "../Layout/Layout";
 import { Content } from "../Layout/components/Content";
 import { Header } from "../Layout/components/Header";
-import { TableContainer } from "./components/Table";
-
+import { ConsultorsTable } from "./components/CTable";
 
 
 
@@ -11,6 +11,6 @@ export const Consultors = {
     Layout:Layout,
     Header: Header,
     Content: Content,
-    Table:TableContainer,
+    Table:ConsultorsTable,
 
 }

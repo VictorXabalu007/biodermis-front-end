@@ -1,116 +1,94 @@
-import { TableColumnsType } from "antd";
-import { DataType, productsData } from "./util/productsData";
-import { Table } from "../../../shared/Table";
-import { NumericFormatter } from "../../../shared/Formatter/NumericFormatter";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
+import {  Products } from "./util/productsData";
 import { useState } from "react";
-import { ProductDescription } from "./components/ProductDescription";
+import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
+import { TableFilter } from "../TableFilter/TableFilter";
+import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import * as C from '../../../../styles/TableStyles/styles'
+import { useTableData } from "../hooks/useTableData";
+import { TableHeader } from "./components/TableHeader";
+import { Pagination } from "../../../shared/Pagination";
+import { ProductView } from "./components/ProductDescription";
+
 
 export const ProductsTable = () => {
 
-    const [expandedRowKey, setExpandedRowKey] = useState<string | undefined>(undefined);
+    const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
+    const {data, columns} = useTableData();
 
-    const columns: TableColumnsType<DataType> = [
-        {
-            title: '#',
-            key: 'productImage',
-            dataIndex: 'productImage',
-            render: () => (
-                <div className="flex items-center">
-                    <div className="bg-gray-neutral-200 p-3 rounded-md"></div>
-                </div>
-            )
-        },
-        {
-            title: 'SKU',
-            key: 'SKU',
-            dataIndex: 'SKU',
-            render: (sku) => <p>{sku}</p>
-        },
-        {
-            title: 'Nome do produto',
-            key: 'productName',
-            dataIndex: 'productName',
-            render: (name) => <p>{name}</p>
-        },
-        {
-            title: 'Preço',
-            key: 'price',
-            dataIndex: 'price',
-            render: (price) => <NumericFormatter value={price} />
-        },
-        {
-            title: 'Estoque',
-            key: 'stock',
-            dataIndex: 'stock',
-            render: (stock) => <p>{stock}</p>
-        },
-        {
-            title: 'Total vendidos',
-            key: 'totalSold',
-            dataIndex: 'totalSold',
-            width: 100,
-            render: (total) => <p>{total}</p>
-        },
-        {
-            title: <p className="text-center">Ver mais</p>,
-            key: 'viewMore',
-            dataIndex: 'viewMore',
-            render: (_, record) => {
-                return (
-                    <div>
-                        <p>{record.viewMore}</p>
-                        <div 
-                        style={
-                            { display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center' }}
-                        >
+    const table = useReactTable<Products>({
 
-                            {expandedRowKey === record.key ? (
-
-                                <div className="border border-purple-solid-500 p-1 p-1 text-purple-solid-500 rounded-md cursor-pointer">
-                                    <IoIosArrowUp 
-                                    className="transition-all"
-                                    onClick={() => setExpandedRowKey(undefined)} 
-                                    />
-                                </div>
-                            
-                            ) : (
-
-                                <div className="border border-purple-solid-500 p-1 text-purple-solid-500 rounded-md cursor-pointer">
-                                    <IoIosArrowDown onClick={() => setExpandedRowKey(record.key)} />
-                                </div>
-                            )}
-
-                        </div>
-                    </div>
-                );
-            },
-       
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        state: {
+            columnFilters,
         },
-    ];
+        debugTable: true,
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        enableRowSelection: true,
+        getRowCanExpand: () => true
+
+    });
 
     return (
 
-        <Table
+        <TableWrapper>
 
-            data={productsData}
-            columns={columns}
-            className="cursor-pointer"
-            expandable={{
-                expandIconColumnIndex: -1,
-                expandRowByClick: true,
-                rowExpandable: () => true,
-                expandedRowRender: (record) => <ProductDescription {...record} />,
-                expandedRowKeys: expandedRowKey ? [expandedRowKey] : [],
-                onExpand: (expanded, record) => {
-                    setExpandedRowKey(expanded ? record.key : undefined);
-                },
-                
-            }}
-            
-        />
+                <TableFilter 
+                     columnsFilters={columnFilters}
+                     setColumnFilters={setColumnFilters}
+                />
+
+                <C.Container>
+
+                <C.Table>
+                    <C.Thead>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <C.EvenRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header)=> (
+
+                                    <TableHeader header={header} />
+                                
+                                ))}
+                            </C.EvenRow>
+                        ))}
+                    </C.Thead>
+
+                    <tbody>
+                        {table.getRowModel().rows.map((row)=> (
+                            <>
+                        
+                                <C.HoverRow key={row.id}>
+                                    {row.getVisibleCells().map(cell => (
+                                        <C.Td style={{background: row.getIsSelected() ? '#DCDCDC' : ''}} key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell,
+                                                cell.getContext())}
+                                        </C.Td>
+                                    ))}
+                                </C.HoverRow>
+                                {
+                                    row.getIsExpanded() && 
+                                    (
+                                        <td colSpan={row.getVisibleCells().length}>
+                                            <ProductView {...row.original} />
+                                        </td>
+                                    )
+                                }
+                            
+                            </>
+                        ))}
+                    </tbody>
+                </C.Table>
+
+                <Pagination<Products> table={table} />
+    
+                </C.Container>
+
+        </TableWrapper>
+
 
     );
 
