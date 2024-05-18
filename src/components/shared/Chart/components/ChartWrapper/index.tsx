@@ -9,7 +9,7 @@ export const ChartWrapper = ({children}:{children:ReactNode}) => {
 
 
         <div style={{border:BORDER_GRAY}} 
-        className="rounded-md mb-auto flex flex-col w-full"
+        className="rounded-md mb-auto flex flex-col lg:w-[90%] w-full"
         >   
 
             {children}

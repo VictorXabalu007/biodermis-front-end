@@ -1,47 +1,15 @@
 
-import {  Users, usersData } from "./util/usersData"
-import { TableActions } from "./components/TableActions.tsx"
-import { ArrowUpDownIcon } from "../../../shared/Icon/ArrowUpDownIcon/index.tsx"
-import { NameItem } from "../../../shared/Image/NameItem/NameItem.tsx"
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper.tsx"
 import { TableHeader } from "../TableHeader/TableHeader.tsx"
-import { ColumnFilter, createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
-import { useState } from "react"
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 import * as C from '../../../../styles/TableStyles/styles'
-
-
-
-const columnsHelper = createColumnHelper<Users>();
-
-const columns = [
-    columnsHelper.accessor('name', {
-        header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-        cell: (name) => <NameItem name={name.getValue()} />
-    }),
-    columnsHelper.accessor('email', {
-        header: () => <p>Email</p>,
-        cell: (email) => <p>{email.getValue()}</p>
-    }),
-    columnsHelper.accessor('phone', {
-        header: () => <p>Telefone</p> ,
-        cell: (phone) => <p>{phone.getValue()}</p>
-    }),
-    columnsHelper.accessor('userType', {
-        header: () => <p>Tipo</p> ,
-        cell: (userType) => <p>{userType.getValue()}</p>
-    }),
-    columnsHelper.accessor('actions', {
-        header: () => <p>Ações</p> ,
-        cell: TableActions 
-    }),
-]
+import { useTableData } from "../../hooks/useTableData.tsx"
+import { Pagination } from "../../../shared/Pagination/index.tsx"
 
 export const UsersTable = () => {
 
 
-    const [data, _] = useState(usersData);
-    const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
-
+    const {columnFilters, columns, data, setColumnFilters} = useTableData();
     const table = useReactTable({
 
         data,
@@ -102,6 +70,8 @@ export const UsersTable = () => {
             </C.Table>
 
         </C.Container>
+
+        <Pagination table={table} />
 
 
         </TableWrapper>

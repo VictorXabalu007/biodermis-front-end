@@ -1,4 +1,4 @@
-import { PaymentStatus } from "../@types/PaymentStatus";
+import { PaymentStatus } from "../../../@types/PaymentStatus";
 
 
 

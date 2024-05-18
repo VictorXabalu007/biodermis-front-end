@@ -6,8 +6,8 @@ import { IoMdClose } from "react-icons/io";
 
 import './styles.css'
 
-import { ModalNavigator } from "../../../Modal/Navigator";
-import { BRAND_PURPLE } from "../../../../../../constants/classnames/classnames";
+import { ModalNavigator } from "../Modal/Navigator";
+import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 
 
 

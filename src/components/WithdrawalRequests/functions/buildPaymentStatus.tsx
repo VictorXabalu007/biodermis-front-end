@@ -1,7 +1,7 @@
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { Text } from "../../../../shared/Text";
-import { PaymentStatus } from "../@types/PaymentStatus";
-import { WithdrawalActions } from "../../WithdrawalActions";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io"
+import { Text } from "../../shared/Text"
+import { PaymentStatus } from "../@types/PaymentStatus"
+import { WithdrawalActions } from "../components/WithdrawalActions"
 
 
 

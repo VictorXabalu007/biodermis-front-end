@@ -1,6 +1,7 @@
+import { Tag } from "../../shared/Tag";
+import { ConsultorStatus } from "../components/CTable/util/@types/StatusType";
 
-import { Tag } from "../../../../../shared/Tag";
-import { ConsultorStatus } from "../@types/StatusType";
+
 
 
 export const buildStatus = (status: ConsultorStatus) => {

@@ -2,7 +2,6 @@ import { AiOutlineExclamationCircle } from "react-icons/ai"
 import { HiOutlinePencilAlt } from "react-icons/hi"
 
 
-
 export const TableActions = () => {
 
     return (

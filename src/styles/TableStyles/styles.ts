@@ -80,7 +80,6 @@ export const Th = styled.th`
     border-bottom: 1px solid #ddd; 
     padding: .7rem 0;
     background-color: #f5f5f5;
-    border-radius: 5px 5px 0 0;
     position: relative;
     text-align:center;
 
