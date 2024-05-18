@@ -16,8 +16,8 @@ const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 export const useTableData = () => {
 
 
-    const [dataConsultors, setConsultorsData] = useState(consultorsData);
-    const [dataWithdrawal, setWithdrawalData] = useState(withdrawalData);
+    const [dataConsultors, ] = useState(consultorsData);
+    const [dataWithdrawal, ] = useState(withdrawalData);
     const [pagination, setPagination] = useState({
         pageIndex: 0, 
         pageSize: 3, 
