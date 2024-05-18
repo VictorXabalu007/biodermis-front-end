@@ -15,7 +15,7 @@ export const ChartContainer = () => {
     
     return (
 
-        <ChartWrapper>
+        <ChartWrapper className="lg:w-[90%]">
 
             <ChartHeader.Root>
 
