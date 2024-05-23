@@ -2,9 +2,10 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Input } from "../../../../../../shared/Input/Input";
 import { PatternFormat } from "react-number-format";
-import { FormType } from "../../../../@types/FormType";
+
 import { Flex } from "antd";
 import { Button } from "../../../../../../shared/Button";
+import { FormType } from "../../../../../../../@types/FormType/FormType";
 
 
 export const FormStep1 = ({isReadonly}:FormType) => {

@@ -3,8 +3,9 @@ import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
 import { GrLocation } from "react-icons/gr";
 import { PatternFormat } from "react-number-format";
-import { FormType } from "../../../../@types/FormType";
+
 import { Button } from "../../../../../../shared/Button";
+import { FormType } from "../../../../../../../@types/FormType/FormType";
 
 
 export const FormStep2 = ({isReadonly}:FormType) => {
