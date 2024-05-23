@@ -30,7 +30,9 @@ export const Pagination = <T,>({ className, table }: PaginationProps<T>) => {
      
 
         <Wrapper>
-            <Flex className={twMerge("my-2",className)} align="center" gap={2}>
+
+            <Flex className={twMerge("my-2",className)} align="center" gap={5}>
+                
                 <Button disabled={!table.getCanPreviousPage()} size="small" aria-label="first-page" onClick={() => table.firstPage()}>
                     <MdKeyboardDoubleArrowLeft  />
                 </Button>
@@ -49,6 +51,7 @@ export const Pagination = <T,>({ className, table }: PaginationProps<T>) => {
                 </Text.Root>
 
             </Flex>
+
         </Wrapper>
 
         

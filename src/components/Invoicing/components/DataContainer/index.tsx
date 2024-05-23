@@ -15,6 +15,8 @@ export const DataContainer = () => {
         cardType="input"
       />
 
+      
+
       <DataItem
         title={"Saídas"}
         subtitle="(saídas totais)"

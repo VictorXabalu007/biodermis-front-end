@@ -34,6 +34,36 @@ export const inputData:CardDataType[] = [
         subtitle: new Date().toLocaleDateString(),
         value: 150
     },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
+    {
+        title: 'nome da entrada',
+        subtitle: new Date().toLocaleDateString(),
+        value: 150
+    },
 
     
 ]
