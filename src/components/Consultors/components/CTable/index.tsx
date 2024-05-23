@@ -3,9 +3,9 @@ import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableHeader } from "../TableHeader";
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
-import { useTableData } from "../../hooks/useTableData";
 import { Pagination } from "../../../shared/Pagination";
-import { Consultors } from "./util/consultorsData";
+import { UserData } from "../../../Register/RegisterConsultor/components/FormContainer";
+import { useTableData } from "../../hooks/useTableData";
 
 
 
@@ -13,7 +13,7 @@ export const ConsultorsTable = () => {
 
     const {data, columns, columnFilters, setColumnFilters} = useTableData();
 
-    const table = useReactTable<Consultors>({
+    const table = useReactTable<UserData>({
         data,
         columns,
         debugTable: true,
@@ -24,6 +24,7 @@ export const ConsultorsTable = () => {
         columnResizeMode: 'onChange',
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+
     });
 
 

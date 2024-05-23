@@ -17,7 +17,8 @@ import { validateExpireDate } from "../../../../../functions/Validators/Validate
 import { validateCVV } from "../../../../../functions/Validators/ValidateCreditCard/validateCVV";
 import { Form  } from "antd";
 import { PessoalDataForm } from "./components/PessoalDataForm";
-import { USERS } from "../../../../../constants/paths/paths";
+import { USERS_DATA } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/StatusType";
 
 
 export const pessoalDataSchema = z.object({
@@ -137,11 +138,15 @@ const userSchema = z.object({
 });
 
 
-export type UserData = z.infer<typeof userSchema>;
+export type UserData = z.infer<typeof userSchema> & {id: string, status: UserStatus} ;
 
 export const FormContainer = () => {
 
-    const [users, setUsers] = useState<UserData[]>([]);
+    const [users, setUsers] = useState<UserData[]>(() => {
+        const storedUsers = sessionStorage.getItem(USERS_DATA);
+        return storedUsers ? JSON.parse(storedUsers) : [];
+    });
+
     const [isConsultor, setIsConsultor] = useState(false);
     const {register,handleSubmit,formState:{errors},reset, control,watch} = useForm<UserData>({
         
@@ -165,22 +170,33 @@ export const FormContainer = () => {
             setIsConsultor(false)
         }
         
-    },[watch,isConsultor,userRole])
+    },[watch,isConsultor,userRole]);
 
 
-    const [lastId, setLastId] = useState<number>(0);
+    const [lastId, setLastId] = useState<number>(() => {
 
-    const onSubmit = (data:UserData) => {
+        const savedLastId = sessionStorage.getItem('lastId');
+        return savedLastId ? Number(savedLastId) : 0;
 
+    });
+
+    const onSubmit = (data: UserData) => {
+
+        const { id, status, ...restData } = data;
         const newId = lastId + 1;
-        const newData = { id: newId.toString(), ...data };
-        setUsers([...users, newData]);
+        const newData = { 
+          id: newId.toString(), 
+          status: UserStatusType.ENABLE, 
+          ...restData };
+        setUsers(prevUsers => [...prevUsers, newData]);
         setLastId(newId);
+        sessionStorage.setItem('lastId', newId.toString()); 
+        sessionStorage.setItem(USERS_DATA, JSON.stringify([...users, newData])); 
         console.log(newData);
 
     }
 
-    sessionStorage.setItem(USERS,JSON.stringify(users));
+    sessionStorage.setItem(USERS_DATA,JSON.stringify(users));
 
     const [form] = Form.useForm();
 

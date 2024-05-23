@@ -26,6 +26,7 @@ export const S = () => {
         breakpoint="lg"
         collapsedWidth="0"
         onCollapse={setCollapsed}
+        
         >
 
         <Logo />

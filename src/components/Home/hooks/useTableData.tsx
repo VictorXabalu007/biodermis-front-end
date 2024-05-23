@@ -1,6 +1,5 @@
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo, useState } from "react"
-import { Consultors, consultorsData } from "../../Consultors/components/CTable/util/consultorsData";
 import { WithDrawal, withdrawalData } from "../../WithdrawalRequests/components/WithdrawalTable/util/withdrawalData";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
@@ -8,9 +7,11 @@ import { Text } from "../../shared/Text";
 import { IoIosArrowUp } from "react-icons/io";
 import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
+import { consultorsData } from "../../Consultors/hooks/useTableData";
+import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 
 
-const columnsHelperConsultors = createColumnHelper<Consultors>();
+const columnsHelperConsultors = createColumnHelper<UserData>();
 const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 
 export const useTableData = () => {
@@ -26,7 +27,7 @@ export const useTableData = () => {
 
     const consultorsColumns = useMemo(()=> [
 
-        columnsHelperConsultors.accessor('tops', {
+        columnsHelperConsultors.accessor('id', {
             header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
             cell: ({getValue}) => {
     
@@ -72,7 +73,7 @@ export const useTableData = () => {
 
     ],[]);
 
-    const consultorsTable = useReactTable<Consultors>({
+    const consultorsTable = useReactTable<UserData>({
         data:dataConsultors,
         columns:consultorsColumns,
         getPaginationRowModel: getPaginationRowModel(),

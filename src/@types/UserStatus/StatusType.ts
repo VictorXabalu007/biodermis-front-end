@@ -1,11 +1,11 @@
 
 
 
-export const ConsultorStatusType = {
+export const UserStatusType = {
     ENABLE: 'ENABLE',
     DISABLE: 'DISABLE',
     ON_APPROVAL: 'ON_APPROVAL',
     ALL: ''
 } as const
 
-export type ConsultorStatus = keyof typeof ConsultorStatusType;
+export type UserStatus = keyof typeof UserStatusType;

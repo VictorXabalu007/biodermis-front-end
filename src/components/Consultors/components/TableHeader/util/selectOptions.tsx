@@ -1,23 +1,22 @@
-import { ConsultorStatusType } from "../../CTable/util/@types/StatusType";
-
+import { UserStatusType } from "../../../../../@types/UserStatus/StatusType";
 
 
 
 export const userStatusOptions = [
     {
-        value: ConsultorStatusType.ALL,
+        value: UserStatusType.ALL,
         label: 'Status: Todos'
     },
     {
-        value: ConsultorStatusType.ENABLE,
+        value: UserStatusType.ENABLE,
         label: 'Status: Ativo'
     },
     {
-        value: ConsultorStatusType.DISABLE,
+        value: UserStatusType.DISABLE,
         label: 'Status: Inativo'
     },
     {
-        value: ConsultorStatusType.ON_APPROVAL,
+        value: UserStatusType.ON_APPROVAL,
         label: 'Status: Em aprovação'
     },
 ]

@@ -1,5 +1,4 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { Consultors, consultorsData } from "../components/CTable/util/consultorsData";
 import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
@@ -9,20 +8,27 @@ import { IoIosArrowUp } from "react-icons/io";
 import { Text } from "../../shared/Text";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { useMemo, useState } from "react";
-import { USERS } from "../../../constants/paths/paths";
+import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { UserRole } from "../../../util/UserRole";
+import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
+import { Flex } from "antd";
 
 
+const columnHelper = createColumnHelper<UserData>();
 
-const columnHelper = createColumnHelper<Consultors>();
+export const consultorsData:UserData[] = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
+.filter((d:UserData) => d.userRole === UserRole.CONSULTOR)
 
 export const useTableData = () => {
 
-    const [data, _] = useState(consultorsData);
+
+    const [data, _] = useState<UserData[]>(consultorsData);
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
+    
 
     const columns = useMemo(() => [
 
-        columnHelper.accessor('tops', {
+        columnHelper.accessor('id', {
             header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
             cell: (cell) => {
     
@@ -31,7 +37,7 @@ export const useTableData = () => {
                         cell.getValue() === '1' || cell.getValue() === '2' || cell.getValue() === '3' ?
                         (buildPodium(cell.getValue())) : (
     
-                        <div className="flex px-2 gap-2 items-center">
+                        <Flex gap={2} align="center" className="px-2">
     
                             <Text.Root className="text-purple-solid-950">
                                 <Text.Content content={cell.getValue()} />
@@ -39,7 +45,7 @@ export const useTableData = () => {
     
                             <IoIosArrowUp className="text-lg text-green-flat" />
     
-                        </div>
+                        </Flex>
     
                         )
     
@@ -58,27 +64,26 @@ export const useTableData = () => {
             header: () => <p>Telefone</p>,
             cell: (phone) => <p> {phone.getValue()} </p>
         }),
-        columnHelper.accessor('totalFatured', {
-            header: () => <div className="flex justify-center gap-2">Total faturado <ArrowUpDownIcon /></div>,
-            cell: (total) => (
+        columnHelper.display({
+            id: 'totalFatured',
+            header: () => <Flex gap={2} justify="center">Total faturado <ArrowUpDownIcon /></Flex>,
+            cell: () => (
                     <NumericFormatter
-                        value={total.getValue()}
+                        value={1500}
                     />
                 )
         }),
-        columnHelper.accessor('status', {
+        columnHelper.accessor('status',{
+            id: 'status',
             header: () => <p>Status</p>,
-            cell: (status) => (
-                buildStatus(status.getValue())
+            cell: ({getValue}) => (
+                buildStatus(getValue())
             )
         }),
-        columnHelper.accessor('actions', {
+        columnHelper.display({
+            id: 'actions',
             header: () => <p >Ações</p>,
             cell: ({row}) => {
-
-                const rowData = JSON.parse(sessionStorage.getItem(USERS)?? '{}');
-                console.log(rowData);
-                
                 
                 return (
 

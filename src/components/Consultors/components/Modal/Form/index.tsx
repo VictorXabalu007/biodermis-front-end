@@ -11,6 +11,8 @@ export const FormModal = ({isReadonly, data}:FormType) => {
 
     const {CurrentForm,handleFormRender} = useFormRender();
 
+    
+
     const initialData = {
 
         name: data.name,
@@ -24,13 +26,13 @@ export const FormModal = ({isReadonly, data}:FormType) => {
         complement: data.complement,
         neighborhood: data.neighborhood,
         city: data.city,
-        cardNumber: data.cardNumber,
-        cvv: data.cvv,
-        expireDate: data.expireDate,
-        cardName: data.titularName,
-        bank: data.bank,
-        agency: data.agency,
-        pixkey: data.pix,
+        cardNumber: data.bankData?.cardNumber,
+        cvv: data.bankData?.cvv,
+        expireDate: data.bankData?.expireDate,
+        cardName: data.bankData?.titularName,
+        bank: data.bankData?.bank,
+        agency: data.bankData?.agency,
+        pixkey: data.bankData?.pix,
 
     };
     

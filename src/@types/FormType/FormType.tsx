@@ -1,10 +1,10 @@
-import { ConsultorsViewData } from "../../components/Register/RegisterConsultor/components/FormContainer";
+import { UserData } from "../../components/Register/RegisterConsultor/components/FormContainer";
 
 
 
 export interface FormType {
     
     isReadonly?: boolean;
-    data: ConsultorsViewData
+    data: UserData;
     
 }

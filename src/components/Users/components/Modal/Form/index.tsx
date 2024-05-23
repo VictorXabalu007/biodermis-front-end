@@ -24,13 +24,13 @@ export const FormModal = ({isReadonly, data}:FormType) => {
         complement: data.complement,
         neighborhood: data.neighborhood,
         city: data.city,
-        cardNumber: data.cardNumber,
-        cvv: data.cvv,
-        expireDate: data.expireDate,
-        cardName: data.titularName,
-        bank: data.bank,
-        agency: data.agency,
-        pixkey: data.pix,
+        cardNumber: data.bankData?.cardNumber,
+        cvv: data.bankData?.cvv,
+        expireDate: data.bankData?.expireDate,
+        cardName: data.bankData?.titularName,
+        bank: data.bankData?.bank,
+        agency: data.bankData?.agency,
+        pixkey: data.bankData?.pix,
 
     };
     
@@ -45,11 +45,14 @@ export const FormModal = ({isReadonly, data}:FormType) => {
                 <div className="flex flex-col w-full">
 
                     <Stepper 
-                    handleFormRender={handleFormRender}
+                        handleFormRender={handleFormRender}
                     />
                     
 
-                    <CurrentForm data={data} isReadonly={isReadonly} />
+                    <CurrentForm 
+                        data={data} 
+                        isReadonly={isReadonly}
+                     />
                     
                 </div>
 

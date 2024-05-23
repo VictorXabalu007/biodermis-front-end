@@ -1,7 +1,8 @@
 import { Steps } from "antd";
 import { useState } from "react";
-import { steps } from "./util/steps";
+
 import * as C from './styles'
+import { steps } from "./util/steps";
 
 
 type StepperProps = {

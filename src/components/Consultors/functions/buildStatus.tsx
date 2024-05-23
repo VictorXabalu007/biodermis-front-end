@@ -1,10 +1,10 @@
+import { UserStatus } from "../../../@types/UserStatus/StatusType";
 import { Tag } from "../../shared/Tag";
-import { ConsultorStatus } from "../components/CTable/util/@types/StatusType";
 
 
 
 
-export const buildStatus = (status: ConsultorStatus) => {
+export const buildStatus = (status: UserStatus) => {
 
     
 
