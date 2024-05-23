@@ -22,6 +22,8 @@ const productsImageSchema = z.object({
 const productsDescriptionsSchema = z.object({
     productName : z.string({required_error: 'Nome do produto é necessário para o cadastro'})
     .min(1, 'Nome do produto não pode ser vazio'),
+    category : z.string({required_error: 'Categoria é necessário para o cadastro'})
+    .min(1, 'Categoria não pode ser vazia'),
     description: z.string({required_error: 'Descrição do produto é necessária para o cadastro'})
     .min(1, 'Descrição do produto do produto não pode ser vazia'),
 });

@@ -65,6 +65,48 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
 
                 </Form.InputWrapper>
 
+                <Form.InputWrapper>
+
+                    <Controller
+                    
+                    control={control}
+                    name="category"
+                    render={({field})=> {
+
+                        return (
+                            <Input.Root>
+    
+                                <Input.Label 
+                                content="Categoria"
+                                className="text-gray-neutral-600"
+                                htmlFor="category"
+                                
+                                />
+
+                                <Input.System 
+                                placeholder="ex: Cosmetico"
+                                id="category"
+                                onChange={(e)=> {
+                                    field.onChange(e.target.value)
+                                }}
+
+                                />
+
+                                {errors.category &&
+                                    <small className="text-red-600">
+                                        {errors.category.message}
+                                    </small>
+
+                                }
+                            
+                            </Input.Root>
+                        )
+                    }}
+                    
+                    />
+
+                </Form.InputWrapper>
+
                 <Form.InputWrapper >
 
                     <Controller

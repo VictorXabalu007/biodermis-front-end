@@ -3,8 +3,9 @@
 import { Tag as T } from "antd";
 import { IoEllipse } from "react-icons/io5";
 import { twMerge } from "tailwind-merge";
+import AntdTag from 'antd/lib/tag'
 
-type TagProps = {
+interface TagProps extends  React.ComponentProps<typeof AntdTag> {
 
     content: string;
     key: string;
@@ -12,10 +13,10 @@ type TagProps = {
 
 }
 
-export const Tag = ({content, key, className} : TagProps) => {
+export const Tag = ({content, key, className, ...rest} : TagProps) => {
 
     return (
-    <T className={twMerge("border-none py-0.5 px-2", className)} key={key}>
+    <T {...rest} className={twMerge("border-none py-0.5 px-2", className)} key={key}>
 
 
         <div className="flex gap-2 font-semibold items-center">

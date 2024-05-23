@@ -7,8 +7,8 @@ export type Products = {
     SKU: string,
     productName: string,
     price: number,
-    stock: number,
     totalSold: string,
+    category: string;
     viewMore : React.ReactNode,
     
 }
@@ -21,7 +21,7 @@ export const productsData: Products[] = [
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -31,7 +31,7 @@ export const productsData: Products[] = [
         SKU: '#02Produto',
         productName: 'Filtro solar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -41,7 +41,7 @@ export const productsData: Products[] = [
         SKU: '#03Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -51,7 +51,7 @@ export const productsData: Products[] = [
         SKU: '#04Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -61,7 +61,7 @@ export const productsData: Products[] = [
         SKU: '#05Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -71,7 +71,7 @@ export const productsData: Products[] = [
         SKU: '#06Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -81,7 +81,7 @@ export const productsData: Products[] = [
         SKU: '#07Produto',
         productName: 'Sabonete',
         price: 35,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -91,7 +91,7 @@ export const productsData: Products[] = [
         SKU: '#08Produto',
         productName: 'Hidratante capilar',
         price: 50,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -101,7 +101,7 @@ export const productsData: Products[] = [
         SKU: '#9Produto',
         productName: 'Shampoo',
         price: 100,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -111,7 +111,7 @@ export const productsData: Products[] = [
         SKU: '#10Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '1.000',
         viewMore: <></>
     },
@@ -121,7 +121,7 @@ export const productsData: Products[] = [
         SKU: '#01Produto',
         productName: 'Hidratante capilar',
         price: 150,
-        stock: 123,
+        category: 'Shampoo',
         totalSold: '10.000',
         viewMore: <></>
     },

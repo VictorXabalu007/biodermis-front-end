@@ -1,3 +1,4 @@
+import { Controller, useForm } from "react-hook-form";
 import { Form } from "../../../../../shared/Form";
 import { Input } from "../../../../../shared/Input/Input";
 import { InputRoot } from "../../../../../shared/Input/Input/InputRoot";
@@ -5,8 +6,82 @@ import InputMoney from "../../../../../shared/Input/InputNumber";
 import { Products } from "../../util/productsData";
 
 import { ProductImage } from "../ProductImage";
+import React, { useRef, useState } from "react";
+import { Row, Table } from "@tanstack/react-table";
 
-export const ProductView = ({ ...data }: Products) => {
+
+
+type ProductsViewProps = {
+  data:Products;
+  row:Row<Products>,
+  table:Table<Products>;
+}
+
+type ProductsViewFields = {
+
+  productName: string;
+  price: number;
+  weight: string;
+  totalSold: string;
+  height: string;
+  width: string;
+  depth: string;
+  fakePrice:number;
+  category: string;
+  maxPrice:number;
+
+}
+
+export const ProductView = ({data, row, table}: ProductsViewProps) => {
+
+
+  const [isEditable, setIsEditable] = useState<boolean>(false);
+  const productNameRef = useRef<HTMLInputElement>(null);
+
+  const {control} = useForm<ProductsViewFields>({
+    
+  });
+
+  const initialFields = {
+    productName: data.productName,
+    price: data.price,
+    weight: "10kg",
+    totalSold: data.totalSold,
+    height: "10cm",
+    fakePrice: 150,
+    width: "10cm",
+    depth: "10cm",
+    maxPrice: 100,
+    category: data.category,
+  };
+
+  const [fields, setFields] = useState<ProductsViewFields>({
+    ...initialFields,
+  });
+
+  const handleBlur = (fieldName: keyof ProductsViewFields) => {
+
+    const isNumber = typeof fields[fieldName] === 'number';
+
+    return () => {
+      if (fields[fieldName] === "" || isNumber && isNaN(Number(fields[fieldName]))) {
+        setFields({
+           ...fields, 
+           [fieldName]: initialFields[fieldName] 
+        });
+      } else {
+        //@ts-ignore
+        table.options.meta?.updateData(row.index, fieldName, fields[fieldName]);
+      }
+    };
+  };
+
+  const handleClick = () => {
+
+      setIsEditable(true);
+      productNameRef.current?.focus()
+      
+  }
 
 
   return (
@@ -15,33 +90,70 @@ export const ProductView = ({ ...data }: Products) => {
 
       <div>
         <ProductImage 
+          onClick={handleClick}
           productName={data.productName} 
         />
       </div>
 
       <form>
 
-        <div className="flex max-w-3xl mt-4 gap-10 items-center">
+        <div className="flex mt-4 gap-10 items-center">
 
-          <div className="flex w-1/2 gap-6 flex-col">
+          <div className="flex gap-6 flex-col">
+
+            <div className="flex gap-6">
+
+
+
+              
+              <Controller 
+              control={control}
+              name="productName"
+              render={({field})=> (
+
+              <Form.InputWrapper>
+                <InputRoot>
+
+                  <Input.Label
+                    content="Nome do produto"
+                    className="text-gray-neutral-400"
+                  />
+
+                  <input
+                    
+                    className="p-0 bg-transparent border focus:outline-none border-gray-neutral-200  rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                    value={fields.productName}
+                    onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
+                      setFields(prev => (
+                        {...prev, 
+                        productName: e.target.value}
+                      ));
+                      field.onChange(e.target.value)
+                      
+                    }}
+                    ref={productNameRef}
+                    
+                    onBlur={handleBlur('productName')}
+                    readOnly={!isEditable}
+                  />
+
+                </InputRoot>
+
+              </Form.InputWrapper>
+
+              )}
+
+              />
+
+
+          <Controller 
+            
+            control={control}
+            name="price"
+            render={({field})=> (
 
             <Form.InputWrapper>
-              <InputRoot>
-                <Input.Label
-                  content="Nome do produto"
-                  className="text-gray-neutral-400"
-                />
-
-                <Input.System
-                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={data.productName}
-                />
-              </InputRoot>
-
-            </Form.InputWrapper>
-
-            <Form.InputWrapper>
-              <InputRoot className="w-2/3">
+              <InputRoot className="w-[120px]">
                 <Input.Label
                   content="Preço de venda"
                   className="text-gray-neutral-400"
@@ -49,42 +161,143 @@ export const ProductView = ({ ...data }: Products) => {
 
                 <InputMoney
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={100}
-                  onChange={(e) => console.log(e)}
+                  value={fields.price}
+                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                    setFields(prev => ({
+                      ...prev,
+                      price: parseFloat(e.target.value)
+                    }));
+                    field.onChange(e.target.value)
+                  }}
                   prefix={"R$"}
+                  onBlur={handleBlur('price')}
+                  readOnly={!isEditable}
+
+                
                 />
               </InputRoot>
-            </Form.InputWrapper>
-          </div>
 
-          <div className="flex gap-6 flex-col">
-            <Form.InputWrapper>
-              <InputRoot>
-                <Input.Label content="Peso" className="text-gray-neutral-400" />
-
-                <Input.System
-                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={"10kg"}
-                />
-              </InputRoot>
             </Form.InputWrapper>
 
+            )}/>
+              
+          
+
+
+            </div>
+
+            <Controller 
+            
+            control={control}
+            name="category"
+            render={({field:{onChange}})=> (
+
             <Form.InputWrapper>
-              <InputRoot>
+              <InputRoot >
+
                 <Input.Label
-                  content="Total vendidos"
+                  content="Categoria"
                   className="text-gray-neutral-400"
                 />
 
                 <Input.System
-                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={data.totalSold}
+                  className=" p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                  value={fields.category}
+                  onChange={(e) => {
+                    setFields(prev => ({
+                      ...prev,
+                      category: e.target.value
+                    }));
+                    onChange(e.target.value)
+                  }}
+                  onBlur={handleBlur('category')}
+                  readOnly={!isEditable}
+
+                
                 />
+                
               </InputRoot>
+
             </Form.InputWrapper>
+
+            )}/>
+
           </div>
 
           <div className="flex gap-6 flex-col">
+
+            <Controller 
+            control={control}
+            name="weight"
+            render={({field})=> (
+
+              <Form.InputWrapper>
+                <InputRoot>
+                  <Input.Label content="Peso" className="text-gray-neutral-400" />
+
+                  <Input.System
+                    className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                    value={fields.weight}
+                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                      setFields(prev => ({
+                        ...prev,
+                        weight: e.target.value
+                      }));
+                      field.onChange(e.target.value)
+                    }}
+                    onBlur={handleBlur('weight')}
+                    readOnly={!isEditable}
+
+                  />
+
+                </InputRoot>
+              </Form.InputWrapper>
+
+              )}
+
+            />
+
+              <Controller 
+                control={control}
+                name="totalSold"
+                render={({field})=> (
+                  <Form.InputWrapper>
+                  <InputRoot>
+                    <Input.Label
+                      content="Total vendidos"
+                      className="text-gray-neutral-400"
+                    />
+
+                    <Input.System
+                      className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                      value={fields.totalSold}
+                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                        setFields(prev => ({
+                          ...prev,
+                          totalSold: e.target.value
+                        }));
+                        field.onChange(e.target.value);
+                      }}
+                      onBlur={handleBlur('totalSold')}
+                      readOnly={!isEditable}
+
+                    />
+
+                  </InputRoot>
+                </Form.InputWrapper>
+
+                )}
+
+              />
+          </div>
+
+          <div className="flex gap-6 flex-col">
+
+            <Controller
+            control={control}
+            name="height"
+            render={({field})=> (
+
             <Form.InputWrapper>
               <InputRoot>
                 <Input.Label
@@ -94,10 +307,28 @@ export const ProductView = ({ ...data }: Products) => {
 
                 <Input.System
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={"10cm"}
+                  value={fields.height}
+                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                    setFields(prev => ({
+                      ...prev,
+                      height: e.target.value
+                    }));
+                    field.onChange(e.target.value);
+                  }}
+                  onBlur={handleBlur('height')}
+                  readOnly={!isEditable}
+
                 />
               </InputRoot>
             </Form.InputWrapper>
+
+            )}
+            />
+
+            <Controller 
+            control={control}
+            name="fakePrice"
+            render={({field})=> (
 
             <Form.InputWrapper>
               <InputRoot>
@@ -107,17 +338,36 @@ export const ProductView = ({ ...data }: Products) => {
                 />
 
                 <InputMoney
+                  prefix="R$"
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={100}
-                  onChange={(e) => console.log(e)}
-                  prefix={"R$"}
+                  value={fields.fakePrice}
+                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                    setFields(prev => ({
+                      ...prev,
+                      fakePrice: parseFloat(e.target.value)
+                    }));
+                    field.onChange(e.target.value);
+                  }}
+                  onBlur={handleBlur('fakePrice')}
+                  readOnly={!isEditable}
+
                 />
               </InputRoot>
             </Form.InputWrapper>
+
+            )}
+            />
+
           </div>
 
           <div className="flex flex-col gap-6">
             <div className="flex gap-5">
+
+              <Controller 
+              name="width"
+              control={control}
+              render={({field})=> (
+
               <Input.Root>
                 <Input.Label
                   className="text-gray-neutral-400"
@@ -128,10 +378,28 @@ export const ProductView = ({ ...data }: Products) => {
                 <Input.System
                   placeholder={"10cm"}
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={"10cm"}
-                  readOnly
+                  value={fields.width}
+                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                    setFields(prev => ({
+                      ...prev,
+                      width: e.target.value
+                    }));
+                    field.onChange(e.target.value);
+                  }}
+                  onBlur={handleBlur('width')}
+                  readOnly={!isEditable}
+
+              
                 />
               </Input.Root>
+
+              )}
+              />
+
+              <Controller
+              name="depth"
+              control={control}
+              render={({field})=> (
 
               <Input.Root>
                 <Input.Label
@@ -143,11 +411,30 @@ export const ProductView = ({ ...data }: Products) => {
                 <Input.System
                   placeholder={"10cm"}
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={"10cm"}
-                  readOnly
+                  value={fields.depth}
+                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                    setFields(prev => ({
+                      ...prev,
+                      depth: e.target.value
+                    }));
+                    field.onChange(e.target.value);
+                  }}
+                  onBlur={handleBlur('depth')}
+                  readOnly={!isEditable}
+
                 />
+
               </Input.Root>
+
+
+              )}
+              />
             </div>
+
+            <Controller 
+            control={control}
+            name="maxPrice"
+            render={({field})=> (
 
             <Input.Root className="w-2/3">
               <Input.Label
@@ -159,14 +446,29 @@ export const ProductView = ({ ...data }: Products) => {
               <InputMoney
                 className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
                 prefix="R$"
-                readOnly
-                onChange={(value) => console.log(value)}
-                value={100}
+                value={fields.maxPrice}
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                  setFields(prev => ({
+                    ...prev,
+                    maxPrice: parseFloat(e.target.value)
+                  }));
+                  field.onChange(e.target.value);
+                }}
+                onBlur={handleBlur('maxPrice')}
+                readOnly={!isEditable}
+
               />
             </Input.Root>
+
+            )}
+            />
           </div>
         </div>
+
       </form>
+
     </article>
+
   );
+
 };

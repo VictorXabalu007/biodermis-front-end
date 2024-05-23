@@ -17,10 +17,9 @@ export const Content = ({children}:{children: ReactNode}) => {
         <C style={{ margin: '2.3em 16px 0',padding: '1rem 0' }}>
 
         <div
+          className="p-[0 24px]"
           style={{
-            padding: '0 24px',
             background: colorBgContainer,
-
             display: 'flex',
             flexDirection: 'column',
             gap: '2em',

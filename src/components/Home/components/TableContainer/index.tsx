@@ -4,11 +4,15 @@ import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData";
 import { flexRender } from "@tanstack/react-table";
 import { Pagination } from "../../../shared/Pagination";
+import { useNavigate } from "react-router-dom";
+import { CONSULTORS, WITHDRAWAL } from "../../../../constants/paths/paths";
 
 
 export const HomeTables = () => {
 
     const {consultorsTable, withdrawalTable} = useTableData();
+
+    const navigate = useNavigate();
 
     return (
 
@@ -23,7 +27,7 @@ export const HomeTables = () => {
                                 <Heading.Content content={'Rank de consultores'} />
                             </Heading.Root>
 
-                            <Button.Root>
+                            <Button.Root onClick={()=> navigate(CONSULTORS)}>
                                 <Button.Content content="Gerenciar" />
                             </Button.Root>
 
@@ -32,8 +36,7 @@ export const HomeTables = () => {
                         <C.Container>
 
                         <C.Table>
-                            <thead 
-                            className="bg-gray-neutral-200" >
+                            <C.Thead>
                                 {consultorsTable.getHeaderGroups().map(headerGroup => (
                                     <C.EvenRow key={headerGroup.id}>
                                         {headerGroup.headers.map((header)=> (
@@ -51,7 +54,7 @@ export const HomeTables = () => {
                                         ))}
                                     </C.EvenRow>
                                 ))}
-                            </thead>
+                            </C.Thead>
 
                             <tbody>
                                 {consultorsTable.getRowModel().rows.map((row)=> (
@@ -80,7 +83,7 @@ export const HomeTables = () => {
                                 <Heading.Content content={'Pedidos de saque'} />
                             </Heading.Root>
 
-                            <Button.Root>
+                            <Button.Root onClick={()=> navigate(WITHDRAWAL)}>
                                 <Button.Content content="Gerenciar" />
                             </Button.Root>
 
@@ -89,7 +92,7 @@ export const HomeTables = () => {
                         <C.Container>
 
                         <C.Table>
-                            <thead 
+                            <C.Thead 
                             className="bg-gray-neutral-200" >
                                 {withdrawalTable.getHeaderGroups().map(headerGroup => (
                                     <C.EvenRow key={headerGroup.id}>
@@ -114,7 +117,7 @@ export const HomeTables = () => {
                                         ))}
                                     </C.EvenRow>
                                 ))}
-                            </thead>
+                            </C.Thead >
 
                             <tbody>
                                 {withdrawalTable.getRowModel().rows.map((row)=> (

@@ -3,16 +3,63 @@ import { Products, productsData } from "../ProductsTable/util/productsData";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NumericFormatter } from "../../../shared/Formatter/NumericFormatter";
 import { Image } from "antd/lib";
-import { Button, Checkbox, Flex } from "antd";
+import { Button, Checkbox, Flex, Modal } from "antd";
 import { FaTrash } from "react-icons/fa6";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from "react-icons/io";
 import styled from "styled-components";
+import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+import { ButtonWrapper } from "../../style/styles";
 
 const columnHelper = createColumnHelper<Products>();
 
 export const useTableData = () => {
 
+
     const [data, setData] = useState(productsData);
+    const { confirm } = Modal;
+
+
+    const showConfirmModal = (
+        handleOk: () => void,
+        handleCancel: () => void,
+        content: string,
+        ) => {
+
+        confirm({
+            title: 'Confirmar exclusão',
+            content: content,
+            closable: true,
+            closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
+            okButtonProps: {className: 'hidden'}, 
+            cancelButtonProps: {className: 'hidden'},
+            width: '40%',
+            maskClosable: true,
+            footer: ()=> (
+
+                <>
+
+                <Button 
+                 className="cancel-btn border border-brand-purple hover:border-brand-purple"
+                 onClick={handleCancel}  
+                 key="cancel">
+                    Cancelar
+                </Button>
+
+                <Button 
+                className="ok-btn bg-brand-purple text-white"
+                onClick={handleOk} 
+                key="ok">
+                    Confirmar
+                </Button>
+                
+                </>
+            )
+            
+
+          });
+
+    }
+
 
     const columns = useMemo(()=> [
         columnHelper.display({
@@ -50,10 +97,11 @@ export const useTableData = () => {
             cell:({getValue}) => <NumericFormatter value={getValue()} />,
             enableSorting: true
         }),
-        columnHelper.accessor('stock', {
-            id: 'stock',
-            header: () => <p>Estoque</p>,
-            cell: ({getValue}) => <p>{getValue()}</p>
+        columnHelper.accessor('category', {
+            id: 'category',
+            header: () => <p>Categoria</p>,
+            cell:({getValue}) => <p>{getValue()}</p>,
+            enableSorting: false
         }),
         columnHelper.accessor('totalSold', {
             id: 'totalSold',
@@ -76,13 +124,14 @@ export const useTableData = () => {
                         border-color: #B475A550 !important;
                     }
                 }
+
             `
 
                 return (
 
                     row.getCanExpand() ? (
-
-                        <Flex align="center" justify="center">
+                        
+                        <Flex align="center"  justify="center">
 
                             <Wrapper>
                           
@@ -94,8 +143,9 @@ export const useTableData = () => {
                                     onClick={row.getToggleExpandedHandler()}
                                 />
                             </Wrapper>
-                            
+
                         </Flex>
+
 
                         ) : null
                     )
@@ -103,43 +153,89 @@ export const useTableData = () => {
         }),
         columnHelper.display({
             id: 'delete',
-            header: () => (
-                <Flex align="center" justify="center">
-                    <FaTrash />
-                </Flex>
-            ),
-            cell: ({row}) => {
+            header: ({table}) => {
 
-                const Wrapper = styled.div`
                 
+                const handleOk = () => {
+
+                    const selectedRowsData = table.getSelectedRowModel().rows.map(row => row.original);
+                    setData(prev => prev.filter(data => !selectedRowsData.some(d => d.key === data.key)));
+                    Modal.destroyAll();
                     
-                    .delete-btn {
-                        &:hover {
-                            border-color: #C882B7 !important;
-                            background: #B475A5 !important;
-                        }
-                    }
-                `
+                }
+                const handleCancel = () => {
+                    Modal.destroyAll();
+                }
+
+
 
                 return (
 
-                    <Wrapper>
+                    <Flex align="center" justify="center">
+
+                        <ButtonWrapper>
+                            
+                            <Button
+                            disabled={!table.getIsAllRowsSelected() && !table.getIsSomeRowsSelected()}
+                            onClick={() => showConfirmModal(
+                                handleOk, 
+                                handleCancel,
+                                'Tem certeza que deseja excluir este conjunto de dados?'
+                            )}
+                            aria-label="Delete row"
+                            icon={<FaTrash />}
+                            className="delete-btn bg-brand-purple"
+                            size="middle"
+
+                            />
+
+                        </ButtonWrapper>
+
+                    </Flex>
+
+                )
+            },
+            cell: ({row}) => {
+
+ 
+
+                const handleOk = () => {
+
+                    setData(prev => prev.filter(data => data.key !== row.original.key))
+                    Modal.destroyAll();
+                    
+                }
+                const handleCancel = () => {
+                    Modal.destroyAll();
+                }
+                
+
+                return (
+
+                    <ButtonWrapper>
+
                         <Button
                       
                         aria-label="Delete row"
                         icon={<FaTrash />}
                         className="delete-btn bg-brand-purple"
                         size="middle"
-                        onClick={() => setData(prev => prev.filter(data => data.key !== row.original.key))}
+                        onClick={() => showConfirmModal(
+                            handleOk, 
+                            handleCancel,
+                           'Tem certeza que deseja excluir este produto?'
+                        )}
+
                         />
-                    </Wrapper>
+
+                    </ButtonWrapper>
                 )
             }
        
         }),
     ],[])
 
-    return {data,columns};
+    return {data,columns, setData};
 
 
 }

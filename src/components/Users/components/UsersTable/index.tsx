@@ -1,6 +1,6 @@
 
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper.tsx"
-import { TableHeader } from "../TableHeader/TableHeader.tsx"
+import { TableHeader } from "../TableHeader/index.tsx"
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData.tsx"
@@ -38,8 +38,7 @@ export const UsersTable = () => {
         <C.Container>
 
             <C.Table>
-                <thead 
-                className="bg-gray-neutral-200" >
+                <C.Thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <C.EvenRow key={headerGroup.id}>
                             {headerGroup.headers.map((header)=> (
@@ -53,7 +52,7 @@ export const UsersTable = () => {
                             ))}
                         </C.EvenRow>
                     ))}
-                </thead>
+                </C.Thead >
 
                 <tbody>
                     {table.getRowModel().rows.map((row)=> (

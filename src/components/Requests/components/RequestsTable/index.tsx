@@ -45,11 +45,8 @@ export const RequestsTable = () => {
 
             
                 <C.Container>
-                    <table>
-                        <thead 
-                        className="bg-gray-neutral-200" 
-                        style={{width: table.getTotalSize()}}
-                        >
+                    <C.Table>
+                        <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header)=> (
@@ -63,7 +60,7 @@ export const RequestsTable = () => {
                                     ))}
                                 </C.EvenRow>
                             ))}
-                        </thead>
+                        </C.Thead >
 
                         <tbody>
                             {table.getRowModel().rows.map((row)=> (
@@ -77,7 +74,8 @@ export const RequestsTable = () => {
                                 </C.HoverRow>
                             ))}
                         </tbody>
-                    </table>
+
+                    </C.Table>
                 </C.Container>
 
                 <Pagination table={table} />

@@ -1,97 +1,148 @@
+import { Controller, useFormContext } from "react-hook-form";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
 import { GrLocation } from "react-icons/gr";
+import { PatternFormat } from "react-number-format";
+import { FormType } from "../../../../../../../@types/FormType/FormType";
+import { Button } from "../../../../../../shared/Button";
 
 
-export const FormStep2 = () => {
+export const FormStep2 = ({isReadonly}:FormType) => {
 
-    
+    const { control } = useFormContext();
+
     return (
 
-        <form>
+        <div>
 
-            <div>
+                <Controller
+                control={control}
+                name="address"
+                render={({field:{onChange, value}})=> (
 
-                <Input.Root>
+                    <Input.Root>
+                    
+                        <Input.Label 
+                        className="text-gray-neutral-400"
+                        content="Endereço"
+                        htmlFor="address"
+                        />
+                        <Input.System
+                        className="py-2"
+                        suffix={<GrLocation className="text-brand-purple" />}
+                        placeholder={'Endereço'}
+                        id="address"
+                        onChange={onChange}
+                        value={value}
+                        readOnly={isReadonly}
+                        />
+                    
+
+                    </Input.Root>
+
+                )}
                 
-                    <Input.Label 
-                    className="text-gray-neutral-400"
-                    content="Endereço"
-                    htmlFor="address"
-                    />
-                    <Input.System
-                    className="py-2"
-                    icon={<GrLocation className="text-brand-purple" />}
-                    placeholder={'Endereço'}
-                    id="address"
-                    />
-                
-
-                </Input.Root>
-
-            </div>
+                />
 
             <Form.Group>
 
-     
-             <Form.InputWrapper>
-                <Input.Root>
+             <Controller 
+             control={control}
+             name="cep"
+             render={({field:{onChange, value}})=> (
+
+                <Form.InputWrapper>
+                    <Input.Root>
+                        
+                        <Input.Label 
+                        className="text-gray-neutral-400"
+                        content="CEP"
+                        htmlFor="cep"
+                        />
+                        <PatternFormat
+                            format="#####-###"
+                            allowEmptyFormatting
+                            mask="_"
+                            className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                            onChange={onChange}
+                            value={value}
+                            readOnly={isReadonly}
+                        />
                     
-                    <Input.Label 
-                    className="text-gray-neutral-400"
-                    content="CEP"
-                    htmlFor="cep"
-                    />
-                    <Input.System
-                    placeholder={'123513-632'}
-                    id="cep"
-                    />
+
+                    </Input.Root>
+                    
+                    </Form.InputWrapper>   
+
+             )}
+             />
                 
+                <Controller 
+                control={control}
+                name="number"
+                render={({field:{onChange,value}})=> (
 
-                </Input.Root>
-                
-                </Form.InputWrapper>   
+                    <Form.InputWrapper>
 
-                <Form.InputWrapper>
-
-                        <Input.Root>
+                            <Input.Root>
+                                
+                                <Input.Label 
+                                className="text-gray-neutral-400"
+                                content="Número"
+                                htmlFor="number"
+                                />
+                                <Input.System
+                                placeholder={'123'}
+                                id="number"
+                                onChange={onChange}
+                                value={value}
+                                readOnly={isReadonly}
+                                />
                             
-                            <Input.Label 
-                            className="text-gray-neutral-400"
-                            content="Número"
-                            htmlFor="number"
-                            />
-                            <Input.System
-                            placeholder={'123'}
-                            id="address"
-                            />
-                        
 
-                        </Input.Root>
+                            </Input.Root>
 
-                </Form.InputWrapper>
+                    </Form.InputWrapper>
+
+                    )}
+                />
 
 
-                <Form.InputWrapper>
+            <Controller 
+                control={control}
+                name="street"
+                render={({field:{onChange,value}})=> (
 
-                        <Input.Root>
+                    <Form.InputWrapper>
+
+                            <Input.Root>
+                                
+                                <Input.Label 
+                                className="text-gray-neutral-400"
+                                content="Rua"
+                                htmlFor="street"
+                                />
+                                <Input.System
+                                placeholder={'Rua do usuário'}
+                                id="street"
+                                onChange={onChange}
+                                value={value}
+                                readOnly={isReadonly}
+                                />
                             
-                            <Input.Label 
-                            className="text-gray-neutral-400"
-                            content="Rua"
-                            htmlFor="street"
-                            />
-                            <Input.System
-                            placeholder={'Rua do usuário'}
-                            id="street"
-                            />
-                        
 
-                        </Input.Root>
+                            </Input.Root>
 
+                    </Form.InputWrapper>
 
-                </Form.InputWrapper>
-                
+                    )}
+                />
+
+                <Controller 
+                control={control}
+                name="complement"
+                render={({field:{onChange, value}})=> (
+
                 <Form.InputWrapper>
 
                         <Input.Root>
@@ -104,6 +155,10 @@ export const FormStep2 = () => {
                             <Input.System
                             placeholder={'Complemento'}
                             id="complement"
+                            onChange={onChange}
+                            value={value}
+                            readOnly={isReadonly}
+                            
                             />
                         
 
@@ -111,9 +166,16 @@ export const FormStep2 = () => {
 
 
                 </Form.InputWrapper>
+                )}
+                />
+                
 
+                <Controller 
+                control={control}
+                name="neighborhood"
+                render={({field:{onChange, value}})=> (
 
-                    <Form.InputWrapper>
+                <Form.InputWrapper>
 
                         
                     <Input.Root>
@@ -126,6 +188,10 @@ export const FormStep2 = () => {
                         <Input.System
                         placeholder={'bairro'}
                         id="neighborhood"
+                        onChange={onChange}
+                        value={value}
+                        readOnly={isReadonly}
+
                         />
                     
 
@@ -133,6 +199,14 @@ export const FormStep2 = () => {
 
 
                     </Form.InputWrapper>
+
+
+                )}
+                />
+
+                <Controller 
+                name="city"
+                render={({field:{onChange, value}})=> (
 
                     <Form.InputWrapper>
 
@@ -146,6 +220,11 @@ export const FormStep2 = () => {
                             <Input.System
                             placeholder={'São Paulo SP'}
                             id="city"
+                            onChange={onChange}
+                            value={value}
+                            readOnly={isReadonly}
+
+
                             />
                         
 
@@ -154,13 +233,29 @@ export const FormStep2 = () => {
                     </Form.InputWrapper>
 
 
+                )}
+                
+                />
+
+
+
 
 
             </Form.Group>
 
+            {!isReadonly &&
+
+            <Button.Root type="submit" className="mt-4 w-full">
+                <Button.Wrapper>
+                    <Button.Content content="Confirmar" />
+                </Button.Wrapper>
+            </Button.Root>
+
+            }
+
 
          
-        </form>
+        </div>
 
     );
 }

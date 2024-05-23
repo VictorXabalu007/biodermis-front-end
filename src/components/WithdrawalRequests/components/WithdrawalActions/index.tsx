@@ -15,7 +15,7 @@ export const WithdrawalActions = () => {
 
         confirm({
 
-            content: <WithDrawalModal />,
+            content: <WithDrawalModal handleClose={() => Modal.destroyAll()} />,
             closable: true,
             closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
             okButtonProps: {className: 'hidden'}, 

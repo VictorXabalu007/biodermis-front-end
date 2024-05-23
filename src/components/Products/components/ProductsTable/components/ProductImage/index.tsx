@@ -4,9 +4,10 @@ import { Button } from "../../../../../shared/Button"
 
 type ProductImageProps = {
     productName: string,
+    onClick: () => void;
     // productImage: string
 }
-export const ProductImage = ({productName}:ProductImageProps) => {
+export const ProductImage = ({productName, onClick}:ProductImageProps) => {
 
     
 
@@ -24,7 +25,11 @@ export const ProductImage = ({productName}:ProductImageProps) => {
             style={{borderRadius: '5px 5px 0 0'}}
             />
 
-            <Button.Root style={{borderRadius: '0 0 5px 5px'}} className="flex-1 w-full">
+            <Button.Root 
+                onClick={onClick}
+                style={{borderRadius: '0 0 5px 5px'}} 
+                className="flex-1 w-full"
+            >
                 <Button.Wrapper>
                     <Button.Content content="Editar produto" />
                 </Button.Wrapper>

@@ -10,8 +10,6 @@ import { ChartWrapper } from "../../../shared/Chart/components/ChartWrapper"
 
 
 export const ChartContainer = () => {
-
-
     
     return (
 

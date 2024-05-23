@@ -8,16 +8,13 @@ import { usePixkey } from "../../../../../../../hooks/usePixkey";
 import { PatternFormat } from "react-number-format";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
-import { ConsultorsData } from "../..";
+import { UserData } from "../..";
+import { bankOptions } from "../../../../../../../util/BankOptions";
+import { Form as AntdForm } from "antd";
 
-const selectOptions = [
-    { value: 'caixa', label: 'Caixa' },
-    { value: 'mastercard', label: 'Mastercard' },
-    { value: 'visa', label: 'Visa' },
-];
+const Item = AntdForm.Item;
 
-export const BankDataForm = ({errors,control}:RegisterFieldProps<ConsultorsData>) => {
-
+export const BankDataForm = ({errors,control}:RegisterFieldProps<UserData>) => {
     
     const {pixKey, handlePixkeyChange} = usePixkey();
 
@@ -27,169 +24,183 @@ export const BankDataForm = ({errors,control}:RegisterFieldProps<ConsultorsData>
 
 
             <Form.SubHeader 
-                    heading="Dados bancários"
-                    subtext="Informe os dados bancários do novo consultor"
+                  heading="Dados bancários"
+                  subtext="Informe os dados bancários do novo usuário"
             />
  
 
             <Form.Group >
 
-                    
-            <Form.InputWrapper>
-
-                <label>
-                    Número do cartão
-                </label>
-
+            
              <Controller 
               name="bankData.cardNumber"
               control={control}
-              rules={{required: true}}
-              render={({field})=> {
+              render={({field:{onChange}})=> {
                 return (
 
-                    <>
+                  <Item
+                  name="bankData.cardNumber"
+                  validateStatus={errors.bankData?.cardNumber ? 'error' : 'success'}
+                  help={errors.bankData?.cardNumber && errors.bankData.cardNumber.message}
+                  hasFeedback
+                >
+
+                  <Form.InputWrapper>
+
+                        <label>
+                            Número do cartão
+                        </label>
+
                         <PatternFormat
                 
                         format="#### #### #### ####" 
                         allowEmptyFormatting 
                         className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                        onChange={(cpf => {
-                            field.onChange(cpf)
-                        })}
+                        onChange={onChange}
                         mask="_"
                         
                         />
+                
+                 </Form.InputWrapper>
 
-                        <>
-
-                        {errors.bankData?.cardNumber && (
-                            <small className="text-red-600">
-                                {errors.bankData?.cardNumber?.message} 
-                            </small>
-                        )}
-                        
-                        </>
-
-                    </>
-
+                 </Item>
                     
                 )
               }}
               />
 
-            </Form.InputWrapper>
-
-            <Form.InputWrapper>
-
                 <Controller 
                 control={control}
                 name="bankData.cvv"
-                render={({field})=> {
+                render={({field:{onChange}})=> {
                 return (
-                    
-                    <Input.Root>
 
-                    <Input.Label 
-                    content="CVV"
-                    className="text-black"
-                    htmlFor="cvv"
-                    />
-                    <Input.System 
-                    placeholder="123"
-                    onChange={(e)=> {
-                        field.onChange(e.target.value)
-                    }}
-                    id="cvv"
-                    type="number"
-                    maxLength={3}
-                    />
+                  <Item
+                  name="bankData.cvv"
+                  validateStatus={errors.bankData?.cvv ? 'error' : 'success'}
+                  help={errors.bankData?.cvv && errors.bankData.cvv.message}
+                  hasFeedback
+                  
+                  >
 
-                    {errors.bankData?.cvv && (
-                    <small className="mt-1 text-red-600">{errors.bankData.cvv?.message}</small>
-                    )}  
-                    
-                    </Input.Root>
+                    <Form.InputWrapper>
+                      
+                      <Input.Root>
+
+                      <Input.Label 
+                      content="CVV"
+                      className="text-black"
+                      htmlFor="cvv"
+                      />
+                      <Input.System 
+                      placeholder="123"
+                      onChange={onChange}
+                      id="cvv"
+                      type="number"
+                      maxLength={3}
+                      />
+                      
+                      </Input.Root>
+
+                    </Form.InputWrapper>
+
+
+                  </Item>
 
                 )}}
 
                 />
 
-            </Form.InputWrapper>
+       
 
-            <Form.InputWrapper>
+           
 
             <Controller 
             control={control}
             name="bankData.titularName"
-            render={({field})=> {
+            render={({field:{onChange}})=> {
 
               return (
 
-                <Input.Root>
+                <Item
+                name="bankData.titularName"
+                validateStatus={errors.bankData?.titularName ? 'error' : 'success'}
+                help={errors.bankData?.titularName && errors.bankData.titularName.message}
+                hasFeedback
+                >
 
-                  <Input.Label 
-                  content="Nome no cartão"
-                  className="text-black"
-                  htmlFor="titularName"
-                  />
-                  <Input.System 
-                  placeholder="leonardo de Souza Mazzuca"
-                  onChange={(e)=> {
-                    field.onChange(e.target.value)
-                  }}
-                  id="titularName"
-                  />
+                  <Form.InputWrapper>
 
-                {errors.bankData?.titularName && (
-                  <small className="mt-1 text-red-600">{errors.bankData.titularName?.message}</small>
-                )}  
-                
-                </Input.Root>
+                  <Input.Root>
+
+                    <Input.Label 
+                    content="Nome no cartão"
+                    className="text-black"
+                    htmlFor="titularName"
+                    />
+                    <Input.System 
+                    placeholder="leonardo de Souza Mazzuca"
+                    onChange={onChange}
+                    id="titularName"
+                    /> 
+                  
+                  </Input.Root>
+
+                </Form.InputWrapper>
+
+
+                </Item>
+
 
               )}}
 
             />
 
-            </Form.InputWrapper>
 
-            <Form.InputWrapper
-            
-            >
-
-                <label>
-                    Data de validade
-                </label>
 
 
                 <Controller
                     control={control}
                     name="bankData.expireDate" 
                     rules={{ required: 'Por favor, selecione uma data de validade.' }}
-                    render={({ field }) => (
+                    render={({ field:{onChange} }) => (
+
+                    <Item
+                    name="bankData.expireDate"
+                    validateStatus={errors.bankData?.expireDate ? 'error' : 'success'}
+                    help={errors.bankData?.expireDate && errors.bankData.expireDate.message}
+                    hasFeedback
+                    
+                    >
+
+                      <Form.InputWrapper>
+
+                          <label>
+                              Data de validade
+                          </label>
+                                  
+                            <DatePickerWrapper>
+                                
+                                <DatePicker
+                                picker="month"
+                                className="w-full rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                onChange={(_,dateString)=> {
+                                  onChange(dateString)
+                                }}
                         
-                        <DatePickerWrapper>
-                            
-                            <DatePicker
-                            picker="month"
-                            className="w-full rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                            onChange={(_,dateString)=> {
-                               field.onChange(dateString)
-                       
-                            }}
-                     
-                            defaultValue={dayjs(new Date())}
-                            format={"MM/YYYY"}
-                            
-                            />
+                                defaultValue={dayjs(new Date())}
+                                format={"MM/YYYY"}
+                                
+                                />
 
-                            {errors.bankData?.expireDate && (
-                                <small
-                                 className="text-red-600">{errors.bankData?.expireDate?.message}
-                                </small>
-                            )}
+                            </DatePickerWrapper>
 
-                        </DatePickerWrapper>
+                            
+                        </Form.InputWrapper>
+
+
+                    </Item>
+                      
 
                     )}
 
@@ -197,116 +208,148 @@ export const BankDataForm = ({errors,control}:RegisterFieldProps<ConsultorsData>
                                     
                
 
-            </Form.InputWrapper>
 
-            <Form.InputWrapper>
+         
 
             <Controller 
             control={control}
             name="bankData.agency"
-            render={({field})=> {
+            render={({field:{onChange}})=> {
 
               return (
 
-                <Input.Root>
-
-                  <Input.Label 
-                  content="Agência"
-                  className="text-black"
-                  htmlFor="agency"
-                  />
-                  <Input.System 
-                  placeholder="0000"
-                  onChange={(e)=> {
-                    field.onChange(e.target.value)
-                  }}
-                  id="agency"
-                  />
-
-                {errors.bankData?.agency && (
-                  <small className="mt-1 text-red-600">{errors.bankData.agency?.message}</small>
-                )}  
+                <Item
+                name="bankData.agency"
+                validateStatus={errors.bankData?.agency ? 'error' : 'success'}
+                help={errors.bankData?.agency && errors.bankData.agency.message}
+                hasFeedback
                 
-                </Input.Root>
+                >
+
+                    <Form.InputWrapper>
+
+                    <Input.Root>
+
+                      <Input.Label 
+                      content="Agência"
+                      className="text-black"
+                      htmlFor="agency"
+                      />
+                      <Input.System 
+                      placeholder="0000"
+                      onChange={onChange}
+                      id="agency"
+                      /> 
+                    
+                    </Input.Root>
+
+                    </Form.InputWrapper>
+
+
+                </Item>
+
 
               )}}
 
             />
 
-            </Form.InputWrapper>
+    
 
 
 
-            <Form.InputWrapper>
 
             <Controller 
             control={control}
             name="bankData.pix"
-            render={({field}) => {
+            render={({field:{onChange}}) => {
 
               return (
 
-                <Input.Root>
+                <Item
+                name="bankData.pix"
+                validateStatus={errors.bankData?.pix ? 'error' : 'success'}
+                help={errors.bankData?.pix && errors.bankData.pix.message}
+                hasFeedback
+                >
 
-                  <Input.Label 
-                  content="Chave pix"
-                  className="text-black"
-                  htmlFor="pixkey"
-                  />
-                  <Input.System 
-                  placeholder="123"
-                  onChange={(e)=> {
-                    handlePixkeyChange(e)
-                    field.onChange(e.target.value)
-                    
-                  }}
-                  value={pixKey}
-                  id="pixkey"
-                  />
+                  <Form.InputWrapper>
 
-                    {errors.bankData?.pix && (
-                    <small className="mt-1 text-red-600">{errors.bankData.pix?.message}</small>
-                    )}  
-                    
-                </Input.Root>
+                      <Input.Root>
+
+                        <Input.Label 
+                        content="Chave pix"
+                        className="text-black"
+                        htmlFor="pixkey"
+                        />
+                        <Input.System 
+                        placeholder="123"
+                        onChange={(e)=> {
+                          handlePixkeyChange(e)
+                          onChange(e.target.value)
+                          
+                        }}
+                        value={pixKey}
+                        id="pixkey"
+                        />
+                          
+                      </Input.Root>
+
+                      </Form.InputWrapper>
+
+
+                </Item>
+                
 
               )}}
 
             />
 
-            </Form.InputWrapper>
+     
 
-            <Form.InputWrapper
-       
-            >
-
-                <label>
-                   Banco
-                </label>
+         
 
                 <Controller
                     control={control}
                     name="bankData.bank"
                     rules={{required:true}}
-                    render={({ field }) => (
-                    
-                    
-                    <Select
-                        options={selectOptions}
-                        isSearchable
-                        defaultValue={selectOptions[0]} 
-                        onChange={(selectedOption) => field.onChange(selectedOption?.value)} 
-                    />
+                    render={({ field:{onChange} }) => (
+
+
+
+                      <Item
+                      name="bankData.bank"
+                      validateStatus={errors.bankData?.bank ? 'error' : 'success'}
+                      help={errors.bankData?.bank && errors.bankData.bank.message}
+                      hasFeedback
+                      >
+
+
+                          <Form.InputWrapper>
+
+                              <label>
+                                Banco
+                              </label>
+                        
+                          
+                          <Select
+                              options={bankOptions}
+                              isSearchable
+                              defaultValue={bankOptions[0]} 
+                              onChange={(selectedOption) => onChange(selectedOption?.value)} 
+                          />
+
+
+                      </Form.InputWrapper>
+
+                      </Item>
 
                     )}
 
                     />
                                     
-                {errors.bankData?.bank && (
-                    <p className="text-red-600">{errors.bankData?.bank?.message}</p>
-                )}
+               
 
-            </Form.InputWrapper>
+        
 
 
         </Form.Group >

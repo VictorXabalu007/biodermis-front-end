@@ -1,10 +1,12 @@
 import { ReactNode, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import { Button } from "../../../../shared/Button";
-import { FormModal } from "../Form";
 import { buttonItems } from "./util/buttomItems";
-import { render } from "./functions/render";
+
 import { UserImage } from "../../../../shared/Image/UserImage";
+import { FormType } from "../../../../../@types/FormType/FormType";
+import { FormModal } from "../Form";
+import { InovicingModal } from "../Invoicing";
 
 // type NavigatorHeaderProps = {
 
@@ -13,18 +15,29 @@ import { UserImage } from "../../../../shared/Image/UserImage";
 // }
 
 
-export const ModalNavigator = () => {
+export const ModalNavigator = ({data, isReadonly}:FormType) => {
+
+    const render = (key: string, isReadonly?:boolean) => {
+
+        switch(key){
+            case '1':
+                return <FormModal data={data} isReadonly={isReadonly} />
+            case '2':
+                return <InovicingModal />
+        }
+    }
 
     const [selected, setSelected] = useState('1');
-    const [component, setComponent] = useState<ReactNode>(<FormModal />);
+    const [component, setComponent] = useState<ReactNode>(render(selected, isReadonly));
 
     const handleSelect = (key:string) => {
         
         setSelected(key);
-        setComponent(render(key))
+        setComponent(render(key, isReadonly))
         
 
     };
+
 
     const SELECTED_CLASSNAME = 'bg-brand-purple text-white'
     

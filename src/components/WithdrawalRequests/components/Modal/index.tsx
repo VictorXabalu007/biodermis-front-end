@@ -1,26 +1,81 @@
 
-import { Form } from "../../../shared/Form";
+
+import { Button } from "../../../shared/Button";
+
 import { UserImage } from "../../../shared/Image/UserImage";
 import { Input } from "../../../shared/Input/Input";
 import InputMoney from "../../../shared/Input/InputNumber";
-import { Typography } from "antd";
+import { Form as AntdForm, Typography, Upload, message } from "antd";
 import { FaCheck } from "react-icons/fa6";
 import { IoCopyOutline } from "react-icons/io5";
+import { UploadProps } from "antd/lib";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "../../../shared/Form";
+import FormItem from "antd/es/form/FormItem";
+import { DraggerWrapper } from "../../../Register/RegisterConsultor/components/FormContainer/components/Uploader/styles/styles";
 
 const { Paragraph } = Typography;
+const { Dragger } = Upload;
 
-export const WithDrawalModal = () => {
+
+const props: UploadProps = {
+  name: 'file',
+  multiple: true,
+  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+
+  onDrop(e) {
+    console.log('Dropped files', e.dataTransfer.files);
+  },
+  beforeUpload() {
+    return false
+  }
+};
+
+type WithDrawalModalProps  = {
+    handleClose: () => void;
+}
+
+export const WithDrawalModal = ({handleClose}:WithDrawalModalProps) => {
+
+    const proofSchema = z.object({
+        pixProof: z.object({
+            name: z.string(), 
+            size: z.number().min(1,'Nenhum arquivo anexado...'),
+            type: z.string(), 
+        },{required_error: 'Compranvante é obrigatório para confirmação'})
+    })
+
+    type Data = z.infer<typeof proofSchema>;
+
+    const {handleSubmit, control, formState: {errors}} = useForm<Data>({
+        resolver: zodResolver(proofSchema),
+        criteriaMode: 'all',
+        mode: 'all'
+    });
+
+    
+
+    const onSubmit = (data:Data) => {
+
+        console.log(data);
+        handleClose();
+        
+    }
+
+    const [form] = AntdForm.useForm();
 
     return (
 
 
-        <>
+        <div>
 
         <UserImage 
         className="my-2"
         />
 
-        <form>
+        <AntdForm form={form} onFinish={handleSubmit(onSubmit)}>
 
             <div>
 
@@ -175,14 +230,93 @@ export const WithDrawalModal = () => {
 
                 </Input.Root>
 
+
+                    <div className="my-5">
+
+
+                        <Controller 
+                        control={control}
+                        name="pixProof"
+                        render={({field:{onChange}})=> (
+
+                            
+                        <FormItem
+                        name="pixProof"
+                        validateStatus={errors.pixProof ? 'error' : 'success'}
+                        help={errors.pixProof && errors.pixProof.message}
+                        hasFeedback
+                        >   
+
+                        <DraggerWrapper>
+
+
+                            <Dragger 
+
+                            style={{
+                                                        
+                                background: '#FAF3F8',
+                                borderColor: '#B475A5',
+                                padding: '1rem'
+                            }}
+                            
+                            onChange={(info)=> {
+                                const { status } = info.file;
+                                if (status !== 'uploading') {
+                                console.log(info.file, info.fileList);
+                                }
+                                if (status === 'done') {
+                                message.success(`${info.file.name} file uploaded successfully.`);
+                                } else if (status === 'error') {
+                                message.error(`${info.file.name} file upload failed.`);
+                                }
+                                onChange(info.file)
+                            }}
+
+                            {...props}
+                            
+                            >
+                                <p className="ant-upload-drag-icon">
+                                
+                                </p>
+                                <p className="ant-upload-text">
+                                    Faça o upload do comprovante do pagamento
+                                </p>
+                                <p className="ant-upload-hint">
+                                    Clique ou arraste o arquivo aqui
+                                </p>
+                            </Dragger>
+
+
+                        </DraggerWrapper>
+
+                            
+                        </FormItem>
+
+
+                        )}
+                        />
+
+
+                    </div>
+
            </div>
 
+            
+            
+
+            <Button.Root className="w-full mt-4">
+
+                    <Button.Wrapper>
+                      <Button.Content content="confirmar" />
+                    </Button.Wrapper>
+
+            </Button.Root>
 
          
-        </form>
+        </AntdForm>
         
         
-        </>
+        </div>
 
 
     );

@@ -26,12 +26,12 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
                 <div className="flex flex-wrap gap-2">
                     
-                    <Input.Root className="lg:w-[300px] flex-1">
+                    <Input.Root className="lg:w-[400px] w-full flex-1">
 
                         <Input.System
                         className="py-2 flex-1"
                         placeholder="Buscar Produto"
-                        icon= {<SearchIcon />}
+                        suffix= {<SearchIcon />}
                         value={username as string}
                         onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
                           onFilterChange('productName',e.target.value)

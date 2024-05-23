@@ -6,6 +6,8 @@ import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeader
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
 import Select from 'react-select'
 import { userSelectOptions } from "./util/selectOptions";
+import { useNavigate } from "react-router-dom";
+import { REGISTER_CONSULTOR } from "../../../../constants/paths/paths";
 
 
 export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps) => {
@@ -22,22 +24,24 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
         onFilterChange('userType',type?.value);
     }
 
+    const navigate = useNavigate();
+
     return (
 
         <TableHeaderWrapper 
          heading="Lista de usuários"
         >
 
-            <div className="flex flex-wrap justify-between items-center">
+            <div className="flex flex-wrap w-full justify-between items-center">
 
                 <div className="flex flex-wrap gap-2">
                         
-                        <Input.Root className="lg:w-[300px] flex-1">
+                        <Input.Root className="w-full lg:w-[400px]">
 
                             <Input.System
-                            className="py-2 flex-1"
+                            className="py-2 w-full"
                             placeholder="Buscar"
-                            icon= {<SearchIcon />}
+                            suffix= {<SearchIcon />}
                             value={username as string}
                             onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
                               onFilterChange('name',e.target.value)
@@ -50,16 +54,18 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
                         <Select 
                         options={userSelectOptions}
                         defaultValue={userSelectOptions[0]}
-                        className="w-[250px]"
+                        className="w-full md:w-auto"
                         onChange={handleUserTypeChange}
                         />
   
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="md:mt-0 w-full md:w-auto mt-2 flex-wrap gap-2">
                     
 
-                        <Button.Root className="bg-white border border-purple-solid-500 text-purple-solid-500 hover:bg-purple-solid-200 flex-1">
+                        <Button.Root 
+                        onClick={() => navigate(REGISTER_CONSULTOR)}
+                        className="bg-white border border-purple-solid-500 text-purple-solid-500 hover:bg-purple-solid-200 w-full">
                             <Button.Content content="Cadastrar um Usuário" />
                             <Button.Icon icon={FaPlus} />
                         </Button.Root>

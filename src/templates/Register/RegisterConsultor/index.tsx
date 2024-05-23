@@ -1,5 +1,5 @@
 import { RegisterConsultor } from "../../../components/Register/RegisterConsultor"
-import { CONSULTORS } from "../../../constants/paths/paths";
+import { DEFAULT_PATH } from "../../../constants/paths/paths";
 
 
 export const RegisterConsultorTemplate = () => {
@@ -9,15 +9,15 @@ export const RegisterConsultorTemplate = () => {
         <RegisterConsultor.Layout>
 
             <RegisterConsultor.Header
-            heading="Cadastro de consultores"
+            heading="Cadastro de Usuários"
             />
             
             <RegisterConsultor.Content>
 
                 <RegisterConsultor.SubHeader
-                    path={CONSULTORS}
-                    linkText="voltar para consultores"
-                    heading="Cadastrar um consultor"
+                    path={DEFAULT_PATH}
+                    linkText="voltar"
+                    heading="Cadastrar um Usuário"
                 />
 
                 <RegisterConsultor.Form />

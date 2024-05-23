@@ -1,1 +1,0 @@
-export type PaymentStatus = 'efetuar' | 'pago'

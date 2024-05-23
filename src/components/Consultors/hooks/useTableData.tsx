@@ -4,11 +4,12 @@ import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildStatus } from "../functions/buildStatus";
-import { TableActions } from "../components/TableActions/TableActions";
+import { TableActions } from "../components/TableActions";
 import { IoIosArrowUp } from "react-icons/io";
 import { Text } from "../../shared/Text";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { useMemo, useState } from "react";
+import { USERS } from "../../../constants/paths/paths";
 
 
 
@@ -58,7 +59,7 @@ export const useTableData = () => {
             cell: (phone) => <p> {phone.getValue()} </p>
         }),
         columnHelper.accessor('totalFatured', {
-            header: () => <div className="flex gap-2">Total faturado <ArrowUpDownIcon /></div>,
+            header: () => <div className="flex justify-center gap-2">Total faturado <ArrowUpDownIcon /></div>,
             cell: (total) => (
                     <NumericFormatter
                         value={total.getValue()}
@@ -72,8 +73,23 @@ export const useTableData = () => {
             )
         }),
         columnHelper.accessor('actions', {
-            header: () => <p>Ações</p>,
-            cell: TableActions
+            header: () => <p >Ações</p>,
+            cell: ({row}) => {
+
+                const rowData = JSON.parse(sessionStorage.getItem(USERS)?? '{}');
+                console.log(rowData);
+                
+                
+                return (
+
+                    <TableActions
+                        data={row.original}
+                        
+                    />
+
+                )
+        
+        }
         }),
     ],[]);
     

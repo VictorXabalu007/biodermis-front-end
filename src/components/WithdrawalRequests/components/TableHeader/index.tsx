@@ -17,6 +17,12 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
     ));
 
 
+    const handleStatusChange = (status: {value:string}| null) => {
+        onFilterChange('paymentStatus', status?.value)
+    }
+
+    
+
     return (
 
         <TableHeaderWrapper heading="Pedidos de saque">
@@ -25,12 +31,12 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
             <div className="flex flex-wrap gap-2">
                     
-                    <Input.Root className="lg:w-[300px] flex-1">
+                    <Input.Root className="lg:w-[400px] w-full">
 
                         <Input.System
-                        className="py-2 flex-1"
+                        className="py-2"
                         placeholder="Buscar"
-                        icon= {<SearchIcon />}
+                        suffix= {<SearchIcon />}
                         value={username as string}
                         onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
                           onFilterChange('name',e.target.value)
@@ -41,18 +47,21 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                     </Input.Root>
 
                     <Select 
-                        className="flex-1 md:flex-none"
+
+                        className="w-full md:w-auto"
                         options={withdrawalSelectOptions}
                         defaultValue={withdrawalSelectOptions[0]}
-                        
+                        onChange={handleStatusChange}
                        
                     />
 
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex w-full mt-2 md:mt-0 md:w-auto flex-wrap gap-2">
                 
-                    <InputRangePicker />
+                    <InputRangePicker
+                    
+                    />
 
                 </div>
 

@@ -16,54 +16,57 @@ export const useTableData = () => {
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(() => [
+
         columnHelper.accessor('actions',{
             header: () => <p>Ações</p>,
             cell: TableActions,
         }),
+
         columnHelper.accessor('requests',{
             header: () => <div className={'flex gap-2'}>Pedidos <ArrowUpDownIcon /></div>,
-            cell: (info) => info.getValue(),
+            cell: ({getValue}) => getValue(),
         }),
     
         columnHelper.accessor('buyerName',{
             header: () => <p>Nome comprador</p>,
-            cell: (info) => info.getValue(),
+            cell: ({getValue}) => getValue(),
         }),
         columnHelper.accessor('consultor',{
             header: () => <p>Consultora</p>,
-            cell: (info) => info.getValue(),
+            cell: ({getValue}) => getValue(),
         }),
     
         columnHelper.accessor('paymentStatus',{
             header: () => <p>Status pagamento</p>,
-            cell: (info) => buildPaymentStatus(info.getValue()),
+            cell: ({getValue}) => buildPaymentStatus(getValue()),
         }),
     
         columnHelper.accessor('deliveryStatus',{
             header: () => <p>Status de entrega</p>,
-            cell: (info) => buildDeliveryStatus(info.getValue()),
+            cell: ({getValue}) => buildDeliveryStatus(getValue()),
         }),
         columnHelper.accessor('sellOrSupply',{
             header: () => <p>Abastecimento/Vendas</p>,
-            cell: (info) => info.getValue(),
+            cell: ({getValue}) => getValue(),
         }),
         columnHelper.accessor('shippingValue',{
             header: () => <p>Valor frete</p>,
-            cell: (info) =>  (
+            cell: ({getValue}) =>  (
                 <NumericFormatter
-                   value={info.getValue()}
+                   value={getValue()}
                />
             )
     
         }),
         columnHelper.accessor('totalValue',{
             header: () => <p>Valor total</p>,
-            cell: (info) => buildTotalValue(info.getValue().value, info.getValue().paymentType)
+            cell: ({getValue}) => buildTotalValue(getValue().value, getValue().paymentType)
         }),
         columnHelper.accessor('whatsaap',{
             header: () => <p>WhatsApp</p>,
             cell: () => <FaWhatsapp className="text-2xl mx-auto text-purple-solid-600 hover:text-purple-solid-600/50" />
         }),
+        
     ],[]);
 
     return {

@@ -7,7 +7,7 @@ import { LinkContent } from "../../../shared/Link/LinkContent";
 import { Exit } from "./components/Exit";
 import './styles.css'
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
-import { CONSULTORS, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
+import { PRODUCTS, REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
 
 
 
@@ -23,9 +23,6 @@ export const Menu = () => {
 
     useEffect(()=> {
 
-        if(location.pathname === REGISTER_CONSULTOR){
-            setSelectedKey(CONSULTORS)
-        }
         if(location.pathname === REGISTER_PRODUCTS){
             setSelectedKey(PRODUCTS)
         }

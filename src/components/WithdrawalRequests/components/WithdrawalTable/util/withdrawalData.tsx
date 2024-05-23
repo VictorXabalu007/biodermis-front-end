@@ -1,4 +1,4 @@
-import { PaymentStatus } from "../../../@types/PaymentStatus";
+import { PaymentStatusType } from "../../TableHeader/util/selectOptions";
 
 
 
@@ -10,7 +10,7 @@ export type WithDrawal = {
     totalValueCurrent: number,
     avaliableWithdrawal: number,
     solicitedValue: number,
-    paymentStatus: PaymentStatus;
+    paymentStatus: PaymentStatusType;
 }
 
 
@@ -22,7 +22,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'pago'
+        paymentStatus: 'PAID'
 
     },
     {
@@ -31,7 +31,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1400,
         avaliableWithdrawal: 1500,
         solicitedValue: 15000,
-        paymentStatus: 'efetuar'
+        paymentStatus: 'PENDING'
 
     },
     {
@@ -40,7 +40,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'pago'
+        paymentStatus: 'PAID'
 
     },
     {
@@ -49,7 +49,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'efetuar'
+        paymentStatus: 'PENDING'
 
     },
     {
@@ -58,7 +58,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'efetuar'
+        paymentStatus: 'PENDING'
 
     },
     {
@@ -67,7 +67,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'pago'
+        paymentStatus: 'PAID'
 
     },
     {
@@ -76,7 +76,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'efetuar'
+        paymentStatus: 'PENDING'
 
     },
     {
@@ -85,7 +85,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'pago'
+        paymentStatus: 'PAID'
 
     },
     {
@@ -94,7 +94,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'efetuar'
+        paymentStatus: 'PENDING'
 
     },
     {
@@ -103,7 +103,7 @@ export const withdrawalData: WithDrawal[] = [
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
         solicitedValue: 1500,
-        paymentStatus: 'pago'
+        paymentStatus: 'PAID'
 
     },
 

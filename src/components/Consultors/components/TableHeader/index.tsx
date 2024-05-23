@@ -3,7 +3,6 @@ import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeader
 import { Input } from "../../../shared/Input/Input";
 import Select from 'react-select';
 import { SearchIcon } from "../../../shared/Icon/SearchIcon";
-import { InputRangePicker } from "../../../shared/Input/RangePicker";
 import { Button } from "../../../shared/Button";
 import { REGISTER_CONSULTOR } from "../../../../constants/paths/paths";
 import { FaPlus } from "react-icons/fa6";
@@ -36,12 +35,12 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
 
                 <div className="flex flex-wrap gap-2">
                     
-                    <Input.Root className="lg:w-[250px] flex-1">
+                    <Input.Root className="lg:w-[400px] w-full">
 
                         <Input.System
                         className="py-2 flex-1"
                         placeholder="Buscar"
-                        icon= {<SearchIcon />}
+                        suffix= {<SearchIcon />}
                         value={username as string}
                         onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
                           onFilterChange('name',e.target.value)
@@ -64,7 +63,6 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
 
                 <div className="flex mt-3 xl:mt-0 flex-wrap gap-2">
                     
-                    <InputRangePicker />
 
                     <Button.Root 
                      onClick={()=>navigate(REGISTER_CONSULTOR)}

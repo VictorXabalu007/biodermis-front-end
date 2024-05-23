@@ -14,7 +14,7 @@ import { ProductView } from "./components/ProductDescription";
 export const ProductsTable = () => {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
-    const {data, columns} = useTableData();
+    const {data, columns, setData} = useTableData();
 
     const table = useReactTable<Products>({
 
@@ -29,7 +29,17 @@ export const ProductsTable = () => {
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         enableRowSelection: true,
-        getRowCanExpand: () => true
+        getRowCanExpand: () => true,
+        meta: {
+            updateData: (rowIndex:number, columnId:string, value:any) => setData(
+                prev => prev.map((row,index) => 
+                    index === rowIndex ? {
+                        ...prev[rowIndex],
+                        [columnId] : value
+                    } : row
+                )
+            )
+        }
 
     });
 
@@ -73,7 +83,12 @@ export const ProductsTable = () => {
                                     row.getIsExpanded() && 
                                     (
                                         <td colSpan={row.getVisibleCells().length}>
-                                            <ProductView {...row.original} />
+                                            <ProductView 
+                                                data={row.original}
+                                                row={row}
+                                                table={table}
+                                            />
+                                            
                                         </td>
                                     )
                                 }

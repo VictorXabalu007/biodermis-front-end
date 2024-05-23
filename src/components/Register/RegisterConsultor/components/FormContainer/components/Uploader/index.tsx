@@ -1,15 +1,17 @@
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
-import styled from 'styled-components';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
 import { RegisterFieldProps } from '../../../../../@types/RegisterFieldsProps';
 import { Form } from '../../../../../../shared/Form';
-import { ConsultorsData } from '../..';
+import { UserData } from '../..';
+import { FormItem } from '../../../../../../shared/Form/FormItem';
+import { DraggerWrapper } from './styles/styles';
 
 
 
 const { Dragger } = Upload;
+
 
 const props: UploadProps = {
   name: 'file',
@@ -31,23 +33,9 @@ const props: UploadProps = {
 };
 
 
-export const Uploader = ({control,errors}:RegisterFieldProps<ConsultorsData>) => {
+export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
 
 
-    const Wrapper = styled.div`
-        
-        width: 80%;
-        .uploader-icon svg {
-            fill : #B475A5 !important;
-            transform: rotate(180deg);
-            width:50px;
-            height:30px;
-        }
-
-        .ant-upload-list-item-actions .anticon-delete svg {
-            fill:#FF4D4F;
-        }
-    `;
 
     return (
 
@@ -69,54 +57,56 @@ export const Uploader = ({control,errors}:RegisterFieldProps<ConsultorsData>) =>
 
                         return (
 
-                        <Wrapper>   
-                            <Dragger 
-                      
-                            style={{
-                         
-                                background: '#FAF3F8',
-                                borderColor: '#B475A5',
-                                padding: '1rem'
-                            }}
-                            onChange={(info)=> {
-                                const { status } = info.file;
-                                if (status !== 'uploading') {
-                                console.log(info.file, info.fileList);
-                                }
-                                if (status === 'done') {
-                                message.success(`${info.file.name} file uploaded successfully.`);
-                                } else if (status === 'error') {
-                                message.error(`${info.file.name} file upload failed.`);
-                                }
-                                field.onChange(info.file)
-                            }}
-                            {...props}
+                        <FormItem
+                        name='certificated'
+                        validateStatus={errors.certificated ? 'error' : 'success'}
+                        help={errors.certificated && errors.certificated.message}
+                        hasFeedback
+                        >
+
+                            <DraggerWrapper>   
+                                <Dragger 
+                        
+                                style={{
                             
-                            >
-
-                                <p className="uploader-icon flex justify-center items-center">
-                                    <BsDownload />
-                                </p>
-
-                               
-                                <p className="py-4 font-[400]">
-                                    Clique ou arraste o arquivo nessa área para 
-                                    <span className='mx-1 font-bold'>realizar upload</span>
-                                </p>
-
-                            </Dragger>
-
-                                <>
-                                    {errors.certificated && (
-                                        <p className="text-red-600">
-                                            {errors.certificated.message} 
-                                        </p>
-                                    )}
+                                    background: '#FAF3F8',
+                                    borderColor: '#B475A5',
+                                    padding: '1rem'
+                                }}
+                                onChange={(info)=> {
+                                    const { status } = info.file;
+                                    if (status !== 'uploading') {
+                                    console.log(info.file, info.fileList);
+                                    }
+                                    if (status === 'done') {
+                                    message.success(`${info.file.name} file uploaded successfully.`);
+                                    } else if (status === 'error') {
+                                    message.error(`${info.file.name} file upload failed.`);
+                                    }
+                                    field.onChange(info.file)
+                                }}
+                                {...props}
                                 
-                                </>
+                                >
 
-                            
-                            </Wrapper>
+                                    <p className="uploader-icon flex justify-center items-center">
+                                        <BsDownload />
+                                    </p>
+
+                                
+                                    <p className="py-4 font-[400]">
+                                        Clique ou arraste o arquivo nessa área para 
+                                        <span className='mx-1 font-bold'>realizar upload</span>
+                                    </p>
+
+                                    </Dragger>
+                                
+                                </DraggerWrapper>
+
+
+
+                        </FormItem>
+
 
 
                             )

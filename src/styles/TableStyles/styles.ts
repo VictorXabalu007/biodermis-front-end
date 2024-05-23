@@ -5,6 +5,7 @@ import styled from "styled-components";
 export const Container = styled.div`
 
     overflow-x: auto;
+    min-width:100%;
 
 `;
 
@@ -19,9 +20,6 @@ export const Table = styled.table`
 export const Thead = styled.thead`
 
     background-color: #DCDCDC;
-    position:sticky;
-    top: 0;
-    z-index: 2;
 
 `;
 

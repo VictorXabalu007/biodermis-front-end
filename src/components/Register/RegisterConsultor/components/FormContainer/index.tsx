@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import z from 'zod'
 import { Button } from "../../../../shared/Button";
-import { PessoalDataForm } from "./components/PessoalDataForm";
 import { AddressDataForm } from "./components/AddressDataForm";
 import { BankDataForm } from "./components/BankDataForm";
 import { isPixKey } from "../../../../../functions/Validators/ValidatePixKey";
@@ -16,9 +15,12 @@ import { UserRole } from "../../../../../util/UserRole";
 import { validateCardNumber } from "../../../../../functions/Validators/ValidateCreditCard/validateCardNumber";
 import { validateExpireDate } from "../../../../../functions/Validators/ValidateCreditCard/validateExpireDate";
 import { validateCVV } from "../../../../../functions/Validators/ValidateCreditCard/validateCVV";
+import { Form  } from "antd";
+import { PessoalDataForm } from "./components/PessoalDataForm";
+import { USERS } from "../../../../../constants/paths/paths";
 
 
-const pessoalDataSchema = z.object({
+export const pessoalDataSchema = z.object({
 
     name: z.string({required_error: 'O nome é obrigatório'})
     .min(1,'O nome não pode ser vazio')
@@ -41,7 +43,7 @@ const pessoalDataSchema = z.object({
     .refine(phone => isPhoneNumber(phone),{message: 'Número de telefone inválido'})
 })
 
-const addressDataSchema = z.object({
+export const addressDataSchema = z.object({
 
     address: z.string({required_error: 'Endereço não pode ser vazio'})
     .min(1,'Endereço é obrigatório para o cadastro'),
@@ -66,7 +68,7 @@ const addressDataSchema = z.object({
 
 })
 
-const bankDataChema = z.object({
+export const bankDataChema = z.object({
     cardNumber: z.string({required_error: 'Número do cartão é necessário para o cadastro'})
         .min(1)
         .refine(val => validateCardNumber(val),{message: 'Número do cartão inválido'}),
@@ -99,23 +101,32 @@ const bankDataChema = z.object({
     
     bank: z.string({required_error:'Banco é obrigatório para cadastro'})
     .min(1,'Banco é obrigatório para o cadastro'),
+
+});
+
+const consultorsViewSchema = z.object({
+    ...pessoalDataSchema.shape,
+    ...addressDataSchema.shape,
+    ...bankDataChema.shape,
 })
 
-
+export type ConsultorsViewData = z.infer<typeof consultorsViewSchema>;
 
 const userSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
-    userRole: z.string(),
+    userRole: z.string().optional(),
     bankData: bankDataChema.optional(),
     certificated: z.object({
         name: z.string(), 
         size: z.number().min(1,'O certificado é obrigatório para o cadastro'),
         type: z.string(), 
     },{required_error: 'Certificado é obrigatório para usuários do tipo consultor'})
-    .optional(),
+    .optional()
+,
 }).refine(schema => {
-    if (schema.userRole === 'consultor') {
+
+    if (schema.userRole === UserRole.CONSULTOR) {
        
         return schema.bankData && schema.certificated;
     }
@@ -126,27 +137,29 @@ const userSchema = z.object({
 });
 
 
-export type ConsultorsData = z.infer<typeof userSchema>;
+export type UserData = z.infer<typeof userSchema>;
 
 export const FormContainer = () => {
 
+    const [users, setUsers] = useState<UserData[]>([]);
     const [isConsultor, setIsConsultor] = useState(false);
-    const {register,handleSubmit,formState:{errors},control,watch} = useForm<ConsultorsData>({
-    
+    const {register,handleSubmit,formState:{errors},reset, control,watch} = useForm<UserData>({
+        
         resolver: zodResolver(userSchema),
         criteriaMode: 'all',
         mode: 'all',
         defaultValues: {
-            userRole: UserRole.ADMIN
+            userRole: UserRole.ADMIN,
         }
 
     });
+
 
     const userRole = watch('userRole');
 
     useEffect(()=> {
 
-        if(userRole === 'consultor'){
+        if(userRole === UserRole.CONSULTOR){
             setIsConsultor(true)
         } else {
             setIsConsultor(false)
@@ -155,22 +168,38 @@ export const FormContainer = () => {
     },[watch,isConsultor,userRole])
 
 
-    const onSubmit = (data:ConsultorsData) => {
+    const [lastId, setLastId] = useState<number>(0);
 
-        
-        console.log(data);
-        
+    const onSubmit = (data:UserData) => {
+
+        const newId = lastId + 1;
+        const newData = { id: newId.toString(), ...data };
+        setUsers([...users, newData]);
+        setLastId(newId);
+        console.log(newData);
+
     }
+
+    sessionStorage.setItem(USERS,JSON.stringify(users));
+
+    const [form] = Form.useForm();
+
+    const onReset = () => {
+
+        form.resetFields();
+        reset({});
+        
+    };
 
     return (
 
         <div className="max-w-2xl">
 
-            <form
-
-            onSubmit={handleSubmit(onSubmit)}
+            <Form
+                form={form}
+                onFinish={handleSubmit(onSubmit)}
             >
-
+                
                 <PessoalDataForm 
                 errors={errors}
                 control={control}
@@ -209,9 +238,10 @@ export const FormContainer = () => {
                     />
                 }    
 
+
                 <div className="flex gap-2 mt-10">
 
-                    <Button.Root className="w-1/3" type="submit">
+                    <Button.Root className="w-1/3">
 
                         <Button.Wrapper>
                             <Button.Content 
@@ -221,7 +251,11 @@ export const FormContainer = () => {
 
                     </Button.Root>
 
-                    <Button.Root className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950" type="reset">
+                    <Button.Root 
+                    className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
+                    type="reset"
+                    onClick={onReset}
+                    >
                         
                         <Button.Wrapper>
 
@@ -235,9 +269,7 @@ export const FormContainer = () => {
 
                 </div>
 
-                </form>
-
-                
+            </Form>
 
             </div>
 

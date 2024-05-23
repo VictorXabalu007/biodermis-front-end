@@ -1,7 +1,7 @@
 
 
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper"
-import { TableHeader } from "../TableHeader/TableHeader"
+import { TableHeader } from "../TableHeader"
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import * as C from '../../../../styles/TableStyles/styles'
 
@@ -50,8 +50,7 @@ export const WithdrawalTable = () => {
             <C.Container>
 
             <C.Table>
-                <thead 
-                className="bg-gray-neutral-200" >
+                <C.Thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <C.EvenRow key={headerGroup.id}>
                             {headerGroup.headers.map((header)=> (
@@ -75,7 +74,7 @@ export const WithdrawalTable = () => {
                             ))}
                         </C.EvenRow>
                     ))}
-                </thead>
+                </C.Thead >
 
                 <tbody>
                     {table.getRowModel().rows.map((row)=> (

@@ -32,7 +32,12 @@ export const useTableData = () => {
             }),
             columnsHelper.accessor('actions', {
                 header: () => <p>Ações</p> ,
-                cell: TableActions 
+                cell: ({row}) => (
+
+                    <TableActions 
+                     data={row.original}
+                    />
+                )
             }),
         ],[]);
 

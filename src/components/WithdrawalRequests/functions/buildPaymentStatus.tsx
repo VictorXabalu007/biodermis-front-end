@@ -1,15 +1,16 @@
 import { IoMdCheckmarkCircleOutline } from "react-icons/io"
 import { Text } from "../../shared/Text"
-import { PaymentStatus } from "../@types/PaymentStatus"
+
 import { WithdrawalActions } from "../components/WithdrawalActions"
+import { PaymentStatusType } from "../components/TableHeader/util/selectOptions"
 
 
 
-export const buildPaymentStatus = (status:PaymentStatus) => {
+export const buildPaymentStatus = (status:PaymentStatusType) => {
 
     switch(status) {
 
-        case 'pago':
+        case 'PAID':
             
             return (
 
@@ -29,7 +30,7 @@ export const buildPaymentStatus = (status:PaymentStatus) => {
 
             )
             
-        case 'efetuar':
+        case 'PENDING':
 
             return (
 

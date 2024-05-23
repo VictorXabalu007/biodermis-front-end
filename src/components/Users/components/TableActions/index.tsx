@@ -1,15 +1,57 @@
 import { AiOutlineExclamationCircle } from "react-icons/ai"
 import { HiOutlinePencilAlt } from "react-icons/hi"
+import { IoMdClose } from "react-icons/io";
+import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+import { Modal } from "antd";
+import { ModalNavigator } from "../Modal/Navigator";
 
 
-export const TableActions = () => {
+export const TableActions = ({data}:any) => {
+
+    const {confirm} = Modal;
+
+
+    const showFormModal = (props: {readOnly: boolean}) => {
+
+        confirm({
+
+            content:<ModalNavigator data={data} isReadonly={props.readOnly} />,
+            okButtonProps: {className: 'hidden'}, 
+            cancelButtonProps: {className: 'hidden'},
+            maskClosable: true,
+            closable: true,
+            centered: true,
+            closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
+            width: 500
+            
+        });
+
+    }
+
+
+    const handleEditClick = () => {
+
+
+        showFormModal({readOnly: false});
+       
+       
+    }
+
+    const handleReadOnlyClick = () => {
+
+        showFormModal({readOnly: true});
+
+       
+    }
+
+
 
     return (
         
-        <div className="flex gap-2 text-xl items-center">
+        <div className="flex gap-2 text-xl items-center justify-center">
 
-            <AiOutlineExclamationCircle className="text-purple-solid-600 hover:text-purple-solid-600/50" />
-            <HiOutlinePencilAlt className="text-purple-solid-600 hover:text-purple-solid-600/50" />
+            <AiOutlineExclamationCircle onClick={handleReadOnlyClick}  className="text-purple-solid-600 hover:text-purple-solid-600/50" />
+            <HiOutlinePencilAlt onClick={handleEditClick} className="text-purple-solid-600 hover:text-purple-solid-600/50" />
 
         </div>
 
