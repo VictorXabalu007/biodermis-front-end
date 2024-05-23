@@ -1,9 +1,9 @@
 
 import { FormProvider, useForm } from "react-hook-form";
-import { useFormRender } from "../../../hooks/useFormRender";
 import { Stepper } from "./components/Stepper"
 import { ConsultorsViewData } from "../../../../Register/RegisterConsultor/components/FormContainer";
-import { FormType } from "../../@types/FormType";
+import { FormType } from "../../../../../@types/FormType/FormType";
+import { useFormRender } from "../../../hooks/useFormRender";
 
 
 export const FormModal = ({isReadonly, data}:FormType) => {

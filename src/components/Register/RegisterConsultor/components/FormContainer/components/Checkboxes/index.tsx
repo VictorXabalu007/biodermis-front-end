@@ -3,7 +3,8 @@ import { RegisterFieldProps } from "../../../../../@types/RegisterFieldsProps";
 import { Controller } from "react-hook-form";
 import {  UserRole } from "../../../../../../../util/UserRole";
 import { Form } from "../../../../../../shared/Form";
-import { ConsultorsData } from "../..";
+import { UserData } from "../..";
+
 
 const items = [
     {   
@@ -28,7 +29,7 @@ const items = [
     },
 ]
 
-export const Checkboxes = ({errors, control}: RegisterFieldProps<ConsultorsData>) => {
+export const Checkboxes = ({errors, control}: RegisterFieldProps<UserData>) => {
 
     return (
 
