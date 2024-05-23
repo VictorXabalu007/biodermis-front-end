@@ -1,6 +1,4 @@
 
-
-
 export const UserStatusType = {
     ENABLE: 'ENABLE',
     DISABLE: 'DISABLE',

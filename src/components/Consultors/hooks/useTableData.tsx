@@ -17,12 +17,19 @@ import { Flex } from "antd";
 const columnHelper = createColumnHelper<UserData>();
 
 export const consultorsData:UserData[] = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
-.filter((d:UserData) => d.userRole === UserRole.CONSULTOR)
+
 
 export const useTableData = () => {
 
-
-    const [data, _] = useState<UserData[]>(consultorsData);
+    
+    const [data, _] = useState<UserData[]>(() => {
+        if (consultorsData && consultorsData.length > 0) {
+            return consultorsData.filter((d: UserData) => d.userRole === UserRole.CONSULTOR);
+        } else {
+            return [];
+        }
+    });
+    
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     
 

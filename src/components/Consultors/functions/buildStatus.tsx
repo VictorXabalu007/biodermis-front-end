@@ -2,12 +2,9 @@ import { UserStatus } from "../../../@types/UserStatus/StatusType";
 import { Tag } from "../../shared/Tag";
 
 
-
-
 export const buildStatus = (status: UserStatus) => {
 
     
-
     switch(status) {
 
         case 'ENABLE':
