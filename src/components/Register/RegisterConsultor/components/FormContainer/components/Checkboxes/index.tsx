@@ -4,40 +4,16 @@ import { Controller } from "react-hook-form";
 import {  UserRole } from "../../../../../../../util/UserRole";
 import { Form } from "../../../../../../shared/Form";
 import { UserData } from "../..";
+import { FormItem } from "../../../../../../shared/Form/FormItem";
 
 
-const items = [
-    {   
-        key: '1',
-        value:UserRole.ADMIN,
-        label: 'Admin'
-    },
-    {   
-        key: '2',
-        value:UserRole.MANAGER,
-        label: 'Gerente'
-    },
-    {   
-        key: '3',
-        value:UserRole.CONSULTOR,
-        label: 'Consultor'
-    },
-    {   
-        key: '4',
-        value:UserRole.STOCK,
-        label: 'Estoque'
-    },
-]
+export const Checkboxes = ({control}: RegisterFieldProps<UserData>) => {
 
-export const Checkboxes = ({errors, control}: RegisterFieldProps<UserData>) => {
+    
 
     return (
 
-        <Radio.Group
-            className="my-10 flex flex-col"
-            defaultValue={"admin"}
-        >
-
+        <div>
 
             <Form.SubHeader 
             heading="Tipo de usuário"
@@ -45,44 +21,57 @@ export const Checkboxes = ({errors, control}: RegisterFieldProps<UserData>) => {
             />
 
             <Controller 
+                defaultValue="admin"
                 control={control}
                 name="userRole"
-                render={({ field }) => (
+                render={({ field:{onChange} }) => (
 
-                    <>
-                    
-                    <Row>
-                        {items.map(item => (
-                            <Col span={6} key={item.key}>
-                                <Radio 
-                                    
-                                    value={item.value} 
-                                    style={{ lineHeight: '32px' }}
-                                    onChange={(e) => {
-                                        
-                                        field.onChange(e.target.value)
-                                    }}
-                                >
-                                    {item.label}
-                                </Radio>
-                            </Col>
-                        ))}
-                    </Row>
+                    <FormItem
+                    name={"userRole"}
+                    >
 
-                    <>
+                          <Radio.Group  
+                          className="my-10 flex flex-col" 
+                          defaultValue={UserRole.ADMIN}>
+
+                            <Row className="gap-10">
+
+                                <Col lg={3} span={3}>
+
+                                <Radio onChange={onChange} value={UserRole.ADMIN}>Admin</Radio>
+
+                                </Col>
+
+                                <Col lg={3}  span={3}>
+                                
+                                <Radio onChange={onChange} value={UserRole.CONSULTOR}>Consultor</Radio>
+
+                                </Col>
+
+                                <Col lg={3}  span={3}>
+
+                                <Radio onChange={onChange} value={UserRole.STOCK}>Estoque</Radio>
+
+                                
+                                </Col>
+
+
+                                <Col lg={3} span={3}>
+
+                                    <Radio onChange={onChange}value={UserRole.MANAGER}>Gerente</Radio>
+                                
+                                </Col>
+
+                            </Row>
+
+
+                        </Radio.Group>
+             
                     
-                    {errors.userRole && (
-                        <p className="text-red-600">
-                            {errors.userRole.message} 
-                        </p>
-                    )}
-                    
-                    </>
-                    
-                    </>
+                    </FormItem>
                 )}
             />
          
-        </Radio.Group>
+         </div>
     );
 }

@@ -17,8 +17,9 @@ import { validateExpireDate } from "../../../../../functions/Validators/Validate
 import { validateCVV } from "../../../../../functions/Validators/ValidateCreditCard/validateCVV";
 import { Form  } from "antd";
 import { PessoalDataForm } from "./components/PessoalDataForm";
-import { USERS_DATA } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { USERS_DATA, USER_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/StatusType";
+import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
 
 
 export const pessoalDataSchema = z.object({
@@ -137,8 +138,13 @@ const userSchema = z.object({
     message: 'Certificado e dados bancários são obrigatórios para consultores'
 });
 
+type Data = z.infer<typeof userSchema>
 
-export type UserData = z.infer<typeof userSchema> & {id: string, status: UserStatus} ;
+export interface UserData extends Data {
+    id: string, 
+    status: UserStatus
+}
+
 
 export const FormContainer = () => {
 
@@ -148,7 +154,13 @@ export const FormContainer = () => {
     });
 
     const [isConsultor, setIsConsultor] = useState(false);
-    const {register,handleSubmit,formState:{errors},reset, control,watch} = useForm<UserData>({
+    const {
+        register,
+        handleSubmit,
+        formState:{errors},
+        reset, 
+        control,
+        watch} = useForm<UserData>({
         
         resolver: zodResolver(userSchema),
         criteriaMode: 'all',
@@ -173,12 +185,7 @@ export const FormContainer = () => {
     },[watch,isConsultor,userRole]);
 
 
-    const [lastId, setLastId] = useState<number>(() => {
-
-        const savedLastId = sessionStorage.getItem('lastId');
-        return savedLastId ? Number(savedLastId) : 0;
-
-    });
+    const {lastId, setLastId} = useSessionId({key: USER_ID})
 
     const onSubmit = (data: UserData) => {
 
@@ -190,7 +197,7 @@ export const FormContainer = () => {
           ...restData };
         setUsers(prevUsers => [...prevUsers, newData]);
         setLastId(newId);
-        sessionStorage.setItem('lastId', newId.toString()); 
+        sessionStorage.setItem(USER_ID, newId.toString()); 
         sessionStorage.setItem(USERS_DATA, JSON.stringify([...users, newData])); 
         console.log(newData);
 
@@ -203,8 +210,8 @@ export const FormContainer = () => {
     const onReset = () => {
 
         form.resetFields();
-        reset({});
-        
+        reset({userRole: UserRole.ADMIN});
+ 
     };
 
     return (
@@ -257,7 +264,7 @@ export const FormContainer = () => {
 
                 <div className="flex gap-2 mt-10">
 
-                    <Button.Root className="w-1/3">
+                    <Button.Root aria-label="submit fields" className="w-1/3">
 
                         <Button.Wrapper>
                             <Button.Content 
@@ -268,6 +275,7 @@ export const FormContainer = () => {
                     </Button.Root>
 
                     <Button.Root 
+                    aria-label="reset fields"
                     className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
                     type="reset"
                     onClick={onReset}

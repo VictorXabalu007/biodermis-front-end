@@ -1,21 +1,33 @@
 import { useMemo, useState } from "react";
-import { Products, productsData } from "../ProductsTable/util/productsData";
 import { createColumnHelper } from "@tanstack/react-table";
-import { NumericFormatter } from "../../../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { Image } from "antd/lib";
 import { Button, Checkbox, Flex, Modal } from "antd";
 import { FaTrash } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from "react-icons/io";
 import styled from "styled-components";
-import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
-import { ButtonWrapper } from "../../style/styles";
+import { BRAND_PURPLE } from "../../../constants/classnames/classnames";
+import { ButtonWrapper } from "../style/styles";
+import { ProductsData } from "../../Register/RegisterProducts/components/FormContainer";
+import { PRODUCTS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 
-const columnHelper = createColumnHelper<Products>();
+const columnHelper = createColumnHelper<ProductsData>();
+
+const productsData: ProductsData[] =
+JSON.parse(sessionStorage.getItem(PRODUCTS_DATA) ?? '{}')
+
 
 export const useTableData = () => {
 
 
-    const [data, setData] = useState(productsData);
+    const [data, setData] = useState<ProductsData[]>(()=> {
+        if (productsData && productsData.length > 0) {
+            return productsData;
+        } else {
+            return [];
+        }
+    });
+
     const { confirm } = Modal;
 
 
@@ -69,18 +81,26 @@ export const useTableData = () => {
             
        
         }),
-        columnHelper.accessor('productImage', {
+        columnHelper.accessor('productsImage', {
             id: 'productImage',
             header: () => <p className="px-2">#</p>,
-            cell: ({getValue}) => (
-
+            cell: ({ getValue }) => (
                 <Flex align="center" justify="center">
-                   <Image width={30} style={{borderRadius: '5px'}}  src={getValue()}  />
+                    {getValue().map((item, index) => (
+                        <div key={index}>
+                            {item.originFileObj && (
+                                <Image
+                                    width={30}
+                                    style={{ borderRadius: '5px' }}
+                                    // src={URL.createObjectURL(item.originFileObj.uid)} 
+                                />
+                            )}
+                        </div>
+                    ))}
                 </Flex>
-
             )
         }),
-        columnHelper.accessor('SKU', {
+        columnHelper.accessor('category', {
             id: 'SKU',
             header: () => <p>SKU</p>,
             cell: ({getValue}) => <p>{getValue()}</p>
@@ -91,10 +111,10 @@ export const useTableData = () => {
             cell: ({getValue}) => <p>{getValue()}</p>,
             enableSorting: true
         }),
-        columnHelper.accessor('price', {
+        columnHelper.accessor('sellPrice', {
             id: 'price',
             header: () => <p>Preço do produto</p>,
-            cell:({getValue}) => <NumericFormatter value={getValue()} />,
+            cell:({getValue}) => <NumericFormatter value={parseFloat(getValue())} />,
             enableSorting: true
         }),
         columnHelper.accessor('category', {
@@ -103,10 +123,10 @@ export const useTableData = () => {
             cell:({getValue}) => <p>{getValue()}</p>,
             enableSorting: false
         }),
-        columnHelper.accessor('totalSold', {
+        columnHelper.display({
             id: 'totalSold',
             header: () => <p>Totais vendidos</p>,
-            cell: ({getValue}) => <p>{getValue()}</p>,
+            cell: () => <p>1000</p>,
             enableSorting: true
         }),
         
@@ -159,7 +179,7 @@ export const useTableData = () => {
                 const handleOk = () => {
 
                     const selectedRowsData = table.getSelectedRowModel().rows.map(row => row.original);
-                    setData(prev => prev.filter(data => !selectedRowsData.some(d => d.key === data.key)));
+                    setData(prev => prev.filter(data => !selectedRowsData.some(d => d.id === data.id)));
                     Modal.destroyAll();
                     
                 }
@@ -201,7 +221,7 @@ export const useTableData = () => {
 
                 const handleOk = () => {
 
-                    setData(prev => prev.filter(data => data.key !== row.original.key))
+                    setData(prev => prev.filter(data => data.id !== row.original.id))
                     Modal.destroyAll();
                     
                 }

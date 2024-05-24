@@ -4,6 +4,7 @@ import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
 import { ProductsData } from "../FormContainer";
 import InputMoney from "../../../../shared/Input/InputNumber";
+import { FormItem } from "../../../../shared/Form/FormItem";
 
 
 
@@ -29,36 +30,40 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                     
                     control={control}
                     name="sellPrice"
-                    render={({field})=> {
+                    render={({field:{value, onChange}})=> {
 
                         return (
                             
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Preço de venda"
-                                className="text-gray-neutral-600"
-                                htmlFor="sellPrice"
-                                
-                                />
-
-                                <InputMoney
-                                    id="sellPrice"
-                                    prefix={"R$"}
-                                    value={parseFloat(field.value)}
-                                    onChange={field.onChange}
-                                    className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                                />
-                                
-
-                                {errors.sellPrice &&
-                                    <small className="text-red-600">
-                                        {errors.sellPrice.message}
-                                    </small>
-
-                                }
+                            <FormItem
+                            name={'sellPrice'}
+                            validateStatus={errors.sellPrice ? 'error' : 'success'}
+                            help={errors.sellPrice && errors.sellPrice.message}
+                            hasFeedback
                             
-                            </Input.Root>
+                            >
+
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Preço de venda"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="sellPrice"
+                                    
+                                    />
+
+                                    <InputMoney
+                                        id="sellPrice"
+                                        prefix={"R$"}
+                                        value={parseFloat(value)}
+                                        onChange={onChange}
+                                        className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                    />
+                                    
+                                
+                                </Input.Root>
+
+
+                            </FormItem>
                         )
                     }}
                     
@@ -71,36 +76,40 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                     
                     control={control}
                     name="minPrice"
-                    render={({field})=> {
+                    render={({field:{value, onChange}})=> {
 
                         return (
-                            
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Preço mínimo"
-                                className="text-gray-neutral-600"
-                                htmlFor="minPrice"
+
+                            <FormItem
+                            name={'minPrice'}
+                            validateStatus={errors.minPrice ? 'error' : 'success'}
+                            help={errors.minPrice && errors.minPrice.message}
+                            hasFeedback
+                            >
+
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Preço mínimo"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="minPrice"
+                                    
+                                    />
+
+                                    <InputMoney
+                                        id="minPrice"
+                                        prefix={"R$"}
+                                        value={parseFloat(value)}
+                                        onChange={onChange}
+                                        className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                    />
+                                    
                                 
-                                />
+                                </Input.Root>
 
-                                <InputMoney
-                                    id="minPrice"
-                                    prefix={"R$"}
-                                    value={parseFloat(field.value)}
-                                    onChange={field.onChange}
-                                    className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                                />
-                                
 
-                                {errors.minPrice &&
-                                    <small className="text-red-600">
-                                        {errors.minPrice.message}
-                                    </small>
-
-                                }
+                            </FormItem>
                             
-                            </Input.Root>
                         )
                     }}
                     
@@ -114,36 +123,41 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                     
                     control={control}
                     name="maxPrice"
-                    render={({field})=> {
+                    render={({field:{onChange, value}})=> {
 
                         return (
+
+                            <FormItem
+                            name={'maxPrice'}
+                            validateStatus={errors.maxPrice ? 'error' : 'success'}
+                            help={errors.maxPrice && errors.maxPrice.message}
+                            hasFeedback
                             
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Preço máximo"
-                                className="text-gray-neutral-600"
-                                htmlFor="maxPrice"
+                            >
                                 
-                                />
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Preço máximo"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="maxPrice"
+                                    
+                                    />
 
-                                <InputMoney
-                                    id="maxPrice"
-                                    prefix={"R$"}
-                                    value={parseFloat(field.value)}
-                                    onChange={field.onChange}
-                                    className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                                />
+                                    <InputMoney
+                                        id="maxPrice"
+                                        prefix={"R$"}
+                                        value={parseFloat(value)}
+                                        onChange={onChange}
+                                        className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                    />
+                                    
                                 
+                                </Input.Root>
 
-                                {errors.maxPrice &&
-                                    <small className="text-red-600">
-                                        {errors.maxPrice.message}
-                                    </small>
 
-                                }
-                            
-                            </Input.Root>
+
+                            </FormItem>
                         )
                     }}
                     
@@ -157,10 +171,19 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                     
                     control={control}
                     name="ficticiousPrice"
-                    render={({field})=> {
+                    render={({field:{onChange, value}})=> {
 
                         return (
+
+                            <FormItem
+                            name={'ficticiousPrice'}
+                            validateStatus={errors.ficticiousPrice ? 'error' : 'success'}
+                            help={errors.ficticiousPrice && errors.ficticiousPrice.message}
+                            hasFeedback
                             
+                            >
+
+
                             <Input.Root>
     
                                 <Input.Label 
@@ -173,20 +196,17 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                                 <InputMoney
                                     id="ficticiousPrice"
                                     prefix={"R$"}
-                                    value={parseFloat(field.value)}
-                                    onChange={field.onChange}
+                                    value={parseFloat(value)}
+                                    onChange={onChange}
                                     className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                                 />
                                 
-
-                                {errors.ficticiousPrice &&
-                                    <small className="text-red-600">
-                                        {errors.ficticiousPrice.message}
-                                    </small>
-
-                                }
                             
                             </Input.Root>
+
+
+                            </FormItem>
+                            
                         )
                     }}
                     

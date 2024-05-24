@@ -7,17 +7,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsDimensionForm } from "../ProductsDimensionForm";
 import { Uploader } from "../Uploader";
 import { ProductsPricesForm } from "../ProductPricesForm";
+import { Form } from "antd";
+import { useRef, useState } from "react";
+import { PRODUCTS_DATA, PRODUCT_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
 
 
 
 const productsImageSchema = z.object({
     productsImage: z.array(z.object({
         name: z.string(), 
-        size: z.number().min(1,'Pelo menos uma imagem é necessária para cadastro'),
+        size: z.number().min(1, 'Pelo menos uma imagem é necessária para cadastro'),
         type: z.string(), 
-    }),{required_error: 'Pelo menos uma imagem deve ser cadastrada'})
-    .refine(val => val.length>0,'Insira pelo menos uma imagem')
-})
+        originFileObj: z.object({
+            uid: z.string(),
+          
+  
+        }),
+    }), { required_error: 'Pelo menos uma imagem deve ser cadastrada' })
+    .refine(val => val.length > 0, 'Insira pelo menos uma imagem')
+});
 
 const productsDescriptionsSchema = z.object({
     productName : z.string({required_error: 'Nome do produto é necessário para o cadastro'})
@@ -61,27 +70,64 @@ const productsSchema = z.object({
 
 });
 
-export type ProductsData = z.infer<typeof productsSchema>
+type Data = z.infer<typeof productsSchema>;
+
+export interface ProductsData extends Data {
+    id: string
+}
 
 export const FormContainer = () => {
 
+
+    const [products, setProducts] = useState<ProductsData[]>(()=> {
+        const storedProducts = sessionStorage.getItem(PRODUCTS_DATA);
+        return storedProducts ? JSON.parse(storedProducts) : [];
+    });
     
-    const {formState:{errors},handleSubmit,control} = useForm<ProductsData>({
+    const {formState:{errors},handleSubmit,control, reset} = useForm<ProductsData>({
         resolver: zodResolver(productsSchema),
         criteriaMode: 'all',
         mode: 'all'
     });
 
+    const {lastId, setLastId} = useSessionId({key: PRODUCT_ID})
+
     const onSubmit = (data:ProductsData) => {
 
-        console.log(data);
+        const { id, ...restData } = data;
+        const newId = lastId + 1;
+        const newData = { 
+          id: newId.toString(), 
+          ...restData };
+        setProducts(prevProducts => [...prevProducts, newData]);
+        setLastId(newId);
+        sessionStorage.setItem(PRODUCT_ID, newId.toString()); 
+        sessionStorage.setItem(PRODUCTS_DATA, JSON.stringify([...products, newData])); 
+        console.log(newData);
         
     }
+
+    const [form] = Form.useForm();
+
+    const uploaderRef = useRef<any>();
+    
+
+    const onReset = () => {
+
+        form.resetFields();
+        reset({});
+        if (uploaderRef.current) {
+            uploaderRef.current.resetFiles();
+        }
+        
+    };
+
     
     return (
 
-        <form
-        onSubmit={handleSubmit(onSubmit)}
+        <Form
+        form={form}
+        onFinish={handleSubmit(onSubmit)}
         className="w-full"
         >   
 
@@ -106,6 +152,7 @@ export const FormContainer = () => {
                 <div className="w-full">
 
                     <Uploader 
+                        ref={uploaderRef}
                         errors={errors}
                         control={control}
                     />
@@ -120,7 +167,9 @@ export const FormContainer = () => {
 
                     <Button.Root 
                     className="w-1/3" 
-                    type="submit">
+                    type="submit"
+                    aria-label="submit fields"
+                    >
 
                         <Button.Wrapper>
                             <Button.Content 
@@ -133,6 +182,8 @@ export const FormContainer = () => {
                     <Button.Root 
                         className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
                         type="reset"
+                        onClick={onReset}
+                        aria-label="reset fields"
                     >
                         
                         <Button.Wrapper>
@@ -155,7 +206,7 @@ export const FormContainer = () => {
             </div>
 
 
-        </form>
+        </Form>
     )
 
 }

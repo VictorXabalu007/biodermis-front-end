@@ -3,6 +3,7 @@ import { Form } from "../../../../shared/Form";
 import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
 import { ProductsData } from "../FormContainer";
+import { FormItem } from "../../../../shared/Form/FormItem";
 
 
 
@@ -26,35 +27,37 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                     
                     control={control}
                     name="weight"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Peso"
-                                className="text-gray-neutral-600"
-                                htmlFor="weight"
+
+                            <FormItem
+                            name={'weight'}
+                            validateStatus={errors.weight ? 'error' : 'success'}
+                            help={errors.weight && errors.weight.message}
+                            hasFeedback
+                            >
+
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Peso"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="weight"
+                                    
+                                    />
+
+                                    <Input.System 
+                                    placeholder="ex: 10kg"
+                                    id="weight"
+                                    onChange={onChange}
+
+                                    />
                                 
-                                />
+                                </Input.Root>
 
-                                <Input.System 
-                                placeholder="ex: 10kg"
-                                id="weight"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
 
-                                />
-
-                                {errors.weight &&
-                                    <small className="text-red-600">
-                                        {errors.weight.message}
-                                    </small>
-
-                                }
-                            
-                            </Input.Root>
+                            </FormItem>
                         )
                     }}
                     
@@ -68,35 +71,34 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                     
                     control={control}
                     name="height"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Altura"
-                                className="text-gray-neutral-600"
-                                htmlFor="height"
-                                
-                                />
+                            <FormItem
+                            name={'height'}
+                            validateStatus={errors.height ? 'error' : 'success'}
+                            help={errors.height && errors.height.message}
+                            hasFeedback
+                            >
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Altura"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="height"
+                                    
+                                    />
 
-                                <Input.System 
-                                placeholder="ex: 10cm"
-                                id="height"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
+                                    <Input.System 
+                                    placeholder="ex: 10cm"
+                                    id="height"
+                                    onChange={onChange}
 
-                                />
+                                    />
+                                </Input.Root>
 
-                                {errors.height &&
-                                    <small className="text-red-600">
-                                        {errors.height.message}
-                                    </small>
 
-                                }
-                            
-                            </Input.Root>
+                            </FormItem>
                         )
                     }}
                     
@@ -110,35 +112,37 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                     
                     control={control}
                     name="width"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Largura"
-                                className="text-gray-neutral-600"
-                                htmlFor="width"
-                                
-                                />
 
-                                <Input.System 
-                                placeholder="ex: 10cm"
-                                id="width"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
+                            <FormItem
+                            name={'width'}
+                            validateStatus={errors.width ? 'error' : 'success'}
+                            help={errors.width && errors.width.message}
+                            hasFeedback
+                            >
 
-                                />
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Largura"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="width"
+                                    
+                                    />
 
-                                {errors.width &&
-                                    <small className="text-red-600">
-                                        {errors.width.message}
-                                    </small>
+                                    <Input.System 
+                                    placeholder="ex: 10cm"
+                                    id="width"
+                                    onChange={onChange}
 
-                                }
-                            
-                            </Input.Root>
+                                    />
+
+                                </Input.Root>
+
+
+                            </FormItem>
                         )
                     }}
                     
@@ -152,35 +156,38 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                     
                     control={control}
                     name="depth"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Profundidade"
-                                className="text-gray-neutral-600"
-                                htmlFor="depth"
-                                
-                                />
 
-                                <Input.System 
-                                placeholder="ex: 10cm"
-                                id="depth"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
-
-                                />
-
-                                {errors.depth &&
-                                    <small className="text-red-600">
-                                        {errors.depth.message}
-                                    </small>
-
-                                }
+                            <FormItem
+                            name={'depth'}
+                            validateStatus={errors.depth ? 'error' : 'success'}
+                            help={errors.depth && errors.depth.message}
+                            hasFeedback
                             
-                            </Input.Root>
+                            >
+
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Profundidade"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="depth"
+                                    
+                                    />
+
+                                    <Input.System 
+                                    placeholder="ex: 10cm"
+                                    id="depth"
+                                    onChange={onChange}
+
+                                    />
+ 
+                                </Input.Root>
+
+
+                            </FormItem>
                         )
                     }}
                     

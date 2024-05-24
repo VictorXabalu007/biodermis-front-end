@@ -4,11 +4,11 @@ import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
 import { ProductsData } from "../FormContainer";
 import TextArea from "antd/es/input/TextArea";
+import { FormItem } from "../../../../shared/Form/FormItem";
 
 
 
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
-
 
     return (
 
@@ -29,35 +29,36 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                     
                     control={control}
                     name="productName"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Nome do produto"
-                                className="text-gray-neutral-600"
-                                htmlFor="productName"
+
+                            <FormItem
+                            name={'productName'}
+                            validateStatus={errors.productName ? 'error' : 'success'}
+                            help={errors.productName && errors.productName.message}
+                            hasFeedback
+                            >
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Nome do produto"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="productName"
+                                    
+                                    />
+
+                                    <Input.System 
+                                    placeholder="ex: Filtro solar"
+                                    id="productName"
+                                    onChange={onChange}
+
+                                    />
+
                                 
-                                />
+                                </Input.Root>
 
-                                <Input.System 
-                                placeholder="ex: Filtro solar"
-                                id="productName"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
-
-                                />
-
-                                {errors.productName &&
-                                    <small className="text-red-600">
-                                        {errors.productName.message}
-                                    </small>
-
-                                }
-                            
-                            </Input.Root>
+                            </FormItem>
                         )
                     }}
                     
@@ -71,35 +72,36 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                     
                     control={control}
                     name="category"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Categoria"
-                                className="text-gray-neutral-600"
-                                htmlFor="category"
-                                
-                                />
 
-                                <Input.System 
-                                placeholder="ex: Cosmetico"
-                                id="category"
-                                onChange={(e)=> {
-                                    field.onChange(e.target.value)
-                                }}
+                            <FormItem
+                            name={'category'}
+                            validateStatus={errors.category ? 'error' : 'success'}
+                            help={errors.category && errors.category.message}
+                            hasFeedback
+                            >
 
-                                />
+                                <Input.Root>
+        
+                                    <Input.Label 
+                                    content="Categoria"
+                                    className="text-gray-neutral-600"
+                                    htmlFor="category"
+                                    
+                                    />
 
-                                {errors.category &&
-                                    <small className="text-red-600">
-                                        {errors.category.message}
-                                    </small>
+                                    <Input.System 
+                                    placeholder="ex: Cosmetico"
+                                    id="category"
+                                    onChange={onChange}
 
-                                }
-                            
-                            </Input.Root>
+                                    />
+
+                                </Input.Root>
+
+                            </FormItem>
                         )
                     }}
                     
@@ -113,11 +115,17 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                     
                     control={control}
                     name="description"
-                    render={({field})=> {
+                    render={({field:{onChange}})=> {
 
                         return (
 
-                            <>
+                            <FormItem
+                            name={'description'}
+                            validateStatus={errors.description ? 'error' : 'success'}
+                            help={errors.description && errors.description.message}
+                            hasFeedback
+                            >
+
 
                             <label
                             htmlFor="description"
@@ -128,21 +136,12 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                             <TextArea 
                             placeholder="Produto com..."
                             rows={4} 
-                            onChange={(e)=>{
-                                field.onChange(e.target.value)
-                            }}
+                            onChange={onChange}
                             id="description"
                             />
 
-                               
-                                {errors.description &&
-
-                                    <small className="text-red-600">
-                                        {errors.description.message}
-                                    </small>
-
-                                }
-                            </>
+                            
+                            </FormItem>
             
                          
                         )
@@ -155,7 +154,6 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
 
 
             </Form.Group>
-
 
 
         </Form.GroupWrapper>

@@ -5,7 +5,7 @@ import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableFilter } from "../TableFilter/TableFilter";
 import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
-import { useTableData } from "../hooks/useTableData";
+import { useTableData } from "../../hooks/useTableData";
 import { TableHeader } from "./components/TableHeader";
 import { Pagination } from "../../../shared/Pagination";
 import { ProductView } from "./components/ProductDescription";

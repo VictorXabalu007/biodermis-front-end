@@ -16,8 +16,8 @@ import { Flex } from "antd";
 
 const columnHelper = createColumnHelper<UserData>();
 
-export const consultorsData:UserData[] = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
-
+export const consultorsData:UserData[] = 
+JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
