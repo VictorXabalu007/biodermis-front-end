@@ -3,20 +3,15 @@ import { Form } from "../../../../../shared/Form";
 import { Input } from "../../../../../shared/Input/Input";
 import { InputRoot } from "../../../../../shared/Input/Input/InputRoot";
 import InputMoney from "../../../../../shared/Input/InputNumber";
-import { Products } from "../../util/productsData";
 
 import { ProductImage } from "../ProductImage";
 import React, { useRef, useState } from "react";
-import { Row, Table } from "@tanstack/react-table";
 import { ProductsData } from "../../../../../Register/RegisterProducts/components/FormContainer";
+import { TableActionsProps } from "../../../../../../@types/TableActions/TableActions";
 
 
 
-type ProductsViewProps = {
-  data:ProductsData;
-  row:Row<Products>,
-  table:Table<Products>;
-}
+
 
 type ProductsViewFields = {
 
@@ -33,7 +28,7 @@ type ProductsViewFields = {
 
 }
 
-export const ProductView = ({data, row, table}: ProductsViewProps) => {
+export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>) => {
 
   
   const [isEditable, setIsEditable] = useState<boolean>(false);

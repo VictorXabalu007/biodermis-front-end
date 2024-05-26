@@ -1,5 +1,4 @@
 
-import {  Products } from "./util/productsData";
 import { useState } from "react";
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableFilter } from "../TableFilter/TableFilter";
@@ -9,6 +8,7 @@ import { useTableData } from "../../hooks/useTableData";
 import { TableHeader } from "./components/TableHeader";
 import { Pagination } from "../../../shared/Pagination";
 import { ProductView } from "./components/ProductDescription";
+import { ProductsData } from "../../../Register/RegisterProducts/components/FormContainer";
 
 
 export const ProductsTable = () => {
@@ -16,7 +16,7 @@ export const ProductsTable = () => {
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const {data, columns, setData} = useTableData();
 
-    const table = useReactTable<Products>({
+    const table = useReactTable<ProductsData>({
 
         data,
         columns,
@@ -98,7 +98,7 @@ export const ProductsTable = () => {
                     </tbody>
                 </C.Table>
 
-                <Pagination<Products> table={table} />
+                <Pagination<ProductsData> table={table} />
     
                 </C.Container>
 

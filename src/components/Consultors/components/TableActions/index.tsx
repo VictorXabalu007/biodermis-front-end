@@ -9,7 +9,6 @@ import './styles.css'
 import { ModalNavigator } from "../Modal/Navigator";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { ConsultorsData } from "../../hooks/useTableData";
-import { Row, Table } from "@tanstack/react-table";
 import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
 
 
@@ -26,6 +25,7 @@ export const TableActions = ({data, row, table}:TableActionsProps<ConsultorsData
         confirm({
 
             content:<ModalNavigator 
+                onSubmit={()=> {}}
                 data={data} 
                 isReadonly={props.readOnly} 
                 table={table}

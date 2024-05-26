@@ -1,14 +1,14 @@
 import { Header, flexRender } from "@tanstack/react-table";
-import { Products } from "../../util/productsData";
 import * as C from '../../../../../../styles/TableStyles/styles'
 import { Button, Dropdown , Flex,  MenuProps} from "antd";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { ProductsData } from "../../../../../Register/RegisterProducts/components/FormContainer";
 
 
 
 
 
-export const TableHeader = ({header}:{header: Header<Products, unknown>}) => {
+export const TableHeader = ({header}:{header: Header<ProductsData, unknown>}) => {
 
     const isSorted = header.column.getIsSorted();
 

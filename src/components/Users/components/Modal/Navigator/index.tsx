@@ -8,6 +8,7 @@ import { UserImage } from "../../../../shared/Image/UserImage";
 import { FormModal } from "../Form";
 import { InovicingModal } from "../Invoicing";
 import { FormType } from "../../../../../@types/FormType/FormType";
+import { UserData } from "../../../../Register/RegisterConsultor/components/FormContainer";
 
 // type NavigatorHeaderProps = {
 
@@ -23,6 +24,7 @@ export const ModalNavigator = ({data, isReadonly, table, row}:FormType<UserData>
         switch(key){
             case '1':
                 return <FormModal 
+                onSubmit={()=> {}}
                 data={data}
                 isReadonly={isReadonly} 
                 table={table}
