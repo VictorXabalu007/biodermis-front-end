@@ -104,17 +104,18 @@ export const bankDataChema = z.object({
     bank: z.string({required_error:'Banco é obrigatório para cadastro'})
     .min(1,'Banco é obrigatório para o cadastro'),
 
-});
+})
 
-const consultorsViewSchema = z.object({
+export const consultorsViewSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
     ...bankDataChema.shape,
 })
 
+export type BankData = z.infer<typeof bankDataChema>;
 export type ConsultorsViewData = z.infer<typeof consultorsViewSchema>;
 
-const userSchema = z.object({
+export const userSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
     userRole: z.string().optional(),

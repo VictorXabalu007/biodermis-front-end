@@ -21,7 +21,7 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
       
 
     const handleUserTypeChange = (type: {value:string, label:string}| null) => {
-        onFilterChange('userType',type?.value);
+        onFilterChange('userRole',type?.value);
     }
 
     const navigate = useNavigate();

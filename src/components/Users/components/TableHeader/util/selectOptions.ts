@@ -1,22 +1,27 @@
+import { UserRole } from "../../../../../util/UserRole";
 
 
-export const UserTypeRole = {
-    USER: 'Usuário',
-    CONSULTOR: 'Consultor',
-    ALL: ''
-} as const;
+
 
 export const userSelectOptions = [
     {
-        value: UserTypeRole.ALL,
+        value: '',
         label: 'Tipo: Todos'
     },
     {
-        value: UserTypeRole.USER,
-        label: 'Tipo: Usuário'
+        value: UserRole.ADMIN,
+        label: 'Tipo: Admin'
     },
     {
-        value: UserTypeRole.CONSULTOR,
+        value: UserRole.CONSULTOR,
         label: 'Tipo: Consultor'
+    },
+    {
+        value: UserRole.STOCK,
+        label: 'Tipo: Estoque'
+    },
+    {
+        value: UserRole.MANAGER,
+        label: 'Tipo: Gerente'
     },
 ]

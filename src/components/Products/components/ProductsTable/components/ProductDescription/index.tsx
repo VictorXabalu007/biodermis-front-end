@@ -8,11 +8,12 @@ import { Products } from "../../util/productsData";
 import { ProductImage } from "../ProductImage";
 import React, { useRef, useState } from "react";
 import { Row, Table } from "@tanstack/react-table";
+import { ProductsData } from "../../../../../Register/RegisterProducts/components/FormContainer";
 
 
 
 type ProductsViewProps = {
-  data:Products;
+  data:ProductsData;
   row:Row<Products>,
   table:Table<Products>;
 }
@@ -20,7 +21,7 @@ type ProductsViewProps = {
 type ProductsViewFields = {
 
   productName: string;
-  price: number;
+  sellPrice: number;
   weight: string;
   totalSold: string;
   height: string;
@@ -34,7 +35,7 @@ type ProductsViewFields = {
 
 export const ProductView = ({data, row, table}: ProductsViewProps) => {
 
-
+  
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const productNameRef = useRef<HTMLInputElement>(null);
 
@@ -44,14 +45,14 @@ export const ProductView = ({data, row, table}: ProductsViewProps) => {
 
   const initialFields = {
     productName: data.productName,
-    price: data.price,
-    weight: "10kg",
-    totalSold: data.totalSold,
-    height: "10cm",
-    fakePrice: 150,
-    width: "10cm",
-    depth: "10cm",
-    maxPrice: 100,
+    sellPrice: parseFloat(data.sellPrice),
+    weight: data.weight,
+    totalSold: "100",
+    height: data.height,
+    fakePrice: parseFloat(data.ficticiousPrice),
+    width: data.width,
+    depth: data.depth,
+    maxPrice: parseFloat(data.maxPrice),
     category: data.category,
   };
 
@@ -149,7 +150,7 @@ export const ProductView = ({data, row, table}: ProductsViewProps) => {
           <Controller 
             
             control={control}
-            name="price"
+            name="sellPrice"
             render={({field})=> (
 
             <Form.InputWrapper>
@@ -161,16 +162,16 @@ export const ProductView = ({data, row, table}: ProductsViewProps) => {
 
                 <InputMoney
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.price}
+                  value={fields.sellPrice}
                   onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                     setFields(prev => ({
                       ...prev,
-                      price: parseFloat(e.target.value)
+                      sellPrice: parseFloat(e.target.value)
                     }));
                     field.onChange(e.target.value)
                   }}
                   prefix={"R$"}
-                  onBlur={handleBlur('price')}
+                  onBlur={handleBlur('sellPrice')}
                   readOnly={!isEditable}
 
                 

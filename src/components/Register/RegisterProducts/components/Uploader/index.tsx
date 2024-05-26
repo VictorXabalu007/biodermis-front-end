@@ -45,7 +45,7 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
       const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
         setFileList(newFileList);
       };
-
+      
     
       const onPreview = async (file: UploadFile) => {
         let src = file.url as string;
@@ -63,10 +63,12 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
         
       };
 
-      useImperativeHandle(ref, () => ({
-        resetFiles: () => setFileList([]),
-      }));
+      
 
+
+    useImperativeHandle(ref, () => ({
+      resetFiles: () => setFileList([]),
+    }));
 
 
 

@@ -16,13 +16,18 @@ import { FormType } from "../../../../../@types/FormType/FormType";
 // }
 
 
-export const ModalNavigator = ({data, isReadonly}:FormType) => {
+export const ModalNavigator = ({data, isReadonly, table, row}:FormType<UserData>) => {
 
     const render = (key: string, isReadonly?:boolean) => {
 
         switch(key){
             case '1':
-                return <FormModal data={data} isReadonly={isReadonly} />
+                return <FormModal 
+                data={data}
+                isReadonly={isReadonly} 
+                table={table}
+                row={row}
+               />
             case '2':
                 return <InovicingModal />
         }

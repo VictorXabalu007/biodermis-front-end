@@ -4,16 +4,18 @@ import { TableHeader } from "../TableHeader";
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
 import { Pagination } from "../../../shared/Pagination";
-import { UserData } from "../../../Register/RegisterConsultor/components/FormContainer";
-import { useTableData } from "../../hooks/useTableData";
+import { ConsultorsData, useTableData } from "../../hooks/useTableData";
+import { useEffect } from "react";
+import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { UserRole } from "../../../../util/UserRole";
 
 
 
 export const ConsultorsTable = () => {
 
-    const {data, columns, columnFilters, setColumnFilters} = useTableData();
+    const {data, columns, columnFilters, setColumnFilters, setData} = useTableData();
 
-    const table = useReactTable<UserData>({
+    const table = useReactTable<ConsultorsData>({
         data,
         columns,
         debugTable: true,
@@ -24,8 +26,37 @@ export const ConsultorsTable = () => {
         columnResizeMode: 'onChange',
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        meta: {
+            updateData: (rowIndex:number, data:any) => setData(
+                prev => prev.map((row,index) => 
+                    index === rowIndex ? {
+                        ...prev[rowIndex],
+                        ...data
+                    } : row
+                )
+            )
+        }
 
     });
+
+    useEffect(() => {
+
+        const usersData = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '[]');
+
+        if (Array.isArray(usersData) && usersData.length > 0) {
+
+            const updatedUsersData = usersData.map(user => {
+                if (user.userRole === UserRole.CONSULTOR) {
+                    const updatedConsultor = data.find(d => d.id === user.id);
+                    return updatedConsultor ? { ...user, ...updatedConsultor } : user;
+                }
+                return user;
+            });
+
+            sessionStorage.setItem(USERS_DATA, JSON.stringify(updatedUsersData));
+        }
+
+    }, [data]);
 
 
     return (

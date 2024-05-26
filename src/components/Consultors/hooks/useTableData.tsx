@@ -14,40 +14,57 @@ import { UserData } from "../../Register/RegisterConsultor/components/FormContai
 import { Flex } from "antd";
 
 
-const columnHelper = createColumnHelper<UserData>();
+export interface ConsultorsData extends UserData {
+    totalFatured: number
+    rank: string
+    bankData: UserData['bankData'];
+}
 
-export const consultorsData:UserData[] = 
+const columnHelper = createColumnHelper<ConsultorsData>();
+
+export const consultorsData:ConsultorsData[] = 
 JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
-    
-    const [data, _] = useState<UserData[]>(() => {
+    const [data, setData] = useState<ConsultorsData[]>(() => {
         if (consultorsData && consultorsData.length > 0) {
-            return consultorsData.filter((d: UserData) => d.userRole === UserRole.CONSULTOR);
+            const sortedData = consultorsData
+                .filter((d: UserData) => d.userRole === UserRole.CONSULTOR)
+                .map(d => ({
+                    ...d,
+                    totalFatured: Math.floor(Math.random() * 12000),
+                }))
+                .sort((a, b) => b.totalFatured - a.totalFatured);
+    
+            return sortedData.map((d, index) => ({
+                ...d,
+                rank: String(index + 1),
+            }));
         } else {
             return [];
         }
     });
+    
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     
 
     const columns = useMemo(() => [
 
-        columnHelper.accessor('id', {
+        columnHelper.accessor('rank', {
             header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
-            cell: (cell) => {
+            cell: ({getValue}) => {
     
                 return (
     
-                        cell.getValue() === '1' || cell.getValue() === '2' || cell.getValue() === '3' ?
-                        (buildPodium(cell.getValue())) : (
+                        getValue() === '1' || getValue() === '2' || getValue() === '3' ?
+                        (buildPodium(getValue())) : (
     
                         <Flex gap={2} align="center" className="px-2">
     
                             <Text.Root className="text-purple-solid-950">
-                                <Text.Content content={cell.getValue()} />
+                                <Text.Content content={getValue()} />
                             </Text.Root>
     
                             <IoIosArrowUp className="text-lg text-green-flat" />
@@ -71,12 +88,12 @@ export const useTableData = () => {
             header: () => <p>Telefone</p>,
             cell: (phone) => <p> {phone.getValue()} </p>
         }),
-        columnHelper.display({
+        columnHelper.accessor('totalFatured',{
             id: 'totalFatured',
             header: () => <Flex gap={2} justify="center">Total faturado <ArrowUpDownIcon /></Flex>,
-            cell: () => (
+            cell: ({getValue}) => (
                     <NumericFormatter
-                        value={1500}
+                        value={getValue()}
                     />
                 )
         }),
@@ -90,12 +107,15 @@ export const useTableData = () => {
         columnHelper.display({
             id: 'actions',
             header: () => <p >Ações</p>,
-            cell: ({row}) => {
+            cell: ({row, table}) => {
                 
                 return (
 
                     <TableActions
+
                         data={row.original}
+                        table={table}
+                        row={row}
                         
                     />
 
@@ -110,6 +130,7 @@ export const useTableData = () => {
         data,
         columns,
         columnFilters,
+        setData,
         setColumnFilters
     }
 }

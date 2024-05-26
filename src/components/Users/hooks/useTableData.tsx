@@ -1,16 +1,25 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { Users, usersData } from "../components/UsersTable/util/usersData";
 import { useMemo, useState } from "react";
 import { TableActions } from "../components/TableActions";
 import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
+import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
+import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { getUser } from "../../../util/UserRole";
 
 
-const columnsHelper = createColumnHelper<Users>();
+const columnsHelper = createColumnHelper<UserData>();
+
+export const userData:UserData[] = 
+JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
-    const [data, _] = useState(usersData);
+    const [data, setData] = useState<UserData[]>(()=> {
+
+        return Array.isArray(userData) ? userData : []
+
+    });
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(()=>[
@@ -26,16 +35,20 @@ export const useTableData = () => {
                 header: () => <p>Telefone</p> ,
                 cell: (phone) => <p>{phone.getValue()}</p>
             }),
-            columnsHelper.accessor('userType', {
+            columnsHelper.accessor('userRole', {
                 header: () => <p>Tipo</p> ,
-                cell: (userType) => <p>{userType.getValue()}</p>
+                cell: ({getValue}) => <p>{getUser(getValue())}</p>
             }),
-            columnsHelper.accessor('actions', {
+            columnsHelper.display({
+                id: 'actions',
                 header: () => <p>Ações</p> ,
-                cell: ({row}) => (
+                cell: ({row,table}) => (
 
                     <TableActions 
                      data={row.original}
+                     row={row}
+                     table={table}
+
                     />
                 )
             }),
@@ -45,7 +58,8 @@ export const useTableData = () => {
             data,
             columns,
             columnFilters,
-            setColumnFilters
+            setColumnFilters,
+            setData
         }
 
 

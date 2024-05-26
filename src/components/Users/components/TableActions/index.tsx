@@ -4,9 +4,11 @@ import { IoMdClose } from "react-icons/io";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { Modal } from "antd";
 import { ModalNavigator } from "../Modal/Navigator";
+import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
+import { UserData } from "../../../Register/RegisterConsultor/components/FormContainer";
 
 
-export const TableActions = ({data}:any) => {
+export const TableActions = ({data, table, row}:TableActionsProps<UserData>) => {
 
     const {confirm} = Modal;
 
@@ -15,7 +17,12 @@ export const TableActions = ({data}:any) => {
 
         confirm({
 
-            content:<ModalNavigator data={data} isReadonly={props.readOnly} />,
+            content:<ModalNavigator 
+            data={data} 
+            isReadonly={props.readOnly}
+            table={table}
+            row={row}
+            />,
             okButtonProps: {className: 'hidden'}, 
             cancelButtonProps: {className: 'hidden'},
             maskClosable: true,

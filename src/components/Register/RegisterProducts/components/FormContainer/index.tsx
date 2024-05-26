@@ -21,7 +21,6 @@ const productsImageSchema = z.object({
         type: z.string(), 
         originFileObj: z.object({
             uid: z.string(),
-          
   
         }),
     }), { required_error: 'Pelo menos uma imagem deve ser cadastrada' })
@@ -73,7 +72,8 @@ const productsSchema = z.object({
 type Data = z.infer<typeof productsSchema>;
 
 export interface ProductsData extends Data {
-    id: string
+    id: string,
+
 }
 
 export const FormContainer = () => {
@@ -92,7 +92,8 @@ export const FormContainer = () => {
 
     const {lastId, setLastId} = useSessionId({key: PRODUCT_ID})
 
-    const onSubmit = (data:ProductsData) => {
+
+    const  onSubmit = async (data:ProductsData) => {
 
         const { id, ...restData } = data;
         const newId = lastId + 1;
@@ -152,6 +153,7 @@ export const FormContainer = () => {
                 <div className="w-full">
 
                     <Uploader 
+                        
                         ref={uploaderRef}
                         errors={errors}
                         control={control}

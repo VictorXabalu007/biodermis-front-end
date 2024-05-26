@@ -8,12 +8,16 @@ import './styles.css'
 
 import { ModalNavigator } from "../Modal/Navigator";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+import { ConsultorsData } from "../../hooks/useTableData";
+import { Row, Table } from "@tanstack/react-table";
+import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
 
 
 
-export const TableActions = ({data}:any) => {
 
+export const TableActions = ({data, row, table}:TableActionsProps<ConsultorsData>) => {
 
+    
     const {confirm} = Modal;
 
 
@@ -21,7 +25,12 @@ export const TableActions = ({data}:any) => {
 
         confirm({
 
-            content:<ModalNavigator data={data} isReadonly={props.readOnly} />,
+            content:<ModalNavigator 
+                data={data} 
+                isReadonly={props.readOnly} 
+                table={table}
+                row={row}
+            />,
             okButtonProps: {className: 'hidden'}, 
             cancelButtonProps: {className: 'hidden'},
             maskClosable: true,

@@ -2,111 +2,179 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Input } from "../../../../../../shared/Input/Input";
 import { PatternFormat } from "react-number-format";
-
+import { FormType } from "../../../../../../../@types/FormType/FormType";
 import { Flex } from "antd";
 import { Button } from "../../../../../../shared/Button";
-import { FormType } from "../../../../../../../@types/FormType/FormType";
+import { useFieldChange } from "../../../../../../../hooks/useFieldChange/useFieldChange";
+import { FormItem } from "../../../../../../shared/Form/FormItem";
+import { Form } from "../../../../../../shared/Form";
+import { UserData } from "../../../../../../Register/RegisterConsultor/components/FormContainer";
 
 
-export const FormStep1 = ({isReadonly}:FormType) => {
 
-    const { control } = useFormContext();
+
+
+export const FormStep1 = ({isReadonly, data, onSubmit}:FormType<UserData>) => {
+
+    const { control, handleSubmit, formState:{errors} } = useFormContext<UserData>();
+
+    const {
+        fields,
+        handleChange
+    } = useFieldChange<UserData>({data});
+    
 
     return (
             
 
-        <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
 
             <Flex gap={10} className="mt-5 flex-col">
 
                 <Controller 
                 name="name"
                 control={control}
-                render={({field:{onChange, value}})=> (
-
-                <Input.Root>
+                rules={{required: true}}
+                render={({field:{onChange, name}})=> (
                 
-                    <Input.Label 
-                    className="text-gray-neutral-400"
-                    content="Nome"
-                    htmlFor="name"
-                    />
-                    <Input.System
-                    placeholder={'name...'}
-                    id="name"
-                    onChange={onChange}
-                    value={value}
-                    onBlur={() => console.log(value)}
-                    readOnly={isReadonly}
-                    />
+                    <FormItem
+                    name="name"
+                    validateStatus={errors.name ? 'error' : 'success'}
+                    help={errors.name && errors.name.message}
+                    hasFeedback
+                    >
 
-                </Input.Root>
+                        <Input.Root>
+                        
+                            <Input.Label 
+                            className="text-gray-neutral-400"
+                            content="Nome"
+                            htmlFor="name"
+                            />
+                            <Input.System
+                            placeholder={'name...'}
+                            id="name"
+                            onChange={(e)=> {
+                                handleChange(name,e)
+                                onChange(e.target.value)
+                            }}
+                            value={fields.name}
+                            readOnly={isReadonly}
+                            />
+
+                        </Input.Root>
+
+                    </FormItem>
 
                 )}
                 />
 
 
-            <Flex gap={10}>
+            <Flex justify="space-between" gap={10}>
 
                 <Controller 
                 name="cpf"
                 control={control}
-                render={({field:{onChange, value}})=> (
+                rules={{required: true}}
+                render={({field:{onChange, name}})=> (
 
-                    <Input.Root className="w-full">
-                        
-                        <Input.Label 
-                        className="text-gray-neutral-400"
-                        content="CPF"
-                        htmlFor="cpf"
-                        />
+                    <FormItem
+                    className="w-full"
+                    name="cpf"
+                    validateStatus={errors.cpf ? 'error' : 'success'}
+                    help={errors.cpf && errors.cpf.message}
+                    hasFeedback
+                    >
 
-                         <PatternFormat
+                        <Form.InputWrapper>
 
-                        format="###.###.###-##" 
-                        allowEmptyFormatting 
-                        mask="_" 
-                        className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                        onChange={onChange}
-                        value={value}
-                        readOnly={isReadonly}
-                        
-                        
-                        />
+                            <Input.Root className="w-full">
+                                
+                                <Input.Label 
+                                className="text-gray-neutral-400"
+                                content="CPF"
+                                htmlFor="cpf"
+                                />
 
-                    </Input.Root>
+                                <PatternFormat
+
+                                format="###.###.###-##" 
+                                allowEmptyFormatting 
+                                mask="_" 
+                                className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                onChange={(e)=> {
+                                    handleChange(name,e);
+                                    onChange(e.target.value);
+                                }}
+                                value={fields.cpf}
+                                readOnly={isReadonly}
+                                
+                                
+                                />
+
+                            </Input.Root>
+
+
+                        </Form.InputWrapper>
+
+
+
+
+                    </FormItem>
 
                 )}
                 
                 />
 
                 <Controller 
+                rules={{required: true}}
                 control={control}
                 name="phone"
-                render={({field:{onChange, value}})=> (
+                render={({field:{onChange, name}})=> (
 
-                    <Input.Root  className="w-full">
-                        
-                        <Input.Label 
-                        className="text-gray-neutral-400"
-                        content="Telefone"
-                        htmlFor="phone"
-                        />
+                    <FormItem
+                    className="w-full"
+                    name="phone"
+                    validateStatus={errors.phone ? 'error' : 'success'}
+                    help={errors.phone && errors.phone.message}
+                    hasFeedback
+                    >
+                        <Form.InputWrapper>
 
-                         <PatternFormat
+                            <Input.Root  className="w-full">
+                                
+                                <Input.Label 
+                                className="text-gray-neutral-400"
+                                content="Telefone"
+                                htmlFor="phone"
+                                />
 
-                        format="(##) #####-####" 
-                        allowEmptyFormatting 
-                        mask="_" 
-                        className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                        onChange={onChange}
-                        value={value}
-                        readOnly={isReadonly}
+                                <PatternFormat
+
+                                format="(##) #####-####" 
+                                allowEmptyFormatting 
+                                mask="_" 
+                                className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                                value={fields.phone}
+                                readOnly={isReadonly}
+                                onChange={(e)=> {
+                                    handleChange(name,e);
+                                    onChange(e.target.value);
+                                }}
 
 
-                        />
+                                />
 
-                    </Input.Root>
+                            </Input.Root>
+
+
+
+                        </Form.InputWrapper>
+
+
+
+                    </FormItem>
+
 
                 )}
                 
@@ -117,9 +185,16 @@ export const FormStep1 = ({isReadonly}:FormType) => {
  
                 
                 <Controller 
-                
+                rules={{required: true}}
                 name="email"
-                render={({field:{value, onChange}})=> (
+                render={({field:{onChange, name}})=> (
+
+                    <FormItem
+                    name="email"
+                    validateStatus={errors.email ? 'error' : 'success'}
+                    help={errors.email && errors.email.message}
+                    hasFeedback
+                    >
 
                     <Input.Root>
 
@@ -133,13 +208,21 @@ export const FormStep1 = ({isReadonly}:FormType) => {
                         type="email"
                         placeholder={'email...'}
                         id="email"
-                        onChange={onChange}
-                        value={value}
+                        value={fields.email}
                         readOnly={isReadonly}
+                        onChange={(e)=> {
+                            handleChange(name,e);
+                            onChange(e.target.value);
+                        }}
 
                         />
 
                     </Input.Root>
+
+
+
+                    </FormItem>
+
 
                     )}
                 />
@@ -159,7 +242,7 @@ export const FormStep1 = ({isReadonly}:FormType) => {
             }
 
 
-        </div>
+        </form>
 
     );
 

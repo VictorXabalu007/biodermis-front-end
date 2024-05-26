@@ -15,13 +15,18 @@ import { InovicingModal } from "../Invoicing";
 // }
 
 
-export const ModalNavigator = ({data, isReadonly}:FormType) => {
-
+export const ModalNavigator = ({data, table, row, isReadonly}:FormType) => {
+    
     const render = (key: string, isReadonly?:boolean) => {
 
         switch(key){
             case '1':
-                return <FormModal data={data} isReadonly={isReadonly} />
+                return <FormModal 
+                data={data} 
+                isReadonly={isReadonly}
+                row={row}
+                table={table}
+                />
             case '2':
                 return <InovicingModal />
         }

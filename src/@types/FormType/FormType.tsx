@@ -1,10 +1,12 @@
-import { UserData } from "../../components/Register/RegisterConsultor/components/FormContainer";
+import { Row, Table } from "@tanstack/react-table";
 
 
-
-export interface FormType {
+export interface FormType<T> {
     
     isReadonly?: boolean;
-    data: UserData;
+    data: T;
+    row: Row<T>
+    table: Table<T>
+    onSubmit: (data:T) => void
     
 }
