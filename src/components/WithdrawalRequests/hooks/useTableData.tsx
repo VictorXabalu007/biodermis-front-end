@@ -15,7 +15,7 @@ const storageData = JSON.parse(sessionStorage.getItem(WITHDRAW) ?? '[]');
 
 export const useTableData = () => {
 
-    const [data, setData] = useState(withdrawalData);
+    const [data, setData] = useState(storageData ?? withdrawalData);
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting,setSorting] = useState<any[]>([]);
 
@@ -25,10 +25,9 @@ export const useTableData = () => {
           
         if(Array.isArray(storageData)){
 
-            setData(storageData)
+            setData(storageData);
        
-        }
-
+        } 
 
     },[storageData]);
 
