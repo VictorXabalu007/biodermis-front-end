@@ -21,16 +21,16 @@ export const useTableData = () => {
 
     useEffect(()=> {
 
-
+        sessionStorage.setItem(WITHDRAW,JSON.stringify(withdrawalData));
+          
         if(Array.isArray(storageData)){
 
             setData(storageData)
-            sessionStorage.setItem(WITHDRAW,JSON.stringify(storageData));
-          
+       
         }
 
 
-    },[storageData])
+    },[storageData]);
 
     console.log(data);
     
