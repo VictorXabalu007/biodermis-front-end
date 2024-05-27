@@ -7,6 +7,7 @@ import * as C from '../../../../styles/TableStyles/styles'
 
 import { useTableData } from "../../hooks/useTableData"
 import { Pagination } from "../../../shared/Pagination"
+import { TableSorters } from "../../../shared/Table/components/TableSorters"
 
 
 export const WithdrawalTable = () => {
@@ -54,22 +55,9 @@ export const WithdrawalTable = () => {
                     {table.getHeaderGroups().map(headerGroup => (
                         <C.EvenRow key={headerGroup.id}>
                             {headerGroup.headers.map((header)=> (
-                                <C.Th key={header.id} 
-                                onClick={header.column.getToggleSortingHandler()}
-                                >
-                                    <div className="mx-3 flex">
-                                        {flexRender(header.column.columnDef.header,
-                                            header.getContext())}
-                                                                             
-                                            {
-                                               header.column.getIsSorted() === 'asc' ? '⬆️' :
-                                               header.column.getIsSorted() === 'desc' ? '⬇️' :
-                                               null
-                                            }
-                                        
-                                    </div>
-                                </C.Th>
                                 
+
+                                <TableSorters header={header} />
                             
                             ))}
                         </C.EvenRow>

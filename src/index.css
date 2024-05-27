@@ -6,3 +6,6 @@
   
 }
 
+.ant-modal-confirm-body svg {
+  fill: currentColor !important;
+}

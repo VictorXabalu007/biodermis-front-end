@@ -5,7 +5,7 @@ import { Button } from "../../../shared/Button";
 import { UserImage } from "../../../shared/Image/UserImage";
 import { Input } from "../../../shared/Input/Input";
 import InputMoney from "../../../shared/Input/InputNumber";
-import { Form as AntdForm, Typography, Upload, message } from "antd";
+import { Alert, Form as AntdForm, Typography, Upload, message } from "antd";
 import { FaCheck } from "react-icons/fa6";
 import { IoCopyOutline } from "react-icons/io5";
 import { UploadProps } from "antd/lib";
@@ -15,6 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../../shared/Form";
 import FormItem from "antd/es/form/FormItem";
 import { DraggerWrapper } from "../../../Register/RegisterConsultor/components/FormContainer/components/Uploader/styles/styles";
+import { WITHDRAW } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useState } from "react";
 
 const { Paragraph } = Typography;
 const { Dragger } = Upload;
@@ -35,9 +37,10 @@ const props: UploadProps = {
 
 type WithDrawalModalProps  = {
     handleClose: () => void;
+    rowIndex: number
 }
 
-export const WithDrawalModal = ({handleClose}:WithDrawalModalProps) => {
+export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) => {
 
     const proofSchema = z.object({
         pixProof: z.object({
@@ -45,7 +48,7 @@ export const WithDrawalModal = ({handleClose}:WithDrawalModalProps) => {
             size: z.number().min(1,'Nenhum arquivo anexado...'),
             type: z.string(), 
         },{required_error: 'Compranvante é obrigatório para confirmação'})
-    })
+    });
 
     type Data = z.infer<typeof proofSchema>;
 
@@ -55,14 +58,52 @@ export const WithDrawalModal = ({handleClose}:WithDrawalModalProps) => {
         mode: 'all'
     });
 
+    const [success, setSuccess] = useState(false);
+
     
+    const withdrawData = JSON.parse(sessionStorage.getItem(WITHDRAW) ?? '[]');
 
     const onSubmit = (data:Data) => {
 
-        console.log(data);
-        handleClose();
+        const submitData = {
+            ...data,
+            id: rowIndex,
+            createdAt: new Date().toLocaleDateString(),
+        }
+
+
+        if (Array.isArray(withdrawData)) {
+
+            const recordIndex = withdrawData.findIndex(d => d.id === rowIndex);
+
+            if (recordIndex !== -1) {
+                const record = withdrawData[recordIndex];
+                console.log(record);
+                
+                record.paymentStatus = 'PAID'; 
+
+                sessionStorage.setItem(WITHDRAW, JSON.stringify(withdrawData));
+
+            }
+
+        }
+
+        setSuccess(true);
+        setTimeout(()=> {
+
+            setSuccess(false);
+            handleClose();
+
+        },3000);
+
+        console.log(submitData);
+        
+        
+        
         
     }
+
+   
 
     const [form] = AntdForm.useForm();
 
@@ -74,6 +115,13 @@ export const WithDrawalModal = ({handleClose}:WithDrawalModalProps) => {
         <UserImage 
         className="my-2"
         />
+
+
+        {success &&
+        
+            <Alert className="my-2" message="Pagamento realizado com sucesso" type="success" />
+        
+        }
 
         <AntdForm form={form} onFinish={handleSubmit(onSubmit)}>
 

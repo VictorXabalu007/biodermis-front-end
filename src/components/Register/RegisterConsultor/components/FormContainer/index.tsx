@@ -15,12 +15,11 @@ import { UserRole } from "../../../../../util/UserRole";
 import { validateCardNumber } from "../../../../../functions/Validators/ValidateCreditCard/validateCardNumber";
 import { validateExpireDate } from "../../../../../functions/Validators/ValidateCreditCard/validateExpireDate";
 import { validateCVV } from "../../../../../functions/Validators/ValidateCreditCard/validateCVV";
-import { Form  } from "antd";
+import { Form, Modal  } from "antd";
 import { PessoalDataForm } from "./components/PessoalDataForm";
 import { USERS_DATA, USER_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/StatusType";
 import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
-
 
 export const pessoalDataSchema = z.object({
 
@@ -186,7 +185,18 @@ export const FormContainer = () => {
     },[watch,isConsultor,userRole]);
 
 
-    const {lastId, setLastId} = useSessionId({key: USER_ID})
+    const success = () => {
+        Modal.success({
+        
+          title: 'Usuário cadastrado com sucesso',
+          content: 'Você pode gerenciar seus usuários atravéz do dashboard',
+          okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25'}
+          
+          
+        });
+      };
+
+    const {lastId, setLastId} = useSessionId({key: USER_ID});
 
     const onSubmit = (data: UserData) => {
 
@@ -201,6 +211,9 @@ export const FormContainer = () => {
         sessionStorage.setItem(USER_ID, newId.toString()); 
         sessionStorage.setItem(USERS_DATA, JSON.stringify([...users, newData])); 
         console.log(newData);
+
+        success();
+        onReset();
 
     }
 

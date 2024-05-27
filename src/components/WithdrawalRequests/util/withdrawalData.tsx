@@ -1,11 +1,12 @@
-import { PaymentStatusType } from "../../TableHeader/util/selectOptions";
+
+import { PaymentStatusType } from "../components/TableHeader/util/selectOptions";
 
 
 
 
 export type WithDrawal = {
     
-  
+    id: number, 
     name: string,
     totalValueCurrent: number,
     avaliableWithdrawal: number,
@@ -17,7 +18,7 @@ export type WithDrawal = {
 export const withdrawalData: WithDrawal[] = [
 
     {
-      
+        id: 0,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -26,7 +27,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-        
+        id: 1,
         name: 'Macucu',
         totalValueCurrent: 1400,
         avaliableWithdrawal: 1500,
@@ -35,7 +36,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-       
+        id: 2,
         name: 'João Victor',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -44,7 +45,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-     
+        id: 3,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -53,7 +54,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
- 
+        id: 4,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -62,7 +63,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-   
+        id: 5,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -71,7 +72,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
- 
+        id: 6,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -80,7 +81,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-  
+        id: 7,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -89,7 +90,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-    
+        id: 8,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -98,7 +99,7 @@ export const withdrawalData: WithDrawal[] = [
 
     },
     {
-    
+        id: 9,
         name: 'Gustavo Henrique',
         totalValueCurrent: 1500,
         avaliableWithdrawal: 1500,
@@ -109,3 +110,5 @@ export const withdrawalData: WithDrawal[] = [
 
 
 ]
+
+

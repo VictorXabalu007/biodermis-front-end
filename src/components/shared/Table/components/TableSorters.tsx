@@ -1,14 +1,16 @@
+
 import { Header, flexRender } from "@tanstack/react-table";
-import * as C from '../../../../../../styles/TableStyles/styles'
+import * as C from '../../../../styles/TableStyles/styles'
 import { Button, Dropdown , Flex,  MenuProps} from "antd";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import { ProductsData } from "../../../../../Register/RegisterProducts/components/FormContainer";
 
 
+type TableSortersProps<T> = {
+    header: Header<T, unknown>
+}
 
+export const TableSorters = <T,>({header}:TableSortersProps<T>) => {
 
-
-export const TableHeader = ({header}:{header: Header<ProductsData, unknown>}) => {
 
     const isSorted = header.column.getIsSorted();
 
@@ -47,6 +49,7 @@ export const TableHeader = ({header}:{header: Header<ProductsData, unknown>}) =>
                             </Button>
                         </Dropdown>
                         {isSorted &&
+                        
                         <div>
                             {isSorted === 'desc' ? <FaArrowDown /> : <FaArrowUp />}
                         </div>
@@ -60,7 +63,5 @@ export const TableHeader = ({header}:{header: Header<ProductsData, unknown>}) =>
             </C.Th>
         )
     )
-
-
 
 }

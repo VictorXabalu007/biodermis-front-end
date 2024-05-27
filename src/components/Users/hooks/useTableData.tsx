@@ -6,6 +6,7 @@ import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { getUser } from "../../../util/UserRole";
+import { Flex } from "antd";
 
 
 const columnsHelper = createColumnHelper<UserData>();
@@ -15,17 +16,27 @@ JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
+    const [sorting,setSorting] = useState<any[]>([]);
     const [data, setData] = useState<UserData[]>(()=> {
 
         return Array.isArray(userData) ? userData : []
 
     });
+
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(()=>[
             columnsHelper.accessor('name', {
                 header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-                cell: (name) => <NameItem name={name.getValue()} />
+                cell: (name) => (
+
+                    <Flex justify="center" align="center" className="mx-3">
+
+                        <NameItem name={name.getValue()} />
+
+                    </Flex>
+                ), 
+                enableSorting:true,
             }),
             columnsHelper.accessor('email', {
                 header: () => <p>Email</p>,
@@ -58,6 +69,8 @@ export const useTableData = () => {
             data,
             columns,
             columnFilters,
+            sorting,
+            setSorting,
             setColumnFilters,
             setData
         }

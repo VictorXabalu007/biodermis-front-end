@@ -31,7 +31,7 @@ export const Td = styled.td`
     border-bottom: 1px solid #ddd; 
     padding: 1rem 0;
     text-align:center;
-   
+    
 `;
 
 
@@ -80,6 +80,7 @@ export const Th = styled.th`
     background-color: #f5f5f5;
     position: relative;
     text-align:center;
+
 
     &:hover > ${Resizer} {
         opacity: 1;

@@ -6,7 +6,7 @@ import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 
 
 
-export const WithdrawalActions = () => {
+export const WithdrawalActions = ({rowIndex}:{rowIndex:number}) => {
 
     
     const { confirm } = Modal;
@@ -15,7 +15,7 @@ export const WithdrawalActions = () => {
 
         confirm({
 
-            content: <WithDrawalModal handleClose={() => Modal.destroyAll()} />,
+            content: <WithDrawalModal rowIndex={rowIndex} handleClose={() => Modal.destroyAll()} />,
             closable: true,
             closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
             okButtonProps: {className: 'hidden'}, 

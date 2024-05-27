@@ -1,19 +1,27 @@
 
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableHeader } from "../TableHeader";
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
 import { Pagination } from "../../../shared/Pagination";
 import { ConsultorsData, useTableData } from "../../hooks/useTableData";
 import { useEffect } from "react";
 import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { UserRole } from "../../../../util/UserRole";
+import { TableSorters } from "../../../shared/Table/components/TableSorters";
 
 
 
 export const ConsultorsTable = () => {
 
-    const {data, columns, columnFilters, setColumnFilters, setData} = useTableData();
+    const {
+        data, 
+        columns, 
+        columnFilters,
+        setColumnFilters,
+        sorting,
+        setSorting, 
+        setData} = useTableData();
 
     const table = useReactTable<ConsultorsData>({
         data,
@@ -21,7 +29,10 @@ export const ConsultorsTable = () => {
         debugTable: true,
         state: {
             columnFilters,
+            sorting
         },
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         columnResizeMode: 'onChange',
         getFilteredRowModel: getFilteredRowModel(),
@@ -61,8 +72,7 @@ export const ConsultorsTable = () => {
 
     return (
 
-
-                <TableWrapper>
+            <TableWrapper>
 
                     <TableHeader 
                      columnsFilters={columnFilters}
@@ -72,25 +82,17 @@ export const ConsultorsTable = () => {
                     <C.Container>
 
                     <C.Table>
-                        <thead 
-                        className="bg-gray-neutral-200" 
-                        style={{width: table.getTotalSize()}}
-                        >
+                        <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header)=> (
-                                        <C.Th key={header.id}>
-                                            <div className="mx-3">
-                                                {flexRender(header.column.columnDef.header,
-                                                    header.getContext())}
-                                            </div>
-      
-                                        </C.Th>
+
+                                        <TableSorters header={header} />
                                     
                                     ))}
                                 </C.EvenRow>
                             ))}
-                        </thead>
+                        </C.Thead >
 
                         <tbody>
                             {table.getRowModel().rows.map((row)=> (

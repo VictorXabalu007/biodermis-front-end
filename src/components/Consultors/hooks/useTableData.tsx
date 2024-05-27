@@ -45,6 +45,8 @@ export const useTableData = () => {
             return [];
         }
     });
+
+    const [sorting, setSorting] = useState<any[]>([]);
     
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
@@ -61,7 +63,7 @@ export const useTableData = () => {
                         getValue() === '1' || getValue() === '2' || getValue() === '3' ?
                         (buildPodium(getValue())) : (
     
-                        <Flex gap={2} align="center" className="px-2">
+                        <Flex gap={2} justify="center" align="center" className="px-2">
     
                             <Text.Root className="text-purple-solid-950">
                                 <Text.Content content={getValue()} />
@@ -74,11 +76,13 @@ export const useTableData = () => {
                         )
     
                 );
-            }
+            },
+            enableSorting: true,
         }),
         columnHelper.accessor('name', {
             header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /> </div>,
-            cell: (name) => <NameItem name={name.getValue()} />
+            cell: (name) => <NameItem name={name.getValue()} />,
+            enableSorting: true,
         }),
         columnHelper.accessor('email', {
             header: () => <p>Email</p>,
@@ -95,7 +99,8 @@ export const useTableData = () => {
                     <NumericFormatter
                         value={getValue()}
                     />
-                )
+                ),
+            enableSorting: true
         }),
         columnHelper.accessor('status',{
             id: 'status',
@@ -130,6 +135,8 @@ export const useTableData = () => {
         data,
         columns,
         columnFilters,
+        sorting,
+        setSorting,
         setData,
         setColumnFilters
     }

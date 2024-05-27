@@ -5,10 +5,10 @@ import { TableFilter } from "../TableFilter/TableFilter";
 import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData";
-import { TableHeader } from "./components/TableHeader";
 import { Pagination } from "../../../shared/Pagination";
 import { ProductView } from "./components/ProductDescription";
 import { ProductsData } from "../../../Register/RegisterProducts/components/FormContainer";
+import { TableSorters } from "../../../shared/Table/components/TableSorters";
 
 
 export const ProductsTable = () => {
@@ -60,7 +60,7 @@ export const ProductsTable = () => {
                             <C.EvenRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header)=> (
 
-                                    <TableHeader header={header} />
+                                   <TableSorters header={header} />
                                 
                                 ))}
                             </C.EvenRow>

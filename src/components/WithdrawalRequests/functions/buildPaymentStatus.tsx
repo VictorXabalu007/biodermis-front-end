@@ -6,7 +6,7 @@ import { PaymentStatusType } from "../components/TableHeader/util/selectOptions"
 
 
 
-export const buildPaymentStatus = (status:PaymentStatusType) => {
+export const buildPaymentStatus = (status:PaymentStatusType, rowIndex:number) => {
 
     switch(status) {
 
@@ -14,7 +14,7 @@ export const buildPaymentStatus = (status:PaymentStatusType) => {
             
             return (
 
-                <div className="flex items-start">
+                <div className="flex justify-around ms-14">
 
                     <div className="px-3 py-2 bg-green-solid-300/75 rounded-md flex items-center gap-2">
 
@@ -34,7 +34,9 @@ export const buildPaymentStatus = (status:PaymentStatusType) => {
 
             return (
 
-                <WithdrawalActions />
+                <div className="flex justify-center">
+                    <WithdrawalActions rowIndex={rowIndex} />
+                </div>
 
             )
     }

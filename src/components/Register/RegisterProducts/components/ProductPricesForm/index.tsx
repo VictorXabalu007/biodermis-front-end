@@ -187,7 +187,7 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
                             <Input.Root>
     
                                 <Input.Label 
-                                content="Preço máximo"
+                                content="Preço fictício"
                                 className="text-gray-neutral-600"
                                 htmlFor="ficticiousPrice"
                                 

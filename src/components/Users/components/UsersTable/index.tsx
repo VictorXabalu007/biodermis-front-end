@@ -1,12 +1,14 @@
 
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper.tsx"
 import { TableHeader } from "../TableHeader/index.tsx"
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData.tsx"
 import { Pagination } from "../../../shared/Pagination/index.tsx"
 import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys.ts"
 import { useEffect } from "react"
+import { TableSorters } from "../../../shared/Table/components/TableSorters.tsx"
+
 
 export const UsersTable = () => {
 
@@ -16,7 +18,9 @@ export const UsersTable = () => {
          columns, 
          data,
          setData, 
-         setColumnFilters
+         setColumnFilters,
+         sorting,
+         setSorting
     } = useTableData();
     
     const table = useReactTable({
@@ -25,11 +29,13 @@ export const UsersTable = () => {
         columns,
         state:{
             columnFilters,
-            
+            sorting,
         },
+        getSortedRowModel: getSortedRowModel(),
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onSortingChange: setSorting,
         debugTable: true,
         meta: {
             updateData: (rowIndex:number, data:any) => setData(
@@ -79,12 +85,8 @@ export const UsersTable = () => {
                     {table.getHeaderGroups().map(headerGroup => (
                         <C.EvenRow key={headerGroup.id}>
                             {headerGroup.headers.map((header)=> (
-                                <C.Th key={header.id}>
-                                    <div className="mx-3">
-                                        {flexRender(header.column.columnDef.header,
-                                            header.getContext())}
-                                    </div>
-                                </C.Th>
+                                
+                                <TableSorters header={header} />   
                             
                             ))}
                         </C.EvenRow>

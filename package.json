@@ -22,6 +22,7 @@
     "antd": "^5.17.0",
     "antd-img-crop": "^4.21.0",
     "apexcharts": "^3.49.0",
+    "axios": "^1.7.2",
     "card-validator": "^9.1.0",
     "moment": "^2.30.1",
     "normalize.css": "^8.0.1",

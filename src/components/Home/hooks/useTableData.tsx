@@ -1,23 +1,42 @@
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo, useState } from "react"
-import { WithDrawal, withdrawalData } from "../../WithdrawalRequests/components/WithdrawalTable/util/withdrawalData";
+import { WithDrawal, withdrawalData } from "../../WithdrawalRequests/util/withdrawalData";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { Text } from "../../shared/Text";
 import { IoIosArrowUp } from "react-icons/io";
 import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-import { consultorsData } from "../../Consultors/hooks/useTableData";
+import { ConsultorsData, consultorsData } from "../../Consultors/hooks/useTableData";
 import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
+import { UserRole } from "../../../util/UserRole";
 
 
-const columnsHelperConsultors = createColumnHelper<UserData>();
+const columnsHelperConsultors = createColumnHelper<ConsultorsData>();
 const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 
 export const useTableData = () => {
 
 
-    const [dataConsultors, ] = useState(consultorsData);
+    const [dataConsultors, ] = useState(()=> {
+        if (consultorsData && consultorsData.length > 0) {
+            const sortedData = consultorsData
+                .filter((d: UserData) => d.userRole === UserRole.CONSULTOR)
+                .map(d => ({
+                    ...d,
+                    totalFatured: Math.floor(Math.random() * 12000),
+                }))
+                .sort((a, b) => b.totalFatured - a.totalFatured);
+    
+            return sortedData.map((d, index) => ({
+                ...d,
+                rank: String(index + 1),
+            }));
+        } else {
+            return [];
+        }
+    });
+
     const [dataWithdrawal, ] = useState(withdrawalData);
     const [pagination, setPagination] = useState({
         pageIndex: 0, 
@@ -27,7 +46,7 @@ export const useTableData = () => {
 
     const consultorsColumns = useMemo(()=> [
 
-        columnsHelperConsultors.accessor('id', {
+        columnsHelperConsultors.accessor('rank', {
             header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
             cell: ({getValue}) => {
     
@@ -73,7 +92,8 @@ export const useTableData = () => {
 
     ],[]);
 
-    const consultorsTable = useReactTable<UserData>({
+    const consultorsTable = useReactTable<ConsultorsData>({
+        
         data:dataConsultors,
         columns:consultorsColumns,
         getPaginationRowModel: getPaginationRowModel(),
@@ -84,7 +104,6 @@ export const useTableData = () => {
         },
         onPaginationChange: setPagination
         
- 
       
     });
 

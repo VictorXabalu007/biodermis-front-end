@@ -1,25 +1,46 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { WithDrawal, withdrawalData } from "../components/WithdrawalTable/util/withdrawalData";
+import { WithDrawal, withdrawalData } from "../util/withdrawalData";
 import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildPaymentStatus } from "../functions/buildPaymentStatus";
-import { useMemo, useState } from "react";
+import {  useEffect, useMemo, useState } from "react";
+import { WITHDRAW } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
 
 const columnHelper = createColumnHelper<WithDrawal>();
 
+const storageData = JSON.parse(sessionStorage.getItem(WITHDRAW) ?? '[]');
+
 export const useTableData = () => {
 
-    const [data, _] = useState(withdrawalData);
+    const [data, setData] = useState(withdrawalData);
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting,setSorting] = useState<any[]>([]);
+
+    useEffect(()=> {
+
+
+        if(Array.isArray(storageData)){
+
+            setData(storageData)
+            sessionStorage.setItem(WITHDRAW,JSON.stringify(storageData));
+          
+        }
+
+
+    },[storageData])
+
+    console.log(data);
+    
+
 
     const columns = useMemo(() => [
         columnHelper.accessor('name', {
             header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-            cell: (name) => <NameItem name={name.getValue()} />
+            cell: (name) =><div className="mx-3"> <NameItem name={name.getValue()} /></div>,
+            enableSorting: true,
         }),
         columnHelper.accessor('totalValueCurrent', {
             header: () => <p>Valor total em conta</p>,
@@ -37,7 +58,7 @@ export const useTableData = () => {
         }),
         columnHelper.accessor('paymentStatus', {
             header: () =><p>Status pagamento</p>,
-            cell: (status) => buildPaymentStatus(status.getValue())
+            cell: ({row,getValue}) => buildPaymentStatus(getValue(), row.index)
         }),
     ],[]);
 

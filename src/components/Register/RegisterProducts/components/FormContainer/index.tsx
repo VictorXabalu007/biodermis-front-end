@@ -7,11 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsDimensionForm } from "../ProductsDimensionForm";
 import { Uploader } from "../Uploader";
 import { ProductsPricesForm } from "../ProductPricesForm";
-import { Form } from "antd";
+import { Form, Modal } from "antd";
 import { useRef, useState } from "react";
 import { PRODUCTS_DATA, PRODUCT_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
-
 
 
 const productsImageSchema = z.object({
@@ -92,6 +91,14 @@ export const FormContainer = () => {
 
     const {lastId, setLastId} = useSessionId({key: PRODUCT_ID})
 
+    
+    const success = () => {
+        Modal.success({
+            title: 'Produto cadastrado com sucesso',
+            content: 'Você pode gerenciar seus produtos atravéz do dashboard',
+            okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25'}
+        });
+      };
 
     const  onSubmit = async (data:ProductsData) => {
 
@@ -105,12 +112,15 @@ export const FormContainer = () => {
         sessionStorage.setItem(PRODUCT_ID, newId.toString()); 
         sessionStorage.setItem(PRODUCTS_DATA, JSON.stringify([...products, newData])); 
         console.log(newData);
+        success();
+        onReset();
         
     }
 
     const [form] = Form.useForm();
 
     const uploaderRef = useRef<any>();
+
     
 
     const onReset = () => {
