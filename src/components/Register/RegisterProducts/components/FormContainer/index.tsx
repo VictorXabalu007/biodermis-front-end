@@ -2,16 +2,19 @@
 import { useForm } from "react-hook-form"
 import { ProductsDescForm } from "../ProductsDescForm"
 import { z } from "zod";
-import { Button } from "../../../../shared/Button";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsDimensionForm } from "../ProductsDimensionForm";
 import { Uploader } from "../Uploader";
 import { ProductsPricesForm } from "../ProductPricesForm";
-import { Form, Modal } from "antd";
+import { Button as AntdBtn, Form, Modal } from "antd";
 import { useRef, useState } from "react";
 import { PRODUCTS_DATA, PRODUCT_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
-
+import { Button } from "../../../../shared/Button";
+import { BtnWrapper } from "./styles";
+import { useNavigate } from "react-router-dom";
+import { PRODUCTS } from "../../../../../constants/paths/paths";
 
 const productsImageSchema = z.object({
     productsImage: z.array(z.object({
@@ -77,6 +80,7 @@ export interface ProductsData extends Data {
 
 export const FormContainer = () => {
 
+    const navigate = useNavigate();
 
     const [products, setProducts] = useState<ProductsData[]>(()=> {
         const storedProducts = sessionStorage.getItem(PRODUCTS_DATA);
@@ -94,9 +98,29 @@ export const FormContainer = () => {
     
     const success = () => {
         Modal.success({
+            width: 500,
+            closable: true,
+            maskClosable: true,
             title: 'Produto cadastrado com sucesso',
-            content: 'Você pode gerenciar seus produtos atravéz do dashboard',
-            okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25'}
+            content: 'Você pode gerenciar seus produtos atravéz do seu dashboard',
+            okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25 ok-btn'},
+            footer: (_,{OkBtn})=> (
+                <div className="flex">
+
+                    <BtnWrapper>
+
+                        <AntdBtn onClick={() => {
+                            navigate(PRODUCTS)
+                            Modal.destroyAll();
+                        }} className="products-btn">
+                            Ir para produtos
+                        </AntdBtn>
+                        <OkBtn />
+
+                    </BtnWrapper>
+
+                </div>
+            )
         });
       };
 

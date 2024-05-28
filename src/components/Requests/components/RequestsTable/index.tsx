@@ -1,11 +1,12 @@
 
-import {flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable} from '@tanstack/react-table'
+import {flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable} from '@tanstack/react-table'
 import * as C from '../../../../styles/TableStyles/styles'
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableHeader } from "../TableHeader";
 import { TableFilters } from "../TableFilters";
 import { useTableData } from "../hooks/useTableData";
 import { Pagination } from '../../../shared/Pagination';
+import { TableSorters } from '../../../shared/Table/components/TableSorters';
 
 
 export const RequestsTable = () => {
@@ -14,8 +15,10 @@ export const RequestsTable = () => {
         columns, 
         data, 
         columnFilters,
-        setColumnFilters
-    } = useTableData()
+        setColumnFilters,
+        sorting,
+        setSorting
+    } = useTableData();
 
     const table = useReactTable({
         data,
@@ -23,11 +26,14 @@ export const RequestsTable = () => {
         debugTable: true,
         state: {
             columnFilters,
+            sorting
         },
         getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         columnResizeMode: "onChange",
+        onSortingChange: setSorting
 
     });
 
@@ -50,13 +56,9 @@ export const RequestsTable = () => {
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header)=> (
-                                        <C.Th key={header.id}>
-                                            <div className="mx-3">
-                                                {flexRender(header.column.columnDef.header,
-                                                    header.getContext())}
-                                            </div>
-                                        </C.Th>
-                                    
+
+                                        <TableSorters header={header} />
+                                        
                                     ))}
                                 </C.EvenRow>
                             ))}

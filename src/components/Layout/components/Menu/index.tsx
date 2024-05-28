@@ -66,8 +66,8 @@ export const Menu = () => {
 
                 {items.map((item) => (
 
-                        <M.Item 
-                            
+                        <M.Item
+                            className="menu-item"
                             style={{
 
                                 borderRadius: '0',

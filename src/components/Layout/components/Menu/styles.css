@@ -1,6 +1,13 @@
 
 
-
-li {
+.menu-item{
     margin: 0 !important;
+}
+
+.menu-item:hover {
+
+    background-color: #F7ECF4 !important; 
+    border-left: 4px solid #B475A5 !important;
+   
+    
 }

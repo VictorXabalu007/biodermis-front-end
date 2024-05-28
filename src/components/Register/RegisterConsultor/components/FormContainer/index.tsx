@@ -20,6 +20,10 @@ import { PessoalDataForm } from "./components/PessoalDataForm";
 import { USERS_DATA, USER_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/StatusType";
 import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
+import { BtnWrapper } from "./styles";
+import {Button as AntdBtn} from 'antd'
+import { DEFAULT_PATH } from "../../../../../constants/paths/paths";
+import { useNavigate } from "react-router-dom";
 
 export const pessoalDataSchema = z.object({
 
@@ -153,6 +157,8 @@ export const FormContainer = () => {
         return storedUsers ? JSON.parse(storedUsers) : [];
     });
 
+    const navigate = useNavigate();
+
     const [isConsultor, setIsConsultor] = useState(false);
     const {
         register,
@@ -187,11 +193,29 @@ export const FormContainer = () => {
 
     const success = () => {
         Modal.success({
-        
+          width: 500,
+          closable: true,
+          maskClosable: true,
           title: 'Usuário cadastrado com sucesso',
-          content: 'Você pode gerenciar seus usuários atravéz do dashboard',
-          okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25'}
-          
+          content: 'Você pode gerenciar seus usuários atravéz do seu dashboard',
+          okButtonProps: {className: 'ok-btn bg-brand-purple hover:bg-brand-purple/25'},
+          footer: (_,{OkBtn})=> (
+            <div className="flex">
+
+                <BtnWrapper>
+
+                    <AntdBtn onClick={() => {
+                        navigate(DEFAULT_PATH)
+                        Modal.destroyAll();
+                    }} className="users-btn">
+                        Ir para a home
+                    </AntdBtn>
+                    <OkBtn />
+
+                </BtnWrapper>
+
+            </div>
+        )
           
         });
       };

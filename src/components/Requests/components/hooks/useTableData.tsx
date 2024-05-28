@@ -14,6 +14,7 @@ export const useTableData = () => {
     const columnHelper = createColumnHelper<Requests>();
     const [data,_] = useState(requestData)
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
+    const [sorting, setSorting] = useState<any[]>([]);
 
     const columns = useMemo(() => [
 
@@ -25,11 +26,13 @@ export const useTableData = () => {
         columnHelper.accessor('requests',{
             header: () => <div className={'flex gap-2'}>Pedidos <ArrowUpDownIcon /></div>,
             cell: ({getValue}) => getValue(),
+            enableSorting: true,
         }),
     
         columnHelper.accessor('buyerName',{
             header: () => <p>Nome comprador</p>,
             cell: ({getValue}) => getValue(),
+          
         }),
         columnHelper.accessor('consultor',{
             header: () => <p>Consultora</p>,
@@ -73,6 +76,8 @@ export const useTableData = () => {
         columns,
         data,
         columnFilters,
+        sorting,
+        setSorting,
         setColumnFilters,
     };
 
