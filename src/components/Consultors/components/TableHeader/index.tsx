@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper";
 import { Input } from "../../../shared/Input/Input";
-import Select from 'react-select';
+
 import { SearchIcon } from "../../../shared/Icon/SearchIcon";
 import { Button } from "../../../shared/Button";
 import { REGISTER_CONSULTOR } from "../../../../constants/paths/paths";
 import { FaPlus } from "react-icons/fa6";
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
 import { userStatusOptions } from "./util/selectOptions";
+import styled from "styled-components";
+import Select from "../../../shared/Input/Select";
 
 
 export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps) => {
@@ -26,6 +28,22 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
         onFilterChange('status', status?.value);
 
     };
+
+    const Wrapper = styled.div`
+  .react-select-container .react-select__control {
+    &:hover {
+      border-color: #C882B7 !important;
+    }
+    &:focus {
+      border-color: #C882B7 !important;
+      box-shadow: none !important;
+    }
+    &.react-select__control--is-focused {
+      border-color: #C882B7 !important;
+    }
+  }
+`;
+
 
     return (
 
@@ -49,15 +67,23 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
                         />
                     
                     </Input.Root>
+                    
 
-                    <Select 
-                        className="flex-1 md:flex-none"
-                        options={userStatusOptions}
-                        onChange={handleStatusChange}
-                        defaultValue={userStatusOptions[0]}
-                    />
+                        <Wrapper>
 
+                            <Select 
 
+                            
+                                classNamePrefix="react-select"
+                                className="flex-1 md:flex-none react-select-container"
+                                options={userStatusOptions}
+                                onChange={handleStatusChange}
+                                defaultValue={userStatusOptions[0]}
+                                
+                            />
+                   
+
+                        </Wrapper>
 
                 </div>
 

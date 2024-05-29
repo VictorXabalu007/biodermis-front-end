@@ -1,5 +1,5 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { Requests, requestData } from "../RequestsTable/util/requestsData";
+import { Requests } from "../RequestsTable/util/requestsData";
 import { NumericFormatter } from "../../../shared/Formatter/NumericFormatter";
 import { buildTotalValue } from "../RequestsTable/util/functions/buildTotalValue";
 import { FaWhatsapp } from "react-icons/fa6";
@@ -8,11 +8,23 @@ import { buildPaymentStatus } from "../RequestsTable/util/functions/buildPayment
 import { TableActions } from "../RequestsTable/components/TableActions";
 import { ArrowUpDownIcon } from "../../../shared/Icon/ArrowUpDownIcon";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getRequests } from "../service/getRequests";
+
+
 
 export const useTableData = () => {
+
+    const {data: products, isError, isLoading} = useQuery({
+        queryKey: ['requests'],
+        queryFn: getRequests,
+    })
+
+    console.log(products);
+    
     
     const columnHelper = createColumnHelper<Requests>();
-    const [data,_] = useState(requestData)
+    const [data,_] = useState(products ?? [])
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting, setSorting] = useState<any[]>([]);
 
@@ -79,6 +91,8 @@ export const useTableData = () => {
         sorting,
         setSorting,
         setColumnFilters,
+        isError,
+        isLoading
     };
 
 

@@ -22,7 +22,7 @@ import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/Sta
 import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
 import { BtnWrapper } from "./styles";
 import {Button as AntdBtn} from 'antd'
-import { DEFAULT_PATH } from "../../../../../constants/paths/paths";
+import { HOME } from "../../../../../constants/paths/paths";
 import { useNavigate } from "react-router-dom";
 
 export const pessoalDataSchema = z.object({
@@ -121,7 +121,7 @@ export type ConsultorsViewData = z.infer<typeof consultorsViewSchema>;
 export const userSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
-    userRole: z.string().optional(),
+    userRole: z.number().optional(),
     bankData: bankDataChema.optional(),
     certificated: z.object({
         name: z.string(), 
@@ -205,7 +205,7 @@ export const FormContainer = () => {
                 <BtnWrapper>
 
                     <AntdBtn onClick={() => {
-                        navigate(DEFAULT_PATH)
+                        navigate(HOME)
                         Modal.destroyAll();
                     }} className="users-btn">
                         Ir para a home

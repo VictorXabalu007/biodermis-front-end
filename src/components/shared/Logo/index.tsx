@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import biodermisLogo from '../../../assets/logo-biodermis.png';
-import { DEFAULT_PATH } from '../../../constants/paths/paths';
+import { HOME } from '../../../constants/paths/paths';
 
 
 export const Logo = () => {
@@ -17,7 +17,7 @@ export const Logo = () => {
         src={biodermisLogo} 
         alt='Logo empresa Biodermis'
         className=' cursor-pointer '
-        onClick={()=> navigate(DEFAULT_PATH)}
+        onClick={()=> navigate(HOME)}
         
         />
         

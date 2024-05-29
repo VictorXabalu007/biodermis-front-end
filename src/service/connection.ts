@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 
 const createHttp = (): AxiosInstance => {
 
-    const URL = '';
+    const URL = 'http://localhost:3000';
     
     const http = axios.create({
         baseURL: URL,
@@ -13,4 +13,4 @@ const createHttp = (): AxiosInstance => {
     
 };
 
-export const http = createHttp();
+export const api = createHttp();

@@ -13,7 +13,7 @@ export const LinkRoot = ({children, path, className} : LinkRootProps) => {
 
     return (
 
-        <Link className={twMerge('text-center', className)} to={path}>
+        <Link className={twMerge('text-center hover:text-brand-purple', className)} to={path}>
             {children}
         </Link>
 

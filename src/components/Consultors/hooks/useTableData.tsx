@@ -9,9 +9,10 @@ import { Text } from "../../shared/Text";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { useMemo, useState } from "react";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { UserRole } from "../../../util/UserRole";
 import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { Flex } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import { getConsultors } from "../service/getConsultors";
 
 
 export interface ConsultorsData extends UserData {
@@ -27,14 +28,16 @@ JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
+    const {data:consultors, isLoading} = useQuery({
+        queryKey: ['consultors'],
+        queryFn: getConsultors
+
+    });
+
+
     const [data, setData] = useState<ConsultorsData[]>(() => {
-        if (consultorsData && consultorsData.length > 0) {
+        if (consultors && consultorsData.length > 0) {
             const sortedData = consultorsData
-                .filter((d: UserData) => d.userRole === UserRole.CONSULTOR)
-                .map(d => ({
-                    ...d,
-                    totalFatured: Math.floor(Math.random() * 12000),
-                }))
                 .sort((a, b) => b.totalFatured - a.totalFatured);
     
             return sortedData.map((d, index) => ({
@@ -46,6 +49,8 @@ export const useTableData = () => {
         }
     });
 
+    console.log(data);
+    
     const [sorting, setSorting] = useState<any[]>([]);
     
     
@@ -138,6 +143,7 @@ export const useTableData = () => {
         sorting,
         setSorting,
         setData,
-        setColumnFilters
+        setColumnFilters,
+        isLoading
     }
 }

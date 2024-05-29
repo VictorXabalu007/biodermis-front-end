@@ -10,6 +10,8 @@ import { BRAND_PURPLE } from "../../../constants/classnames/classnames";
 import { ButtonWrapper } from "../style/styles";
 import { ProductsData } from "../../Register/RegisterProducts/components/FormContainer";
 import { PRODUCTS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../../service/connection";
 
 const columnHelper = createColumnHelper<ProductsData>();
 
@@ -17,13 +19,33 @@ const productsData: ProductsData[] = JSON.parse(
   sessionStorage.getItem(PRODUCTS_DATA) ?? "{}"
 );
 
+const getProducts = async () => {
+
+  const products = await api.get('/produtos/0', {
+    withCredentials: true
+  })
+
+  return products.data;
+}
+
 export const useTableData = () => {
-  const [data, setData] = useState<ProductsData[]>(() => {
+
+  const {data, isLoading, isError} = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts
+  });
+
+  console.log(data);
+  
+
+  const [products, setProducts] = useState<ProductsData[]>(() => {
+
     if (productsData && productsData.length > 0) {
       return productsData;
     } else {
       return [];
     }
+
   });
 
   const { confirm } = Modal;
@@ -177,7 +199,7 @@ export const useTableData = () => {
             const selectedRowsData = table
               .getSelectedRowModel()
               .rows.map((row) => row.original);
-            setData((prev) =>
+            setProducts((prev) =>
               prev.filter(
                 (data) => !selectedRowsData.some((d) => d.id === data.id)
               )
@@ -214,7 +236,7 @@ export const useTableData = () => {
         },
         cell: ({ row }) => {
           const handleOk = () => {
-            setData((prev) =>
+            setProducts((prev) =>
               prev.filter((data) => data.id !== row.original.id)
             );
             Modal.destroyAll();
@@ -246,5 +268,5 @@ export const useTableData = () => {
     []
   );
 
-  return { data, columns, setData };
+  return { products, columns, setProducts };
 };

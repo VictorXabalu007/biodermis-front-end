@@ -7,6 +7,7 @@ import { TableFilters } from "../TableFilters";
 import { useTableData } from "../hooks/useTableData";
 import { Pagination } from '../../../shared/Pagination';
 import { TableSorters } from '../../../shared/Table/components/TableSorters';
+import { Spin } from 'antd';
 
 
 export const RequestsTable = () => {
@@ -17,7 +18,8 @@ export const RequestsTable = () => {
         columnFilters,
         setColumnFilters,
         sorting,
-        setSorting
+        setSorting,
+        isLoading,
     } = useTableData();
 
     const table = useReactTable({
@@ -33,7 +35,7 @@ export const RequestsTable = () => {
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         columnResizeMode: "onChange",
-        onSortingChange: setSorting
+        onSortingChange: setSorting,
 
     });
 
@@ -51,7 +53,27 @@ export const RequestsTable = () => {
 
             
                 <C.Container>
+
+
                     <C.Table>
+
+                        
+                    {isLoading &&
+                    
+                    
+                        <Spin />
+                
+                    }
+
+                    {
+                        data.length === 0 &&
+
+                        <>
+                        
+                            Nenhum dado Registrado ainda
+                        
+                        </>
+                    }
                         <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>

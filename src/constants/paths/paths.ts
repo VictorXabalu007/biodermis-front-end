@@ -3,6 +3,10 @@
 
 export const DEFAULT_PATH = '/';
 
+export const FORGOT_PASS_1 = '/esqueceu+senha'
+
+export const FORGOT_PASS_2 = '/esqueceu+senha+2'
+
 export const HOME = '/home';
 
 export const REQUESTS = '/pedidos';

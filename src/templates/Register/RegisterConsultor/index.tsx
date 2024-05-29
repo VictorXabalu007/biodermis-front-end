@@ -1,5 +1,5 @@
 import { RegisterConsultor } from "../../../components/Register/RegisterConsultor"
-import { DEFAULT_PATH } from "../../../constants/paths/paths";
+import {  HOME } from "../../../constants/paths/paths";
 
 
 export const RegisterConsultorTemplate = () => {
@@ -15,7 +15,7 @@ export const RegisterConsultorTemplate = () => {
             <RegisterConsultor.Content>
 
                 <RegisterConsultor.SubHeader
-                    path={DEFAULT_PATH}
+                    path={HOME}
                     linkText="voltar"
                     heading="Cadastrar um Usuário"
                 />

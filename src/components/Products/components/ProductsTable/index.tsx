@@ -14,11 +14,11 @@ import { TableSorters } from "../../../shared/Table/components/TableSorters";
 export const ProductsTable = () => {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
-    const {data, columns, setData} = useTableData();
+    const {products, columns, setProducts} = useTableData();
 
     const table = useReactTable<ProductsData>({
 
-        data,
+        data: products,
         columns,
         getCoreRowModel: getCoreRowModel(),
         state: {
@@ -31,7 +31,7 @@ export const ProductsTable = () => {
         enableRowSelection: true,
         getRowCanExpand: () => true,
         meta: {
-            updateData: (rowIndex:number, columnId:string, value:any) => setData(
+            updateData: (rowIndex:number, columnId:string, value:any) => setProducts(
                 prev => prev.map((row,index) => 
                     index === rowIndex ? {
                         ...prev[rowIndex],

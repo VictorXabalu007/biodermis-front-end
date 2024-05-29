@@ -21,7 +21,8 @@ export const ConsultorsTable = () => {
         setColumnFilters,
         sorting,
         setSorting, 
-        setData} = useTableData();
+        setData,
+    } = useTableData();
 
     const table = useReactTable<ConsultorsData>({
         data,
@@ -82,6 +83,22 @@ export const ConsultorsTable = () => {
                     <C.Container>
 
                     <C.Table>
+
+             
+
+                        {data.length === 0 &&
+                        
+                        <>
+                        
+                            <div>
+                                Nenhum dado cadastrado no momento
+                            </div>
+                        
+                        </>
+                        }
+
+                     
+
                         <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>

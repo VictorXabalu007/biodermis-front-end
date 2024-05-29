@@ -21,7 +21,7 @@ export const Checkboxes = ({control}: RegisterFieldProps<UserData>) => {
             />
 
             <Controller 
-                defaultValue="admin"
+                defaultValue={UserRole.ADMIN}
                 control={control}
                 name="userRole"
                 render={({ field:{onChange} }) => (
@@ -59,6 +59,12 @@ export const Checkboxes = ({control}: RegisterFieldProps<UserData>) => {
                                 <Col lg={3} span={3}>
 
                                     <Radio onChange={onChange}value={UserRole.MANAGER}>Gerente</Radio>
+                                
+                                </Col>
+
+                                <Col lg={3} span={3}>
+
+                                    <Radio onChange={onChange}value={UserRole.USER}>Cliente</Radio>
                                 
                                 </Col>
 

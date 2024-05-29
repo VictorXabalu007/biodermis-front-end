@@ -3,19 +3,37 @@ import { Header as H } from "antd/es/layout/layout";
 import { BORDER_GRAY } from "../../../../constants/classnames/classnames";
 import { Heading } from "../../../shared/Heading";
 import { Text } from "../../../shared/Text";
+import { AUTH_USER } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useEffect, useState } from "react";
+import { UserData } from "../../../../@types/UserData/UserData";
 
 
 export const Header = ({heading}:{heading:string}) => {
+
+    const [username, setUsername] = useState<string>('Username');
 
     const {
 
         token: { colorBgContainer },
     
       } = theme.useToken();
+
     
+    useEffect(()=> {
+
+        const userData:UserData = JSON.parse(sessionStorage.getItem(AUTH_USER)?? '{}');
+
+        if(userData) {
+            setUsername(userData.usuario.nome);
+        }
+
+    },[username]);
+
       
     return (
+
         <>
+
         <H style={{ 
             background: colorBgContainer,
             height: '96px', 
@@ -25,10 +43,9 @@ export const Header = ({heading}:{heading:string}) => {
             justifyContent: 'space-between',
             padding: '2rem',
             lineHeight: 1.3
-        }} 
-  
-            >
-            <div >
+        }}>
+
+            <div>
                 <Heading.Root>
                     <Heading.Content content={heading} />
                 </Heading.Root> 
@@ -39,7 +56,9 @@ export const Header = ({heading}:{heading:string}) => {
 
             <div>
                 <Heading.Root>
-                    <Heading.Content content="Username" />
+                    <Heading.Content 
+                       content={username}
+                     />
                 </Heading.Root>  
             </div>     
 

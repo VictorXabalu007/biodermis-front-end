@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CONSULTORS, DEFAULT_PATH, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
+import { CONSULTORS, DEFAULT_PATH, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -10,6 +10,9 @@ import { WithdrawalRequestsTemplate } from "./templates/WithdrawalRequests";
 import { InvoicingTemplate } from "./templates/Invoicing";
 import { RegisterConsultorTemplate } from "./templates/Register/RegisterConsultor";
 import { RegisterProductsTemplate } from "./templates/Register/RegisterProducts";
+import { Login } from "./components/Auth/Login";
+import { ForgotPassStep1 } from "./components/Auth/ForgotPass/Step1";
+import { ForgotPassStep2 } from "./components/Auth/ForgotPass/Step2";
 
 export const AppRoutes = () => {
 
@@ -20,7 +23,13 @@ export const AppRoutes = () => {
 
             <Routes>
 
-                <Route path={DEFAULT_PATH} element={<HomeTemplate />} />
+
+                <Route path={DEFAULT_PATH} element={<Login />} />
+                
+                <Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
+                <Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
+
+                <Route path={HOME} element={<HomeTemplate />} />
                 <Route path={REQUESTS} element={<RequestsTemplate />} />
 
                 <Route path={CONSULTORS} element={<ConsultorsTemplate />} />
