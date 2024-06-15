@@ -3,59 +3,50 @@ import { Form } from "../../../../../shared/Form";
 import { Input } from "../../../../../shared/Input/Input";
 import { InputRoot } from "../../../../../shared/Input/Input/InputRoot";
 import InputMoney from "../../../../../shared/Input/InputNumber";
-
-import { ProductImage } from "../ProductImage";
-import React, { useRef, useState } from "react";
-import { ProductsData } from "../../../../../Register/RegisterProducts/components/FormContainer";
+import React, { useEffect, useRef, useState } from "react";
 import { TableActionsProps } from "../../../../../../@types/TableActions/TableActions";
+import { ProductsType } from "../../../../service/getProducts";
+import Select from 'react-select';
+import { Button } from "../../../../../shared/Button";
+import { categoryOptions } from "../../../../util/getCategoryOptions";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../../../../service/connection";
+import { isConsultor } from "../../../../../../functions/Validators/ValidateConsultor/isConsultor";
+import { useMessageAction } from "../../../../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../../../../service/getHeaders";
+import { Image } from "antd";
 
 
-
-
-
-type ProductsViewFields = {
-
-  productName: string;
-  sellPrice: number;
-  weight: string;
-  totalSold: string;
-  height: string;
-  width: string;
-  depth: string;
-  fakePrice:number;
-  category: string;
-  maxPrice:number;
-
-}
-
-export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>) => {
+export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>) => {
 
   
   const [isEditable, setIsEditable] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const productNameRef = useRef<HTMLInputElement>(null);
+  
+  const {contextHolder, success, error} = useMessageAction();
+  
 
-  const {control} = useForm<ProductsViewFields>({
-    
+  const {control, handleSubmit} = useForm<ProductsType>({
+
+    defaultValues: {
+      ...data
+    }
+
   });
 
-  const initialFields = {
-    productName: data.productName,
-    sellPrice: parseFloat(data.sellPrice),
-    weight: data.weight,
-    totalSold: "100",
-    height: data.height,
-    fakePrice: parseFloat(data.ficticiousPrice),
-    width: data.width,
-    depth: data.depth,
-    maxPrice: parseFloat(data.maxPrice),
-    category: data.category,
-  };
 
-  const [fields, setFields] = useState<ProductsViewFields>({
-    ...initialFields,
+  console.log(row.original);
+  
+
+
+  const [fields, setFields] = useState<ProductsType>({
+    ...data,
   });
 
-  const handleBlur = (fieldName: keyof ProductsViewFields) => {
+
+
+  const handleBlur = (fieldName: keyof ProductsType) => {
 
     const isNumber = typeof fields[fieldName] === 'number';
 
@@ -63,20 +54,94 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
       if (fields[fieldName] === "" || isNumber && isNaN(Number(fields[fieldName]))) {
         setFields({
            ...fields, 
-           [fieldName]: initialFields[fieldName] 
+           [fieldName]: fields[fieldName] 
         });
-      } else {
-        //@ts-ignore
-        table.options.meta?.updateData(row.index, fieldName, fields[fieldName]);
-      }
+      } 
     };
+
   };
+
+
+  const [text, setText] = useState('Editar produto');
 
   const handleClick = () => {
 
-      setIsEditable(true);
-      productNameRef.current?.focus()
+      setIsEditable(!isEditable);
+      setIsEditing(!isEditing);
+      setText('Salvar edição')
+      productNameRef.current?.focus();
+
+  }
+
+  useEffect(()=> {
+
+    if(!isEditable){
+      setText('Editar produto');
+      setIsEditing(false)
+    }
+
+  },[text, isEditable])
+
+  const mutation = useMutation({
+    mutationFn: async (data:ProductsType)=> {
+
+      const body = {
+        ...data
+      }
+
+      const headers = getHeaders();
+
+      console.log(isConsultor());
+
+      if(isConsultor()){
+
+        const reqConsult = await api.patch(`/consultor/produtos/${data.produto_id}`,{
+          valorprod: data.valorvenda
+        },{
+          headers
+        });
+
+        return reqConsult.data
+
+      } else {
+        
+          const req = await api.patch(`/produtos/${data.id}`,body,{
+              headers
+          })
+              
+
+        return req.data;
+
+      }
+
+    },
+    onSuccess: (res, context)=> {
+
+      success(res.success);
+
+      //@ts-ignore
+      table.options.meta?.updateData(row.index, context);
+  
+
       
+    },
+    onError:(err:any)=> {
+
+
+      error(err.response.data.error);
+
+      
+    }
+  })
+
+  const onSubmit = (data:ProductsType) => {
+
+    if(!isEditing){
+
+      mutation.mutate(data);
+
+    }
+    
   }
 
 
@@ -84,14 +149,37 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
     <article className="flex px-5 items-center min-h-[250px] gap-3">
 
-      <div>
-        <ProductImage 
-          onClick={handleClick}
-          productName={data.productName} 
-        />
-      </div>
+      {contextHolder}
 
-      <form>
+      <form 
+        onSubmit={handleSubmit(onSubmit)} 
+        className="flex gap-5"
+      >
+
+        <div>
+          <div className="h-[150px] w-[150px]">
+
+              <Image 
+                height={"150px"}
+                src={data.imagePath} 
+                alt={data.nome} 
+                className="rounded-md"
+                style={{borderRadius: '5px 5px 0 0'}}
+              />
+
+              <Button.Root 
+                  onClick={handleClick}
+                  style={{borderRadius: '0 0 5px 5px'}} 
+                  className="flex-1 w-full"
+              >
+                  <Button.Wrapper>
+                      <Button.Content content={text} />
+                  </Button.Wrapper>
+              </Button.Root>
+
+          </div>
+
+        </div>
 
         <div className="flex mt-4 gap-10 items-center">
 
@@ -99,12 +187,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
             <div className="flex gap-6">
 
-
-
-              
               <Controller 
               control={control}
-              name="productName"
+              name="nome"
               render={({field})=> (
 
               <Form.InputWrapper>
@@ -118,18 +203,18 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
                   <input
                     
                     className="p-0 bg-transparent border focus:outline-none border-gray-neutral-200  rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={fields.productName}
+                    value={fields.nome}
                     onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
                       setFields(prev => (
                         {...prev, 
-                        productName: e.target.value}
+                        nome: e.target.value}
                       ));
                       field.onChange(e.target.value)
                       
                     }}
                     ref={productNameRef}
                     
-                    onBlur={handleBlur('productName')}
+                    onBlur={handleBlur('nome')}
                     readOnly={!isEditable}
                   />
 
@@ -142,42 +227,107 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
               />
 
 
-          <Controller 
+
+            {isConsultor() ?
             
-            control={control}
-            name="sellPrice"
-            render={({field})=> (
+              <>
 
-            <Form.InputWrapper>
-              <InputRoot className="w-[120px]">
-                <Input.Label
-                  content="Preço de venda"
-                  className="text-gray-neutral-400"
-                />
-
-                <InputMoney
-                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.sellPrice}
-                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                    setFields(prev => ({
-                      ...prev,
-                      sellPrice: parseFloat(e.target.value)
-                    }));
-                    field.onChange(e.target.value)
-                  }}
-                  prefix={"R$"}
-                  onBlur={handleBlur('sellPrice')}
-                  readOnly={!isEditable}
-
+            <Controller 
                 
-                />
-              </InputRoot>
+                control={control}
+                name="valortotal"
+                render={({field})=> (
 
-            </Form.InputWrapper>
+                <Form.InputWrapper>
+                  <InputRoot className="w-[120px]">
+                    <Input.Label
+                      content="Preço de venda"
+                      className="text-gray-neutral-400"
+                    />
 
-            )}/>
+                    <InputMoney
+                      
+                      className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                      value={parseFloat(fields.valortotal)}
+                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+
+
+                            setFields(prev => ({
+                              ...prev,
+                              valortotal: e.target.value
+                            }));
+                            field.onChange(e.target.value)
+                        
+                        
+                          }
+                        }
+                      prefix={"R$"}
+                      onBlur={handleBlur('valortotal')}
+                      readOnly={!isEditable}
+
+                    
+                    />
+                  </InputRoot>
+
+                </Form.InputWrapper>
+
+                )}/>
+
+
+            
+            
+              </> : (
+
+              <>
               
-          
+                
+              <Controller 
+                
+                control={control}
+                name="valorvenda"
+                render={({field})=> (
+
+                <Form.InputWrapper>
+                  <InputRoot className="w-[120px]">
+                    <Input.Label
+                      content="Preço de venda"
+                      className="text-gray-neutral-400"
+                    />
+
+                    <InputMoney
+                      
+                      className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
+                      value={parseFloat(fields.valorvenda)}
+                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+
+
+                            setFields(prev => ({
+                              ...prev,
+                              valorvenda: e.target.value
+                            }));
+                            field.onChange(e.target.value)
+                        
+                        
+                          }
+                        }
+                      prefix={"R$"}
+                      onBlur={handleBlur('valorvenda')}
+                      readOnly={!isEditable}
+
+                    
+                    />
+                  </InputRoot>
+
+                </Form.InputWrapper>
+
+                )}/>
+              
+              
+              </>
+
+
+
+            )}
 
 
             </div>
@@ -185,32 +335,27 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
             <Controller 
             
             control={control}
-            name="category"
+            name="categoria_id"
             render={({field:{onChange}})=> (
 
             <Form.InputWrapper>
-              <InputRoot >
+              <InputRoot>
 
                 <Input.Label
                   content="Categoria"
                   className="text-gray-neutral-400"
                 />
 
-                <Input.System
-                  className=" p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.category}
-                  onChange={(e) => {
-                    setFields(prev => ({
-                      ...prev,
-                      category: e.target.value
-                    }));
-                    onChange(e.target.value)
-                  }}
-                  onBlur={handleBlur('category')}
-                  readOnly={!isEditable}
-
-                
+                <Select
+                      isSearchable
+                      options={categoryOptions}
+                      defaultValue={categoryOptions[fields.categoria_id]}
+                      onChange={(selectedOption) => onChange(selectedOption?.value)}
+                      isDisabled={!isEditable}
                 />
+
+
+
                 
               </InputRoot>
 
@@ -224,7 +369,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
             <Controller 
             control={control}
-            name="weight"
+            name="peso"
             render={({field})=> (
 
               <Form.InputWrapper>
@@ -233,15 +378,15 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
                   <Input.System
                     className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={fields.weight}
+                    value={fields.peso}
                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                       setFields(prev => ({
                         ...prev,
-                        weight: e.target.value
+                        peso: e.target.value
                       }));
                       field.onChange(e.target.value)
                     }}
-                    onBlur={handleBlur('weight')}
+                    onBlur={handleBlur('peso')}
                     readOnly={!isEditable}
 
                   />
@@ -252,46 +397,10 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
               )}
 
             />
-
-              <Controller 
-                control={control}
-                name="totalSold"
-                render={({field})=> (
-                  <Form.InputWrapper>
-                  <InputRoot>
-                    <Input.Label
-                      content="Total vendidos"
-                      className="text-gray-neutral-400"
-                    />
-
-                    <Input.System
-                      className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                      value={fields.totalSold}
-                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                        setFields(prev => ({
-                          ...prev,
-                          totalSold: e.target.value
-                        }));
-                        field.onChange(e.target.value);
-                      }}
-                      onBlur={handleBlur('totalSold')}
-                      readOnly={!isEditable}
-
-                    />
-
-                  </InputRoot>
-                </Form.InputWrapper>
-
-                )}
-
-              />
-          </div>
-
-          <div className="flex gap-6 flex-col">
-
+            
             <Controller
             control={control}
-            name="height"
+            name="altura"
             render={({field})=> (
 
             <Form.InputWrapper>
@@ -303,15 +412,15 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
                 <Input.System
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.height}
+                  value={fields.altura}
                   onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                     setFields(prev => ({
                       ...prev,
-                      height: e.target.value
+                      altura: e.target.value
                     }));
                     field.onChange(e.target.value);
                   }}
-                  onBlur={handleBlur('height')}
+                  onBlur={handleBlur('altura')}
                   readOnly={!isEditable}
 
                 />
@@ -320,31 +429,35 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
             )}
             />
+          </div>
+
+          <div className="flex gap-6 flex-col">
+
 
             <Controller 
             control={control}
-            name="fakePrice"
+            name="valormin"
             render={({field})=> (
 
             <Form.InputWrapper>
               <InputRoot>
                 <Input.Label
-                  content="Preço fictício"
+                  content="Preço mínimo"
                   className="text-gray-neutral-400"
                 />
 
                 <InputMoney
                   prefix="R$"
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.fakePrice}
+                  value={parseFloat(fields.valormin)}
                   onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                     setFields(prev => ({
                       ...prev,
-                      fakePrice: parseFloat(e.target.value)
+                      valormin: e.target.value
                     }));
                     field.onChange(e.target.value);
                   }}
-                  onBlur={handleBlur('fakePrice')}
+                  onBlur={handleBlur('valormin')}
                   readOnly={!isEditable}
 
                 />
@@ -354,13 +467,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
             )}
             />
 
-          </div>
-
-          <div className="flex flex-col gap-6">
-            <div className="flex gap-5">
-
-              <Controller 
-              name="width"
+            
+        <Controller 
+              name="largura"
               control={control}
               render={({field})=> (
 
@@ -374,15 +483,15 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
                 <Input.System
                   placeholder={"10cm"}
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.width}
+                  value={fields.largura}
                   onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                     setFields(prev => ({
                       ...prev,
-                      width: e.target.value
+                      largura: e.target.value
                     }));
                     field.onChange(e.target.value);
                   }}
-                  onBlur={handleBlur('width')}
+                  onBlur={handleBlur('largura')}
                   readOnly={!isEditable}
 
               
@@ -392,8 +501,14 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
               )}
               />
 
+          </div>
+
+          <div className="flex flex-col gap-6">
+            <div className="flex gap-5">
+
+
               <Controller
-              name="depth"
+              name="profundidade"
               control={control}
               render={({field})=> (
 
@@ -407,15 +522,15 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
                 <Input.System
                   placeholder={"10cm"}
                   className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  value={fields.depth}
+                  value={fields.profundidade}
                   onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                     setFields(prev => ({
                       ...prev,
-                      depth: e.target.value
+                      profundidade: e.target.value
                     }));
                     field.onChange(e.target.value);
                   }}
-                  onBlur={handleBlur('depth')}
+                  onBlur={handleBlur('profundidade')}
                   readOnly={!isEditable}
 
                 />
@@ -429,7 +544,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
 
             <Controller 
             control={control}
-            name="maxPrice"
+            name="valormax"
             render={({field})=> (
 
             <Input.Root className="w-2/3">
@@ -442,15 +557,15 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsData>)
               <InputMoney
                 className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
                 prefix="R$"
-                value={fields.maxPrice}
+                value={parseFloat(fields.valormax)}
                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
                   setFields(prev => ({
                     ...prev,
-                    maxPrice: parseFloat(e.target.value)
+                    valormax: e.target.value
                   }));
                   field.onChange(e.target.value);
                 }}
-                onBlur={handleBlur('maxPrice')}
+                onBlur={handleBlur('valormax')}
                 readOnly={!isEditable}
 
               />

@@ -1,11 +1,12 @@
 import { FaMoneyBills } from "react-icons/fa6";
-import { options } from "../../../../util/ChartData/options";
-import { series } from "../../../../util/ChartData/series";
 import { Chart } from "../../../shared/Chart";
 import { ChartHeader } from "../../../shared/Chart/components/ChartHeader";
 import { ChartWrapper } from "../../../shared/Chart/components/ChartWrapper";
+import { useChartSeries } from "../../../../hooks/useChartData/useChartData";
 
 export const ChartContainer = () => {
+
+  const {series,options} = useChartSeries();
 
   return (
 

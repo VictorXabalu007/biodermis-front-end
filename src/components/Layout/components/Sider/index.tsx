@@ -15,14 +15,18 @@ export const S = () => {
 
         token: { colorBgContainer },
     
-      } = theme.useToken();
+    } = theme.useToken();
 
     return (
 
         <Sider
-        width={240}
+        width={220}
         
-        style={{ background: colorBgContainer , borderRight: BORDER_GRAY}}
+        style={{ 
+            background: colorBgContainer , 
+            borderRight: BORDER_GRAY,
+        
+        }}
         breakpoint="lg"
         collapsedWidth="0"
         onCollapse={setCollapsed}

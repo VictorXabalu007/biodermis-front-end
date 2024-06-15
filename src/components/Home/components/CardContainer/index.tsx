@@ -1,36 +1,57 @@
 
+import { Flex } from "antd";
 import { StatsCard } from "../../../shared/Card/StatsCard";
-import { cardItems } from "./util/cardItems";
+import { useInvoicingCardItem } from "../../../Invoicing/hooks/useInvoicingCardItem";
+import { Spinner } from "../../../shared/Spinner";
 
 
 export const CardContainer = () => {
 
-
+    const {items, isLoading} = useInvoicingCardItem({enableFilterDate:false});
+    
 
     return (
         
-    <article className="flex gap-3 items-center flex-wrap">
+    <Flex className="w-full" justify="space-between" gap={8} align="center" wrap>
 
-        {cardItems.map((item,index) => {
+    
+            {items.map((item,index) => {
             return (
 
-            <StatsCard.Root key={index}>
-                <StatsCard.Header icon={item.icon} title={item.title}/>
-                <StatsCard.Footer>
+                isLoading ? <>
 
-                    <StatsCard.FooterContent
-                     headingContent={item.footerHeding} 
-                     textContent={item.footerText} />
+                    <Spinner key={index} />
+                
+                </> : (
 
-                    <StatsCard.Percentual percentual={item.percentual} />
+                    <StatsCard.Root key={index}>
+                        <StatsCard.Header icon={item.icon} title={item.title}/>
+                        <StatsCard.Footer>
+        
+                            <StatsCard.FooterContent
+                            headingContent={item.footerHeding} 
+                            textContent={item.footerText} 
+                            dates=""
+                            />
+        
+                            <StatsCard.Percentual percentual={item.percentual} />
+        
+                        </StatsCard.Footer>
+                    </StatsCard.Root>
+                )
 
-                </StatsCard.Footer>
-            </StatsCard.Root>
+
+                
+
+          
 
             )
         })}
+            
+        
+        
 
-    </article>
+    </Flex>
 
     );
 }

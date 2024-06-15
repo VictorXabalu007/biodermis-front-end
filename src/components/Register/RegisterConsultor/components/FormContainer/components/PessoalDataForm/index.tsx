@@ -4,9 +4,12 @@ import { PatternFormat } from "react-number-format";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
 import { UserData } from "../..";
-import { Form as AntdForm } from "antd";
 
-const Item = AntdForm.Item;
+import { InputWrapper } from "../../../../../../Auth/Login/styles";
+import { InputPassword } from "../../../../../../shared/Input/Password";
+import { FormItem } from "../../../../../../shared/Form/FormItem";
+
+
 
 export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>) => {
 
@@ -25,15 +28,15 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
               
                 <Controller
                 control={control}
-                name="name"
+                name="nome"
                 render={({field: {onChange}})=> {
 
                   return (
 
-                    <Item
-                      name="name"
-                      validateStatus={errors.name ? 'error' : 'success'}
-                      help={errors.name && errors.name.message}
+                    <FormItem
+                      name="nome"
+                      validateStatus={errors.nome ? 'error' : 'success'}
+                      help={errors.nome && errors.nome.message}
                       hasFeedback
                     >
 
@@ -58,7 +61,7 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
 
                       </Input.Root>
                       </Form.InputWrapper>
-                    </Item>
+                    </FormItem>
             
                   )
                   
@@ -72,7 +75,7 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
                     render={({field:{onChange}})=> {
                       return (
 
-                          <Item
+                          <FormItem
                           name="cpf"
                           validateStatus={errors.cpf ? 'error' : 'success'}
                           help={errors.cpf && errors.cpf.message}
@@ -97,7 +100,7 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
 
                               </Form.InputWrapper>
 
-                          </Item>
+                          </FormItem>
 
                           
                       )
@@ -116,7 +119,7 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
                   render={({field})=> {
                     return (
 
-                        <Item
+                        <FormItem
                         name="email"
                         validateStatus={errors.email ? 'error' : 'success'}
                         help={errors.email && errors.email.message}
@@ -145,23 +148,23 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
                           </Form.InputWrapper>
 
 
-                        </Item>
+                        </FormItem>
 
                     )}}
                   
                   />
                   
                 <Controller 
-                name="phone"
+                name="telefone"
                 control={control}
                 rules={{required: true}}
                 render={({field})=> {
                   return (
 
-                    <Item 
-                    name="phone"
-                    validateStatus={errors.phone ? 'error' : 'success'}
-                    help={errors.phone && errors.phone.message}>
+                    <FormItem 
+                    name="telefone"
+                    validateStatus={errors.telefone ? 'error' : 'success'}
+                    help={errors.telefone && errors.telefone.message}>
 
                         <Form.InputWrapper >
                           
@@ -181,7 +184,39 @@ export const PessoalDataForm = ({ errors, control}: RegisterFieldProps<UserData>
                           />
                           
                        </Form.InputWrapper>
-                      </Item>
+                      </FormItem>
+ 
+                  )
+                }}
+                />
+
+                <Controller 
+                name="senha"
+                control={control}
+                rules={{required: true}}
+                render={({field})=> {
+                  return (
+
+                    <FormItem 
+                    name="senha"
+                    validateStatus={errors.senha ? 'error' : 'success'}
+                    help={errors.senha && errors.senha.message}>
+
+                        <Form.InputWrapper >
+                          
+                          <label>Senha</label>
+
+                          <InputWrapper>
+                            <InputPassword 
+                              className="ant-input"
+                              {...field}
+                              placeholder="********"
+                            />
+                          
+                          </InputWrapper>
+
+                       </Form.InputWrapper>
+                      </FormItem>
  
                   )
                 }}

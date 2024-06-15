@@ -7,9 +7,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Dayjs }  from 'dayjs';
 import { NoUndefinedRangeValueType } from 'rc-picker/lib/PickerInput/RangePicker';
 import { RangeDateActions, useRangeDate } from '../../../../context/RangeDate/RangeDateContext';
+import { RangePickerProps } from 'antd/es/date-picker';
 
 const { RangePicker } = DP;
-export const InputRangePicker = () => {
+
+export const InputRangePicker = (props:RangePickerProps) => {
 
     const [dateRange, setDateRange] = useState<[string,string]>(['', '']);
     const {dispatch} = useRangeDate();
@@ -42,6 +44,7 @@ export const InputRangePicker = () => {
     return (
 
         <RangePicker
+        {...props}
         style={{color: '#FFF'}}
         className='text-white w-full md:w-[230px] p-2 bg-brand-purple flex gap-0 hover:bg-brand-purple/75 hover:border-brand-purple/75'
         suffixIcon={<IoCalendarNumberOutline className='text-white text-2xl' />}

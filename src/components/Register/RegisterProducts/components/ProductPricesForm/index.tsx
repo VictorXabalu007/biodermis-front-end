@@ -165,60 +165,6 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
 
                 </Form.InputWrapper>
 
-                <Form.InputWrapper>
-
-                    <Controller
-                    
-                    control={control}
-                    name="ficticiousPrice"
-                    render={({field:{onChange, value}})=> {
-
-                        return (
-
-                            <FormItem
-                            name={'ficticiousPrice'}
-                            validateStatus={errors.ficticiousPrice ? 'error' : 'success'}
-                            help={errors.ficticiousPrice && errors.ficticiousPrice.message}
-                            hasFeedback
-                            
-                            >
-
-
-                            <Input.Root>
-    
-                                <Input.Label 
-                                content="Preço fictício"
-                                className="text-gray-neutral-600"
-                                htmlFor="ficticiousPrice"
-                                
-                                />
-
-                                <InputMoney
-                                    id="ficticiousPrice"
-                                    prefix={"R$"}
-                                    value={parseFloat(value)}
-                                    onChange={onChange}
-                                    className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
-                                />
-                                
-                            
-                            </Input.Root>
-
-
-                            </FormItem>
-                            
-                        )
-                    }}
-                    
-                    />
-
-                </Form.InputWrapper>
-
-                
-
-                
-
-               
 
 
 

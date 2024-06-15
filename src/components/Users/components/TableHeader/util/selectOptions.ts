@@ -24,4 +24,8 @@ export const userSelectOptions = [
         value: UserRole.MANAGER,
         label: 'Tipo: Gerente'
     },
+    {
+        value: UserRole.USER,
+        label: 'Tipo: Usuário'
+    },
 ]

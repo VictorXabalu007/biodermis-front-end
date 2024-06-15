@@ -3,12 +3,13 @@ import { HiOutlinePencilAlt } from "react-icons/hi"
 import { IoMdClose } from "react-icons/io";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { Modal } from "antd";
-import { ModalNavigator } from "../Modal/Navigator";
+
 import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
-import { UserData } from "../../../Register/RegisterConsultor/components/FormContainer";
+import { ModalNavigator } from "../../../shared/Modal/Navigator";
+import { UserCredentials } from "../../../../@types/UserData/UserData";
 
 
-export const TableActions = ({data, table, row}:TableActionsProps<UserData>) => {
+export const TableActions = ({data, table, row}:TableActionsProps<UserCredentials>) => {
 
     const {confirm} = Modal;
 
@@ -17,7 +18,8 @@ export const TableActions = ({data, table, row}:TableActionsProps<UserData>) => 
 
         confirm({
 
-            content:<ModalNavigator 
+            content:
+            <ModalNavigator 
             onSubmit={()=> {}}
             data={data} 
             isReadonly={props.readOnly}

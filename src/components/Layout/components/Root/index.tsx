@@ -1,21 +1,17 @@
 
-import { Layout } from 'antd';
-import {  ReactNode } from 'react';
+import { Layout, LayoutProps } from 'antd';
 import { twMerge } from 'tailwind-merge';
 
 
 
-type RootProps = {
-    children:ReactNode;
-    className?:string;
-}
 
-export const Root = ({children,className}:RootProps) => {
+
+export const Root = ({children,className, ...rest}:LayoutProps) => {
 
 
     return (
 
-        <Layout className={twMerge('bg-white',className)}>
+        <Layout {...rest} style={{background: '#F5F5F5'}} className={twMerge('bg-white',className)}>
             
             {children}
 

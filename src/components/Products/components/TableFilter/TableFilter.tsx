@@ -6,7 +6,15 @@ import { Button } from "../../../shared/Button";
 import { REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
 import { FaPlus } from "react-icons/fa6";
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
+import { isConsultor } from "../../../../functions/Validators/ValidateConsultor/isConsultor";
+import { Modal } from "antd";
+import { IoMdClose } from "react-icons/io";
+import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
+import { FormModal } from "../Modal";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../../../../service/queryClient";
 
+const {confirm} = Modal;
 
 export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps) => {
 
@@ -17,6 +25,42 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
     const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
         prev.filter(f=> f.id !== id).concat({id,value})
     ));
+
+    const handleClose = () => {
+        Modal.destroyAll();
+    }
+
+    const showConsultorModal = () => {
+        confirm({
+            content: 
+            <QueryClientProvider client={queryClient}>
+
+                <FormModal handleClose={handleClose} />
+
+            </QueryClientProvider>
+           
+            ,
+            maskClosable: true,
+            closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
+            closable: true,
+            okButtonProps: {className: 'hidden'}, 
+            cancelButtonProps: {className: 'hidden'},
+        })
+    }
+
+    const handleClick = () => {
+
+
+        if(isConsultor()){
+
+            showConsultorModal();
+
+        } else {
+            navigate(REGISTER_PRODUCTS)
+        }
+
+
+    }
 
     return (
 
@@ -46,7 +90,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                 <div className="flex flex-wrap gap-2">
 
                     <Button.Root
-                        onClick={()=>navigate(REGISTER_PRODUCTS)}
+                        onClick={handleClick}
                     >
                         <Button.Content content="Adicionar um produto" />
                         <Button.Icon icon={FaPlus} />

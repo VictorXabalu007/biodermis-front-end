@@ -6,6 +6,11 @@ export type RangeDateState = {
     rangeDate: [string,string];
 }
 
+export type FilterDateConstraints = {
+    enableFilterDate?: boolean
+}
+
+
 type Action = {
 
     type:RangeDateActions,
@@ -13,13 +18,13 @@ type Action = {
 
 }
 
-type RefinedRangeDate = { startDate: string; endDate: string };
+export type RefinedRangeDate = { startDate: string; endDate: string };
 
 type ContextType = {
 
     state: RangeDateState,
     dispatch: (action: Action) => void
-    refineRangeDate: (rangeDate:RangeDateState) => {startDate: string,endDate:string}
+    getDates: (rangeDate:RangeDateState) => { startDate: string, endDate: string }
 
 }
 
@@ -50,13 +55,15 @@ const RangeDateProvider = ({children}:ProviderProps) => {
 
     const [state,dispatch] = useReducer(rangeDateReducer,initialData);
 
-    const value = {state,dispatch,refineRangeDate};
+    const value = {state,dispatch,getDates};
 
     return <RangeDateContext.Provider value={value}>
             {children}
     </RangeDateContext.Provider>;
 
 }
+
+
 
 const refineRangeDate = (state: RangeDateState):RefinedRangeDate => {
 
@@ -69,10 +76,17 @@ const refineRangeDate = (state: RangeDateState):RefinedRangeDate => {
 
 }
 
+const getDates = (state:RangeDateState):RefinedRangeDate => {
+
+    const dates = refineRangeDate(state)
+    return dates
+
+}   
+
 
 const useRangeDate = () => {
-    const context = useContext(RangeDateContext)
 
+    const context = useContext(RangeDateContext)
     
     if(context===undefined) {
         throw new Error('useRangeDate precisa ser usado dentro do RangeDateProvider')
@@ -84,5 +98,5 @@ const useRangeDate = () => {
 export {
     useRangeDate,
     RangeDateProvider,
-    RangeDateActions
+    RangeDateActions,
 }

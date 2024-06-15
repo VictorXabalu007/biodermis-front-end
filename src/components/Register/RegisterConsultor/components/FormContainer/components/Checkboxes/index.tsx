@@ -23,11 +23,11 @@ export const Checkboxes = ({control}: RegisterFieldProps<UserData>) => {
             <Controller 
                 defaultValue={UserRole.ADMIN}
                 control={control}
-                name="userRole"
+                name="cargo_id"
                 render={({ field:{onChange} }) => (
 
                     <FormItem
-                    name={"userRole"}
+                    name={"cargo_id"}
                     >
 
                           <Radio.Group  

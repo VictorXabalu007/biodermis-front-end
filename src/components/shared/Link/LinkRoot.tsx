@@ -7,14 +7,19 @@ type LinkRootProps = {
     children: ReactNode;
     path: string;
     className? : string
+    onClick?: ()=> void
 }
 
 export const LinkRoot = ({children, path, className} : LinkRootProps) => {
 
     return (
 
-        <Link className={twMerge('text-center hover:text-brand-purple', className)} to={path}>
+        <Link 
+        className={twMerge('text-center hover:text-brand-purple', className)} 
+        to={path}>
+
             {children}
+
         </Link>
 
     )

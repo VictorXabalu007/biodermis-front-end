@@ -1,6 +1,4 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { NameItem } from "../../shared/Image/NameItem/NameItem";
-import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildStatus } from "../functions/buildStatus";
 import { TableActions } from "../components/TableActions";
@@ -8,51 +6,23 @@ import { IoIosArrowUp } from "react-icons/io";
 import { Text } from "../../shared/Text";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { useMemo, useState } from "react";
-import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { Flex } from "antd";
-import { useQuery } from "@tanstack/react-query";
-import { getConsultors } from "../service/getConsultors";
+import { CONSULTORS } from "../../../constants/paths/paths";
+import { UserCredentials } from "../../../@types/UserData/UserData";
+import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
+import { useConsultorData } from "./useConsultorData";
 
 
-export interface ConsultorsData extends UserData {
-    totalFatured: number
-    rank: string
-    bankData: UserData['bankData'];
-}
+const columnHelper = createColumnHelper<UserCredentials>();
 
-const columnHelper = createColumnHelper<ConsultorsData>();
-
-export const consultorsData:ConsultorsData[] = 
-JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
+export const consultorsData:UserCredentials[] = 
+JSON.parse(sessionStorage.getItem(CONSULTORS) ?? '{}')
 
 export const useTableData = () => {
 
-    const {data:consultors, isLoading} = useQuery({
-        queryKey: ['consultors'],
-        queryFn: getConsultors
-
-    });
-
-
-    const [data, setData] = useState<ConsultorsData[]>(() => {
-        if (consultors && consultorsData.length > 0) {
-            const sortedData = consultorsData
-                .sort((a, b) => b.totalFatured - a.totalFatured);
-    
-            return sortedData.map((d, index) => ({
-                ...d,
-                rank: String(index + 1),
-            }));
-        } else {
-            return [];
-        }
-    });
-
-    console.log(data);
-    
+    const {consultor,setConsultor, isLoading} = useConsultorData();
+      
     const [sorting, setSorting] = useState<any[]>([]);
-    
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     
@@ -60,7 +30,7 @@ export const useTableData = () => {
     const columns = useMemo(() => [
 
         columnHelper.accessor('rank', {
-            header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
+            header: ({header}) => <TableSorterTitle header={header} title="Tops" />,
             cell: ({getValue}) => {
     
                 return (
@@ -84,25 +54,29 @@ export const useTableData = () => {
             },
             enableSorting: true,
         }),
-        columnHelper.accessor('name', {
-            header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /> </div>,
-            cell: (name) => <NameItem name={name.getValue()} />,
+        columnHelper.display({
+            id: 'userImage',
+            header: ()=> <div>#</div>
+        }),
+        columnHelper.accessor('nome', {
+            header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
+            cell: ({getValue}) => <p>{getValue()}</p>,
             enableSorting: true,
         }),
         columnHelper.accessor('email', {
             header: () => <p>Email</p>,
             cell: (email) => <p> {email.getValue()} </p>
         }),
-        columnHelper.accessor('phone', {
+        columnHelper.accessor('telefone', {
             header: () => <p>Telefone</p>,
             cell: (phone) => <p> {phone.getValue()} </p>
         }),
-        columnHelper.accessor('totalFatured',{
+        columnHelper.accessor('totalfat',{
             id: 'totalFatured',
-            header: () => <Flex gap={2} justify="center">Total faturado <ArrowUpDownIcon /></Flex>,
+            header: ({header}) => <TableSorterTitle header={header} title="Total faturado" />,
             cell: ({getValue}) => (
                     <NumericFormatter
-                        value={getValue()}
+                        value={parseFloat(getValue())}
                     />
                 ),
             enableSorting: true
@@ -137,12 +111,12 @@ export const useTableData = () => {
     
 
     return {
-        data,
+        data:consultor,
         columns,
         columnFilters,
         sorting,
         setSorting,
-        setData,
+        setData:setConsultor,
         setColumnFilters,
         isLoading
     }

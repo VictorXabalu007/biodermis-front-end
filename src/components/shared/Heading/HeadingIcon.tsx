@@ -4,10 +4,11 @@ import { ElementType } from "react"
 type HeadingIconProps = {
     icon:ElementType,
     className?:string,
+    onClick?: () => void;
 }
 
-export const HeadingIcon = ({icon:Icon,className}:HeadingIconProps) => {
+export const HeadingIcon = ({icon:Icon,className, onClick}:HeadingIconProps) => {
 
-    return <Icon className={className} />;
+    return <Icon onClick={onClick} className={className} />;
     
 }

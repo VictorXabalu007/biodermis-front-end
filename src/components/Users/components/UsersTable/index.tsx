@@ -8,6 +8,9 @@ import { Pagination } from "../../../shared/Pagination/index.tsx"
 import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys.ts"
 import { useEffect } from "react"
 import { TableSorters } from "../../../shared/Table/components/TableSorters.tsx"
+import { Empty, Spin } from "antd"
+import { Spinner } from "../../../shared/Spinner/index.tsx"
+import { UserCredentials } from "../../../../@types/UserData/UserData.ts"
 
 
 export const UsersTable = () => {
@@ -16,16 +19,17 @@ export const UsersTable = () => {
     const {
          columnFilters,
          columns, 
-         data,
-         setData, 
+         users,
+         setUsers, 
          setColumnFilters,
          sorting,
-         setSorting
+         setSorting,
+         isLoading
     } = useTableData();
     
-    const table = useReactTable({
+    const table = useReactTable<UserCredentials>({
 
-        data,
+        data:users,
         columns,
         state:{
             columnFilters,
@@ -38,7 +42,7 @@ export const UsersTable = () => {
         onSortingChange: setSorting,
         debugTable: true,
         meta: {
-            updateData: (rowIndex:number, data:any) => setData(
+            updateData: (rowIndex:number, data:any) => setUsers(
                 prev => prev.map((row,index) => 
                     index === rowIndex ? {
                         ...prev[rowIndex],
@@ -58,7 +62,7 @@ export const UsersTable = () => {
 
             const updatedUsersData = usersData.map(user => {
                 
-                const updateUser = data.find(d => d.id === user.id);
+                const updateUser = users.find(d => d.id === user.id);
                 return updateUser ? { ...user, ...updateUser } : user;
 
             });
@@ -66,50 +70,100 @@ export const UsersTable = () => {
             sessionStorage.setItem(USERS_DATA, JSON.stringify(updatedUsersData));
         }
 
-    }, [data]);
+    }, [users]);
 
     return (
 
         <TableWrapper>
 
-            <TableHeader
-                columnsFilters={columnFilters}
-                setColumnFilters={setColumnFilters}
-            />
+
+            {isLoading ?
+            
+                <Spinner />
+
+            : (
 
 
-        <C.Container>
+                <>
 
-            <C.Table>
-                <C.Thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <C.EvenRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header)=> (
-                                
-                                <TableSorters header={header} />   
+
+                {users.length === 0 ?
+
+                <>
+
+                <TableHeader
+                    columnsFilters={columnFilters}
+                    setColumnFilters={setColumnFilters}
+                />
+                <Empty 
+
+                    description={"Sem dados no momento"}
+                
+                />
+
+
+                </>
+
+                : (
+
+                <>
+
+                <TableHeader
+                    columnsFilters={columnFilters}
+                    setColumnFilters={setColumnFilters}
+                    />
+
+
+                <C.Container>
+
+                    <C.Table>
+                        <C.Thead>
+                            {table.getHeaderGroups().map(headerGroup => (
+                                <C.EvenRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header)=> (
+                                        
+                                        <TableSorters header={header} />   
+                                    
+                                    ))}
+                                </C.EvenRow>
+                            ))}
+                        </C.Thead >
+
+                        <tbody>
+
+                            {isLoading && 
+
+                                <Spin />
                             
+                            }
+                            
+                            {table.getRowModel().rows.map((row)=> (
+                                <C.HoverRow key={row.id}>
+                                    {row.getVisibleCells().map(cell => (
+                                        <C.Td key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell,
+                                                cell.getContext())}
+                                        </C.Td>
+                                    ))}
+                                </C.HoverRow>
                             ))}
-                        </C.EvenRow>
-                    ))}
-                </C.Thead >
+                        </tbody>
+                    </C.Table>
 
-                <tbody>
-                    {table.getRowModel().rows.map((row)=> (
-                        <C.HoverRow key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <C.Td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell,
-                                        cell.getContext())}
-                                </C.Td>
-                            ))}
-                        </C.HoverRow>
-                    ))}
-                </tbody>
-            </C.Table>
+                </C.Container>
 
-        </C.Container>
+                <Pagination table={table} />
+                
 
-        <Pagination table={table} />
+                    </>
+
+                )}
+                
+           
+                </>
+            )}
+
+     
 
 
         </TableWrapper>

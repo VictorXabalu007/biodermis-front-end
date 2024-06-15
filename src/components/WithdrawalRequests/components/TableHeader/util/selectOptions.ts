@@ -1,8 +1,8 @@
 
 
 export const PaymentStatus = {
-    PAID: 'pago',
-    PENDING: 'efetuar',
+    PAID: 'realizado',
+    PENDING: 'pendente',
 } as const;
 
 export type PaymentStatusType = keyof typeof PaymentStatus;
@@ -13,11 +13,11 @@ export const withdrawalSelectOptions = [
         label: 'Filtrar por Status: Todos'
     },
     {
-        value: 'PENDING',
-        label: 'Filtrar por Status: Efetuar'
+        value: PaymentStatus.PENDING,
+        label: 'Filtrar por Status: Pendente'
     },
     {
-        value: 'PAID',
+        value: PaymentStatus.PAID,
         label: 'Filtrar por Status: Pago'
     },
 

@@ -8,7 +8,6 @@ import { Form as AntdForm } from "antd";
 
 export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData>) => {
 
-
   const Item = AntdForm.Item;
 
   return (
@@ -24,14 +23,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
 
             <Controller 
             control={control}
-            name="address"
+            name="estado"
             render={({field:{onChange}})=> {
               return (
 
               <Item
-                name="address"
-                validateStatus={errors.address ? 'error' : 'success'}
-                help={errors.address && errors.address.message}
+                name="estado"
+                validateStatus={errors.estado ? 'error' : 'success'}
+                help={errors.estado && errors.estado.message}
                 hasFeedback
               >
 
@@ -41,14 +40,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
                         <Input.Root>
 
                           <Input.Label 
-                          content="Endereço"
+                          content="Estado"
                           className="text-black"
-                          htmlFor="address"
+                          htmlFor="state"
                           />
                           <Input.System 
-                          placeholder="Rua tal Bairro tal"
+                          placeholder="SP"
                           onChange={onChange}
-                          id="address"
+                          id="state"
                           /> 
                         
                         </Input.Root>
@@ -101,14 +100,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
 
         <Controller 
             control={control}
-            name="street"
+            name="rua"
             render={({field:{onChange}})=> {
               return (
 
                 <Item
-                name="street"
-                validateStatus={errors.street ? 'error' : 'success'}
-                help={errors.street && errors.street.message}
+                name="rua"
+                validateStatus={errors.rua ? 'error' : 'success'}
+                help={errors.rua && errors.rua.message}
                 hasFeedback
                 >
 
@@ -141,14 +140,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
 
           <Controller 
             control={control}
-            name="neighborhood"
+            name="bairro"
             render={({field:{onChange}})=> {
               return (
 
                 <Item
-                name="neighborhood"
-                validateStatus={errors.neighborhood ? 'error' : 'success'}
-                help={errors.neighborhood && errors.neighborhood.message}
+                name="bairro"
+                validateStatus={errors.bairro ? 'error' : 'success'}
+                help={errors.bairro && errors.bairro.message}
                 hasFeedback
                 >
 
@@ -181,14 +180,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
           
         <Controller 
             control={control}
-            name="city"
+            name="cidade"
             render={({field:{onChange}})=> {
               return (
 
                 <Item
-                name="city"
-                validateStatus={errors.city ? 'error' : 'success'}
-                help={errors.city && errors.city.message}
+                name="cidade"
+                validateStatus={errors.cidade ? 'error' : 'success'}
+                help={errors.cidade && errors.cidade.message}
                 hasFeedback
                 >
 
@@ -223,14 +222,14 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
            <Controller 
            
             control={control}
-            name="number"
+            name="numero"
             render={({field:{onChange}})=> {
               return (
 
                 <Item
                   name="number"
-                  validateStatus={errors.number ? 'error' : 'success'}
-                  help={errors.number && errors.number.message}
+                  validateStatus={errors.numero ? 'error' : 'success'}
+                  help={errors.numero && errors.numero.message}
                   hasFeedback
                 >
 
@@ -262,45 +261,8 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
             />
    
 
-   
-          
-          <Controller 
-           
-           control={control}
-           name="complement"
-           render={({field:{onChange}})=> {
-             return (
 
-              <Item
-              name="complement"
-              validateStatus={errors.complement ? 'error' : 'success'}
-              help={errors.complement && errors.complement.message}
-              hasFeedback
-              >
 
-                  <Form.InputWrapper>
-                    <Input.Root>
-
-                      <Input.Label 
-                      content="Complemento"
-                      className="text-black"
-                      htmlFor="complement"
-                      />
-                      <Input.System 
-                      placeholder="0000"
-                      onChange={onChange}
-                      id="complement"
-                      type="number"
-                      />
-
-                    </Input.Root>
-                  </Form.InputWrapper >
-
-              </Item>
-
-             )}}
-
-           />
 
       </Form.Group>
 

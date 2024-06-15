@@ -14,6 +14,7 @@ import { Heading } from "../../../shared/Heading";
 import { Text } from "../../../shared/Text";
 import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
+import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
 
 
 
@@ -55,8 +56,8 @@ export const ForgotPassStep1 = () => {
 
         },
 
-        onSuccess:(res)=>{
-            console.log(res)
+        onSuccess:()=>{
+            navigate(FORGOT_PASS_2);
           },
         onError:(err:any)=>{
             setAuthError(err.response?.data?.error || 'Erro ao realizar');

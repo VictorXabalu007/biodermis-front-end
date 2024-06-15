@@ -7,7 +7,7 @@ export const buildStatus = (status: UserStatus) => {
     
     switch(status) {
 
-        case 'ENABLE':
+        case 'isAtivo':
 
             return (
 
@@ -20,26 +20,26 @@ export const buildStatus = (status: UserStatus) => {
 
             );
 
-        case 'ON_APPROVAL':
 
-            return (
-
-                <Tag
-                content={'Em aprovação'}
-                className="text-yeallow-solid-900 fill-yeallow-solid-900 bg-yeallow-solid-400"
-                key="status"
-                /> 
-
-
-            );
-
-        case 'DISABLE':
+        case 'inativo':
 
             return (
 
                 <Tag
                 content={'inativo'}
                 className="text-red-solid-800 fill-red-solid-800 bg-red-solid-400"
+                key="status"
+                /> 
+
+
+            );
+
+        default:
+            return (
+
+                <Tag
+                content={'Em aprovação'}
+                className="text-yeallow-solid-900 fill-yeallow-solid-900 bg-yeallow-solid-400"
                 key="status"
                 /> 
 

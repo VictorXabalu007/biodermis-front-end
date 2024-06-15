@@ -1,4 +1,4 @@
-import { ElementType } from "react";
+
 
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Heading } from "../../../../../../shared/Heading";
@@ -12,46 +12,50 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalFooter } from "./ModalFooter";
 
+import { useState } from "react";
+import { api } from "../../../../../../../service/connection";
+import { getHeaders } from "../../../../../../../service/getHeaders";
+import Select from "../../../../../../shared/Input/Select";
+import { useMutation } from "@tanstack/react-query";
+import { useMessageAction } from "../../../../../../../hooks/useMessageAction/useMessageAction";
 
-type TitleData = {
-    title: string,
-    icon? : ElementType,
-    label: string,
-}
+
 
 const Footer = ModalFooter;
 
-const data: TitleData[] = [
-
+const shippingOptions = [
     {
-        title: '2925',
-        label: 'Codigo do pedido'
+        value: 'sedex',
+        label: 'Sedex',
     },
     {
-        title: 'SEDEX',
-        icon: HiMiniPencilSquare,
-        label: 'Forma de envio'
+        value: 'mercadoLivre',
+        label: 'Mercado Livre',
     },
-    {
-        title: 'R$ 30,00',
-        label: 'Valor do frete'
-    },
-
 ]
+
 
 type RequestEditorProps = {
     handleClose: () => void
+    id: number,
 }
 
-export const RequestEditor = ({handleClose}:RequestEditorProps) => {
+export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
 
+    const [isClicked, setIsClicked] = useState(false);
+    const [selected, setSelected] = useState<string | undefined>(shippingOptions[0].label);
+    const {success, error, contextHolder} = useMessageAction();
+    
 
     const sendSchema = z.object({
         sendDate: z.string({required_error: 'Data de envio é obrigatória'})
         .min(1,'A data de validade não pode ser vazia...'),
         sendCode: z.string({required_error: 'Código de envio é obrigatório'})
         .min(1,'O código de envio não pode ser vazio...'),
+        shippingForm: z.string().optional(),
     })
+
+
 
 
     type SendData = z.infer<typeof sendSchema>
@@ -62,24 +66,61 @@ export const RequestEditor = ({handleClose}:RequestEditorProps) => {
     const {handleSubmit,control, formState:{errors}} = useForm<SendData>({
         resolver: zodResolver(sendSchema),
         criteriaMode: 'all',
-        mode: 'all'
+        mode: 'all',
+        defaultValues: {
+            shippingForm: shippingOptions[0].value,
+        }
     });
 
+    const updateRequest = useMutation({
+        mutationFn: async (data:SendData) => {
+            
+        const headers = getHeaders();
+
+        console.log(data);
+
+        const body = {
+            "statuspag": "realizado",
+            "statusentrega": "realizada"
+        }
+        
+        const req = await api.patch(`/pedidos/${id}`, body, {
+            headers
+        });
+
+        return req.data
+
+        
+        },
+        onSuccess: (res) => {
+            success(res.success);
+            
+            setTimeout(()=> {
+                handleClose(); 
+            },2000)
+     
+        },
+        onError: (err:any) => {
+            error(err.response.data.error)
+        }
+    })
+  
 
 
     const onSubmit = (data:SendData) => {
 
-        console.log(data);
-        handleClose();
-        
+        updateRequest.mutate(data);
+
     }
 
     return (
 
         <Form 
             form={form} 
-            className="flex justify-between min-h-screen flex-col"
+            className="flex justify-between flex-col"
         >
+
+            {contextHolder}
 
 
             <div className="px-4">
@@ -95,25 +136,89 @@ export const RequestEditor = ({handleClose}:RequestEditorProps) => {
 
                     <Flex className="w-full px-10" gap={10} justify="space-between">
 
-                        {data.map((item,index) => {
+
+                        <Flex vertical align="center" gap={2}>
+
+                        <Heading.Root>
                             
-                            return(
+                            2925
+                         
+                        </Heading.Root>
 
-                                <div key={index} className="flex items-center flex-col">
+                        <Text.Root className="text-gray-neutral-950 my-3">
+                            <Text.Content content={"Codigo do pedido"} />
+                        </Text.Root>
 
-                                    <Heading.Root>
-                                        {item.title}
-                                        {item.icon && <Heading.Icon className="text-brand-purple" icon={item.icon} />}
-                                    </Heading.Root>
+                        </Flex>
 
-                                    <Text.Root className="text-gray-neutral-950 my-3">
-                                        <Text.Content content={item.label} />
-                                    </Text.Root>
+                        <Flex vertical align="center" gap={2}>
 
-                                </div>
+                        <Heading.Root>
 
-                            )
-                        })}
+
+                            {
+                                !isClicked ?
+                                (
+                                    <>
+                                            {selected}
+                                            <Heading.Icon 
+                                            className="cursor-pointer hover:text-brand-purple/25 text-brand-purple" 
+                                            icon={HiMiniPencilSquare}
+                                            onClick={() => setIsClicked(!isClicked)}
+                                            />
+                                    </>
+                                ) : 
+                                (
+                                    <Controller 
+                                    control={control}
+                                    name="shippingForm"
+                                    render={({field:{onChange}})=> (
+
+                                        <Select
+                                        
+                                        options={shippingOptions}
+                                        defaultValue={shippingOptions[0]}
+                                     
+                                        onChange={(e)=> {
+                                               // @ts-ignore
+                                            onChange(e?.value)
+                                            setIsClicked(!isClicked)
+                                               // @ts-ignore
+                                            setSelected(e?.label)
+                                        }}
+                                        />
+                                    )}
+                                    />
+                                )
+                            }
+                          
+
+    
+
+                            
+                         
+                        </Heading.Root>
+
+                        <Text.Root className="text-gray-neutral-950 my-3">
+                            <Text.Content content={"Forma de envio"} />
+                        </Text.Root>
+
+                        </Flex>
+
+                        <Flex vertical align="center" gap={2}>
+
+                        <Heading.Root>
+                            
+                            R$30,00
+                         
+                        </Heading.Root>
+
+                        <Text.Root className="text-gray-neutral-950 my-3">
+                            <Text.Content content={"Valor do frete"} />
+                        </Text.Root>
+
+                        </Flex>
+
 
                     </Flex>
                 </Flex>

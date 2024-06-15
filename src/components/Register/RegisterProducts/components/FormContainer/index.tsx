@@ -7,33 +7,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsDimensionForm } from "../ProductsDimensionForm";
 import { Uploader } from "../Uploader";
 import { ProductsPricesForm } from "../ProductPricesForm";
-import { Button as AntdBtn, Form, Modal } from "antd";
-import { useRef, useState } from "react";
-import { PRODUCTS_DATA, PRODUCT_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
+import { Form } from "antd";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "../../../../shared/Button";
-import { BtnWrapper } from "./styles";
-import { useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../../../../../constants/paths/paths";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../../../service/connection";
+import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../../../service/getHeaders";
 
 const productsImageSchema = z.object({
-    productsImage: z.array(z.object({
-        name: z.string(), 
-        size: z.number().min(1, 'Pelo menos uma imagem é necessária para cadastro'),
-        type: z.string(), 
-        originFileObj: z.object({
-            uid: z.string(),
-  
-        }),
-    }), { required_error: 'Pelo menos uma imagem deve ser cadastrada' })
-    .refine(val => val.length > 0, 'Insira pelo menos uma imagem')
+    files: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos uma imagem'),
+    {required_error: 'Pelo menos uma imagem deve ser cadastrada!'})
 });
 
 const productsDescriptionsSchema = z.object({
     productName : z.string({required_error: 'Nome do produto é necessário para o cadastro'})
     .min(1, 'Nome do produto não pode ser vazio'),
-    category : z.string({required_error: 'Categoria é necessário para o cadastro'})
-    .min(1, 'Categoria não pode ser vazia'),
+    category : z.number().optional(),
     description: z.string({required_error: 'Descrição do produto é necessária para o cadastro'})
     .min(1, 'Descrição do produto do produto não pode ser vazia'),
 });
@@ -57,10 +47,8 @@ const productsPricesSchema = z.object({
     .min(1, 'Preço mínimo não pode ser vazio'),
     maxPrice: z.string({required_error: 'O preço máximo é necessário para cadastro'})
     .min(1, 'Preço máximo não pode ser vazio'),
-    ficticiousPrice: z.string({required_error: 'O preço fictício é necessário para cadastro'})
-    .min(1, 'Preço fictício não pode ser vazio'),
 
-})
+});
 
 const productsSchema = z.object({
 
@@ -80,12 +68,8 @@ export interface ProductsData extends Data {
 
 export const FormContainer = () => {
 
-    const navigate = useNavigate();
 
-    const [products, setProducts] = useState<ProductsData[]>(()=> {
-        const storedProducts = sessionStorage.getItem(PRODUCTS_DATA);
-        return storedProducts ? JSON.parse(storedProducts) : [];
-    });
+    const {success,error,contextHolder} = useMessageAction();
     
     const {formState:{errors},handleSubmit,control, reset} = useForm<ProductsData>({
         resolver: zodResolver(productsSchema),
@@ -93,51 +77,103 @@ export const FormContainer = () => {
         mode: 'all'
     });
 
-    const {lastId, setLastId} = useSessionId({key: PRODUCT_ID})
+
+    const [data, setData] = useState({} as ProductsData)
+    const [finish, setSuccess] = useState(false);
+    const [id, setId] = useState<number>(0);
+
+
+    const registerImage = useCallback(async () => {
+
+        const formData = new FormData();
+                
+        data.files.map((image:any) => {
+            formData.append('files', image.originFileObj as File); 
+        });
+
+
+        const headers = getHeaders();
 
     
-    const success = () => {
-        Modal.success({
-            width: 500,
-            closable: true,
-            maskClosable: true,
-            title: 'Produto cadastrado com sucesso',
-            content: 'Você pode gerenciar seus produtos atravéz do seu dashboard',
-            okButtonProps: {className: 'bg-brand-purple hover:bg-brand-purple/25 ok-btn'},
-            footer: (_,{OkBtn})=> (
-                <div className="flex">
 
-                    <BtnWrapper>
+            try {
+    
+                const req = await api.post(`/produtos/fotos/${id}`, formData, {
+                    headers
+                });
+    
+                console.log(req.data);
+    
+            } catch (error) {
+                console.error('Error registering image:', error);
+            }
 
-                        <AntdBtn onClick={() => {
-                            navigate(PRODUCTS)
-                            Modal.destroyAll();
-                        }} className="products-btn">
-                            Ir para produtos
-                        </AntdBtn>
-                        <OkBtn />
+        
 
-                    </BtnWrapper>
+        
+    },[id]);
 
-                </div>
-            )
-        });
-      };
+    useEffect(()=> {
 
-    const  onSubmit = async (data:ProductsData) => {
+        if(finish) {
 
-        const { id, ...restData } = data;
-        const newId = lastId + 1;
-        const newData = { 
-          id: newId.toString(), 
-          ...restData };
-        setProducts(prevProducts => [...prevProducts, newData]);
-        setLastId(newId);
-        sessionStorage.setItem(PRODUCT_ID, newId.toString()); 
-        sessionStorage.setItem(PRODUCTS_DATA, JSON.stringify([...products, newData])); 
-        console.log(newData);
-        success();
-        onReset();
+            registerImage();
+
+        }
+
+    },[finish, registerImage, id])
+
+    const mutation = useMutation({
+        mutationFn: async (data:ProductsData)=> {
+
+
+            const body = {
+
+                "nome": data.productName,
+                "descricao": data.description,
+                "valormin": data.minPrice,
+                "valormax": data.maxPrice,
+                "valorvenda": data.sellPrice,
+                "altura": data.height,
+                "peso": data.weight,
+                "largura": data.width,
+                "profundidade": data.depth,
+                "categoria_id": data.category
+
+            }
+            
+            const headers = getHeaders();
+            
+
+            const req = await api.post('/produtos',body, {
+                headers,
+            })
+
+
+            return req.data;
+
+        },
+        onSuccess: (res, context:ProductsData)=> {
+
+            setData(context)
+            setId(res.id)
+            setSuccess(true)
+            success(res.success);
+
+    
+            onReset();
+       
+        },
+        onError: (err:any)=> {
+
+            error(err.response.data.error);
+            
+        },
+    })
+
+    const onSubmit = (data:ProductsData) => {
+
+        mutation.mutate(data);
         
     }
 
@@ -146,7 +182,6 @@ export const FormContainer = () => {
     const uploaderRef = useRef<any>();
 
     
-
     const onReset = () => {
 
         form.resetFields();
@@ -165,6 +200,8 @@ export const FormContainer = () => {
         onFinish={handleSubmit(onSubmit)}
         className="w-full"
         >   
+
+        {contextHolder}
 
             <div className="flex lg:flex-row flex-col gap-10 w-full">
 

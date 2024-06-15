@@ -48,8 +48,9 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                                     />
 
                                     <Input.System 
-                                    placeholder="ex: 10kg"
+                                    placeholder="ex: 10"
                                     id="weight"
+                                    type="number"
                                     onChange={onChange}
 
                                     />
@@ -90,8 +91,9 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                                     />
 
                                     <Input.System 
-                                    placeholder="ex: 10cm"
+                                    placeholder="ex: 10"
                                     id="height"
+                                    type="number"
                                     onChange={onChange}
 
                                     />
@@ -133,8 +135,9 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                                     />
 
                                     <Input.System 
-                                    placeholder="ex: 10cm"
+                                    placeholder="ex: 10"
                                     id="width"
+                                    type="number"
                                     onChange={onChange}
 
                                     />
@@ -178,8 +181,9 @@ export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<Produc
                                     />
 
                                     <Input.System 
-                                    placeholder="ex: 10cm"
+                                    placeholder="ex: 10"
                                     id="depth"
+                                    type="number"
                                     onChange={onChange}
 
                                     />

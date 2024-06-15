@@ -12,22 +12,17 @@ import { Uploader } from "./components/Uploader";
 import { Checkboxes } from "./components/Checkboxes";
 import { useEffect, useState } from "react";
 import { UserRole } from "../../../../../util/UserRole";
-import { validateCardNumber } from "../../../../../functions/Validators/ValidateCreditCard/validateCardNumber";
-import { validateExpireDate } from "../../../../../functions/Validators/ValidateCreditCard/validateExpireDate";
-import { validateCVV } from "../../../../../functions/Validators/ValidateCreditCard/validateCVV";
-import { Form, Modal  } from "antd";
+import { Form  } from "antd";
 import { PessoalDataForm } from "./components/PessoalDataForm";
-import { USERS_DATA, USER_ID } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { UserStatus, UserStatusType } from "../../../../../@types/UserStatus/StatusType";
-import { useSessionId } from "../../../../../hooks/useSessionId/useSessionId";
-import { BtnWrapper } from "./styles";
-import {Button as AntdBtn} from 'antd'
-import { HOME } from "../../../../../constants/paths/paths";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../../../service/connection";
+import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../../../service/getHeaders";
+
 
 export const pessoalDataSchema = z.object({
 
-    name: z.string({required_error: 'O nome é obrigatório'})
+    nome: z.string({required_error: 'O nome é obrigatório'})
     .min(1,'O nome não pode ser vazio')
     .transform(name => {
         return name.trim().split(' ').map(word => {
@@ -43,123 +38,92 @@ export const pessoalDataSchema = z.object({
     email: z.string({required_error: 'email não pode ser vazio'})
     .min(1,'E-mail é necessário para o cadastro'),
 
-    phone: z.string({required_error: 'Número de telefone é necessário para o cadastro'})
+    telefone: z.string({required_error: 'Número de telefone é necessário para o cadastro'})
     .min(1, 'Número de telefone é necessário para o cadastro')
-    .refine(phone => isPhoneNumber(phone),{message: 'Número de telefone inválido'})
+    .refine(phone => isPhoneNumber(phone),{message: 'Número de telefone inválido'}),
+
+    senha: z.string({required_error: 'Senha é necessária para o cadastro'})
+    .min(8, 'A senha precisa no mínimo ter 8 caracteres...')
 })
 
 export const addressDataSchema = z.object({
 
-    address: z.string({required_error: 'Endereço não pode ser vazio'})
+    estado: z.string({required_error: 'Endereço não pode ser vazio'})
     .min(1,'Endereço é obrigatório para o cadastro'),
 
     cep: z.string({required_error: 'CEP é necessário para o cadastro'})
     .min(1,'CEP é obrigatório para o cadastro'),
 
-    street: z.string({required_error: 'Rua é necessário para o cadastro'})
+    rua: z.string({required_error: 'Rua é necessário para o cadastro'})
     .min(1,'Rua é obrigatório para o cadastro'),
 
-    neighborhood: z.string({required_error: 'Bairro é necessário para o cadastro'})
+    bairro: z.string({required_error: 'Bairro é necessário para o cadastro'})
     .min(1,'Bairro é obrigatório para o cadastro'),
 
-    city: z.string({required_error: 'Cidade é necessário para o cadastro'})
+    cidade: z.string({required_error: 'Cidade é necessário para o cadastro'})
     .min(1,'Cidade é obrigatório para o cadastro'),
 
-    number: z.string({required_error: 'Número é necessário para o cadastro'})
-    .min(1,'Número é obrigatório para o cadastro'),
+    numero: z.string().optional(),
 
-    complement: z.string({required_error: 'Complemento é necessário para o cadastro'})
-    .min(1,'Complemento é obrigatório para o cadastro'),
 
 })
 
-export const bankDataChema = z.object({
-    cardNumber: z.string({required_error: 'Número do cartão é necessário para o cadastro'})
-        .min(1)
-        .refine(val => validateCardNumber(val),{message: 'Número do cartão inválido'}),
+export const bankDataSchema = z.object({
 
-    cvv: z.string({required_error: 'CVV é necessário para o cadastro'})
-    .min(1,'CVV do cartão é obrigatório para o cadastro')
-    .max(3, 'CVV não pode ter mais do que 3 digitos')
-    .refine(val => validateCVV(val),{message: 'CVV inválido inserido'}),
 
-    titularName: z.string({required_error: 'Nome do titular é obrigatório para o cadastro'})
-    .min(1,'Nome do titular não pode ser vazio')
-    .transform(name => {
-        return name.trim().split(' ').map(word => {
-          return word[0].toLocaleUpperCase().concat(word.substring(1))
-        }).join(' ')
-    
-      })
-    ,
-
-    expireDate: z.string({required_error: 'Data de validade é obrigatória para o cadastro'})
-    .min(1,'A data de validade é necessário para o cadastro')
-    .refine(date => validateExpireDate(date),{message: 'Data de validade inválida'}),
-
-    agency: z.string({required_error: 'Número da Agencia é obrigatório para o cadastro'})
+    agencia: z.string({required_error: 'Número da Agencia é obrigatório para o cadastro'})
     .min(1,'Número da Agencia não pode ser vazio'),
 
     pix: z.string({required_error: 'Chave pix é obrigatória para o cadastro'})
     .min(1,'Chave píx não pode ser vazia')
     .refine(pixkey=> isPixKey(pixkey),{message: 'Chave pix inválida inserida'}),
     
-    bank: z.string({required_error:'Banco é obrigatório para cadastro'})
-    .min(1,'Banco é obrigatório para o cadastro'),
+    conta: z.string({required_error:'conta é obrigatório para cadastro'})
+    .min(1,'conta é obrigatório para o cadastro'),
 
 })
 
-export const consultorsViewSchema = z.object({
+const certificadoSchema = z.object({
+    name: z.string(),
+    size: z.number().min(1, 'O certificado é obrigatório para o cadastro'),
+    type: z.string(),
+},);
+
+  export const userSchema = z
+  .object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
-    ...bankDataChema.shape,
-})
-
-export type BankData = z.infer<typeof bankDataChema>;
-export type ConsultorsViewData = z.infer<typeof consultorsViewSchema>;
-
-export const userSchema = z.object({
-    ...pessoalDataSchema.shape,
-    ...addressDataSchema.shape,
-    userRole: z.number().optional(),
-    bankData: bankDataChema.optional(),
-    certificated: z.object({
-        name: z.string(), 
-        size: z.number().min(1,'O certificado é obrigatório para o cadastro'),
-        type: z.string(), 
-    },{required_error: 'Certificado é obrigatório para usuários do tipo consultor'})
-    .optional()
-,
-}).refine(schema => {
-
-    if (schema.userRole === UserRole.CONSULTOR) {
-       
-        return schema.bankData && schema.certificated;
+    ...bankDataSchema.shape,
+    cargo_id: z.number().optional(),
+    certificado: z.union([certificadoSchema, z.undefined()]), 
+  })
+  .refine((schema) => {
+    if (schema.cargo_id === UserRole.CONSULTOR) {
+        return schema.certificado !== undefined; 
     }
-
     return true;
-}, {
-    message: 'Certificado e dados bancários são obrigatórios para consultores'
-});
+  }, {
+    message: 'Certificado e dados bancários são obrigatórios para consultores',
+    path: ['certificado'],
+  })
 
-type Data = z.infer<typeof userSchema>
+export const viewUserSchema = z.object({
+    ...pessoalDataSchema.shape,
+    ...addressDataSchema.shape,
+    ...bankDataSchema.shape,
+})
 
-export interface UserData extends Data {
-    id: string, 
-    status: UserStatus
-}
+
+export type UserData = z.infer<typeof userSchema>
 
 
 export const FormContainer = () => {
 
-    const [users, setUsers] = useState<UserData[]>(() => {
-        const storedUsers = sessionStorage.getItem(USERS_DATA);
-        return storedUsers ? JSON.parse(storedUsers) : [];
-    });
 
-    const navigate = useNavigate();
+    const {success,error, contextHolder} = useMessageAction();
 
     const [isConsultor, setIsConsultor] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -172,13 +136,15 @@ export const FormContainer = () => {
         criteriaMode: 'all',
         mode: 'all',
         defaultValues: {
-            userRole: UserRole.ADMIN,
+            cargo_id: UserRole.ADMIN,
         }
 
     });
 
 
-    const userRole = watch('userRole');
+    const userRole = watch('cargo_id');
+
+
 
     useEffect(()=> {
 
@@ -191,70 +157,55 @@ export const FormContainer = () => {
     },[watch,isConsultor,userRole]);
 
 
-    const success = () => {
-        Modal.success({
-          width: 500,
-          closable: true,
-          maskClosable: true,
-          title: 'Usuário cadastrado com sucesso',
-          content: 'Você pode gerenciar seus usuários atravéz do seu dashboard',
-          okButtonProps: {className: 'ok-btn bg-brand-purple hover:bg-brand-purple/25'},
-          footer: (_,{OkBtn})=> (
-            <div className="flex">
+    const mutation = useMutation({
 
-                <BtnWrapper>
+        mutationFn: async (data: UserData) => {
 
-                    <AntdBtn onClick={() => {
-                        navigate(HOME)
-                        Modal.destroyAll();
-                    }} className="users-btn">
-                        Ir para a home
-                    </AntdBtn>
-                    <OkBtn />
+            const headers = getHeaders();
+            const req = await api.post('/usuarios',{...data},{
+                headers,
+            });
+            
+            return req.data;
 
-                </BtnWrapper>
+          },
 
-            </div>
-        )
-          
-        });
-      };
+          onSuccess: (res) => {
 
-    const {lastId, setLastId} = useSessionId({key: USER_ID});
+            success(res.success);
+            onReset();
+
+          },
+
+        onError: (err: any) => {
+        
+            error(err.response.data.error);
+
+        }
+
+    })
 
     const onSubmit = (data: UserData) => {
 
-        const { id, status, ...restData } = data;
-        const newId = lastId + 1;
-        const newData = { 
-          id: newId.toString(), 
-          status: UserStatusType.ENABLE, 
-          ...restData };
-        setUsers(prevUsers => [...prevUsers, newData]);
-        setLastId(newId);
-        sessionStorage.setItem(USER_ID, newId.toString()); 
-        sessionStorage.setItem(USERS_DATA, JSON.stringify([...users, newData])); 
-        console.log(newData);
-
-        success();
-        onReset();
+        mutation.mutate(data);
 
     }
 
-    sessionStorage.setItem(USERS_DATA,JSON.stringify(users));
 
     const [form] = Form.useForm();
 
     const onReset = () => {
 
         form.resetFields();
-        reset({userRole: UserRole.ADMIN});
+        reset({cargo_id: UserRole.ADMIN});
+        
  
     };
 
     return (
 
         <div className="max-w-2xl">
+            {contextHolder}
 
             <Form
                 form={form}
@@ -273,13 +224,13 @@ export const FormContainer = () => {
 
                 />
 
-                {isConsultor &&
+        
                    <BankDataForm 
                    errors={errors}
                    register={register}
                    control={control}
                   />
-                }
+     
              
 
           

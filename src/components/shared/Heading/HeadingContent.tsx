@@ -1,5 +1,5 @@
 
 
-export const HeadingContent = ({content}:{content:string}) => {
+export const HeadingContent = ({content}:{content:string | number}) => {
     return <>{content}</>;
 }

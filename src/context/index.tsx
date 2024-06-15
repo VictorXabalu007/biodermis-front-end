@@ -7,9 +7,9 @@ export const AppProvider = ({children}:ProviderProps) => {
 
     return (
         <RangeDateProvider>
-            
-            {children}
-            
+
+                    {children}
+
         </RangeDateProvider>
     )
 

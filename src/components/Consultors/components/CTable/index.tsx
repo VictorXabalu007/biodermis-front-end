@@ -4,12 +4,14 @@ import { TableHeader } from "../TableHeader";
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import * as C from '../../../../styles/TableStyles/styles'
 import { Pagination } from "../../../shared/Pagination";
-import { ConsultorsData, useTableData } from "../../hooks/useTableData";
+import { useTableData } from "../../hooks/useTableData";
 import { useEffect } from "react";
 import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { UserRole } from "../../../../util/UserRole";
 import { TableSorters } from "../../../shared/Table/components/TableSorters";
-
+import { Spinner } from "../../../shared/Spinner";
+import { UserCredentials } from "../../../../@types/UserData/UserData";
+import { Empty } from "antd";
 
 
 export const ConsultorsTable = () => {
@@ -22,9 +24,10 @@ export const ConsultorsTable = () => {
         sorting,
         setSorting, 
         setData,
+        isLoading
     } = useTableData();
 
-    const table = useReactTable<ConsultorsData>({
+    const table = useReactTable<UserCredentials>({
         data,
         columns,
         debugTable: true,
@@ -70,64 +73,107 @@ export const ConsultorsTable = () => {
 
     }, [data]);
 
+ 
+
+
+    
+
 
     return (
 
+            
+
             <TableWrapper>
 
-                    <TableHeader 
-                     columnsFilters={columnFilters}
-                     setColumnFilters={setColumnFilters}
-                    />
-                        
-                    <C.Container>
 
-                    <C.Table>
+                {isLoading ? 
+                
+                    <Spinner />
+                
+                : (
+                    <>
 
-             
 
-                        {data.length === 0 &&
-                        
+                    {data.length === 0 ? 
+                    
                         <>
+
+                            <TableHeader 
+                                columnsFilters={columnFilters}
+                                setColumnFilters={setColumnFilters}
+                            />    
+                            <Empty 
+                                description="Nenhum dado no momento"
+                            />  
+
+                        </>
+
+
+                        : (
+
+                            <>
+
+                                <TableHeader 
+                                    columnsFilters={columnFilters}
+                                    setColumnFilters={setColumnFilters}
+                                />
+                                            
+                                        <C.Container>
                         
-                            <div>
-                                Nenhum dado cadastrado no momento
-                            </div>
+                                        <C.Table>
+                        
+                                            <C.Thead>
+                                                {table.getHeaderGroups().map(headerGroup => (
+                                                    <C.EvenRow key={headerGroup.id}>
+                                                        {headerGroup.headers.map((header)=> (
+                        
+                                                            <TableSorters header={header} />
+                                                        
+                                                        ))}
+                                                    </C.EvenRow>
+                                                ))}
+                                            </C.Thead >
+                        
+                                            <tbody>
+                                                {table.getRowModel().rows.map((row)=> (
+                                                    <C.HoverRow key={row.id}>
+                                                        {row.getVisibleCells().map(cell => (
+                                                            <C.Td key={cell.id}>
+                                                                {flexRender(cell.column.columnDef.cell,
+                                                                    cell.getContext())}
+                                                            </C.Td>
+                                                        ))}
+                                                    </C.HoverRow>
+                                                ))}
+                                            </tbody>
+                                        </C.Table>
+                        
+                                    </C.Container>
+                        
+                                    <Pagination table={table}/>
+
+
+
+                            </>
+
+                        )
+                
+                    }
+                        
+                       
+                        
                         
                         </>
-                        }
 
-                     
 
-                        <C.Thead>
-                            {table.getHeaderGroups().map(headerGroup => (
-                                <C.EvenRow key={headerGroup.id}>
-                                    {headerGroup.headers.map((header)=> (
+                )
+            
+            
+            
+                }
+                
 
-                                        <TableSorters header={header} />
-                                    
-                                    ))}
-                                </C.EvenRow>
-                            ))}
-                        </C.Thead >
-
-                        <tbody>
-                            {table.getRowModel().rows.map((row)=> (
-                                <C.HoverRow key={row.id}>
-                                    {row.getVisibleCells().map(cell => (
-                                        <C.Td key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell,
-                                                cell.getContext())}
-                                        </C.Td>
-                                    ))}
-                                </C.HoverRow>
-                            ))}
-                        </tbody>
-                    </C.Table>
-
-                </C.Container>
-
-                <Pagination table={table}/>
+ 
 
                 </TableWrapper>
 

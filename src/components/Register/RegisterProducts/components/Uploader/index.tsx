@@ -16,7 +16,7 @@ const { Dragger } = Upload;
 
 const props: UploadProps = {
     
-  name: 'file',
+  name: 'files',
   multiple: true,
   action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
   accept: "image/png, image/jpeg, image/jpg",
@@ -76,17 +76,20 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
     return (
 
         <Form.GroupWrapper>
-        <Form.SubHeader heading="Imagens do produto" subtext="Faça o upload das imagens do produto" />
+        <Form.SubHeader 
+          heading="Imagens do produto" 
+          subtext="Faça o upload das imagens do produto"
+           />
         <Form.GroupWrapper>
           <Controller
-            name="productsImage"
+            name="files"
             control={control}
             render={({ field }) => (
               <UploaderWrapper>
                 <FormItem
-                  name="productsImage"
-                  validateStatus={errors.productsImage ? 'error' : 'success'}
-                  help={errors.productsImage && errors.productsImage.message}
+                  name="files"
+                  validateStatus={errors.files ? 'error' : 'success'}
+                  help={errors.files && errors.files.message}
                   hasFeedback
                 >
                   <Dragger

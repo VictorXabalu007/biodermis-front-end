@@ -1,17 +1,29 @@
-import { inputData } from "./util/inputData";
+
 import { DataItem } from "./components/DataItem";
-import { outputData } from "./util/outputData";
+import { useMovimentationData } from "../../../../hooks/useMovimentationData/useMovimentationData";
 
 export const DataContainer = () => {
 
+  const {
+    getInputData, 
+    getOutputData,
+  } = useMovimentationData();
+  
+
+  
+
+  const allInputData = getInputData().flatMap(d => d.monthData);
+  const allOutputData = getOutputData().flatMap(d => d.monthData);
+
+  
   return (
 
-    <div className="flex gap-3 mt-10 justify-between items-center">
+    <div className="flex flex-wrap gap-3 mt-10 justify-between items-center">
 
       <DataItem
         title={"Entradas"}
         subtitle="(entradas totais)"
-        cardData={inputData}
+        cardData={allInputData}
         cardType="input"
       />
 
@@ -20,7 +32,7 @@ export const DataContainer = () => {
       <DataItem
         title={"Saídas"}
         subtitle="(saídas totais)"
-        cardData={outputData}
+        cardData={allOutputData}
         cardType="output"
       />
 

@@ -1,20 +1,20 @@
 import { TfiWallet } from "react-icons/tfi";
 import { Heading } from "../../../../shared/Heading";
 import { Text } from "../../../../shared/Text";
-import { CardDataType } from "../util/@types/CardDataType";
 import { MoneyCardType } from "../../../../shared/Card/MoneyDataCard/@types/MoneyCardType";
 import { MoneyDataCard } from "../../../../shared/Card/MoneyDataCard";
 import { useState } from "react";
-import { Button, Flex } from "antd";
+import { Button, Empty, Flex, theme } from "antd";
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Wrapper } from "./styles";
+import { MovimentationType, useMovimentationData } from "../../../../../hooks/useMovimentationData/useMovimentationData";
 
 
 type DataItemProps = {
 
     title: string,
     subtitle:string,
-    cardData: CardDataType[];
+    cardData: MovimentationType[];
     cardType: MoneyCardType
 
 }
@@ -52,10 +52,25 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
       setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
     };
 
+    const {
+        getDateOfRequest,
+        getNameOfRequest,
+        getDateOfWithDrawal,
+        getNameOfWithdraw
+    } =useMovimentationData();
+
+    const {
+
+        token: {
+            colorBgContainer
+        }
+
+    } = theme.useToken();
 
     return(
 
-    <div className="border gap-3 flex flex-col rounded-md p-3 flex-1 flex border-gray-neutral-100">
+    <div style={{minHeight: '570px', background: colorBgContainer}} className="border
+    gap-3 flex flex-col rounded-md p-3 flex-1 flex border-gray-neutral-100">
             
         <div className = "mb-10 flex items-center gap-2">
 
@@ -74,38 +89,53 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
             </Text.Root>
 
         </div>
-    
-    {currentItems.map(data => {
 
-        return (
+        {currentItems.length === 0 ?
+        <>
+        
+            <Empty 
+            description = "Sem dados no momento"
+            />
+        
+        
+        </> : (
 
-        <MoneyDataCard.Root>
 
-            <MoneyDataCard.LeftWrapper>
+            currentItems.map(data => {
+        
                 
-                <MoneyDataCard.Icon cardType={cardType} />
+                return (
+                    
+                <MoneyDataCard.Root>
+        
+                    <MoneyDataCard.LeftWrapper>
+                        
+                        <MoneyDataCard.Icon cardType={cardType} />
+        
+                        <MoneyDataCard.Text 
+                            title={cardType === 'input' ? getDateOfRequest(data.pedido_id) : getDateOfWithDrawal(data.saque_id)}
+                            subtitle={cardType === 'input' ? getNameOfRequest(data.pedido_id) : getNameOfWithdraw(data.saque_id)}
+                        />
+        
+        
+                    </MoneyDataCard.LeftWrapper>
+        
+                    <MoneyDataCard.Value 
+                    cardType={cardType} 
+                    value={parseFloat(data.valor)}
+                     />
+        
+        
+        
+                </MoneyDataCard.Root>
+        
+                )
+        
+        
+            })
 
-                <MoneyDataCard.Text 
-                title={data.title}
-                subtitle={data.subtitle}
-                />
-
-
-            </MoneyDataCard.LeftWrapper>
-
-            <MoneyDataCard.Value 
-            cardType={cardType} 
-            value={data.value}
-             />
-
-
-
-        </MoneyDataCard.Root>
-
-        )
-
-
-    })}
+        )}
+    
 
 
         <Flex gap={5} align="center">

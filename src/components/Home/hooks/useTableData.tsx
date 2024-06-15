@@ -1,43 +1,31 @@
-import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import { createColumnHelper, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo, useState } from "react"
-import { WithDrawal, withdrawalData } from "../../WithdrawalRequests/util/withdrawalData";
+import { WithDrawal } from "../../WithdrawalRequests/util/withdrawalData";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
-import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
 import { Text } from "../../shared/Text";
 import { IoIosArrowUp } from "react-icons/io";
-import { NameItem } from "../../shared/Image/NameItem/NameItem";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-import { ConsultorsData, consultorsData } from "../../Consultors/hooks/useTableData";
-import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
-import { UserRole } from "../../../util/UserRole";
+import { UserCredentials } from "../../../@types/UserData/UserData";
+import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
+import { useWithdrawData } from "../../WithdrawalRequests/hooks/useWithdrawData";
+import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
 
 
-const columnsHelperConsultors = createColumnHelper<ConsultorsData>();
+const columnsHelperConsultors = createColumnHelper<UserCredentials>();
 const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 
 export const useTableData = () => {
 
-
-    const [dataConsultors, ] = useState(()=> {
-        if (consultorsData && consultorsData.length > 0) {
-            const sortedData = consultorsData
-                .filter((d: UserData) => d.userRole === UserRole.CONSULTOR)
-                .map(d => ({
-                    ...d,
-                    totalFatured: Math.floor(Math.random() * 12000),
-                }))
-                .sort((a, b) => b.totalFatured - a.totalFatured);
     
-            return sortedData.map((d, index) => ({
-                ...d,
-                rank: String(index + 1),
-            }));
-        } else {
-            return [];
-        }
-    });
+    const {consultor, isLoading:isLoadingConsultores, isConsultorsEmpty} = useConsultorData();
 
-    const [dataWithdrawal, ] = useState(withdrawalData);
+    const {data:withdraw, isLoading:isLoadingWithdrawal, isWithdrawEmpty} = 
+    useWithdrawData({enableFilterDate: false});
+
+
+    const [sortingConsultors, setSortingConsultors] = useState<any[]>([])
+    
+    
     const [pagination, setPagination] = useState({
         pageIndex: 0, 
         pageSize: 3, 
@@ -47,7 +35,7 @@ export const useTableData = () => {
     const consultorsColumns = useMemo(()=> [
 
         columnsHelperConsultors.accessor('rank', {
-            header: () => <div className="flex gap-2">Tops <ArrowUpDownIcon /> </div>,
+            header: ({header}) => <TableSorterTitle header={header} title="Tops" />,
             cell: ({getValue}) => {
     
                 return (
@@ -70,50 +58,64 @@ export const useTableData = () => {
                 );
             }
         }),
-        columnsHelperConsultors.accessor('name', {
-            header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /> </div>,
-            cell: ({getValue}) => <NameItem name={getValue()} />
+        columnsHelperConsultors.display({
+            id: 'UserImage',
+            header: () => <div>#</div>,
+           
+          
         }),
+
+        columnsHelperConsultors.accessor('nome', {
+            header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
+            cell: ({getValue}) => <p>{getValue()}</p>,
+            enableSorting:true
+        })
 
     ],[]);
 
     const withdrawalColumns = useMemo(()=> [
 
-        columnsHelperWithdrawal.accessor('name', {
-            header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-            cell: ({getValue}) => <NameItem name={getValue()} />
+        columnsHelperWithdrawal.display({
+            id: 'userImage',
+            header: ()=> <div>#</div>,
         }),
-        columnsHelperWithdrawal.accessor('totalValueCurrent', {
+        columnsHelperWithdrawal.accessor('nome_consultor', {
+            header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
+            cell: ({getValue}) =>getValue(),
+            enableSorting: true,
+        }),
+        columnsHelperWithdrawal.accessor('valorsaque', {
             header: () => <p>Valor total em conta</p>,
-            cell: ({getValue}) => <NumericFormatter value={getValue()} />,
+            cell: ({getValue}) => <NumericFormatter value={parseFloat(getValue())} />,
     
           
         }),
 
     ],[]);
 
-    const consultorsTable = useReactTable<ConsultorsData>({
+    const consultorsTable = useReactTable<UserCredentials>({
         
-        data:dataConsultors,
+        data:consultor,
         columns:consultorsColumns,
         getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel:getCoreRowModel(),
-        debugTable: true,
         state: {
-            pagination
+            pagination,
+            sorting: sortingConsultors
         },
-        onPaginationChange: setPagination
+        onPaginationChange: setPagination,
+        onSortingChange: setSortingConsultors,
+        getSortedRowModel: getSortedRowModel(),
         
       
     });
 
     const withdrawalTable = useReactTable<WithDrawal>({
 
-        data:dataWithdrawal,
+        data:withdraw,
         columns:withdrawalColumns,
         getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel:getCoreRowModel(),
-        debugTable: true,
         state: {
             pagination
         },
@@ -124,7 +126,13 @@ export const useTableData = () => {
     return {
 
         consultorsTable,
-        withdrawalTable
+        withdrawalTable,
+        isConsultorsEmpty,
+        isWithdrawEmpty,
+        isLoadingConsultores,
+        isLoadingWithdrawal,
+        sortingConsultors,
+        setSortingConsultors
 
     }
 

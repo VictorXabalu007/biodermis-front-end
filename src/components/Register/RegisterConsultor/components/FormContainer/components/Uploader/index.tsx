@@ -15,7 +15,7 @@ const { Dragger } = Upload;
 
 const props: UploadProps = {
   name: 'file',
-  multiple: true,
+  multiple: false,
   action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
  
   onDrop(e) {
@@ -51,7 +51,7 @@ export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
                     >
 
                         <Controller
-                        name='certificated'
+                        name='certificado'
                         control={control}
                         render={({field})=> {
 
@@ -59,8 +59,8 @@ export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
 
                         <FormItem
                         name='certificated'
-                        validateStatus={errors.certificated ? 'error' : 'success'}
-                        help={errors.certificated && errors.certificated.message}
+                        validateStatus={errors.certificado ? 'error' : 'success'}
+                        help={errors.certificado && errors.certificado.message}
                         hasFeedback
                         >
 

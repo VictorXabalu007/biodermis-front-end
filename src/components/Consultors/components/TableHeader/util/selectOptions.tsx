@@ -1,22 +1,20 @@
-import { UserStatusType } from "../../../../../@types/UserStatus/StatusType";
-
 
 
 export const userStatusOptions = [
     {
-        value: UserStatusType.ALL,
+        value: '',
         label: 'Status: Todos'
     },
     {
-        value: UserStatusType.ENABLE,
+        value: "isAtivo",
         label: 'Status: Ativo'
     },
     {
-        value: UserStatusType.DISABLE,
+        value: "inativo",
         label: 'Status: Inativo'
     },
     {
-        value: UserStatusType.ON_APPROVAL,
+        value: "em andamento",
         label: 'Status: Em aprovação'
     },
 ]

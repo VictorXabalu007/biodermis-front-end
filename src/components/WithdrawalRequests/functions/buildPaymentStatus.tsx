@@ -2,15 +2,16 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io"
 import { Text } from "../../shared/Text"
 
 import { WithdrawalActions } from "../components/WithdrawalActions"
-import { PaymentStatusType } from "../components/TableHeader/util/selectOptions"
+import { WithDrawal } from "../util/withdrawalData"
 
 
 
-export const buildPaymentStatus = (status:PaymentStatusType, rowIndex:number) => {
+
+export const buildPaymentStatus = (status:string, withdraw:WithDrawal) => {
 
     switch(status) {
 
-        case 'PAID':
+        case 'realizado':
             
             return (
 
@@ -30,12 +31,12 @@ export const buildPaymentStatus = (status:PaymentStatusType, rowIndex:number) =>
 
             )
             
-        case 'PENDING':
+        case 'pendente':
 
             return (
 
                 <div className="flex justify-center">
-                    <WithdrawalActions rowIndex={rowIndex} />
+                    <WithdrawalActions withdraw={withdraw} />
                 </div>
 
             )

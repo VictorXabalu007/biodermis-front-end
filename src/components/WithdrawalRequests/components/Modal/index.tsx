@@ -15,8 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../../shared/Form";
 import FormItem from "antd/es/form/FormItem";
 import { DraggerWrapper } from "../../../Register/RegisterConsultor/components/FormContainer/components/Uploader/styles/styles";
-import { WITHDRAW } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useState } from "react";
+import { WithDrawal } from "../../util/withdrawalData";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../../service/connection";
+import { getHeaders } from "../../../../service/getHeaders";
 
 const { Paragraph } = Typography;
 const { Dragger } = Upload;
@@ -25,8 +28,7 @@ const { Dragger } = Upload;
 const props: UploadProps = {
   name: 'file',
   multiple: true,
-  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-
+  accept: '.pdf',
   onDrop(e) {
     console.log('Dropped files', e.dataTransfer.files);
   },
@@ -37,18 +39,14 @@ const props: UploadProps = {
 
 type WithDrawalModalProps  = {
     handleClose: () => void;
-    rowIndex: number
+    withdraw: WithDrawal
 }
 
-export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) => {
+export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) => {
 
     const proofSchema = z.object({
-        pixProof: z.object({
-            name: z.string(), 
-            size: z.number().min(1,'Nenhum arquivo anexado...'),
-            type: z.string(), 
-        },{required_error: 'Compranvante é obrigatório para confirmação'})
-    });
+        pixProof: z.instanceof(File).refine(file => file.name !== '',{message: 'Comprovante é necessário para o envio!'}),
+    }).refine(d => d.pixProof !== null, {message: 'Comprovante é necessário para o envio!'});
 
     type Data = z.infer<typeof proofSchema>;
 
@@ -58,49 +56,62 @@ export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) =>
         mode: 'all'
     });
 
-    const [success, setSuccess] = useState(false);
+    const [finish, setFinish] = useState({
+        success: false,
+        isFinished: false,
+        errorMsg: '',
+    })
 
+    const mutation = useMutation({
+        mutationFn:async (data:Data)=> {
+
+            const headers = getHeaders();
+
+            const formData = new FormData();
+            formData.append('file',data.originFileObj as File)
+
+            const req = await api.post(`/saques/comprovante/${withdraw.id}`,{...data},{
+                headers
+            })
+
+            return req.data
+        },
+        onSuccess : (res)=> {
+            console.log(res);
+            setFinish({
+                ...finish,
+                isFinished: true,
+                success: true
+            })
+            setTimeout(()=> {
     
-    const withdrawData = JSON.parse(sessionStorage.getItem(WITHDRAW) ?? '[]');
+                setFinish({
+                    ...finish,
+                    isFinished: false,
+                    success: false
+                })
+                handleClose();
+    
+            },3000);
+            
+        },
+        onError: (err:any) => {
+
+            setFinish({
+                success: false,
+                isFinished: true,
+                errorMsg: err.response.data.error
+            })
+            console.log(err);
+            
+        }
+    })
 
     const onSubmit = (data:Data) => {
 
-        const submitData = {
-            ...data,
-            id: rowIndex,
-            createdAt: new Date().toLocaleDateString(),
-        }
+        mutation.mutate(data);
+           
 
-
-        if (Array.isArray(withdrawData)) {
-
-            const recordIndex = withdrawData.findIndex(d => d.id === rowIndex);
-
-            if (recordIndex !== -1) {
-                const record = withdrawData[recordIndex];
-                console.log(record);
-                
-                record.paymentStatus = 'PAID'; 
-
-                sessionStorage.setItem(WITHDRAW, JSON.stringify(withdrawData));
-
-            }
-
-        }
-
-        setSuccess(true);
-        setTimeout(()=> {
-
-            setSuccess(false);
-            handleClose();
-
-        },3000);
-
-        console.log(submitData);
-        
-        
-        
-        
     }
 
    
@@ -117,10 +128,17 @@ export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) =>
         />
 
 
-        {success &&
+        {finish.isFinished && finish.success &&
         
             <Alert className="my-2" message="Pagamento realizado com sucesso" type="success" />
+            
         
+        }
+
+        {finish.isFinished && !finish.success &&
+        
+            <Alert className="my-2" message={finish.errorMsg} type="error" />
+            
         }
 
         <AntdForm form={form} onFinish={handleSubmit(onSubmit)}>
@@ -136,7 +154,7 @@ export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) =>
                     />
                     <Input.System
                     className="py-2"
-                    value={"Leonardo"}
+                    value={withdraw.nome_consultor}
                     id="name"
                     readOnly
                     />
@@ -202,7 +220,7 @@ export const WithDrawalModal = ({handleClose, rowIndex}:WithDrawalModalProps) =>
                             <InputMoney 
                             className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                             onChange={()=>null}
-                            value={1500}
+                            value={parseFloat(withdraw.valorsaque)}
                             prefix={"R$"}
                             id="solicitedValue"
                             readOnly

@@ -13,6 +13,7 @@ export const usePixkey = () => {
     
     const [pixKey, setPixkey] = useState('');
 
+
     const handlePixkeyChange = (e:React.ChangeEvent<HTMLInputElement>) => {
 
         const value = e.target.value;
@@ -31,12 +32,16 @@ export const usePixkey = () => {
                 setPixkey(pixKey)
                 break;
         }
+        
 
 
     }
 
+
+
     return {
         pixKey,
-        handlePixkeyChange
+        handlePixkeyChange,
+
     }
 }

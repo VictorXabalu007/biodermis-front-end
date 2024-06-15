@@ -1,52 +1,59 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-import { Image } from "antd/lib";
+
 import { Button, Checkbox, Flex, Modal } from "antd";
 import { FaTrash } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from "react-icons/io";
 import styled from "styled-components";
 import { BRAND_PURPLE } from "../../../constants/classnames/classnames";
 import { ButtonWrapper } from "../style/styles";
-import { ProductsData } from "../../Register/RegisterProducts/components/FormContainer";
-import { PRODUCTS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { useQuery } from "@tanstack/react-query";
+import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ProductsType } from "../service/getProducts";
+import { CategoryType, getCategory, getCategoryNameById } from "../../Categories/service/getCategory";
 import { api } from "../../../service/connection";
+import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isConsultor";
+import { useProductsData } from "./useProductsData";
+import { getHeaders } from "../../../service/getHeaders";
+import { Image } from "antd/lib";
 
-const columnHelper = createColumnHelper<ProductsData>();
 
-const productsData: ProductsData[] = JSON.parse(
-  sessionStorage.getItem(PRODUCTS_DATA) ?? "{}"
-);
-
-const getProducts = async () => {
-
-  const products = await api.get('/produtos/0', {
-    withCredentials: true
-  })
-
-  return products.data;
-}
+const columnHelper = createColumnHelper<ProductsType>();
 
 export const useTableData = () => {
 
-  const {data, isLoading, isError} = useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts
+  const {products, isLoading, setProducts} = useProductsData();
+
+  const {data:categories} = useQuery<CategoryType[]>({
+    queryKey: ['category'],
+    queryFn: getCategory
   });
 
-  console.log(data);
+
+  const {
+    contextHolder, 
+    success, 
+    error} = useMessageAction()
+
   
 
-  const [products, setProducts] = useState<ProductsData[]>(() => {
+  useEffect(()=> {
 
-    if (productsData && productsData.length > 0) {
-      return productsData;
-    } else {
-      return [];
+    if(categories && Array.isArray(categories)){
+        sessionStorage.setItem(CATEGORIES, JSON.stringify(categories));
     }
+  
 
-  });
+  },[categories, products])
+
+  
+  const handleCancel = () => {
+    Modal.destroyAll();
+  };
+
+  
 
   const { confirm } = Modal;
 
@@ -86,6 +93,60 @@ export const useTableData = () => {
     });
   };
 
+
+  const deleteProduct = useMutation({
+    mutationFn: async (data:ProductsType)=> {
+
+      let reqData = null;
+
+      const headers = getHeaders();
+
+      if(isConsultor()){
+
+        const req = await api.delete(`/consultor/produtos/${data.produto_id}`, {
+          headers
+        });
+
+        reqData = req.data
+
+      } else {
+
+        const req = await api.delete(`/produtos/${data.id}`, {
+          headers
+        });
+
+        reqData = req.data
+
+      }
+
+      return reqData;
+
+    },
+    onSuccess: (res, context:ProductsType)=> {
+
+      const rowId = context.id;
+      
+      setProducts((prev) =>
+        prev.filter((data) => data.id !== rowId)
+      );
+
+      console.log(res);
+      
+
+      success(res.success);
+      
+    },
+
+    onError: (err:any) => {
+
+      error(err.response.data.error)
+      
+    }
+
+  }); 
+
+
+
   const columns = useMemo(
     () => [
       columnHelper.display({
@@ -104,61 +165,56 @@ export const useTableData = () => {
           />
         ),
       }),
-      columnHelper.accessor("productsImage", {
-        id: "productsImage",
+      columnHelper.accessor("imagePath", {
+        id: "files",
         header: () => <p className="px-2">#</p>,
         cell: ({ getValue }) => {
-          const images = getValue();
-          
-          if (images && images.length > 0) {
-            const firstImage = images[0]; 
 
-            return (
-              <Flex align="center" justify="center">
-                <Image
-                  src={`https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload/${firstImage.name}`} 
-                  width={30}
-                  style={{ borderRadius: '5px' }}
-                />
-              </Flex>
-            );
-          } else {
-            return null; 
-          }
+          
+          return (
+            <Flex align="center" justify="center">
+              <Image src={getValue()}  width={30} style={{ borderRadius: '5px' }} /> 
+            </Flex>
+          );
+          
+          
         },
       }),
-      columnHelper.accessor("category", {
+      columnHelper.accessor("categoria_id", {
         id: "SKU",
         header: () => <p>SKU</p>,
-        cell: ({ getValue }) => <p>{getValue()}</p>,
+        cell: ({ getValue }) => <p>{getCategoryNameById(getValue())}</p>,
       }),
-      columnHelper.accessor("productName", {
+      columnHelper.accessor("nome", {
         id: "productName",
         header: () => <p>Nome do produto</p>,
         cell: ({ getValue }) => <p>{getValue()}</p>,
         enableSorting: true,
       }),
-      columnHelper.accessor("sellPrice", {
+      columnHelper.accessor(row => [row.valortotal, row.valorvenda], {
         id: "price",
         header: () => <p>Preço do produto</p>,
-        cell: ({ getValue }) => (
-          <NumericFormatter value={parseFloat(getValue())} />
-        ),
-        enableSorting: true,
-      }),
-      columnHelper.accessor("category", {
-        id: "category",
-        header: () => <p>Categoria</p>,
-        cell: ({ getValue }) => <p>{getValue()}</p>,
-        enableSorting: false,
-      }),
-      columnHelper.display({
-        id: "totalSold",
-        header: () => <p>Totais vendidos</p>,
-        cell: () => <p>1000</p>,
-        enableSorting: true,
-      }),
+        cell: ({ getValue }) => {
 
+          const [valortotal, valorvenda] = getValue();
+
+          if(isConsultor()){
+  
+            return <NumericFormatter value={parseFloat(valortotal)} />;  
+          } else {
+
+            return <NumericFormatter value={parseFloat(valorvenda)} />;  
+          }
+        },
+        enableSorting: true,
+      }),
+      columnHelper.accessor("mediaavs", {
+        id: "category",
+        header: () => <p>Media de vendas</p>,
+        cell: ({ getValue }) => <p>{getValue()}</p>,
+        enableSorting: true,
+      }),
+  
       columnHelper.display({
         id: "expand",
         header: () => <p>Ver mais</p>,
@@ -195,23 +251,32 @@ export const useTableData = () => {
       columnHelper.display({
         id: "delete",
         header: ({ table }) => {
-          const handleOk = () => {
-            const selectedRowsData = table
-              .getSelectedRowModel()
-              .rows.map((row) => row.original);
-            setProducts((prev) =>
-              prev.filter(
-                (data) => !selectedRowsData.some((d) => d.id === data.id)
-              )
-            );
-            Modal.destroyAll();
-          };
-          const handleCancel = () => {
-            Modal.destroyAll();
+
+          const handleOk = async () => {
+            const selectedRowsData = table.getSelectedRowModel().rows.map((row) => row.original);
+          
+            try {
+      
+              await Promise.all(selectedRowsData.map((data) => deleteProduct.mutateAsync(data)));
+          
+         
+              setProducts((prev) =>
+                prev.filter((data) => !selectedRowsData.some((d) => d.id === data.id))
+              );
+          
+              Modal.destroyAll();
+              success("Produtos deletados com sucesso!");
+
+            } catch (error:any) {
+
+              error("Erro ao excluir produtos");
+              
+            }
           };
 
           return (
             <Flex align="center" justify="center">
+              {contextHolder}
               <ButtonWrapper>
                 <Button
                   disabled={
@@ -222,7 +287,7 @@ export const useTableData = () => {
                     showConfirmModal(
                       handleOk,
                       handleCancel,
-                      "Tem certeza que deseja excluir este conjunto de dados?"
+                      "Tem certeza que deseja excluir este conjunto de produtos?"
                     )
                   }
                   aria-label="Delete row"
@@ -236,13 +301,10 @@ export const useTableData = () => {
         },
         cell: ({ row }) => {
           const handleOk = () => {
-            setProducts((prev) =>
-              prev.filter((data) => data.id !== row.original.id)
-            );
+
+            deleteProduct.mutate(row.original);
             Modal.destroyAll();
-          };
-          const handleCancel = () => {
-            Modal.destroyAll();
+
           };
 
           return (
@@ -265,8 +327,8 @@ export const useTableData = () => {
         },
       }),
     ],
-    []
+    [products]
   );
 
-  return { products, columns, setProducts };
+  return { products, columns, setProducts, isLoading, contextHolder };
 };

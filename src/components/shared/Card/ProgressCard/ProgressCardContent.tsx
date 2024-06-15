@@ -1,8 +1,9 @@
+import { NumericFormatter } from "../../Formatter/NumericFormatter"
 import { Heading } from "../../Heading"
 import { Text } from "../../Text"
 
 type ProgressCardContentProps = {
-    title: string,
+    title: number,
     subText: string
 }
 
@@ -11,7 +12,7 @@ export const ProgressCardContent = ({title, subText}:ProgressCardContentProps) =
         <div>
 
             <Heading.Root>
-                <Heading.Content content={title} />
+                <NumericFormatter value={title} />
             </Heading.Root>
 
             <Text.Root className="my-3 text-gray-neutral-600 font-semibold">

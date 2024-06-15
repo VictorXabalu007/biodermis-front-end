@@ -1,11 +1,17 @@
-import { PiArrowsDownUpFill } from "react-icons/pi"
+
+import { RiArrowUpDownLine } from "react-icons/ri"
+import { twMerge } from "tailwind-merge"
 
 
-export const ArrowUpDownIcon = () => {
+type IconProps = {
+    className?:string
+}
+
+export const ArrowUpDownIcon = ({className}:IconProps) => {
 
 
     return (
-        <PiArrowsDownUpFill className="text-xl text-brand-purple" />
+        <RiArrowUpDownLine  className={twMerge("text-lg hover:text-brand-purple/50 text-brand-purple",className)} />
     )
 
 }

@@ -9,6 +9,7 @@ import {QueryClientProvider} from '@tanstack/react-query'
 import { queryClient } from './service/queryClient.ts';
 
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
   
@@ -16,6 +17,25 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
     <ConfigProvider 
       locale={ptBR}
+      theme={{
+        token: {
+          colorPrimaryBorderHover: '#C882B7',
+          
+
+        },
+        components: {
+          Checkbox: {
+            colorPrimary: '#C882B7',
+          },
+          Radio: {
+            colorPrimary: '#C882B7',
+          },
+          DatePicker: {
+            colorPrimary: '#C882B7'
+          }
+        }
+        
+      }}
       >
         
           <App /> 

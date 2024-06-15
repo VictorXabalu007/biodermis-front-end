@@ -14,6 +14,7 @@ import { BtnWrapper, InputWrapper } from "./styles";
 import { FORGOT_PASS_1, HOME } from "../../../constants/paths/paths";
 import { useState } from "react";
 import { AUTH_USER } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { Spinner } from "../../shared/Spinner";
 
 type LoginType = {
   email: string;
@@ -21,7 +22,9 @@ type LoginType = {
 };
 
 export const Login = () => {
+
   const [authError, setAuthError] = useState<string | null>(null); 
+  const [isLoading ,setIsLoading] = useState(false);
 
   const loginSchema = z.object({
     email: z.string({ required_error: 'Email não pode ser vazio' })
@@ -50,17 +53,25 @@ export const Login = () => {
     },
     onSuccess: (res) => {
       sessionStorage.setItem(AUTH_USER, JSON.stringify(res));
+      sessionStorage.setItem('token', JSON.stringify(res.token))
       navigate(HOME);
+      setIsLoading(false)
+  
     },
     onError: (err: any) => {
       setAuthError(err.response?.data?.error || 'Erro ao fazer login');
-      console.log(err);
-    }
+      setIsLoading(false)
+
+    },
   });
+
+
 
   const onSubmit = (data: LoginType) => {
 
     mutation.mutate(data);
+    setIsLoading(true)
+    
 
   };
 
@@ -170,6 +181,16 @@ export const Login = () => {
             </Link.Root>
 
             <Form.Item>
+
+              {isLoading ? <>
+              
+                <Spinner 
+                  content="Carregando..."
+                />
+              
+              </> : (
+
+
               <BtnWrapper>
                 <Button
                   className="auth-btn bg-brand-purple text-white w-full text-center"
@@ -178,6 +199,9 @@ export const Login = () => {
                   Entrar
                 </Button>
               </BtnWrapper>
+
+
+              )}
             </Form.Item>
           </Flex>
         </Form>

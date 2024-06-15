@@ -6,15 +6,12 @@ import { IoMdClose } from "react-icons/io";
 
 import './styles.css'
 
-import { ModalNavigator } from "../Modal/Navigator";
+import { ModalNavigator } from "../../../shared/Modal/Navigator";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
-import { ConsultorsData } from "../../hooks/useTableData";
 import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
+import { UserCredentials } from "../../../../@types/UserData/UserData";
 
-
-
-
-export const TableActions = ({data, row, table}:TableActionsProps<ConsultorsData>) => {
+export const TableActions = ({data, row, table}:TableActionsProps<UserCredentials>) => {
 
     
     const {confirm} = Modal;

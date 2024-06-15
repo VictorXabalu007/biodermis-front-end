@@ -4,26 +4,22 @@ import { SearchIcon } from "../../../shared/Icon/SearchIcon";
 import { Input } from "../../../shared/Input/Input";
 import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper";
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
-import Select from 'react-select'
+
 import { userSelectOptions } from "./util/selectOptions";
 import { useNavigate } from "react-router-dom";
 import { REGISTER_CONSULTOR } from "../../../../constants/paths/paths";
+import Select from "../../../shared/Input/Select";
 
 
 export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps) => {
 
 
-    const username = columnsFilters.find((f) => f.id === "name")?.value || "";
+    const username = columnsFilters.find((f) => f.id === "nome")?.value || "";
 
     const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
         prev.filter(f=> f.id !== id).concat({id,value})
     ));
       
-
-    const handleUserTypeChange = (type: {value:string, label:string}| null) => {
-        onFilterChange('userRole',type?.value);
-    }
-
     const navigate = useNavigate();
 
     return (
@@ -44,7 +40,7 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
                             suffix= {<SearchIcon />}
                             value={username as string}
                             onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-                              onFilterChange('name',e.target.value)
+                              onFilterChange('nome',e.target.value)
                             }}
     
                             />
@@ -55,7 +51,17 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
                         options={userSelectOptions}
                         defaultValue={userSelectOptions[0]}
                         className="w-full md:w-auto"
-                        onChange={handleUserTypeChange}
+                        onChange={(e)=> {
+                            // @ts-ignore
+                            if(e?.value===''){
+                                setColumnFilters([])
+                            } else {
+                            // @ts-ignore
+                                onFilterChange('cargo_id',e?.value);
+                            }
+                            
+                            
+                        }}
                         />
   
                     </div>

@@ -6,10 +6,14 @@ import { ProductsData } from "../FormContainer";
 import TextArea from "antd/es/input/TextArea";
 import { FormItem } from "../../../../shared/Form/FormItem";
 
+import { categoryOptions } from "../../../../Products/util/getCategoryOptions";
+import Select from "../../../../shared/Input/Select";
 
 
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
 
+
+    
     return (
 
         <Form.GroupWrapper>
@@ -92,12 +96,13 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                                     
                                     />
 
-                                    <Input.System 
-                                    placeholder="ex: Cosmetico"
-                                    id="category"
-                                    onChange={onChange}
-
-                                    />
+                                   <Select
+                                    isSearchable
+                                    options={categoryOptions}
+                                    defaultValue={categoryOptions[0]}
+                                    // @ts-ignore
+                                    onChange={(selectedOption) => onChange(selectedOption?.value)}
+                                   />
 
                                 </Input.Root>
 

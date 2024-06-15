@@ -1,21 +1,40 @@
 
 
-import S, {Props} from 'react-select';
+import S, { Props } from 'react-select';
 
 
-const Select: React.FC<Props<any>> = (props) => (
-    <S
+const Select = (props:Props) => (
+
+
+      <S 
       {...props}
+      styles={{
+          control: (provided) => ({
+          ...provided,
+          padding: '2px 0',
+          width:"auto"
+          }),
+          ...props.styles
+      }}
       theme={(theme) => ({
-        ...theme,
-        borderRadius: 0,
-        colors: {
+          ...theme,
+          borderRadius: 5,
+          colors: {
           ...theme.colors,
-          primary25: 'hotpink',
-          primary: 'black',
-        },
+          text: 'orangered',
+          primary25: '#B475A5',
+          primary: '#C882B7',
+          },
+          ...props.theme,
+
+          
       })}
+
+      
+      
+      
     />
+
   );
   
  export default Select;

@@ -6,6 +6,7 @@ export const Container = styled.div`
 
     overflow-x: auto;
     min-width:100%;
+    background-color: #FFF;
 
 `;
 
@@ -13,6 +14,7 @@ export const Table = styled.table`
 
     border-collapse: collapse; 
     width:100%;
+  
 
  
 `;

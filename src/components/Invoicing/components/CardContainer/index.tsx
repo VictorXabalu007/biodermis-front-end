@@ -1,10 +1,16 @@
-import { cardItems } from "../../../Home/components/CardContainer/util/cardItems"
+
+import { useRangeDate } from "../../../../context/RangeDate/RangeDateContext"
+import { useInvoicingCardItem } from "../../hooks/useInvoicingCardItem";
 import { StatsCard } from "../../../shared/Card/StatsCard"
 import { InputRangePicker } from "../../../shared/Input/RangePicker"
 
 
 
 export const CardContainer = () => {
+
+    const {state,getDates} = useRangeDate();
+    const {items} = useInvoicingCardItem();
+
 
     return (
 
@@ -17,7 +23,7 @@ export const CardContainer = () => {
             <article className="flex gap-3 items-center flex-wrap">
                 
 
-                {cardItems.map((item,index) => {
+                {items.map((item,index) => {
                     return (
 
                     <StatsCard.Root key={index}>
@@ -26,8 +32,15 @@ export const CardContainer = () => {
 
                             <StatsCard.FooterContent
                             headingContent={item.footerHeding} 
-                            textContent={`${item.footerText} ${new Date().toLocaleDateString()}`} />
-
+                            textContent={item.footerText}
+                            dates={
+                                state.rangeDate[0].length > 0 ?
+                                `${getDates(state).startDate} 
+                                - ${getDates(state).endDate}`
+                                : new Date().toLocaleDateString()
+                             }
+                            />
+        
                             <StatsCard.Percentual percentual={item.percentual} />
 
                         </StatsCard.Footer>

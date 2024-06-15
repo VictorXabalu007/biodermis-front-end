@@ -1,63 +1,55 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { WithDrawal, withdrawalData } from "../util/withdrawalData";
-import { NameItem } from "../../shared/Image/NameItem/NameItem";
-import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
+import { WithDrawal } from "../util/withdrawalData";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildPaymentStatus } from "../functions/buildPaymentStatus";
-import {  useEffect, useMemo, useState } from "react";
-import { WITHDRAW } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useMemo, useState } from "react";
+import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
+import { useWithdrawData } from "./useWithdrawData";
 
 
 
 const columnHelper = createColumnHelper<WithDrawal>();
 
-const storageData = JSON.parse(sessionStorage.getItem(WITHDRAW) ?? '[]');
 
 export const useTableData = () => {
 
-    const [data, setData] = useState(storageData ?  storageData : withdrawalData);
+    const {data, isLoading, getConsultorName} = useWithdrawData();
+
+
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting,setSorting] = useState<any[]>([]);
 
-    useEffect(()=> {
 
-        sessionStorage.setItem(WITHDRAW,JSON.stringify(withdrawalData));
-          
-        if(Array.isArray(storageData)){
-
-            setData(storageData);
-       
-        } 
-
-    },[storageData]);
-
-    console.log(data);
 
     const columns = useMemo(() => [
-        columnHelper.accessor('name', {
-            header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-            cell: (name) =><div className="mx-3"> <NameItem name={name.getValue()} /></div>,
+        columnHelper.display({
+            id: 'userImage',
+            header: ()=> <div>#</div>,
+        }),
+        columnHelper.accessor('nome_consultor', {
+            header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
+            cell: ({getValue}) =>getValue(),
             enableSorting: true,
         }),
-        columnHelper.accessor('totalValueCurrent', {
+        columnHelper.accessor('saldo_disp', {
             header: () => <p>Valor total em conta</p>,
-            cell: (value) => <NumericFormatter value={value.getValue()} />,
+            cell: (value) => <NumericFormatter value={parseFloat(value.getValue())} />,
     
           
         }),
-        columnHelper.accessor('avaliableWithdrawal', {
+        columnHelper.accessor('valorsaque', {
             header: () => <p>Disponivel para saque</p>,
-            cell: (value) => <NumericFormatter value={value.getValue()} />
+            cell: (value) => <NumericFormatter value={parseFloat(value.getValue())} />
         }),
-        columnHelper.accessor('solicitedValue', {
+        columnHelper.accessor('valorresto', {
             header: () => <p>Valor solicitado</p>,
-            cell: (value) => <NumericFormatter value={value.getValue()} />
+            cell: (value) => <NumericFormatter value={parseFloat(value.getValue())} />
         }),
-        columnHelper.accessor('paymentStatus', {
+        columnHelper.accessor('status', {
             header: () =><p>Status pagamento</p>,
-            cell: ({row,getValue}) => buildPaymentStatus(getValue(), row.index)
+            cell: ({row,getValue}) => buildPaymentStatus(getValue(), row.original)
         }),
-    ],[]);
+    ],[getConsultorName]);
 
     return {
         columns,
@@ -65,7 +57,8 @@ export const useTableData = () => {
         sorting,
         columnFilters,
         setSorting,
-        setColumnFilters
+        setColumnFilters,
+        isLoading
     }
 
 }

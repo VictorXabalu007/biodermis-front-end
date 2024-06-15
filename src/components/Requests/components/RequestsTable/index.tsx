@@ -4,10 +4,12 @@ import * as C from '../../../../styles/TableStyles/styles'
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableHeader } from "../TableHeader";
 import { TableFilters } from "../TableFilters";
-import { useTableData } from "../hooks/useTableData";
+import { useTableData } from "../../hooks/useTableData";
 import { Pagination } from '../../../shared/Pagination';
 import { TableSorters } from '../../../shared/Table/components/TableSorters';
-import { Spin } from 'antd';
+import { Spinner } from '../../../shared/Spinner';
+import { validateRowSelected } from '../../../../functions/Validators/ValidateRowSelected/validateRowSelected';
+import { Empty } from 'antd';
 
 
 export const RequestsTable = () => {
@@ -20,6 +22,7 @@ export const RequestsTable = () => {
         sorting,
         setSorting,
         isLoading,
+        contextHolder
     } = useTableData();
 
     const table = useReactTable({
@@ -43,7 +46,40 @@ export const RequestsTable = () => {
     return (
 
         <TableWrapper>
+
+            {contextHolder}
+            {isLoading ? 
             
+            <Spinner />
+            
+            :
+            
+            (
+
+                <>
+
+                {data.length === 0 ?
+                
+                    <>
+
+                        <TableHeader />
+
+                        <TableFilters 
+                            columnsFilters={columnFilters}
+                            setColumnFilters={setColumnFilters}
+                        />
+
+                        <Empty 
+                            description="Nenhum dado no momento"
+                        />
+
+
+                    </>
+
+                    : (
+
+                        <>
+
             <TableHeader />
 
             <TableFilters 
@@ -51,29 +87,13 @@ export const RequestsTable = () => {
                 setColumnFilters={setColumnFilters}
             />
 
-            
+
                 <C.Container>
 
 
                     <C.Table>
 
-                        
-                    {isLoading &&
                     
-                    
-                        <Spin />
-                
-                    }
-
-                    {
-                        data.length === 0 &&
-
-                        <>
-                        
-                            Nenhum dado Registrado ainda
-                        
-                        </>
-                    }
                         <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>
@@ -90,7 +110,7 @@ export const RequestsTable = () => {
                             {table.getRowModel().rows.map((row)=> (
                                 <C.HoverRow key={row.id}>
                                     {row.getVisibleCells().map(cell => (
-                                        <C.Td key={cell.id}>
+                                        <C.Td style={validateRowSelected(row)} key={cell.id}>
                                             {flexRender(cell.column.columnDef.cell,
                                                 cell.getContext())}
                                         </C.Td>
@@ -103,7 +123,26 @@ export const RequestsTable = () => {
                 </C.Container>
 
                 <Pagination table={table} />
+
+
+                        </>
+
+
+
+                    )
+
+                
+                }
+                
+                    
+                
+                
+                </>
+
+
+            )}
             
+      
 
         </TableWrapper>
 

@@ -1,15 +1,11 @@
 
-import { theme } from "antd";
+
 import { Content as C } from "antd/es/layout/layout";
 import { ReactNode } from "react";
 
 export const Content = ({children}:{children: ReactNode}) => {
 
-    const {
 
-        token: { colorBgContainer },
-    
-      } = theme.useToken();
 
 
     return (
@@ -19,7 +15,6 @@ export const Content = ({children}:{children: ReactNode}) => {
         <div
           className="p-[0 24px]"
           style={{
-            background: colorBgContainer,
             display: 'flex',
             flexDirection: 'column',
             gap: '2em',

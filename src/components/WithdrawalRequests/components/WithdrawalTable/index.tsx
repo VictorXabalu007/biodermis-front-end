@@ -4,10 +4,11 @@ import { TableWrapper } from "../../../shared/Table/components/TableWrapper"
 import { TableHeader } from "../TableHeader"
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import * as C from '../../../../styles/TableStyles/styles'
-
 import { useTableData } from "../../hooks/useTableData"
 import { Pagination } from "../../../shared/Pagination"
 import { TableSorters } from "../../../shared/Table/components/TableSorters"
+import { Spinner } from "../../../shared/Spinner"
+import { Empty } from "antd"
 
 
 export const WithdrawalTable = () => {
@@ -19,7 +20,10 @@ export const WithdrawalTable = () => {
         columns, 
         setColumnFilters, 
         sorting, 
-        setSorting} = useTableData();
+        setSorting,
+        isLoading
+    
+    } = useTableData();
 
 
     const table = useReactTable({
@@ -43,44 +47,87 @@ export const WithdrawalTable = () => {
 
         <TableWrapper>
 
-            <TableHeader 
-                columnsFilters={columnFilters}
-                setColumnFilters={setColumnFilters}
-            />
+            {isLoading ?
+            
+                <Spinner /> :
 
-            <C.Container>
+                (
+                <>
 
-            <C.Table>
-                <C.Thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <C.EvenRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header)=> (
-                                
 
-                                <TableSorters header={header} />
-                            
+                    {data.length === 0 ? 
+                    
+            
+                    <>
+
+                        <TableHeader 
+                        columnsFilters={columnFilters}
+                        setColumnFilters={setColumnFilters}
+                        />
+
+                        <Empty
+                            description={"Sem dados no momento"}
+                        
+                        />
+
+                    </>
+
+
+                    : (
+
+                        <>
+
+                        <TableHeader 
+                        columnsFilters={columnFilters}
+                        setColumnFilters={setColumnFilters}
+                        />
+
+                        <C.Container>
+
+                        <C.Table>
+                        <C.Thead>
+                            {table.getHeaderGroups().map(headerGroup => (
+                                <C.EvenRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header)=> (
+                                        
+
+                                        <TableSorters header={header} />
+                                    
+                                    ))}
+                                </C.EvenRow>
                             ))}
-                        </C.EvenRow>
-                    ))}
-                </C.Thead >
+                        </C.Thead >
 
-                <tbody>
-                    {table.getRowModel().rows.map((row)=> (
-                        <C.HoverRow key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <C.Td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell,
-                                        cell.getContext())}
-                                </C.Td>
+                        <tbody>
+                            {table.getRowModel().rows.map((row)=> (
+                                <C.HoverRow key={row.id}>
+                                    {row.getVisibleCells().map(cell => (
+                                        <C.Td key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell,
+                                                cell.getContext())}
+                                        </C.Td>
+                                    ))}
+                                </C.HoverRow>
                             ))}
-                        </C.HoverRow>
-                    ))}
-                </tbody>
-            </C.Table>
+                        </tbody>
+                        </C.Table>
 
-            </C.Container>
+                        </C.Container>
 
-            <Pagination table={table} />
+                        <Pagination table={table} />
+                        </>
+
+                    )
+                                    
+                
+                    }
+                    
+                
+                    </>
+                )
+        
+            }
+
 
             
         </TableWrapper>

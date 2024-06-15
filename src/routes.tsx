@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CONSULTORS, DEFAULT_PATH, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
+import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -13,6 +13,8 @@ import { RegisterProductsTemplate } from "./templates/Register/RegisterProducts"
 import { Login } from "./components/Auth/Login";
 import { ForgotPassStep1 } from "./components/Auth/ForgotPass/Step1";
 import { ForgotPassStep2 } from "./components/Auth/ForgotPass/Step2";
+import { CategoriesTemplate } from "./templates/Categories";
+import { MercardoPagoSuccess } from "./components/Requests/MercadoPago/Success";
 
 export const AppRoutes = () => {
 
@@ -22,7 +24,6 @@ export const AppRoutes = () => {
         <BrowserRouter>
 
             <Routes>
-
 
                 <Route path={DEFAULT_PATH} element={<Login />} />
                 
@@ -40,8 +41,12 @@ export const AppRoutes = () => {
                 <Route path={PRODUCTS} element={<ProductsTemplate />} />
                 <Route path={REGISTER_PRODUCTS} element={<RegisterProductsTemplate />} />
 
+                <Route path={CATEGORIES} element={<CategoriesTemplate />} />
+
                 <Route path={WITHDRAWAL} element={<WithdrawalRequestsTemplate />} />
                 <Route path={INVOICING} element={<InvoicingTemplate />} />
+
+                <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
 
             </Routes>
             

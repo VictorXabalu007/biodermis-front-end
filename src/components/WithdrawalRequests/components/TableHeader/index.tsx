@@ -1,16 +1,17 @@
+
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps"
 import { SearchIcon } from "../../../shared/Icon/SearchIcon"
 import { Input } from "../../../shared/Input/Input"
 import { InputRangePicker } from "../../../shared/Input/RangePicker"
+import Select from "../../../shared/Input/Select"
 import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper"
-import Select from 'react-select';
 import { withdrawalSelectOptions } from "./util/selectOptions"
 
 
 export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps) => {
 
 
-    const username = columnsFilters.find((f) => f.id === "name")?.value || "";
+    const username = columnsFilters.find((f) => f.id === "nome_consultor")?.value || "";
 
     const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
         prev.filter(f=> f.id !== id).concat({id,value})
@@ -18,10 +19,9 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
 
     const handleStatusChange = (status: {value:string}| null) => {
-        onFilterChange('paymentStatus', status?.value)
+        onFilterChange('status', status?.value)
     }
 
-    
 
     return (
 
@@ -39,7 +39,7 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                         suffix= {<SearchIcon />}
                         value={username as string}
                         onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-                          onFilterChange('name',e.target.value)
+                          onFilterChange('nome_consultor',e.target.value)
                         }}
 
                         />
@@ -51,6 +51,7 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                         className="w-full md:w-auto"
                         options={withdrawalSelectOptions}
                         defaultValue={withdrawalSelectOptions[0]}
+                        // @ts-ignore
                         onChange={handleStatusChange}
                        
                     />

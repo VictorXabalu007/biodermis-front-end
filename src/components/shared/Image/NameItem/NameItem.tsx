@@ -5,7 +5,7 @@ export const NameItem = ({name}:{name:string}) => {
 
     return (
         
-    <div className='flex items-center gap-4'>
+    <div className='flex w-1/2 items-center gap-4'>
 
         <div className='bg-slate-300 p-5 rounded-[100%]'></div>
 

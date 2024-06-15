@@ -1,26 +1,27 @@
 import { twMerge } from "tailwind-merge";
 import { Button } from "../../../../../../shared/Button"
+import { ButtonHTMLAttributes } from "react";
 
 
-type ModalFooterActionsProps = {
+interface ModalFooterActionsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
-    onClick?: () => void;
+
     key: string;
     content: string;
     className?:string;
 
 }
 
-export const ModalFooterAction = ({key, content, onClick, className}:ModalFooterActionsProps) => {
+export const ModalFooterAction = ({key, content, className, ...rest}:ModalFooterActionsProps) => {
 
 
     return (
 
         <div key={key}>
                 
-            <Button.Root 
+            <Button.Root
                 className={twMerge("bg-white border border-brand-purple text-brand-purple hover:text-white",className)} 
-                onClick={onClick}
+                {...rest}
             >
                 <Button.Wrapper>
 

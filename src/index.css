@@ -9,3 +9,7 @@
 .ant-modal-confirm-body svg {
   fill: currentColor !important;
 }
+
+.ant-message-notice-content svg {
+  fill: currentColor !important;
+}

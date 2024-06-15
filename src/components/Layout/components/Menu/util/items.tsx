@@ -2,10 +2,10 @@
 
 import { GoPackage, GoHome, GoPeople } from "react-icons/go";
 import { RiTruckLine } from "react-icons/ri";
-import { BiUser } from "react-icons/bi";
+import { BiCategory, BiUser } from "react-icons/bi";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
-import { CONSULTORS, HOME, INVOICING, PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "../../../../../constants/paths/paths";
+import { CATEGORIES, CONSULTORS, HOME, INVOICING, PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "../../../../../constants/paths/paths";
 
 export const items = [
 
@@ -14,6 +14,7 @@ export const items = [
   { icon: GoPeople, label: 'Consultores', path: CONSULTORS},
   { icon: BiUser, label: 'Usuários', path: USERS },
   { icon: GoPackage, label: 'Produtos', path: PRODUCTS },
+  { icon: BiCategory , label: 'Categorias', path: CATEGORIES },
   { icon: FaHandHoldingDollar, label: 'Pedidos de saque', path: WITHDRAWAL },
   { icon: LiaMoneyBillWaveSolid, label: 'Faturamento',  path: INVOICING },
 

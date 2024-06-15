@@ -2,6 +2,7 @@
 import ReactApexChart from "react-apexcharts";
 import './styles.css';
 import { ApexOptions } from 'apexcharts';
+import { theme } from "antd";
 
 type Series = {
     name: string,
@@ -20,9 +21,17 @@ type ChartProps = {
 
 export const Chart = ({options,series,type, width}:ChartProps) => {
 
+    
+    const {
+        token: {
+            colorBgContainer
+        }
+    } = theme.useToken();
+
+
     return (
 
-        <div className="mt-3 z-50 h-[300px] flex-1 mixed-chart">
+        <div style={{background: colorBgContainer}} className="mt-3 rounded z-50 h-[300px] flex-1 mixed-chart">
 
             <ReactApexChart 
             options={options}

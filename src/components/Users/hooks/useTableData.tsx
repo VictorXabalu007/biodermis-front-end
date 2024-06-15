@@ -1,55 +1,67 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TableActions } from "../components/TableActions";
-import { NameItem } from "../../shared/Image/NameItem/NameItem";
-import { ArrowUpDownIcon } from "../../shared/Icon/ArrowUpDownIcon";
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "../service/getUsers";
 import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { getUser } from "../../../util/UserRole";
-import { Flex } from "antd";
+import { getUserRole } from "../../../util/UserRole";
+import { UserCredentials } from "../../../@types/UserData/UserData";
+import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 
 
-const columnsHelper = createColumnHelper<UserData>();
+const columnsHelper = createColumnHelper<UserCredentials>();
 
 export const userData:UserData[] = 
 JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
+    const {data, isLoading} = useQuery({
+        queryKey: ['users'],
+        queryFn: getUsers,
+    })
+
     const [sorting,setSorting] = useState<any[]>([]);
-    const [data, setData] = useState<UserData[]>(()=> {
+    const [users, setUsers] = useState<UserCredentials[]>([])
 
-        return Array.isArray(userData) ? userData : []
-
-    });
+    useEffect(()=> {
+        
+        if(data){
+            setUsers(data)
+        }
+            
+    },[data])
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(()=>[
-            columnsHelper.accessor('name', {
-                header: () => <div className="flex gap-2">Nomes <ArrowUpDownIcon /></div>,
-                cell: (name) => (
-
-                    <Flex justify="center" align="center" className="mx-3">
-
-                        <NameItem name={name.getValue()} />
-
-                    </Flex>
-                ), 
+            columnsHelper.display({
+                id: 'userImage',
+                header: ()=> <div>#</div>
+            }),
+            columnsHelper.accessor('nome', {
+                header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
+                cell: ({getValue}) => <p>{getValue()}</p>, 
                 enableSorting:true,
             }),
             columnsHelper.accessor('email', {
                 header: () => <p>Email</p>,
-                cell: (email) => <p>{email.getValue()}</p>
+                cell: ({getValue}) => <p>{getValue()}</p>
             }),
-            columnsHelper.accessor('phone', {
+            
+            columnsHelper.accessor('telefone', {
                 header: () => <p>Telefone</p> ,
-                cell: (phone) => <p>{phone.getValue()}</p>
+                cell: ({getValue}) => <p>{getValue()}</p>
             }),
-            columnsHelper.accessor('userRole', {
+
+            columnsHelper.accessor('cargo_id', {
                 header: () => <p>Tipo</p> ,
-                cell: ({getValue}) => <p>{getUser(getValue())}</p>
+                cell: ({getValue}) => <p>{getUserRole(getValue())}</p>,
+                filterFn: 'equals'
+                
             }),
+
             columnsHelper.display({
                 id: 'actions',
                 header: () => <p>Ações</p> ,
@@ -63,16 +75,18 @@ export const useTableData = () => {
                     />
                 )
             }),
+
         ],[]);
 
         return {
-            data,
+            users,
             columns,
             columnFilters,
             sorting,
             setSorting,
             setColumnFilters,
-            setData
+            setUsers,
+            isLoading
         }
 
 
