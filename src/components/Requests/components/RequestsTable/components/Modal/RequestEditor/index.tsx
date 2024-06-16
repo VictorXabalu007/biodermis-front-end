@@ -29,8 +29,12 @@ const shippingOptions = [
         label: 'Sedex',
     },
     {
-        value: 'mercadoLivre',
-        label: 'Mercado Livre',
+        value: 'correios',
+        label: 'Correios',
+    },
+    {
+        value: 'pac',
+        label: 'PAC',
     },
 ]
 

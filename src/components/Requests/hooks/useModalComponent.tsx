@@ -32,16 +32,7 @@ export const useModalComponent = ({id}:UseModalComponentProps) => {
             
             okText: 'confirmar',
             cancelText: 'cancelar',
-            onOk() {
-                
-                //TODO
-                // Implementar sistema de salvar dados depois
-                
-            },
-            
-            onCancel() {
-                
-            },
+        
         
             footer: null,
             width: '50%',

@@ -14,7 +14,9 @@ import { Heading } from "../../../shared/Heading";
 import { Text } from "../../../shared/Text";
 import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
+import { Spinner } from "../../../shared/Spinner";
 import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
+import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
 
@@ -27,6 +29,7 @@ type ForgotPassType = {
 export const ForgotPassStep1 = () => {
 
     const [authError, setAuthError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const loginSchema = z.object({
         email: z.string({required_error: 'O e-mail é necessário para recuperar sua senha'})
@@ -52,16 +55,23 @@ export const ForgotPassStep1 = () => {
 
             const request = await api.post('/esqueceu_senha',body);
 
+          
             return request.data;
 
         },
 
-        onSuccess:()=>{
+        onSuccess:(_,context)=>{
+
+            sessionStorage.setItem(MAIN_FORGOT_PASS, JSON.stringify(context))
+
+            setIsLoading(false);
             navigate(FORGOT_PASS_2);
+
           },
+
         onError:(err:any)=>{
             setAuthError(err.response?.data?.error || 'Erro ao realizar');
-            console.log(err);
+            setIsLoading(false);
         }
     });
 
@@ -70,6 +80,7 @@ export const ForgotPassStep1 = () => {
     const onSubmit = (data:ForgotPassType) => {
 
        mutation.mutate(data);
+       setIsLoading(true);
       
     }
 
@@ -185,6 +196,15 @@ export const ForgotPassStep1 = () => {
                 
                 <Form.Item>
                         
+
+                        {isLoading ? 
+                        <>
+                            <Spinner 
+                                content="Enviando..."
+                            />
+                        </> : (
+
+
                         <BtnWrapper>
 
                             <Button 
@@ -196,6 +216,9 @@ export const ForgotPassStep1 = () => {
                             </Button>
 
                         </BtnWrapper>
+
+
+                        )} 
 
 
                 </Form.Item>
