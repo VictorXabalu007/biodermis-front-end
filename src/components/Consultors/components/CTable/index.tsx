@@ -30,7 +30,6 @@ export const ConsultorsTable = () => {
     const table = useReactTable<UserCredentials>({
         data,
         columns,
-        debugTable: true,
         state: {
             columnFilters,
             sorting

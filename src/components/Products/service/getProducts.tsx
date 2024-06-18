@@ -28,7 +28,6 @@ export type ProductsType = {
 export const getProducts = async (id: number = 0) => {
 
     const headers = getHeaders();
-
   
     if(isConsultor()){
 
@@ -47,13 +46,25 @@ export const getProducts = async (id: number = 0) => {
       });
 
       
-
       sessionStorage.setItem(PRODUCTS_DATA, JSON.stringify(req.data));
 
       return req.data
 
     }
-
    
 
-  }
+}
+
+export const getAllProducts = async (id: number = 0) => {
+
+  const headers = getHeaders();
+
+  const req = await api.get<ProductsType[]>(`/produtos/${id}`, {
+    headers
+  });
+
+  return req.data
+
+
+
+}

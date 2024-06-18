@@ -36,7 +36,6 @@ export const WithdrawalTable = () => {
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel:getCoreRowModel(),
-        debugTable: true,
         getSortedRowModel: getSortedRowModel(),
         onSortingChange: setSorting
       

@@ -3,22 +3,45 @@ import { Button } from "../../../shared/Button";
 import { SearchIcon } from "../../../shared/Icon/SearchIcon";
 import { Input } from "../../../shared/Input/Input";
 import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper";
-import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
 import {  Modal } from "antd";
 import { IoMdClose } from "react-icons/io";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { FormModal } from "../Modal";
+import { CategoryType } from "../../service/getCategory";
+import { Dispatch, useEffect, useState } from "react";
+
+type CardFilterProps = {
+    data:CategoryType[],
+    setData:Dispatch<React.SetStateAction<CategoryType[]>>
+}
+
+export const CardsFilter = ({data,setData}:CardFilterProps) => {
 
 
-
-export const TableFilter = ({columnsFilters, setColumnFilters}:TableFiltersProps) => {
-
-
-    const categoryName = columnsFilters.find((f) => f.id === "categories")?.value || "";
-    
-    const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
-        prev.filter(f=> f.id !== id).concat({id,value})
-    ));
+    const [initialData, setInitialData] = useState<CategoryType[]>([]);
+    const [categoryName, setCategoryName] = useState<string>('');
+  
+    useEffect(() => {
+      if (data && initialData.length === 0) {
+        setInitialData(data);
+      }
+    }, [data, initialData.length]);
+  
+    useEffect(() => {
+      if (categoryName.trim() === '') {
+        setData(initialData);
+      } else {
+        const filteredData = initialData.filter(p =>
+          p.categoria.toLowerCase().includes(categoryName.toLowerCase())
+        );
+        setData(filteredData);
+      }
+    }, [categoryName, initialData, setData]);
+  
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const categoria = e.target.value;
+      setCategoryName(categoria);
+    };
 
 
     const {confirm} = Modal;
@@ -57,10 +80,8 @@ export const TableFilter = ({columnsFilters, setColumnFilters}:TableFiltersProps
                     className="py-2 flex-1"
                     placeholder="Buscar categoria"
                     suffix= {<SearchIcon />}
-                    value={categoryName as string}
-                    onChange={(e)=> {
-                      onFilterChange('categories',e.target.value)
-                    }}
+                    value={categoryName}
+                    onChange={handleNameChange}
 
                     />
                 

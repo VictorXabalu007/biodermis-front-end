@@ -3,26 +3,32 @@
 
 
 
+import { BrowserRouter } from 'react-router-dom'
 import { AppProvider } from './context'
 import { AppRoutes } from './routes'
 import './styles/global.css'
-
+import { RouteChangeListener } from './routerChangeListener'
 
 
 function App() {
+
  
   return (
-    
 
-      <main className="min-h-screen">
+
+
 
         <AppProvider>
 
-            <AppRoutes />
+            <BrowserRouter>
+            
+                  <AppRoutes />
+                  <RouteChangeListener />
+            
+            </BrowserRouter>
 
         </AppProvider>
-    
-      </main>
+
 
 
        

@@ -28,7 +28,6 @@ export const RequestsTable = () => {
     const table = useReactTable({
         data,
         columns,
-        debugTable: true,
         state: {
             columnFilters,
             sorting

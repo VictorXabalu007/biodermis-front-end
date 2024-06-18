@@ -8,13 +8,14 @@ import { TableActionsProps } from "../../../../../../@types/TableActions/TableAc
 import { ProductsType } from "../../../../service/getProducts";
 import Select from 'react-select';
 import { Button } from "../../../../../shared/Button";
-import { categoryOptions } from "../../../../util/getCategoryOptions";
+
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../../../service/connection";
 import { isConsultor } from "../../../../../../functions/Validators/ValidateConsultor/isConsultor";
 import { useMessageAction } from "../../../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../../../service/getHeaders";
 import { Image } from "antd";
+import { useCategoriesData } from "../../../../../Categories/hooks/useCategoriesData";
 
 
 export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>) => {
@@ -25,7 +26,10 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
   const productNameRef = useRef<HTMLInputElement>(null);
   
   const {contextHolder, success, error} = useMessageAction();
+
+  const {getCategoriesOptions} = useCategoriesData();
   
+  const categoriesOptions = getCategoriesOptions();
 
   const {control, handleSubmit} = useForm<ProductsType>({
 
@@ -156,7 +160,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
         className="flex gap-5"
       >
 
-        <div>
+     
           <div className="h-[150px] w-[150px]">
 
               <Image 
@@ -164,7 +168,12 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
                 src={data.imagePath} 
                 alt={data.nome} 
                 className="rounded-md"
-                style={{borderRadius: '5px 5px 0 0'}}
+                style={
+                  {
+                    borderRadius: '5px 5px 0 0',
+                    maxHeight: '200px',
+                    
+                  }}
               />
 
               <Button.Root 
@@ -179,7 +188,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
           </div>
 
-        </div>
 
         <div className="flex mt-4 gap-10 items-center">
 
@@ -348,8 +356,8 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
                 <Select
                       isSearchable
-                      options={categoryOptions}
-                      defaultValue={categoryOptions[fields.categoria_id]}
+                      options={categoriesOptions}
+                      defaultValue={categoriesOptions[fields.categoria_id]}
                       onChange={(selectedOption) => onChange(selectedOption?.value)}
                       isDisabled={!isEditable}
                 />

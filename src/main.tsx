@@ -32,7 +32,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           },
           DatePicker: {
             colorPrimary: '#C882B7'
+          },
+          Button: {
+            colorPrimary: '#C882B7',
+          
+          },
+          Input: {
+            colorPrimaryBorderHover: '#C882B7'
           }
+          
         }
         
       }}

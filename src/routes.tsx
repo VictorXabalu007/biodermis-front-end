@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {  Route, Routes } from "react-router-dom";
 import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
@@ -15,18 +15,22 @@ import { ForgotPassStep1 } from "./components/Auth/ForgotPass/Step1";
 import { ForgotPassStep2 } from "./components/Auth/ForgotPass/Step2";
 import { CategoriesTemplate } from "./templates/Categories";
 import { MercardoPagoSuccess } from "./components/Requests/MercadoPago/Success";
+import { NotFoundPage } from "./components/NotFound";
+
 
 export const AppRoutes = () => {
 
 
+
     return (
 
-        <BrowserRouter>
-
+  
             <Routes>
 
                 <Route path={DEFAULT_PATH} element={<Login />} />
+                <Route path={"*"} element={<NotFoundPage />} />
                 
+            
                 <Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
                 <Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
 
@@ -49,9 +53,6 @@ export const AppRoutes = () => {
                 <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
 
             </Routes>
-            
-
-        </BrowserRouter>
 
     );
 

@@ -76,8 +76,6 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
     
     const [data, setData] = useState<WithDrawal[]>([]);
 
-   console.log(data);
-   
 
     useEffect(() => {
 

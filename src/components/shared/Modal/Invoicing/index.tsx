@@ -1,18 +1,26 @@
+import { Empty } from "antd"
+import { UserCredentials } from "../../../../@types/UserData/UserData"
+import { useRequestsData } from "../../../Requests/hooks/useRequestsData"
 import { MoneyDataCard } from "../../Card/MoneyDataCard"
 import { buildInvoicingIcon } from "./functions/buildInvoicingIcon"
-import { getCardTitleByStatus } from "./functions/getCardTitleByStatus"
-import { invoicingItems } from "./util/invoicingItems"
 
 
 
+export const InovicingModal = ({data}:{data:UserCredentials}) => {
 
-export const InovicingModal = () => {
+
+    const {getRequestDataOfConsultorId} = useRequestsData();
+    
+    const consultorData = getRequestDataOfConsultorId(data.id);
+ 
 
     return (
 
-        <div className="flex flex-col max-h-[350px] overflow-y-scroll">
+        consultorData.length > 0 ? (
 
-            {invoicingItems.map((item,index) => {
+            <div className="flex flex-col max-h-[350px] overflow-y-scroll">
+
+            {consultorData.map((item,index) => {
 
                 return (
 
@@ -22,18 +30,18 @@ export const InovicingModal = () => {
 
                 <MoneyDataCard.LeftWrapper>
 
-                    {buildInvoicingIcon(item.status)}
+                    {buildInvoicingIcon(item.statuspag)}
 
                     <MoneyDataCard.Text
-                    title={getCardTitleByStatus(item.status)}
-                    subtitle={item.subtitle}
+                    title={item.statuspag}
+                    subtitle={item.datapedido}
                     />
 
                 </MoneyDataCard.LeftWrapper>
 
                     <MoneyDataCard.Value
                     cardType="generic"
-                    value={item.value}
+                    value={parseFloat(item.valor)}
                     />
 
                 </MoneyDataCard.Root>
@@ -46,6 +54,17 @@ export const InovicingModal = () => {
 
 
         </div>
+
+
+        ) : (
+
+            <Empty
+                description="Nenhum dado para esse consultor no momento"
+            />
+
+        )
+
+
         
     )
 

@@ -5,14 +5,15 @@ import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
 import { ProductsData } from "../FormContainer";
 import TextArea from "antd/es/input/TextArea";
 import { FormItem } from "../../../../shared/Form/FormItem";
-
-import { categoryOptions } from "../../../../Products/util/getCategoryOptions";
 import Select from "../../../../shared/Input/Select";
+import { useCategoriesData } from "../../../../Categories/hooks/useCategoriesData";
 
 
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
 
+    const {getCategoriesOptions} = useCategoriesData();
 
+    const categoriesOptions = getCategoriesOptions();
     
     return (
 
@@ -98,8 +99,8 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
 
                                    <Select
                                     isSearchable
-                                    options={categoryOptions}
-                                    defaultValue={categoryOptions[0]}
+                                    options={categoriesOptions}
+                                    defaultValue={categoriesOptions[0]}
                                     // @ts-ignore
                                     onChange={(selectedOption) => onChange(selectedOption?.value)}
                                    />
@@ -139,6 +140,8 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                             </label>
                             
                             <TextArea 
+                            className="hover:border-brand-purple"
+                            style={{resize: 'none'}}
                             placeholder="Produto com..."
                             rows={4} 
                             onChange={onChange}

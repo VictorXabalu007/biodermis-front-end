@@ -18,7 +18,7 @@ export const CategoriesTemplate = () => {
 
             <Categories.Content>
 
-                    <Categories.Table />
+                    <Categories.Cards />
 
             </Categories.Content>
 

@@ -11,13 +11,14 @@ import { ButtonWrapper } from "../style/styles";
 import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ProductsType } from "../service/getProducts";
-import { CategoryType, getCategory, getCategoryNameById } from "../../Categories/service/getCategory";
+import { CategoryType, getCategory } from "../../Categories/service/getCategory";
 import { api } from "../../../service/connection";
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
 import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isConsultor";
 import { useProductsData } from "./useProductsData";
 import { getHeaders } from "../../../service/getHeaders";
 import { Image } from "antd/lib";
+import { useCategoriesData } from "../../Categories/hooks/useCategoriesData";
 
 
 const columnHelper = createColumnHelper<ProductsType>();
@@ -31,6 +32,8 @@ export const useTableData = () => {
     queryFn: getCategory
   });
 
+
+  const {getCategoryNameById} = useCategoriesData();
 
   const {
     contextHolder, 
@@ -181,9 +184,10 @@ export const useTableData = () => {
         },
       }),
       columnHelper.accessor("categoria_id", {
-        id: "SKU",
+        id: "categoria_id",
         header: () => <p>SKU</p>,
         cell: ({ getValue }) => <p>{getCategoryNameById(getValue())}</p>,
+        filterFn: 'equals'
       }),
       columnHelper.accessor("nome", {
         id: "productName",
@@ -209,7 +213,7 @@ export const useTableData = () => {
         enableSorting: true,
       }),
       columnHelper.accessor("mediaavs", {
-        id: "category",
+        id: "mediaavs",
         header: () => <p>Media de vendas</p>,
         cell: ({ getValue }) => <p>{getValue()}</p>,
         enableSorting: true,

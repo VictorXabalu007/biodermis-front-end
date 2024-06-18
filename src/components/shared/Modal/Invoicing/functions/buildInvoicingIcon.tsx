@@ -1,14 +1,13 @@
 import { GoClock } from "react-icons/go";
-import { InvoicingStatus } from "../@types/InvoicingStatus";
 import { FaCheck } from "react-icons/fa6";
 
 
 
-export const buildInvoicingIcon = (status:InvoicingStatus) => {
+export const buildInvoicingIcon = (status:string) => {
 
     switch(status) {
 
-        case 'pendente':
+        case 'aguardando':
             return (
                 
                 <div className="bg-yeallow-solid-400 rounded-md h-[50px] w-[50px] flex items-center justify-center">
@@ -18,7 +17,7 @@ export const buildInvoicingIcon = (status:InvoicingStatus) => {
                 </div>
             )
 
-        case 'recebido':
+        case 'realizado':
             return (
                 
                 <div className="bg-green-solid-300 rounded-md flex items-center justify-center h-[50px] w-[50px]">

@@ -7,6 +7,7 @@ import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isC
 import { getUserData } from "../../../functions/Getters/getUser"
 import { getHeaders } from "../../../service/getHeaders"
 import { api } from "../../../service/connection"
+import { parseDate } from "../../../functions/Date/parseData"
 
 
 
@@ -43,19 +44,29 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
     const [dates, setDates] = useState<RefinedRangeDate>();
     const [data,setData] = useState<Requests[]>([])
 
+
+
     
 
     useEffect(() => {
 
         if (requests) {
 
-            setData(requests);
+            setData(requests.sort((a, b) => {
+                const dateA = parseDate(a.datapedido);
+                const dateB = parseDate(b.datapedido);
+                return dateB.getTime() - dateA.getTime();
+            }));
         }
 
         
     }, [requests]);
 
     
+    const getRequestDataOfConsultorId = (id: number) => {
+        return data.filter(d => d.consultor_id === id)
+     
+    };
 
     useEffect(()=> {
 
@@ -108,7 +119,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
         }).length;
     
         if (lastMonthSales === 0) {
-          return currentMonthSales === 0 ? 0 : 100; // 100% increase if there were no sales last month
+          return currentMonthSales === 0 ? 0 : 100; 
         }
     
         const change = ((currentMonthSales - lastMonthSales) / lastMonthSales) * 100;
@@ -233,7 +244,8 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
         getTotalPayments,
         getTotalApprovedPayments,
         getTotalPendingPayments,
-        getRequestOrderPercentChange
+        getRequestOrderPercentChange,
+        getRequestDataOfConsultorId
 
     }
 }

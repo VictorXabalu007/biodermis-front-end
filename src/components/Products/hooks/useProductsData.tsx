@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductsType, getProducts } from "../service/getProducts";
+import { ProductsType, getAllProducts, getProducts } from "../service/getProducts";
 import { useCallback, useEffect, useState } from "react";
 import { getHeaders } from "../../../service/getHeaders";
 import { URL, api } from "../../../service/connection";
@@ -12,6 +12,20 @@ export const useProductsData = () => {
     queryKey: ['products'],
     queryFn: ()=> getProducts()
   });
+
+  const {data:totalProducts} = useQuery<ProductsType[]>({
+    queryKey: ['allProducts'],
+    queryFn: ()=> getAllProducts()
+  });
+
+  const [allProducts, setAllProducts] = useState<ProductsType[]>([]);
+
+  useEffect(()=> {
+    if(totalProducts){
+      setAllProducts(totalProducts)
+    }
+  },[totalProducts]);
+
 
   const [products, setProducts] = useState<ProductsType[]>([]);
 
@@ -29,7 +43,7 @@ export const useProductsData = () => {
     
             return {
               ...p,
-              imagePath:URL + "/" + path
+              imagePath:URL + "/" + path,
             }
 
           } else {
@@ -102,8 +116,13 @@ export const useProductsData = () => {
 
   }
 
+  const getProductsByCategoryId = (id:number) => {
 
 
+    return products.filter(p => p.categoria_id === id) || []
+  }
+
+  
 
   return {
     products,
@@ -112,7 +131,9 @@ export const useProductsData = () => {
     getGreatherSoldProduct,
     getProductIdByName,
     getImageByPath,
-    getProductsById
+    getProductsById,
+    getProductsByCategoryId,
+    allProducts
   }
 
 

@@ -13,12 +13,20 @@ import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { FormModal } from "../Modal";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../../../service/queryClient";
+import Select from "../../../shared/Input/Select";
+import React, { useEffect } from "react";
+import { useCategoryFilter } from "../../../../context/CategoryFilterContext/CategoryFilterContext";
+import { CATEGORIES } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { CategoryType } from "../../../Categories/service/getCategory";
+
 
 const {confirm} = Modal;
+
 
 export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps) => {
 
     const navigate = useNavigate();
+    const {state} = useCategoryFilter();
 
     const username = columnsFilters.find((f) => f.id === "productName")?.value || "";
     
@@ -29,6 +37,33 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
     const handleClose = () => {
         Modal.destroyAll();
     }
+
+
+    const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES)?? '[]') || [];
+
+    console.log(dataCategories);
+    
+
+    const handleCategoriesChange = (selectedOption: { value: string | number; label: string } | null) => {
+        const categoryId = selectedOption?.value;
+        if (categoryId === '') {
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id'));
+        } else {
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id').concat({ id: 'categoria_id', value: Number(categoryId) }));
+        }
+
+        
+      };
+
+      useEffect(() => {
+
+        if (state.categoria_id !== null) {
+
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id').concat({ id: 'categoria_id', value: state.categoria_id }));
+          
+        }
+      }, [state.categoria_id]);
+
 
     const showConsultorModal = () => {
         confirm({
@@ -48,6 +83,17 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
         })
     }
 
+
+
+    useEffect(()=> {
+
+        console.log(state.default_index);
+
+
+    },[state.default_index])
+
+
+
     const handleClick = () => {
 
 
@@ -62,7 +108,20 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
     }
 
+    const categories = [
+        {
+            value: '',
+            label: 'Filtrar por: todos'
+        },
+        ...dataCategories.map(d => ({
+            value: d.id,
+            label: `Filtar por ${d.categoria}`
+        }))
+    ]
+
+
     return (
+
 
         <TableHeaderWrapper heading="Produtos gerais">
 
@@ -85,6 +144,30 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                     
                     </Input.Root>
 
+                    
+                   
+                
+                        
+                            <Select
+
+                                options={categories}
+                                defaultValue={categories[state.default_index ?? 0]}
+                                onChange={(e)=> {
+                                    handleCategoriesChange(e)
+                                }}
+                                className="w-full md:w-[200px]"
+                                
+                                
+                            />
+                        
+                        
+                        
+                        
+
+
+
+
+
                 </div>
 
                 <div className="flex flex-wrap gap-2">
@@ -101,6 +184,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
             </div>
 
         </TableHeaderWrapper>
+        
 
     )
 }

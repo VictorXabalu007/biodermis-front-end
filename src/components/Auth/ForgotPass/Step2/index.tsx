@@ -1,7 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, Flex, Form, Input, Modal } from "antd";
-import { QueryClientProvider, useMutation } from "@tanstack/react-query";
+import { Alert, Button, Flex, Form, Input } from "antd";
+import { useMutation } from "@tanstack/react-query";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,11 +17,12 @@ import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessi
 import { DEFAULT_PATH } from "../../../../constants/paths/paths";
 import { Spinner } from "../../../shared/Spinner";
 
-const emailData = JSON.parse(sessionStorage.getItem(MAIN_FORGOT_PASS) ?? '');
+
 
 export const ForgotPassStep2 = () => {
 
-  
+  const emailData = JSON.parse(sessionStorage.getItem(MAIN_FORGOT_PASS) ?? '');
+
   const navigate = useNavigate();
 
 

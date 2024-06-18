@@ -24,9 +24,9 @@ export const FormModal = ({handleClose}:FormModalProps) => {
 
     const {contextHolder,success,error} = useMessageAction()
 
-    const {products} = useProductsData();
+    const {allProducts} = useProductsData();
 
-    const nameOptions = products.map(p => ({
+    const nameOptions = allProducts.map(p => ({
         value: p.nome,
         label: p.nome,
     }))
@@ -86,7 +86,7 @@ export const FormModal = ({handleClose}:FormModalProps) => {
 
         
 
-        const id = products.find(p => p.nome === data.nomeProduto)?.id;
+        const id = allProducts.find(p => p.nome === data.nomeProduto)?.id;
 
         if(id) {
 

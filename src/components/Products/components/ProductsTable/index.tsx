@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableFilter } from "../TableFilter/TableFilter";
 import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
@@ -19,7 +19,8 @@ export const ProductsTable = () => {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const {products, columns, setProducts, isLoading, contextHolder} = useTableData();
-
+    const [isEmpty, setIsEmpty] = useState(false)
+    
     const table = useReactTable<ProductsType>({
 
         data: products,
@@ -28,7 +29,9 @@ export const ProductsTable = () => {
         state: {
             columnFilters,
         },
-        debugTable: true,
+        onColumnFiltersChange: () => {
+
+        },
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -47,6 +50,19 @@ export const ProductsTable = () => {
 
     });
 
+
+    useEffect(()=> {
+
+        if(!isLoading && table.getFilteredRowModel().rows.length === 0) {
+        
+            setIsEmpty(true);
+
+        } else {
+            setIsEmpty(false);
+        }
+        
+    },[columnFilters, isEmpty, getFilteredRowModel]);
+
     return (
         
 
@@ -63,7 +79,7 @@ export const ProductsTable = () => {
 
                 {
 
-                    products.length === 0 ?
+                    products.length === 0 || isEmpty ?
 
 
                     <>
@@ -74,7 +90,7 @@ export const ProductsTable = () => {
                         />
 
                         <Empty 
-                            description="Sem dados no momento"
+                            description="Nenhum dado foi encontrado"
                         />
                     </>
 

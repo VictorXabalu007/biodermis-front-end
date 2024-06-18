@@ -1,5 +1,5 @@
 
-import { CATEGORIES } from "../../../constants/paths/paths";
+
 import { api } from "../../../service/connection"
 import { getHeaders } from "../../../service/getHeaders";
 
@@ -18,26 +18,8 @@ export const getCategory = async () => {
         headers,
     })
 
-    if(req.data && Array.isArray(req.data)){
-        sessionStorage.setItem(CATEGORIES, JSON.stringify(req.data));
-    }
-
     return req.data
 
 
 }
-
-export const getCategoryNameById = (id:number) => {
-
-
-    const categorys:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '[]');
-
-    const name = categorys.find(c => c.id === id);
-    
-    return name?.categoria;
-
-
-}
-
-
 

@@ -40,7 +40,6 @@ export const UsersTable = () => {
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
-        debugTable: true,
         meta: {
             updateData: (rowIndex:number, data:any) => setUsers(
                 prev => prev.map((row,index) => 

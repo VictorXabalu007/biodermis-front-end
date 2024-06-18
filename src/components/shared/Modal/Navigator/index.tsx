@@ -12,6 +12,8 @@ import { FormModal } from "../../../../hooks/useFormRender/Form";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../../../service/queryClient";
+import { UserRole } from "../../../../util/UserRole";
+import { RangeDateProvider } from "../../../../context/RangeDate/RangeDateContext";
 
 export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCredentials>) => {
     
@@ -36,8 +38,10 @@ export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCrede
                 
             
             case '2':
-                return <InovicingModal />
+                return data.cargo_id === UserRole.CONSULTOR && <InovicingModal data={data} />
+                
         }
+
     }
 
     const [selected, setSelected] = useState('1');
@@ -55,38 +59,55 @@ export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCrede
     const SELECTED_CLASSNAME = 'bg-brand-purple text-white'
     
     return (
+
+        
         
         <div className="mt-10 w-full">
 
-                        <div className="flex items-center justify-center">
-  
-                            {buttonItems.map((item) => {
+                        {data.cargo_id === UserRole.CONSULTOR &&
+                        
+                            <div className="flex items-center justify-center">
+    
+                                {buttonItems.map((item) => {
 
-                             return (
+                                return (
 
-                                <Button.Root 
-                                className={twMerge(item.className,selected === item.key ? SELECTED_CLASSNAME : '')}
-                                onClick={() => handleSelect(item.key)}
-                                key={item.key}
-                                >
+                                    <Button.Root 
+                                    className={twMerge(item.className,selected === item.key ? SELECTED_CLASSNAME : '')}
+                                    onClick={() => handleSelect(item.key)}
+                                    key={item.key}
+                                    >
 
-                                <Button.Wrapper>
-                                    <Button.Content content={item.content} />
-                                </Button.Wrapper>
-                            </Button.Root>
+                                    <Button.Wrapper>
+                                        <Button.Content content={item.content} />
+                                    </Button.Wrapper>
+                                </Button.Root>
 
-                                );
+                                    );
 
-                            })}
+                                })}
 
-                        </div>
+                            </div>
+                        
+                        
+                        }
        
 
                     <UserImage />
                     
             <div>
+                
+                <RangeDateProvider>
 
-                {component}
+                    <QueryClientProvider client={queryClient}>
+
+                            {component}
+
+                    </QueryClientProvider>
+
+
+                </RangeDateProvider>
+
 
             </div>
 
