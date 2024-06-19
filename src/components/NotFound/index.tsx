@@ -1,12 +1,17 @@
-import { Flex, Typography } from "antd";
-import { Link } from "../shared/Link";
-import { HOME } from "../../constants/paths/paths";
+import { Button, Flex, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 
 
 const {Title,Text} = Typography;
 
 export const NotFoundPage = () => {
 
+
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
 
 
     return (
@@ -18,11 +23,11 @@ export const NotFoundPage = () => {
             <Text>
                 URL não encontrada
             </Text>
-            <Link.Root path={HOME}>
+            <Button type="text" onClick={handleGoBack}>
 
-                Voltar para a home
+                Voltar para a ultima página
             
-            </Link.Root>
+            </Button>
         
         
         </Flex>

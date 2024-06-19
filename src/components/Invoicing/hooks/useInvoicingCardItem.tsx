@@ -9,7 +9,7 @@ import { FilterDateConstraints } from "../../../context/RangeDate/RangeDateConte
 
 export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
 
-    const {getGreatherSoldProduct, isLoading} = useProductsData();
+    const {getGreatherSoldProduct, isLoading, getGreatherProductPercentualChange} = useProductsData();
     const {
         getTotalSells,
         getSellPercentualChange,
@@ -45,7 +45,7 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
             title: 'Item mais vendido',
             footerHeding: getGreatherSoldProduct().mediaavs,
             footerText: getGreatherSoldProduct().nome,
-            percentual: '25%',
+            percentual: getGreatherProductPercentualChange() + "%",
     
         },
 

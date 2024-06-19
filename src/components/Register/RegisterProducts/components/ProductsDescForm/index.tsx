@@ -6,15 +6,24 @@ import { ProductsData } from "../FormContainer";
 import TextArea from "antd/es/input/TextArea";
 import { FormItem } from "../../../../shared/Form/FormItem";
 import Select from "../../../../shared/Input/Select";
-import { useCategoriesData } from "../../../../Categories/hooks/useCategoriesData";
+import { CategoryType } from "../../../../Categories/service/getCategory";
+import { CATEGORIES } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+
+
 
 
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
 
-    const {getCategoriesOptions} = useCategoriesData();
-
-    const categoriesOptions = getCategoriesOptions();
+    const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
     
+
+    const categories = [
+        ...dataCategories.map(d => ({
+            value: d.id,
+            label: d.categoria
+        }))
+    ]
+
     return (
 
         <Form.GroupWrapper>
@@ -99,9 +108,7 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
 
                                    <Select
                                     isSearchable
-                                    options={categoriesOptions}
-                                    defaultValue={categoriesOptions[0]}
-                                    // @ts-ignore
+                                    options={categories}
                                     onChange={(selectedOption) => onChange(selectedOption?.value)}
                                    />
 

@@ -26,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         components: {
           Checkbox: {
             colorPrimary: '#C882B7',
+            colorPrimaryHover: '#C882B770'
           },
           Radio: {
             colorPrimary: '#C882B7',
@@ -38,7 +39,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           
           },
           Input: {
-            colorPrimaryBorderHover: '#C882B7'
+            colorPrimaryBorderHover: '#C882B7',
+            activeBorderColor: '#C882B7'
           }
           
         }

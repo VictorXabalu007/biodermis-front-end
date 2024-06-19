@@ -9,6 +9,7 @@ import { Pagination } from "../../../shared/Pagination"
 import { TableSorters } from "../../../shared/Table/components/TableSorters"
 import { Spinner } from "../../../shared/Spinner"
 import { Empty } from "antd"
+import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness"
 
 
 export const WithdrawalTable = () => {
@@ -42,6 +43,8 @@ export const WithdrawalTable = () => {
     });
 
 
+    const {isEmpty} = useEmptiness({table,isLoading,columnFilters,data});
+
     return (
 
         <TableWrapper>
@@ -54,7 +57,7 @@ export const WithdrawalTable = () => {
                 <>
 
 
-                    {data.length === 0 ? 
+                    {isEmpty ? 
                     
             
                     <>
@@ -65,7 +68,7 @@ export const WithdrawalTable = () => {
                         />
 
                         <Empty
-                            description={"Sem dados no momento"}
+                            description={"Nenhum pedido de saque foi encontrado"}
                         
                         />
 

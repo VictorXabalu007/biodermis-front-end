@@ -6,16 +6,17 @@ import InputMoney from "../../../../../shared/Input/InputNumber";
 import React, { useEffect, useRef, useState } from "react";
 import { TableActionsProps } from "../../../../../../@types/TableActions/TableActions";
 import { ProductsType } from "../../../../service/getProducts";
-import Select from 'react-select';
-import { Button } from "../../../../../shared/Button";
 
+import { Button } from "../../../../../shared/Button";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../../../service/connection";
 import { isConsultor } from "../../../../../../functions/Validators/ValidateConsultor/isConsultor";
 import { useMessageAction } from "../../../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../../../service/getHeaders";
-import { Image } from "antd";
-import { useCategoriesData } from "../../../../../Categories/hooks/useCategoriesData";
+import { Flex, Image } from "antd";
+import Select from "../../../../../shared/Input/Select";
+import { CATEGORIES } from "../../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { CategoryType } from "../../../../../Categories/service/getCategory";
 
 
 export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>) => {
@@ -27,9 +28,8 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
   
   const {contextHolder, success, error} = useMessageAction();
 
-  const {getCategoriesOptions} = useCategoriesData();
   
-  const categoriesOptions = getCategoriesOptions();
+  const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
 
   const {control, handleSubmit} = useForm<ProductsType>({
 
@@ -148,10 +148,19 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
     
   }
 
+  const categories = [
+    ...dataCategories.map(d => ({
+        value: d.id,
+        label: d.categoria
+    }))
+]
+
+  const categoryIndex = categories.findIndex(c => c.value === fields.categoria_id)
+
 
   return (
 
-    <article className="flex px-5 items-center min-h-[250px] gap-3">
+    <Flex align="center" gap={10} className="px-5 min-h-[250px]">
 
       {contextHolder}
 
@@ -161,39 +170,39 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
       >
 
      
-          <div className="h-[150px] w-[150px]">
-
+          <Flex vertical className="w-[150px]">
               <Image 
                 height={"150px"}
                 src={data.imagePath} 
                 alt={data.nome} 
-                className="rounded-md"
+                className="rounded-md m-0"
                 style={
                   {
                     borderRadius: '5px 5px 0 0',
                     maxHeight: '200px',
-                    
+                    width: '70vw',
+                    objectFit:'cover'
                   }}
               />
 
               <Button.Root 
                   onClick={handleClick}
-                  style={{borderRadius: '0 0 5px 5px'}} 
-                  className="flex-1 w-full"
+                  style={{borderRadius: '0 0 5px 5px', borderColor: '#000'}} 
+                  className="flex-1 w-full m-0"
               >
                   <Button.Wrapper>
                       <Button.Content content={text} />
                   </Button.Wrapper>
               </Button.Root>
 
-          </div>
+          </Flex>
 
 
-        <div className="flex mt-4 gap-10 items-center">
+        <Flex gap={40} align="center">
 
-          <div className="flex gap-6 flex-col">
+          <Flex gap={8} vertical >
 
-            <div className="flex gap-6">
+            <Flex align="center" gap={20}>
 
               <Controller 
               control={control}
@@ -338,42 +347,46 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
             )}
 
 
+            </Flex>
+
+            <div>
+
+              <Controller 
+              
+              control={control}
+              name="categoria_id"
+              render={({field:{onChange}})=> (
+
+              <Form.InputWrapper>
+                <InputRoot>
+
+                  <Input.Label
+                    content="Categoria"
+                    className="text-gray-neutral-400"
+                  />
+
+                  <Select
+                        isSearchable
+                        options={categories}
+                        defaultValue={categories[categoryIndex]}
+                        onChange={(selectedOption) => onChange(selectedOption?.value)}
+                        isDisabled={!isEditable}
+                  />
+
+
+
+                  
+                </InputRoot>
+
+              </Form.InputWrapper>
+
+              )}/>
+
             </div>
 
-            <Controller 
-            
-            control={control}
-            name="categoria_id"
-            render={({field:{onChange}})=> (
+          </Flex>
 
-            <Form.InputWrapper>
-              <InputRoot>
-
-                <Input.Label
-                  content="Categoria"
-                  className="text-gray-neutral-400"
-                />
-
-                <Select
-                      isSearchable
-                      options={categoriesOptions}
-                      defaultValue={categoriesOptions[fields.categoria_id]}
-                      onChange={(selectedOption) => onChange(selectedOption?.value)}
-                      isDisabled={!isEditable}
-                />
-
-
-
-                
-              </InputRoot>
-
-            </Form.InputWrapper>
-
-            )}/>
-
-          </div>
-
-          <div className="flex gap-6 flex-col">
+          <Flex gap={20} vertical>
 
             <Controller 
             control={control}
@@ -437,9 +450,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
             )}
             />
-          </div>
+          </Flex>
 
-          <div className="flex gap-6 flex-col">
+          <Flex gap={20} vertical>
 
 
             <Controller 
@@ -509,10 +522,10 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
               )}
               />
 
-          </div>
+          </Flex>
 
-          <div className="flex flex-col gap-6">
-            <div className="flex gap-5">
+          <Flex gap={20} vertical>
+            <Flex>
 
 
               <Controller
@@ -548,7 +561,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
               )}
               />
-            </div>
+            </Flex>
 
             <Controller 
             control={control}
@@ -581,12 +594,12 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
             )}
             />
-          </div>
-        </div>
+          </Flex>
+        </Flex>
 
       </form>
 
-    </article>
+    </Flex>
 
   );
 

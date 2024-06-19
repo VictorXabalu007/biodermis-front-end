@@ -6,8 +6,10 @@ import { PRODUCTS } from "./constants/paths/paths";
 
 
 export const RouteChangeListener = () => {
+
     const location = useLocation();
     const { dispatch } = useCategoryFilter();
+
   
     useEffect(() => {
 

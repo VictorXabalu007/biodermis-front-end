@@ -2,7 +2,6 @@ import { theme } from "antd";
 import { Header as H } from "antd/es/layout/layout";
 import { BORDER_GRAY } from "../../../../constants/classnames/classnames";
 import { Heading } from "../../../shared/Heading";
-import { Text } from "../../../shared/Text";
 import { AUTH_USER } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useEffect, useState } from "react";
 import { UserData } from "../../../../@types/UserData/UserData";
@@ -49,9 +48,7 @@ export const Header = ({heading}:{heading:string}) => {
                 <Heading.Root>
                     <Heading.Content content={heading} />
                 </Heading.Root> 
-                <Text.Root>
-                    <Text.Content content="Lorem ipsum dolor sit amet consectetur."/>
-                </Text.Root> 
+        
             </div>
 
             <div>

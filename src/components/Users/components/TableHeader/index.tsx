@@ -5,10 +5,11 @@ import { Input } from "../../../shared/Input/Input";
 import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper";
 import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
 
-import { userSelectOptions } from "./util/selectOptions";
+
 import { useNavigate } from "react-router-dom";
 import { REGISTER_CONSULTOR } from "../../../../constants/paths/paths";
 import Select from "../../../shared/Input/Select";
+import { userSelectOptions } from "./util/selectOptions";
 
 
 export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps) => {

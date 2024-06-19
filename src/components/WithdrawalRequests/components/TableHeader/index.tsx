@@ -8,6 +8,7 @@ import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeader
 import { withdrawalSelectOptions } from "./util/selectOptions"
 
 
+
 export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps) => {
 
 
@@ -51,7 +52,6 @@ export const TableHeader = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                         className="w-full md:w-auto"
                         options={withdrawalSelectOptions}
                         defaultValue={withdrawalSelectOptions[0]}
-                        // @ts-ignore
                         onChange={handleStatusChange}
                        
                     />

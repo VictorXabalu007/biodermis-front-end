@@ -109,6 +109,7 @@ export const useTableData = () => {
         const req = await api.delete(`/consultor/produtos/${data.produto_id}`, {
           headers
         });
+          
 
         reqData = req.data
 
@@ -118,6 +119,7 @@ export const useTableData = () => {
           headers
         });
 
+  
         reqData = req.data
 
       }
@@ -133,7 +135,6 @@ export const useTableData = () => {
         prev.filter((data) => data.id !== rowId)
       );
 
-      console.log(res);
       
 
       success(res.success);
@@ -176,7 +177,7 @@ export const useTableData = () => {
           
           return (
             <Flex align="center" justify="center">
-              <Image src={getValue()}  width={30} style={{ borderRadius: '5px' }} /> 
+              <Image src={getValue()}  width={30} style={{ borderRadius: '5px', maxHeight: '30px', }} /> 
             </Flex>
           );
           

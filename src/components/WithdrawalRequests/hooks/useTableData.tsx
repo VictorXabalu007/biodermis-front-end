@@ -1,15 +1,14 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
-import { WithDrawal } from "../util/withdrawalData";
+
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildPaymentStatus } from "../functions/buildPaymentStatus";
 import { useMemo, useState } from "react";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useWithdrawData } from "./useWithdrawData";
-
+import { WithDrawal } from "../util/withdrawalData";
 
 
 const columnHelper = createColumnHelper<WithDrawal>();
-
 
 export const useTableData = () => {
 
@@ -34,8 +33,6 @@ export const useTableData = () => {
         columnHelper.accessor('saldo_disp', {
             header: () => <p>Valor total em conta</p>,
             cell: (value) => <NumericFormatter value={parseFloat(value.getValue())} />,
-    
-          
         }),
         columnHelper.accessor('valorsaque', {
             header: () => <p>Disponivel para saque</p>,

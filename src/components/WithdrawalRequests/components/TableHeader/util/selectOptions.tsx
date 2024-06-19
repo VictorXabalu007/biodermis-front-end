@@ -1,3 +1,4 @@
+import { SelectLabel } from "../../../../shared/Input/Select/SelectLabel";
 
 
 export const PaymentStatus = {
@@ -10,15 +11,15 @@ export type PaymentStatusType = keyof typeof PaymentStatus;
 export const withdrawalSelectOptions = [
     {
         value: '',
-        label: 'Filtrar por Status: Todos'
+        label: <SelectLabel onBold="Filtrar por Status:" afterBold="Todos" />
     },
     {
         value: PaymentStatus.PENDING,
-        label: 'Filtrar por Status: Pendente'
+        label: <SelectLabel onBold="Filtrar por Status:" afterBold="Pendente" />
     },
     {
         value: PaymentStatus.PAID,
-        label: 'Filtrar por Status: Pago'
+        label: <SelectLabel onBold="Filtrar por Status:" afterBold="Pago" />
     },
 
 ]

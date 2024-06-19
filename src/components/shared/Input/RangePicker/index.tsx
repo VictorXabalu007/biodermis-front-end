@@ -18,11 +18,13 @@ export const InputRangePicker = (props:RangePickerProps) => {
 
     const handleDateChange = 
     useCallback((value: NoUndefinedRangeValueType<Dayjs> | null, dateStrings: [string, string]) => {
-        
+
         if (value) {
             setDateRange(dateStrings);
+        } else {
+            setDateRange(['',''])
         }
-
+  
     },[]);
 
     useEffect(()=> {
@@ -35,6 +37,8 @@ export const InputRangePicker = (props:RangePickerProps) => {
             })
 
         }
+
+        
 
     },[handleDateChange,dateRange])
 

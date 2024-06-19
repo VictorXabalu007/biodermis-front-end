@@ -1,6 +1,4 @@
 
-
-
 export type WithDrawal = {
     
     consultor_id: number;
@@ -16,7 +14,3 @@ export type WithDrawal = {
     saldo_disp: string
 
 }
-
-
-
-

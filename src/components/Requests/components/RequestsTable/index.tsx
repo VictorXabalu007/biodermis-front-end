@@ -10,6 +10,7 @@ import { TableSorters } from '../../../shared/Table/components/TableSorters';
 import { Spinner } from '../../../shared/Spinner';
 import { validateRowSelected } from '../../../../functions/Validators/ValidateRowSelected/validateRowSelected';
 import { Empty } from 'antd';
+import { useEmptiness } from '../../../../hooks/useEmptiness/useEmptiness';
 
 
 export const RequestsTable = () => {
@@ -41,6 +42,8 @@ export const RequestsTable = () => {
 
     });
 
+
+    const {isEmpty} = useEmptiness({table,isLoading,columnFilters,data});
     
     return (
 
@@ -57,7 +60,7 @@ export const RequestsTable = () => {
 
                 <>
 
-                {data.length === 0 ?
+                {isEmpty ?
                 
                     <>
 
@@ -69,9 +72,8 @@ export const RequestsTable = () => {
                         />
 
                         <Empty 
-                            description="Nenhum dado no momento"
+                            description="Nenhum pedido foi encontrado"
                         />
-
 
                     </>
 

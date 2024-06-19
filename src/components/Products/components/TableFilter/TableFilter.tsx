@@ -18,6 +18,7 @@ import React, { useEffect } from "react";
 import { useCategoryFilter } from "../../../../context/CategoryFilterContext/CategoryFilterContext";
 import { CATEGORIES } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { CategoryType } from "../../../Categories/service/getCategory";
+import { SelectLabel } from "../../../shared/Input/Select/SelectLabel";
 
 
 const {confirm} = Modal;
@@ -41,8 +42,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
     const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES)?? '[]') || [];
 
-    console.log(dataCategories);
-    
+
 
     const handleCategoriesChange = (selectedOption: { value: string | number; label: string } | null) => {
         const categoryId = selectedOption?.value;
@@ -85,15 +85,6 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
 
 
-    useEffect(()=> {
-
-        console.log(state.default_index);
-
-
-    },[state.default_index])
-
-
-
     const handleClick = () => {
 
 
@@ -111,11 +102,11 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
     const categories = [
         {
             value: '',
-            label: 'Filtrar por: todos'
+            label: <SelectLabel onBold="Filtrar por: " afterBold="Todos" />
         },
         ...dataCategories.map(d => ({
             value: d.id,
-            label: `Filtar por ${d.categoria}`
+            label: <SelectLabel onBold="Filtrar por: " afterBold={d.categoria} />
         }))
     ]
 

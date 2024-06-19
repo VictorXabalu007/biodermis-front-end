@@ -1,20 +1,21 @@
+import { SelectLabel } from "../../../../shared/Input/Select/SelectLabel";
 
 
 export const userStatusOptions = [
     {
         value: '',
-        label: 'Status: Todos'
+        label: <SelectLabel onBold="Status: " afterBold="Todos" />
     },
     {
         value: "isAtivo",
-        label: 'Status: Ativo'
+        label: <SelectLabel onBold="Status: " afterBold="Ativo" />
     },
     {
         value: "inativo",
-        label: 'Status: Inativo'
+        label: <SelectLabel onBold="Status: " afterBold="Inativo" />
     },
     {
         value: "em andamento",
-        label: 'Status: Em aprovação'
+        label: <SelectLabel onBold="Status: " afterBold="Em aprovação" />
     },
 ]

@@ -83,29 +83,34 @@ export const bankDataSchema = z.object({
 
 })
 
-const certificadoSchema = z.object({
-    name: z.string(),
-    size: z.number().min(1, 'O certificado é obrigatório para o cadastro'),
-    type: z.string(),
-},);
 
-  export const userSchema = z
-  .object({
+
+export const userSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
     ...bankDataSchema.shape,
-    cargo_id: z.number().optional(),
-    certificado: z.union([certificadoSchema, z.undefined()]), 
-  })
-  .refine((schema) => {
-    if (schema.cargo_id === UserRole.CONSULTOR) {
-        return schema.certificado !== undefined; 
+    cargo_id: z.union([
+      z.literal(UserRole.ADMIN),
+      z.literal(UserRole.MANAGER),
+      z.literal(UserRole.STOCK),
+      z.literal(UserRole.CONSULTOR),
+      z.literal(UserRole.USER),
+    ]),
+    certificado: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos um certificado'),
+    {required_error: 'Pelo menos um certificado deve ser cadastrado!'}).refine(arr => arr.length !== 0, 'Pelo menos um certificado é necessário!')
+    .optional()
+  }).refine(schema => {
+    const { cargo_id, certificado } = schema;
+
+    if (cargo_id === UserRole.CONSULTOR) {
+      return certificado !== undefined;
     }
     return true;
+    
   }, {
-    message: 'Certificado e dados bancários são obrigatórios para consultores',
+    message: 'Certificado é obrigatório para consultores',
     path: ['certificado'],
-  })
+  });
 
 export const viewUserSchema = z.object({
     ...pessoalDataSchema.shape,
@@ -137,12 +142,19 @@ export const FormContainer = () => {
         mode: 'all',
         defaultValues: {
             cargo_id: UserRole.ADMIN,
+            certificado: undefined
         }
 
     });
 
 
     const userRole = watch('cargo_id');
+
+    useEffect(()=> {
+
+        console.log(errors);
+
+    },[errors])
 
 
 

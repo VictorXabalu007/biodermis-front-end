@@ -5,12 +5,11 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel
 import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData.tsx"
 import { Pagination } from "../../../shared/Pagination/index.tsx"
-import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys.ts"
-import { useEffect } from "react"
 import { TableSorters } from "../../../shared/Table/components/TableSorters.tsx"
 import { Empty, Spin } from "antd"
 import { Spinner } from "../../../shared/Spinner/index.tsx"
 import { UserCredentials } from "../../../../@types/UserData/UserData.ts"
+import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness.tsx"
 
 
 export const UsersTable = () => {
@@ -53,23 +52,8 @@ export const UsersTable = () => {
 
     })
 
-    useEffect(() => {
+    const {isEmpty} = useEmptiness({table,isLoading,columnFilters, data:users})
 
-        const usersData = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '[]');
-
-        if (Array.isArray(usersData) && usersData.length > 0) {
-
-            const updatedUsersData = usersData.map(user => {
-                
-                const updateUser = users.find(d => d.id === user.id);
-                return updateUser ? { ...user, ...updateUser } : user;
-
-            });
-
-            sessionStorage.setItem(USERS_DATA, JSON.stringify(updatedUsersData));
-        }
-
-    }, [users]);
 
     return (
 
@@ -86,7 +70,7 @@ export const UsersTable = () => {
                 <>
 
 
-                {users.length === 0 ?
+                {isEmpty ?
 
                 <>
 
@@ -96,7 +80,7 @@ export const UsersTable = () => {
                 />
                 <Empty 
 
-                    description={"Sem dados no momento"}
+                    description={"Nenhum usuário foi encontrado"}
                 
                 />
 

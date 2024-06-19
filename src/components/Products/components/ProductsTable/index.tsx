@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
 import { TableFilter } from "../TableFilter/TableFilter";
 import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
@@ -12,6 +12,7 @@ import { Spinner } from "../../../shared/Spinner";
 import { ProductsType } from "../../service/getProducts";
 import { validateRowSelected } from "../../../../functions/Validators/ValidateRowSelected/validateRowSelected";
 import { Empty } from "antd";
+import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness";
 
 
 
@@ -19,7 +20,6 @@ export const ProductsTable = () => {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const {products, columns, setProducts, isLoading, contextHolder} = useTableData();
-    const [isEmpty, setIsEmpty] = useState(false)
     
     const table = useReactTable<ProductsType>({
 
@@ -51,17 +51,7 @@ export const ProductsTable = () => {
     });
 
 
-    useEffect(()=> {
-
-        if(!isLoading && table.getFilteredRowModel().rows.length === 0) {
-        
-            setIsEmpty(true);
-
-        } else {
-            setIsEmpty(false);
-        }
-        
-    },[columnFilters, isEmpty, getFilteredRowModel]);
+    const {isEmpty} = useEmptiness({table,columnFilters,isLoading, data:products});
 
     return (
         
@@ -69,6 +59,7 @@ export const ProductsTable = () => {
         <TableWrapper>
 
         {contextHolder}
+
         {isLoading ?
             
             <Spinner />
@@ -79,8 +70,7 @@ export const ProductsTable = () => {
 
                 {
 
-                    products.length === 0 || isEmpty ?
-
+                    isEmpty ?
 
                     <>
 
@@ -90,7 +80,7 @@ export const ProductsTable = () => {
                         />
 
                         <Empty 
-                            description="Nenhum dado foi encontrado"
+                            description="Nenhum produto foi encontrado"
                         />
                     </>
 
@@ -163,8 +153,7 @@ export const ProductsTable = () => {
                         </>
                         
                 
-                    
-
+                
 
                     )
 
@@ -180,9 +169,6 @@ export const ProductsTable = () => {
             )
 
         }
-
-         
-
 
 
         </TableWrapper>

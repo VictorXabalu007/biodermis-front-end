@@ -83,6 +83,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
     
     useEffect(() => {
 
+        
         if (enableFilterDate && dates && dates.startDate && dates.endDate) {
             const start = new Date(dates.startDate.split('/').reverse().join('-'));
             const end = new Date(dates.endDate.split('/').reverse().join('-'));
@@ -169,13 +170,15 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
 
 
         let totalPayments = 0;
+        let totalPaymentCount = 0;
         
-        data.map(d => {
+        data.forEach(d => {
             totalPayments += parseFloat(d.valor)
+            totalPaymentCount++;
         });
     
-    
-        const percentualTotal = (totalPayments / data.length) * 100;
+
+        const percentualTotal = (totalPayments / totalPaymentCount) * 100;
     
         return {
             totalPayments,
@@ -187,48 +190,43 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
 
     
     const getTotalApprovedPayments = () => {
+        let totalPaymentsApproved = 0;
+        let totalApprovedPaymentsCount = 0;
     
-    
-        let totalPayments = 0;
-        let totalAprovedPayments = 0;
-        
         data.forEach(d => {
-            if(d.statuspag === 'realizado'){
-                totalPayments += parseFloat(d.valor)
-                totalAprovedPayments++;
+            if (d.statuspag === 'realizado') {
+                totalPaymentsApproved += parseFloat(d.valor);
+                totalApprovedPaymentsCount++;
             }
-        }) 
+        });
     
-        const percentualTotal = (totalPayments / totalAprovedPayments) * 100;
-    
+        const percentualApprovedPayments = (totalPaymentsApproved / getTotalPayments().totalPayments) * 100;
+        
         return {
-            totalPayments,
-            percentualTotal
+            totalPayments: totalPaymentsApproved,
+            percentualTotal: percentualApprovedPayments
         };
-    
+
     }
     
     const getTotalPendingPayments = () => {
-    
-    
-        let totalPayments = 0;
-        let totalPendingPayments = 0
-        
-        data.forEach(d => {
-            if(d.statuspag === 'aguardando'){
-                totalPayments += parseFloat(d.valor);
-                totalPendingPayments++;
-            }
-        }) 
-    
-        const percentualTotal = (totalPayments / totalPendingPayments) * 100;
-    
-        return {
-            totalPayments,
-            percentualTotal
-        };
-    
-    }
+    let totalPaymentsPending = 0;
+    let totalPendingPaymentsCount = 0;
+
+    data.forEach(d => {
+        if (d.statuspag === 'aguardando') {
+            totalPaymentsPending += parseFloat(d.valor);
+            totalPendingPaymentsCount++;
+        }
+    });
+
+    const percentualPendingPayments = (totalPaymentsPending / getTotalPayments().totalPayments) * 100;
+
+    return {
+        totalPayments: totalPaymentsPending,
+        percentualTotal: percentualPendingPayments
+    };
+}
 
 
     return {

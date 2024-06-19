@@ -5,13 +5,11 @@ import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel
 import * as C from '../../../../styles/TableStyles/styles'
 import { Pagination } from "../../../shared/Pagination";
 import { useTableData } from "../../hooks/useTableData";
-import { useEffect } from "react";
-import { USERS_DATA } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { UserRole } from "../../../../util/UserRole";
 import { TableSorters } from "../../../shared/Table/components/TableSorters";
 import { Spinner } from "../../../shared/Spinner";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
 import { Empty } from "antd";
+import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness";
 
 
 export const ConsultorsTable = () => {
@@ -53,29 +51,7 @@ export const ConsultorsTable = () => {
 
     });
 
-    useEffect(() => {
-
-        const usersData = JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '[]');
-
-        if (Array.isArray(usersData) && usersData.length > 0) {
-
-            const updatedUsersData = usersData.map(user => {
-                if (user.userRole === UserRole.CONSULTOR) {
-                    const updatedConsultor = data.find(d => d.id === user.id);
-                    return updatedConsultor ? { ...user, ...updatedConsultor } : user;
-                }
-                return user;
-            });
-
-            sessionStorage.setItem(USERS_DATA, JSON.stringify(updatedUsersData));
-        }
-
-    }, [data]);
-
- 
-
-
-    
+    const {isEmpty} = useEmptiness({table,columnFilters,isLoading,data})
 
 
     return (
@@ -93,7 +69,7 @@ export const ConsultorsTable = () => {
                     <>
 
 
-                    {data.length === 0 ? 
+                    {isEmpty ? 
                     
                         <>
 
@@ -102,7 +78,7 @@ export const ConsultorsTable = () => {
                                 setColumnFilters={setColumnFilters}
                             />    
                             <Empty 
-                                description="Nenhum dado no momento"
+                                description="Nenhum consultor foi encontrado"
                             />  
 
                         </>

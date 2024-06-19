@@ -138,7 +138,7 @@ export const CardContainer = () => {
                         />
 
                         <Empty 
-                            description="Sem dados no momento"
+                            description="Nenhuma categoria foi encontrada"
                         />
 
                     </>

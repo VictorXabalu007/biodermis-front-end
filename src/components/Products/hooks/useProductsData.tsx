@@ -122,7 +122,24 @@ export const useProductsData = () => {
     return products.filter(p => p.categoria_id === id) || []
   }
 
-  
+ 
+  const getGreatherProductPercentualChange = () => {
+    if (products.length === 0) return 0;
+
+    const totalMediaavs = products.reduce((sum, product) => {
+      const mediaavs = parseFloat(product.mediaavs);
+      return sum + (isNaN(mediaavs) ? 0 : mediaavs);
+    }, 0);
+
+    const greatherSoldProduct = getGreatherSoldProduct();
+
+    if (!greatherSoldProduct.mediaavs || isNaN(parseFloat(greatherSoldProduct.mediaavs)) || totalMediaavs === 0) {
+      return 0;
+    }
+
+    const percentual = (parseFloat(greatherSoldProduct.mediaavs) / totalMediaavs) * 100;
+    return percentual;
+  }
 
   return {
     products,
@@ -133,7 +150,8 @@ export const useProductsData = () => {
     getImageByPath,
     getProductsById,
     getProductsByCategoryId,
-    allProducts
+    allProducts,
+    getGreatherProductPercentualChange
   }
 
 

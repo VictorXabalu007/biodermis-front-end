@@ -18,19 +18,16 @@ const props: UploadProps = {
     
   name: 'files',
   multiple: true,
-  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
   accept: "image/png, image/jpeg, image/jpg",
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
-  
-  
-  
+
+
   beforeUpload: () => {
     
     return false;
     
   },
+  listType: 'picture-card',
+  
   
 
 };
@@ -64,13 +61,9 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
       };
 
       
-
-
     useImperativeHandle(ref, () => ({
       resetFiles: () => setFileList([]),
     }));
-
-
 
 
     return (
@@ -83,6 +76,7 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
         <Form.GroupWrapper>
           <Controller
             name="files"
+            rules={{required: true}}
             control={control}
             render={({ field }) => (
               <UploaderWrapper>
@@ -101,6 +95,8 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
                     }}
                     onChange={(info) => {
                       onChange(info);
+                      console.log(info);
+                      
                       field.onChange(info.fileList);
                     }}
                     onPreview={onPreview}

@@ -17,13 +17,15 @@ import { getHeaders } from "../../../../../service/getHeaders";
 
 const productsImageSchema = z.object({
     files: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos uma imagem'),
-    {required_error: 'Pelo menos uma imagem deve ser cadastrada!'})
-});
+    {required_error: 'Pelo menos uma imagem deve ser cadastrada!'}).refine(arr => arr.length !== 0, 'Pelo menos uma imagem é necessária!')
+})
+
+;
 
 const productsDescriptionsSchema = z.object({
     productName : z.string({required_error: 'Nome do produto é necessário para o cadastro'})
     .min(1, 'Nome do produto não pode ser vazio'),
-    category : z.number().optional(),
+    category : z.number({required_error: 'A categoria é necessária para o cadastro!'}).min(1,'A categoria é necessária para o cadastro!'),
     description: z.string({required_error: 'Descrição do produto é necessária para o cadastro'})
     .min(1, 'Descrição do produto do produto não pode ser vazia'),
 });

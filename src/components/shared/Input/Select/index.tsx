@@ -2,8 +2,10 @@
 import ReactSelect, { Props } from 'react-select';
 
 const Select = (props: Props<any>) => (
+  
   <ReactSelect
     {...props}
+    placeholder="selecione"
     styles={{
       control: provided => ({
         ...provided,
