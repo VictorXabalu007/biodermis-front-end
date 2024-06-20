@@ -9,6 +9,8 @@ import { Input } from "../../../../../components/shared/Input/Input";
 import { Button } from "../../../../../components/shared/Button";
 import { UserCredentials } from "../../../../../@types/UserData/UserData";
 import { useFieldChange } from "../../../../useFieldChange/useFieldChange";
+import { Alert } from "antd";
+import { UserRole } from "../../../../../util/UserRole";
 
 
 export const FormStep3 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>) => {
@@ -25,6 +27,16 @@ export const FormStep3 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
     return (
 
         <form onSubmit={handleSubmit(onSubmit)}>
+
+                {data.cargo_id === UserRole.USER &&
+                        
+                        <Alert
+                        className="my-3"
+                        type="warning"
+                        message="Não é possível editar dados de um cliente"
+                        />
+                    
+                }
 
 
                 <Controller

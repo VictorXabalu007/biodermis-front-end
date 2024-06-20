@@ -25,6 +25,10 @@ export const Login = () => {
 
   const [authError, setAuthError] = useState<string | null>(null); 
   const [isLoading ,setIsLoading] = useState(false);
+  const [touchedFields, setTouchedFields] = useState({
+    email: false,
+    password: false,
+  });
 
   const loginSchema = z.object({
     email: z.string({ required_error: 'Email não pode ser vazio' })
@@ -79,6 +83,10 @@ export const Login = () => {
     if (authError) setAuthError(null); 
   };
 
+  const handleTiping = (field:any) => {
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
+  }
+
   const [form] = Form.useForm();
 
   return (
@@ -130,13 +138,14 @@ export const Login = () => {
                   name="email"
                   validateStatus={errors.email ? 'error' : 'success'}
                   help={errors.email && errors.email.message}
-                  hasFeedback
+                  hasFeedback={touchedFields.email}
                 >
                   <InputWrapper>
                     <Input
-                      className="ant-input"
+                      className="ant-input rounded-md py-1 border-gray-neutral-200"
                       onChange={(e) => {
                         handleInputChange();
+                        handleTiping('email')
                         onChange(e);
                       }}
                       value={value}
@@ -153,7 +162,7 @@ export const Login = () => {
               control={control}
               render={({ field: { value, onChange } }) => (
                 <Form.Item
-                  hasFeedback
+                  hasFeedback={touchedFields.password}
                   validateStatus={errors.password ? 'error' : 'success'}
                   help={errors.password && errors.password.message}
                   name="password"
@@ -164,6 +173,7 @@ export const Login = () => {
                       value={value}
                       onChange={(e) => {
                         handleInputChange();
+                        handleTiping('password')
                         onChange(e);
                       }}
                       placeholder="Senha"

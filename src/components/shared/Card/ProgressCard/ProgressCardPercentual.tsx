@@ -20,7 +20,7 @@ export const ProgressCardPercentual = ({percent, strokeColor}:ProgressCardPercen
             <Progress 
             style={{background: '#FFF', borderRadius: '100%'}}
             type="circle"
-            percent={parseFloat(percent.toFixed(2))} 
+            percent={parseFloat(percent.toFixed(0))} 
             strokeColor={strokeColor} 
             strokeWidth={12}
             format={(percent) => (

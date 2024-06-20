@@ -9,6 +9,8 @@ import { UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useWithdrawData } from "../../WithdrawalRequests/hooks/useWithdrawData";
 import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
+import { Flex } from "antd";
+import { MiniImage } from "../../shared/Image/UserImage/miniImage";
 
 
 const columnsHelperConsultors = createColumnHelper<UserCredentials>();
@@ -17,7 +19,7 @@ const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 export const useTableData = () => {
 
     
-    const {consultor, isLoading:isLoadingConsultores, isConsultorsEmpty} = useConsultorData();
+    const {consultor, isLoading:isLoadingConsultores, isConsultorsEmpty, getConsultorImageById} = useConsultorData();
 
     const {data:withdraw, isLoading:isLoadingWithdrawal, isWithdrawEmpty} = 
     useWithdrawData({enableFilterDate: false});
@@ -58,9 +60,19 @@ export const useTableData = () => {
                 );
             }
         }),
-        columnsHelperConsultors.display({
-            id: 'UserImage',
+        columnsHelperConsultors.accessor('srcperfil',{
+            id: 'userImage',
             header: () => <div>#</div>,
+            cell: ({getValue}) => (
+                <Flex justify="center" align="center">
+                    <MiniImage 
+                        style={{
+                            maxWidth: '30px'
+                        }}
+                        src={getValue() as string}
+                    />
+                </Flex>
+            )
            
           
         }),
@@ -75,9 +87,24 @@ export const useTableData = () => {
 
     const withdrawalColumns = useMemo(()=> [
 
-        columnsHelperWithdrawal.display({
+        columnsHelperWithdrawal.accessor('consultor_id',{
             id: 'userImage',
             header: ()=> <div>#</div>,
+            cell: ({getValue}) => {
+
+                return (
+
+                    <Flex  justify="center" align="center">
+                        <MiniImage 
+                            style={{
+                                maxWidth: '30px',
+                                paddingLeft: '3px'
+                            }}
+                            src={getConsultorImageById(getValue()) as string}
+                        />
+                    </Flex>
+                )
+            }
         }),
         columnsHelperWithdrawal.accessor('nome_consultor', {
             header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,

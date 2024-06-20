@@ -161,16 +161,21 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                    
+                {!isConsultor() &&
+                
+                    <div className="flex flex-wrap gap-2">
 
-                    <Button.Root
-                        onClick={handleClick}
-                    >
-                        <Button.Content content="Adicionar um produto" />
-                        <Button.Icon icon={FaPlus} />
-                    </Button.Root>
+                        <Button.Root
+                            onClick={handleClick}
+                        >
+                            <Button.Content content="Adicionar um produto" />
+                            <Button.Icon icon={FaPlus} />
+                        </Button.Root>
 
-                </div>
+                    </div>
+                
+                }
 
             </div>
 

@@ -11,6 +11,8 @@ import { CONSULTORS } from "../../../constants/paths/paths";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useConsultorData } from "./useConsultorData";
+import { MiniImage } from "../../shared/Image/UserImage/miniImage";
+
 
 
 const columnHelper = createColumnHelper<UserCredentials>();
@@ -26,7 +28,10 @@ export const useTableData = () => {
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     
+    console.log(consultor);
+    
 
+    
     const columns = useMemo(() => [
 
         columnHelper.accessor('rank', {
@@ -54,9 +59,19 @@ export const useTableData = () => {
             },
             enableSorting: true,
         }),
-        columnHelper.display({
+        columnHelper.accessor('srcperfil',{
             id: 'userImage',
-            header: ()=> <div>#</div>
+            header: ()=> <div>#</div>,
+            cell: ({getValue}) => (
+                <Flex justify="center" align="center">
+                    <MiniImage 
+                        style={{
+                            maxWidth: '30px'
+                        }}
+                        src={getValue() as string}
+                    />
+                </Flex>
+            )
         }),
         columnHelper.accessor('nome', {
             header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
@@ -84,8 +99,8 @@ export const useTableData = () => {
         columnHelper.accessor('status',{
             id: 'status',
             header: () => <p>Status</p>,
-            cell: ({getValue}) => (
-                buildStatus(getValue())
+            cell: ({getValue, row}) => (
+                buildStatus(getValue(), row.original)
             )
         }),
         columnHelper.display({

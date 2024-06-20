@@ -6,6 +6,9 @@ import { useMemo, useState } from "react";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useWithdrawData } from "./useWithdrawData";
 import { WithDrawal } from "../util/withdrawalData";
+import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
+import { MiniImage } from "../../shared/Image/UserImage/miniImage";
+import { Flex } from "antd";
 
 
 const columnHelper = createColumnHelper<WithDrawal>();
@@ -13,7 +16,7 @@ const columnHelper = createColumnHelper<WithDrawal>();
 export const useTableData = () => {
 
     const {data, isLoading, getConsultorName} = useWithdrawData();
-
+    const {getConsultorImageById} = useConsultorData();
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting,setSorting] = useState<any[]>([]);
@@ -21,9 +24,24 @@ export const useTableData = () => {
 
 
     const columns = useMemo(() => [
-        columnHelper.display({
+        columnHelper.accessor('consultor_id',{
             id: 'userImage',
             header: ()=> <div>#</div>,
+            cell: ({getValue}) => {
+
+                
+                return (
+
+                    <Flex justify="center" align="center">
+                        <MiniImage 
+                            style={{
+                                maxWidth: '30px'
+                            }}
+                            src={getConsultorImageById(getValue()) as string}
+                        />
+                    </Flex>
+                )
+            }
         }),
         columnHelper.accessor('nome_consultor', {
             header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,

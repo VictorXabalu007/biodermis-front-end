@@ -14,7 +14,7 @@ export const StatsCardPercentual = ({percentual}:PercentualProps) => {
     
         <Flex className="py-2">
 
-            <div className="rounded-xl px-1 items-center flex gap-2 text-green-solid-800 bg-green-300/25">
+            <div style={{minHeight: '30px'}} className="rounded-xl px-2 items-center flex gap-2 text-green-solid-800 bg-green-300/25">
                     <FaArrowTrendUp className="text-xl" />
                     <Text.Root className="text-green-solid-800 font-bold">
                         <Text.Content content={percentual}/>

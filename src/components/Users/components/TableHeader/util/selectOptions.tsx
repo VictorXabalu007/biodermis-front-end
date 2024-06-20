@@ -27,6 +27,6 @@ export const userSelectOptions = [
     },
     {
         value: UserRole.USER,
-        label: <SelectLabel onBold="Tipo: " afterBold="Usuário" />
+        label: <SelectLabel onBold="Tipo: " afterBold="Cliente" />
     },
 ]

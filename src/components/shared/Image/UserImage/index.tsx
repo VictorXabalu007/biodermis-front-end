@@ -1,24 +1,33 @@
+import { Image } from "antd";
 import { twMerge } from "tailwind-merge"
+import noImage from '../../../../assets/no-image.png'
 
 type UserImageProps = {
-    // image:string;
+    image:string | null;
     className?:string
+    imageClassname?: string
 }
 
 
-export const UserImage = ({className}:UserImageProps) => {
+export const UserImage = ({className,image, imageClassname}:UserImageProps) => {
     
     return (
 
 
-    <div className={twMerge("flex items-center justify-center mt-10",className)}>
+    <div className={twMerge("flex items-center justify-center mt-5",className)}>
 
-        <div className="shadow-md shadow-purple-solid-500 rounded-[100%]">
-
-            {/* TODO Colocar o caminho da imagem aqui depois */}
-            <img 
-            src="https://picsum.photos/200" 
-            className="rounded-[100%] w-[100px] h-[100px] border border-brand-purple "
+        <div style={{
+                maxWidth: '200px',
+                maxHeight: '200px'
+        }} className="shadow-sm shadow-purple-solid-500 rounded-[100%]">
+           
+            <Image 
+            src={image ? image : noImage}
+            style={{
+                maxWidth: '200px',
+                maxHeight: '200px'
+            }}
+            className={twMerge("rounded-[100%] border border-brand-purple ",imageClassname)}
             alt="user image" 
              />
 

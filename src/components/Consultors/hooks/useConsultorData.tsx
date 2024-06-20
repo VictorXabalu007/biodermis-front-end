@@ -21,7 +21,7 @@ export const useConsultorData = () => {
           const rankedData = sortedData.map((d, index) => ({
             ...d,
             rank: String(index + 1),
-            status: d.status === 'ativo' ? 'isAtivo' : d.status
+            status: d.status === 'Ativo' ? 'isAtivo' : d.status
           }));
           setConsultor(rankedData);
         }
@@ -46,6 +46,11 @@ export const useConsultorData = () => {
       return consultor.length === 0;
     }
 
+    const getConsultorImageById = (id:number) => {
+
+      return consultor.find(c => c.id === id)?.srcperfil || null
+
+    }
 
     return {
         consultor,
@@ -55,5 +60,6 @@ export const useConsultorData = () => {
         isConsultorsEmpty,
         isLoading,
         isError,
+        getConsultorImageById
     };
 };

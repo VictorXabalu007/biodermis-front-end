@@ -9,6 +9,8 @@ import { Form } from "../../../../../components/shared/Form";
 import { Button } from "../../../../../components/shared/Button";
 import { FormType } from "../../../../../@types/FormType/FormType";
 import { UserCredentials } from "../../../../../@types/UserData/UserData";
+import { Alert } from "antd";
+import { UserRole } from "../../../../../util/UserRole";
 
 
 export const FormStep2 = ({
@@ -26,6 +28,16 @@ export const FormStep2 = ({
     return (
 
         <form onSubmit={handleSubmit(onSubmit)}>
+
+                {data.cargo_id === UserRole.USER &&
+                        
+                        <Alert
+                        className="my-3"
+                        type="warning"
+                        message="Não é possível editar dados de um cliente"
+                        />
+                    
+                    }
 
                 <Controller
                 control={control}

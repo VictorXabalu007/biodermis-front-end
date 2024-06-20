@@ -1,5 +1,4 @@
-import { Flex } from "antd";
-import { UserData } from "../../../../../components/Register/RegisterConsultor/components/FormContainer";
+import { Alert, Flex } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "../../../../../components/shared/Form/FormItem";
 import { Input } from "../../../../../components/shared/Input/Input";
@@ -11,6 +10,7 @@ import { Button } from "../../../../../components/shared/Button";
 import { useFieldChange } from "../../../../useFieldChange/useFieldChange";
 import { FormType } from "../../../../../@types/FormType/FormType";
 import { UserCredentials } from "../../../../../@types/UserData/UserData";
+import { UserRole } from "../../../../../util/UserRole";
 
 
 
@@ -30,6 +30,16 @@ export const FormStep1 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
 
         <form onSubmit={handleSubmit(onSubmit)}>
 
+        {data.cargo_id === UserRole.USER &&
+        
+            <Alert
+            className="my-3"
+            type="warning"
+            message="Não é possível editar dados de um cliente"
+            />
+        
+        }
+
         <Flex gap={10} className="mt-5 flex-col">
 
             <Controller 
@@ -39,6 +49,7 @@ export const FormStep1 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
             render={({field:{onChange, name}})=> (
             
                 <FormItem
+                className="w-full"
                 name="name"
                 validateStatus={errors.nome ? 'error' : 'success'}
                 help={errors.nome && errors.nome.message}
@@ -102,7 +113,7 @@ export const FormStep1 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
                             format="###.###.###-##" 
                             allowEmptyFormatting 
                             mask="_" 
-                            className="rounded-md py-2 px-2 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
+                            className="rounded-md py-2 px-1 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                             onChange={(e)=> {
                                 handleChange(name,e);
                                 onChange(e.target.value);
@@ -247,7 +258,7 @@ export const FormStep1 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
                       <InputWrapper>
                         <InputPassword 
                         
-                          className="ant-input"
+                          className="ant-input py-2"
                           onChange={onChange}
                             
                         />

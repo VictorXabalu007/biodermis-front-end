@@ -93,7 +93,9 @@ export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCrede
                         }
        
 
-                    <UserImage />
+                    <UserImage
+                        image={data.srcperfil}
+                    />
                     
             <div>
                 

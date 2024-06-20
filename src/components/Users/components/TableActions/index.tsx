@@ -1,4 +1,4 @@
-import { AiOutlineExclamationCircle } from "react-icons/ai"
+
 import { HiOutlinePencilAlt } from "react-icons/hi"
 import { IoMdClose } from "react-icons/io";
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
@@ -7,6 +7,7 @@ import { Modal } from "antd";
 import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
 import { ModalNavigator } from "../../../shared/Modal/Navigator";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
+import { UserRole } from "../../../../util/UserRole";
 
 
 export const TableActions = ({data, table, row}:TableActionsProps<UserCredentials>) => {
@@ -41,16 +42,11 @@ export const TableActions = ({data, table, row}:TableActionsProps<UserCredential
 
     const handleEditClick = () => {
 
-
+       if(data.cargo_id===UserRole.USER) {
+        showFormModal({readOnly: true})
+       } else {
         showFormModal({readOnly: false});
-       
-       
-    }
-
-    const handleReadOnlyClick = () => {
-
-        showFormModal({readOnly: true});
-
+       }
        
     }
 
@@ -60,7 +56,6 @@ export const TableActions = ({data, table, row}:TableActionsProps<UserCredential
         
         <div className="flex gap-2 text-xl items-center justify-center">
 
-            <AiOutlineExclamationCircle onClick={handleReadOnlyClick}  className="text-purple-solid-600 hover:text-purple-solid-600/50" />
             <HiOutlinePencilAlt onClick={handleEditClick} className="text-purple-solid-600 hover:text-purple-solid-600/50" />
 
         </div>

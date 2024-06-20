@@ -15,7 +15,7 @@ export const userStatusOptions = [
         label: <SelectLabel onBold="Status: " afterBold="Inativo" />
     },
     {
-        value: "em andamento",
+        value: "Em aprovação",
         label: <SelectLabel onBold="Status: " afterBold="Em aprovação" />
     },
 ]

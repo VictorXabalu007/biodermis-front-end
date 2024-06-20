@@ -20,7 +20,7 @@ export const CardContainer = () => {
 
                 isLoading ? <>
 
-                    <Spinner key={index} />
+                    <Spinner key={item.percentual} />
                 
                 </> : (
 
@@ -31,7 +31,6 @@ export const CardContainer = () => {
                             <StatsCard.FooterContent
                             headingContent={item.footerHeding} 
                             textContent={item.footerText} 
-                            dates=""
                             />
         
                             <StatsCard.Percentual percentual={item.percentual} />

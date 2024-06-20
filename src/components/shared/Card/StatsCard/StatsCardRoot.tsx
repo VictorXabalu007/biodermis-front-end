@@ -16,7 +16,7 @@ export const StatsCardRoot = ({children}:{children:ReactNode}) => {
 
     return (
         <div
-        style={{border:BORDER_GRAY, background: colorBgContainer}}
+        style={{border:BORDER_GRAY, background: colorBgContainer, minHeight: '160px'}}
         className="p-5 flex-1 flex rounded-md flex-col"
         >
             {children}

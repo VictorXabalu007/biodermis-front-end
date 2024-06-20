@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../../service/connection";
 import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../../service/getHeaders";
+import axios from "axios";
 
 
 export const pessoalDataSchema = z.object({
@@ -66,29 +67,60 @@ export const addressDataSchema = z.object({
     numero: z.string().optional(),
 
 
-})
+});
+
+
 
 export const bankDataSchema = z.object({
 
+    cod_banco: z.string({required_error: 'Código do banco é obrigatório para o cadastro'})
+    .refine(async (cod) => {
+
+        try {
+            const response = await axios.get(`https://brasilapi.com.br/api/banks/v1/${cod}`);
+            
+            console.log(response.data);
+            
+            if (response.status === 200) {
+          
+                return response.data.code === parseInt(cod);
+
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Erro ao validar código do banco:', error);
+            return false;
+        }
+
+    }, {message: 'Código inválido inserido'})
+    .optional(),
 
     agencia: z.string({required_error: 'Número da Agencia é obrigatório para o cadastro'})
-    .min(1,'Número da Agencia não pode ser vazio'),
-
+    .min(1,'Número da Agencia não pode ser vazio')
+    .optional(),
+    
     pix: z.string({required_error: 'Chave pix é obrigatória para o cadastro'})
     .min(1,'Chave píx não pode ser vazia')
-    .refine(pixkey=> isPixKey(pixkey),{message: 'Chave pix inválida inserida'}),
+    .refine(pixkey=> isPixKey(pixkey),{message: 'Chave pix inválida inserida'})
+    .optional(),
     
     conta: z.string({required_error:'conta é obrigatório para cadastro'})
-    .min(1,'conta é obrigatório para o cadastro'),
+    .min(1,'conta é obrigatório para o cadastro')
+    .optional(),
+
+    banco: z.string({required_error: 'Banco é obrigatório para cadastro'})
+    .optional()
 
 })
+
 
 
 
 export const userSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
-    ...bankDataSchema.shape,
+    bankData: bankDataSchema,
     cargo_id: z.union([
       z.literal(UserRole.ADMIN),
       z.literal(UserRole.MANAGER),
@@ -115,7 +147,7 @@ export const userSchema = z.object({
 export const viewUserSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
-    ...bankDataSchema.shape,
+    ...bankDataSchema.shape
 })
 
 
@@ -174,7 +206,29 @@ export const FormContainer = () => {
         mutationFn: async (data: UserData) => {
 
             const headers = getHeaders();
-            const req = await api.post('/usuarios',{...data},{
+
+            const body = {
+
+                "nome": data.nome,
+                "cpf": data.cpf,
+                "email": data.email,
+                "telefone": data.telefone,
+                "rua": data.rua,
+                "bairro": data.bairro,
+                "estado":data.estado,
+                "cep": data.cep,
+                "cidade": data.cidade,
+                "agencia": data.bankData.agencia,
+                "conta": data.bankData.conta,
+                "pix": data.bankData.pix,
+                "senha": data.senha,
+                "cargo_id": data.cargo_id
+
+            }
+
+
+
+            const req = await api.post('/usuarios',body,{
                 headers,
             });
             

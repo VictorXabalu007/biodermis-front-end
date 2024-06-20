@@ -135,6 +135,15 @@ export const TableFilters = ({
 
                       <Select 
                           className="w-full md:w-[200px]"
+                          options={statusOptions}
+                          defaultValue={statusOptions[0]}
+                         
+                          onChange={handlePaymentStatusChange}
+                        
+                      />
+
+                      <Select 
+                          className="w-full md:w-[200px]"
                           options={deliveryOptions}
                           // @ts-ignore
                           onChange={handleOrderStatusChange}
@@ -142,14 +151,7 @@ export const TableFilters = ({
                         
                       />
 
-                      <Select 
-                          className="w-full md:w-[200px]"
-                          options={statusOptions}
-                          defaultValue={statusOptions[0]}
-                          // @ts-ignore
-                          onChange={handlePaymentStatusChange}
-                        
-                      />
+                    
 
                       <Select 
                           className="w-full md:w-auto"

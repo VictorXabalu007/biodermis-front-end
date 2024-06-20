@@ -20,6 +20,7 @@ import { WithDrawal } from "../../util/withdrawalData";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../service/connection";
 import { getHeaders } from "../../../../service/getHeaders";
+import { useConsultorData } from "../../../Consultors/hooks/useConsultorData";
 
 const { Paragraph } = Typography;
 const { Dragger } = Upload;
@@ -68,7 +69,8 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
             const headers = getHeaders();
 
             const formData = new FormData();
-            formData.append('file',data.originFileObj as File)
+            
+            formData.append('file',data.pixProof as File)
 
             const req = await api.post(`/saques/comprovante/${withdraw.id}`,{...data},{
                 headers
@@ -114,7 +116,7 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
 
     }
 
-   
+   const {getConsultorImageById} = useConsultorData();
 
     const [form] = AntdForm.useForm();
 
@@ -125,6 +127,7 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
 
         <UserImage 
         className="my-2"
+        image={getConsultorImageById(withdraw.consultor_id)}
         />
 
 

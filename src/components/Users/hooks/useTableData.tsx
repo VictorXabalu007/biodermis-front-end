@@ -8,6 +8,8 @@ import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorage
 import { getUserRole } from "../../../util/UserRole";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
+import { Flex } from "antd";
+import { MiniImage } from "../../shared/Image/UserImage/miniImage";
 
 
 const columnsHelper = createColumnHelper<UserCredentials>();
@@ -36,9 +38,20 @@ export const useTableData = () => {
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(()=>[
-            columnsHelper.display({
+            columnsHelper.accessor('srcperfil',{
+                
                 id: 'userImage',
-                header: ()=> <div>#</div>
+                header: ()=> <div>#</div>,
+                cell: ({getValue}) => (
+                    <Flex justify="center" align="center">
+                        <MiniImage 
+                            style={{
+                                maxWidth: '30px'
+                            }}
+                            src={getValue() as string}
+                        />
+                    </Flex>
+                )
             }),
             columnsHelper.accessor('nome', {
                 header: ({header}) => <TableSorterTitle header={header} title="Nomes" />,
