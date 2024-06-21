@@ -7,27 +7,28 @@ import { LinkContent } from "../../../shared/Link/LinkContent";
 import { Exit } from "./components/Exit";
 import './styles.css'
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
-import { PRODUCTS, REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
+import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
 
 export const Menu = () => {
 
-    const [selectedKey, setSelectedKey] = useState(location.pathname);
+    const key = JSON.parse(sessionStorage.getItem(SELECTED_MENU_KEY) ?? '0' ) || '0'
+
+    const [selectedKey, setSelectedKey] = useState(key);
 
     const handleMenuSelect = ({ key }: {key:string}) => {
 
         setSelectedKey(key);
+        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(key))
 
     };
 
+   
+
     useEffect(()=> {
-
-        if(location.pathname === REGISTER_PRODUCTS){
-            setSelectedKey(PRODUCTS)
-        }
-
-    },[location.pathname,selectedKey])
+        setSelectedKey(key)
+    },[selectedKey, key])
 
     const getBackgroundColor = (key: string) => {
         return selectedKey === key ? 'rgba(200, 130, 183, .2)' : 'transparent';

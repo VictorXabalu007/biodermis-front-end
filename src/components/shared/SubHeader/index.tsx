@@ -1,28 +1,32 @@
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { Link } from "../Link";
 import { Text } from "../Text";
 import { Heading } from "../Heading";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 type SubHeaderProps = {
-    path:string,
     linkText:string,
     heading:string,
 }
 
-export const SubHeader = ({path,linkText,heading}:SubHeaderProps) => {
+export const SubHeader = ({linkText,heading}:SubHeaderProps) => {
+
+    
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
 
     return (
 
         <div className="flex items-center gap-10">
 
-            <Link.Root path={path}>
+            <Button onClick={handleGoBack} type="text">
 
-                <Link.Icon 
-                icon={FaArrowLeftLong} 
-                className="text-brand-purple hover:text-brand-purple/75"
-                />
-
-            </Link.Root>
+                <FaArrowLeftLong className="text-brand-purple hover:text-brand-purple/75" />
+            
+            </Button>
 
             <div>
 

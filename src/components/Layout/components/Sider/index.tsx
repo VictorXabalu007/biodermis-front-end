@@ -2,7 +2,6 @@ import Sider from "antd/es/layout/Sider"
 import { Menu } from "../Menu"
 import { Logo } from "../../../shared/Logo"
 import { useState } from "react";
-import { BORDER_GRAY } from "../../../../constants/classnames/classnames";
 import { theme } from "antd";
 
 
@@ -13,7 +12,7 @@ export const S = () => {
 
     const {
 
-        token: { colorBgContainer },
+        token: { colorBgContainer, boxShadow },
     
     } = theme.useToken();
 
@@ -24,7 +23,7 @@ export const S = () => {
         
         style={{ 
             background: colorBgContainer , 
-            borderRight: BORDER_GRAY,
+            boxShadow: boxShadow
         
         }}
         breakpoint="lg"

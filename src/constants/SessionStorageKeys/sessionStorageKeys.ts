@@ -11,4 +11,5 @@ export const AUTH_USER = 'user'
 export const CATEGORIES = 'categories'
 export const MAIN_FORGOT_PASS = 'mail-forgot'
 export const BANK_OPS = 'bank-ops'
+export const SELECTED_MENU_KEY = 'selected-key'
 

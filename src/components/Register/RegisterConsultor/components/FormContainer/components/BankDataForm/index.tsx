@@ -6,46 +6,16 @@ import { Input } from "../../../../../../shared/Input/Input";
 import { UserData } from "../..";
 import { Form as AntdForm } from "antd";
 import Select from "../../../../../../shared/Input/Select";
-import { useEffect, useState } from "react";
 import { BANK_OPS } from "../../../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Options } from "../../../../../../../@types/Options/Options";
 
 const Item = AntdForm.Item;
 
 export const BankDataForm = ({ errors, control }: RegisterFieldProps<UserData>) => {
+  
   const bankOps: Options[] = JSON.parse(sessionStorage.getItem(BANK_OPS) ?? '[]') || [];
 
   const { pixKey, handlePixkeyChange } = usePixkey();
-
-  const [defaultSelected, setDefaultSelected] = useState<Options[]>([]);
-
-  const [bankOptions, setBankOptions] = useState<Options[]>(bankOps);
-
-  const handleCodeBankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    if (!value) {
-      setDefaultSelected([]);
-      setBankOptions(bankOps);
-      return;
-    }
-
-    const defaultIndex = bankOps.find(b => b.key === parseInt(value));
-
-    if (defaultIndex) {
-      setDefaultSelected([defaultIndex]);
-      setBankOptions([defaultIndex]);
-    }
-
-  };
-
-  useEffect(() => {
-    if (defaultSelected.length === 0) {
-      setBankOptions(bankOps);
-    } else {
-      setBankOptions(defaultSelected)
-    }
-  }, [defaultSelected]);
 
   return (
     <Form.GroupWrapper>
@@ -55,32 +25,7 @@ export const BankDataForm = ({ errors, control }: RegisterFieldProps<UserData>) 
       />
 
       <Form.Group>
-        <Controller 
-          name="bankData.cod_banco"
-          control={control}
-          render={({ field: { onChange, name } }) => (
-            <Item
-              name={name}
-              validateStatus={errors?.bankData?.cod_banco ? 'error' : 'success'}
-              help={errors?.bankData?.cod_banco && errors.bankData.cod_banco.message}
-              hasFeedback
-            >
-              <Form.InputWrapper>
-                <label>Código do banco</label>
-                <Input.System 
-                  placeholder="000"
-                  onChange={e => {
-                    onChange(e);
-                    handleCodeBankChange(e);
-                  }}
-                  id="number"
-                  type="number"
-                  maxLength={3}
-                /> 
-              </Form.InputWrapper>
-            </Item>
-          )}
-        />
+    
 
         <Controller 
           name="bankData.conta"
@@ -186,7 +131,7 @@ export const BankDataForm = ({ errors, control }: RegisterFieldProps<UserData>) 
                     htmlFor="bank"
                   />
                   <Select 
-                    options={bankOptions}
+                    options={bankOps}
                     onChange={e => {
                       onChange(e.value);
                     }}

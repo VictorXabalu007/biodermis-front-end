@@ -36,7 +36,6 @@ export const Header = ({heading}:{heading:string}) => {
         <H style={{ 
             background: colorBgContainer,
             height: '96px', 
-            borderBottom: BORDER_GRAY,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',

@@ -18,9 +18,9 @@ export const items = [
   { icon: FaHandHoldingDollar, label: 'Pedidos de saque', path: WITHDRAWAL },
   { icon: LiaMoneyBillWaveSolid, label: 'Faturamento',  path: INVOICING },
 
-].map((item) => ({
+].map((item,index) => ({
 
-  key: item.path,
+  key: String(index),
   icon: item.icon,
   label: item.label,
   path: item.path,
