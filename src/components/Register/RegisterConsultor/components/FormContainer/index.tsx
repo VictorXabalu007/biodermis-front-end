@@ -296,7 +296,7 @@ export const FormContainer = () => {
 
                 <div className="flex gap-2 mt-10">
 
-                    <Button.Root aria-label="submit fields" className="w-1/3">
+                    <Button.Root htmlType="submit" aria-label="submit fields" className="w-1/3">
 
                         <Button.Wrapper>
                             <Button.Content 
@@ -309,7 +309,7 @@ export const FormContainer = () => {
                     <Button.Root 
                     aria-label="reset fields"
                     className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
-                    type="reset"
+                    htmlType="reset"
                     onClick={onReset}
                     >
                         

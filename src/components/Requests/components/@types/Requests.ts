@@ -7,6 +7,7 @@ export type Requests = {
 
     cliente_id: number;
     consultor_id: number;
+    nome_consultor: string,
     consultpago: boolean;
     datapedido: string; 
     formapag_id: number | null;

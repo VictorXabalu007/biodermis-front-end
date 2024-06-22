@@ -143,23 +143,21 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
                 
                 <Flex className="mt-5" gap={10} justify="end">
 
-                    <Button.Root onClick={handleClose} type="button" className="bg-white border border-brand-purple text-brand-purple">
+                    <Button.Root onClick={handleClose}  className="bg-white border border-brand-purple text-brand-purple">
 
                         <Button.Content content="Cancelar" />
 
                     </Button.Root>
 
-                    <Button.Root type="submit">
+                    <Button.Root htmlType="submit">
 
                         <Button.Content content="Atualizar" />
 
                     </Button.Root>
 
-
                 </Flex>
     
-        
-        
         </Form>
+        
     )
 }

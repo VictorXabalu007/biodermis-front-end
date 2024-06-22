@@ -1,5 +1,5 @@
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { WithDrawal } from "../../WithdrawalRequests/util/withdrawalData";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { Text } from "../../shared/Text";
@@ -19,16 +19,41 @@ const columnsHelperWithdrawal = createColumnHelper<WithDrawal>();
 export const useTableData = () => {
 
     
-    const {consultor, isLoading:isLoadingConsultores, isConsultorsEmpty, getConsultorImageById} = useConsultorData();
+    const {consultor, isLoading:isLoadingConsultores,getConsultorName, isConsultorsEmpty, getConsultorImageById} = useConsultorData();
 
-    const {data:withdraw, isLoading:isLoadingWithdrawal, isWithdrawEmpty} = 
+    const {data:withdraw, isLoading:isLoadingWithdrawal, accessBalance, isWithdrawEmpty} = 
     useWithdrawData({enableFilterDate: false});
 
+
+
+    const [withDrawData, setWithdrawData] = useState<WithDrawal[]>([]);
+
+    useEffect(()=> {
+
+        if(withdraw) {
+
+
+            setWithdrawData(withdraw.map(d => ({
+                ...d,
+                nome_consultor: getConsultorName(d.consultor_id),
+                saldo_disp: accessBalance.saldodisp
+            })))
+
+        }
+
+        console.log(withDrawData);
+        
+
+    },[withdraw])
 
     const [sortingConsultors, setSortingConsultors] = useState<any[]>([])
     
     
-    const [pagination, setPagination] = useState({
+    const [consultorPagination, setConsultorsPagination] = useState({
+        pageIndex: 0, 
+        pageSize: 3, 
+      });
+    const [withdrawPagination, setWithdrawPagination] = useState({
         pageIndex: 0, 
         pageSize: 3, 
       });
@@ -118,7 +143,7 @@ export const useTableData = () => {
           
         }),
 
-    ],[]);
+    ],[getConsultorName]);
 
     const consultorsTable = useReactTable<UserCredentials>({
         
@@ -127,10 +152,10 @@ export const useTableData = () => {
         getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel:getCoreRowModel(),
         state: {
-            pagination,
+            pagination:consultorPagination,
             sorting: sortingConsultors
         },
-        onPaginationChange: setPagination,
+        onPaginationChange: setConsultorsPagination,
         onSortingChange: setSortingConsultors,
         getSortedRowModel: getSortedRowModel(),
         
@@ -139,14 +164,14 @@ export const useTableData = () => {
 
     const withdrawalTable = useReactTable<WithDrawal>({
 
-        data:withdraw,
+        data:withDrawData,
         columns:withdrawalColumns,
         getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel:getCoreRowModel(),
         state: {
-            pagination
+            pagination:withdrawPagination
         },
-        onPaginationChange: setPagination
+        onPaginationChange: setWithdrawPagination
  
     });
 

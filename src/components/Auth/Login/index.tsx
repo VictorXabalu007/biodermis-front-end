@@ -145,9 +145,10 @@ export const Login = () => {
                       className="ant-input rounded-md py-1 border-gray-neutral-200"
                       onChange={(e) => {
                         handleInputChange();
-                        handleTiping('email')
+                    
                         onChange(e);
                       }}
+                      onBlur={()=>  handleTiping('email')}
                       value={value}
                       placeholder="E-mail"
                       type="email"

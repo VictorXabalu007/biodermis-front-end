@@ -3,11 +3,10 @@ import { Heading } from "../../../../shared/Heading";
 import { Text } from "../../../../shared/Text";
 import { MoneyCardType } from "../../../../shared/Card/MoneyDataCard/@types/MoneyCardType";
 import { MoneyDataCard } from "../../../../shared/Card/MoneyDataCard";
-import { useState } from "react";
-import { Button, Empty, Flex, theme } from "antd";
-import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { Wrapper } from "./styles";
+import { Empty, theme } from "antd";
 import { MovimentationType, useMovimentationData } from "../../../../../hooks/useMovimentationData/useMovimentationData";
+import { ContainerPagination } from "../../../../shared/Pagination/ContainerPagination";
+import { usePagination } from "../../../../../hooks/usePagination/usePagination";
 
 
 type DataItemProps = {
@@ -21,36 +20,10 @@ type DataItemProps = {
 
 const PAGE_SIZE = 5;
 
+
 export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) => {
 
-    const [currentPage, setCurrentPage] = useState(1);
-
-   
-    const startIndex = (currentPage - 1) * PAGE_SIZE;
-    const endIndex = startIndex + PAGE_SIZE;
-  
-   
-    const currentItems = cardData.slice(startIndex, endIndex);
-  
-    
-    const totalPages = Math.ceil(cardData.length / PAGE_SIZE);
-
-    const handleFirstPage = () => {
-        setCurrentPage(1);
-      };
-    
-    const handleLastPage = () => {
-        setCurrentPage(totalPages);
-    };
-  
-  
-    const handlePreviousPage = () => {
-      setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-  
-    const handleNextPage = () => {
-      setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
+    const paginationMethods = usePagination({data:cardData, pageSize: PAGE_SIZE})
 
     const {
         getDateOfRequest,
@@ -90,7 +63,7 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
 
         </div>
 
-        {currentItems.length === 0 ?
+        {paginationMethods.currentItems.length === 0 ?
         <>
         
             <Empty 
@@ -101,7 +74,7 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
         </> : (
 
 
-            currentItems.map(data => {
+                paginationMethods.currentItems.map(data => {
         
                 
                 return (
@@ -137,47 +110,9 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
         )}
     
 
-
-        <Flex gap={5} align="center">
-
-            <Wrapper>
-
-            <Button className="pagination-btn" size="small" aria-label="first-page" onClick={handleFirstPage} disabled={currentPage === 1}>
-                <MdKeyboardDoubleArrowLeft  />
-            </Button>
-
-            </Wrapper>
-
-                <Wrapper>
-
-                    <Button className="pagination-btn" size="small" aria-label="prev-page" onClick={handlePreviousPage} disabled={currentPage === 1}>
-                        <MdOutlineKeyboardArrowLeft />
-                    </Button>
-
-                </Wrapper>
-
-              
-
-                <Wrapper>
-
-                    <Button className="pagination-btn" size="small" aria-label="next page" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                        <MdOutlineKeyboardArrowRight />
-                    </Button>
-
-                </Wrapper>
-
-                <Wrapper>
-
-                    <Button className="pagination-btn" size="small" aria-label="last page" onClick={handleLastPage} disabled={currentPage === totalPages}>
-                        <MdKeyboardDoubleArrowRight />
-                    </Button>
-
-                </Wrapper>
-
-                <span>Página {currentPage} de {totalPages}</span>
-                   
-
-            </Flex>
+        <ContainerPagination
+            {...paginationMethods}
+        />
 
         </div>
 

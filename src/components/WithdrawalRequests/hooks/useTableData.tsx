@@ -2,7 +2,7 @@ import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
 
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
 import { buildPaymentStatus } from "../functions/buildPaymentStatus";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useWithdrawData } from "./useWithdrawData";
 import { WithDrawal } from "../util/withdrawalData";
@@ -15,21 +15,37 @@ const columnHelper = createColumnHelper<WithDrawal>();
 
 export const useTableData = () => {
 
-    const {data, isLoading, getConsultorName} = useWithdrawData();
+    const {data, isLoading, getConsultorName,accessBalance} = useWithdrawData();
     const {getConsultorImageById} = useConsultorData();
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const [sorting,setSorting] = useState<any[]>([]);
 
 
+    const [withDrawData, setWithdrawData] = useState<WithDrawal[]>([]);
+
+    useEffect(()=> {
+
+        if(data) {
+
+
+            setWithdrawData(data.map(d => ({
+                ...d,
+                nome_consultor: getConsultorName(d.consultor_id),
+                saldo_disp: accessBalance.saldodisp
+            })))
+
+        }
+
+  
+
+    },[data])
 
     const columns = useMemo(() => [
         columnHelper.accessor('consultor_id',{
             id: 'userImage',
             header: ()=> <div>#</div>,
             cell: ({getValue}) => {
-
-                
                 return (
 
                     <Flex justify="center" align="center">
@@ -68,7 +84,7 @@ export const useTableData = () => {
 
     return {
         columns,
-        data,
+        data:withDrawData,
         sorting,
         columnFilters,
         setSorting,

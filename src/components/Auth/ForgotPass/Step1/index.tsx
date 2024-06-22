@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Spinner } from "../../../shared/Spinner";
 import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
 import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 
 
@@ -31,10 +32,12 @@ export const ForgotPassStep1 = () => {
     const [authError, setAuthError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [touchedField, setTouchedFiled] = useState(false);
+
     const loginSchema = z.object({
         email: z.string({required_error: 'O e-mail é necessário para recuperar sua senha'})
         .min(1,'E-mail é necessário para recuperar sua senha')
-        .email('Isto não é um email!')
+        .email('Isto não é um email!'),
     })
 
     const {handleSubmit, control, formState:{errors}} = useForm<ForgotPassType>({
@@ -85,11 +88,13 @@ export const ForgotPassStep1 = () => {
     }
 
     const handleInputChange = () => {
+  
         if (authError) setAuthError(null); 
     };
 
 
     const [form] = Form.useForm();
+    
 
     return (
 
@@ -107,11 +112,21 @@ export const ForgotPassStep1 = () => {
    
 
             <Flex 
+            vertical
             justify="center" 
-            className="flex-col mx-auto w-full px-4 md:w-1/3">
+            className="mx-auto w-full px-4 md:w-1/3">
 
-                <div className="flex flex-col gap-4 mb-3">
+                <div className="flex items-start flex-col gap-4 mb-3">
 
+                    <Button className="px-1" onClick={() => navigate(-1)} type="text">
+                        <Flex align="center" gap={10}>
+
+                            <FaArrowLeftLong className="text-brand-purple" />
+                            <p className="text-gray-neutral-300">
+                                Voltar
+                            </p>
+                        </Flex>
+                    </Button>
                     <img 
                         src={biodermisLogo}
                         alt="Logo da biodermis"
@@ -168,17 +183,18 @@ export const ForgotPassStep1 = () => {
                         name="email"
                         validateStatus={errors.email ? 'error' : 'success'}
                         help={errors.email && errors.email.message}
-                        hasFeedback
+                        hasFeedback={touchedField}
                         >
 
                             <InputWrapper>
                             
                                 <Input
-                                className="ant-input my-4"
+                                className="ant-input my-4 rounded-md py-1 border-gray-neutral-200"
                                 onChange={(e)=> {
                                     handleInputChange()
                                     onChange(e.target.value)
                                 }}
+                                onBlur={()=>  setTouchedFiled(true)}
                                 value={value}
                                 type="email"
                                 placeholder="email"

@@ -14,6 +14,12 @@ import { parseDate } from "../../../functions/Date/parseData"
 export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
 
 
+            
+    const {getConsultorName} = useConsultorData();
+
+
+   
+
     const {data: requests, isError, isLoading} = useQuery<Requests[]>({
         queryKey: ['requests'],
         queryFn: async ()=> {
@@ -31,7 +37,10 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
                 return newData;
             } else {
 
-                return req.data;
+                return req.data.map(d => ({
+                    ...d,
+
+                }));
             }
         
 
@@ -39,12 +48,10 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
     })
 
 
-   
+
     const {state, getDates} = useRangeDate();
     const [dates, setDates] = useState<RefinedRangeDate>();
     const [data,setData] = useState<Requests[]>([])
-
-
 
     
 
@@ -56,7 +63,9 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
                 const dateA = parseDate(a.datapedido);
                 const dateB = parseDate(b.datapedido);
                 return dateB.getTime() - dateA.getTime();
-            }));
+            })
+        
+        );
         }
 
         
@@ -76,11 +85,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
 
         
     },[state.rangeDate]);
-    
-    const {getConsultorName} = useConsultorData();
 
-
-    
     useEffect(() => {
 
         

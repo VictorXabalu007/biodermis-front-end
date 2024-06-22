@@ -187,7 +187,12 @@ export const useTableData = () => {
       columnHelper.accessor("categoria_id", {
         id: "categoria_id",
         header: () => <p>SKU</p>,
-        cell: ({ getValue }) => <p>{getCategoryNameById(getValue())}</p>,
+        cell: ({ getValue }) => {
+          return (
+            <p>{getCategoryNameById(getValue())}</p>
+          )
+        }
+      ,
         filterFn: 'equals'
       }),
       columnHelper.accessor("nome", {
@@ -332,7 +337,7 @@ export const useTableData = () => {
         },
       }),
     ],
-    [products]
+    [products,getCategoryNameById]
   );
 
   return { products, columns, setProducts, isLoading, contextHolder };

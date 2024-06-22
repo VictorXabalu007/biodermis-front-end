@@ -242,7 +242,7 @@ export const FormContainer = () => {
 
                     <Button.Root 
                     className="w-1/3" 
-                    type="submit"
+                    htmlType="submit"
                     aria-label="submit fields"
                     >
 
@@ -256,7 +256,7 @@ export const FormContainer = () => {
 
                     <Button.Root 
                         className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
-                        type="reset"
+                        htmlType="reset"
                         onClick={onReset}
                         aria-label="reset fields"
                     >

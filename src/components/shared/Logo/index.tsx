@@ -11,7 +11,7 @@ export const Logo = () => {
 
     return (
 
-    <div className='h-[96px] border border-[#EFEFEF] p-3 text-white flex items-center justify-center'>
+    <div className='h-[96px] border border-transparent border-b-[#EFEFEF] p-3 text-white flex items-center justify-center'>
 
         <img 
         src={biodermisLogo} 

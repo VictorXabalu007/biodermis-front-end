@@ -9,6 +9,7 @@ import { CONSULTORS, WITHDRAWAL } from "../../../../constants/paths/paths";
 import { Spinner } from "../../../shared/Spinner";
 import { Empty, theme } from "antd";
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
+import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
 export const HomeTables = () => {
@@ -33,6 +34,21 @@ export const HomeTables = () => {
 
     } = theme.useToken();
 
+    const handleConsultorsNavigate = () => {
+
+
+        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify('2'))
+        navigate(CONSULTORS)
+    }
+
+    const handleWithdrawNavigate = () => {
+
+        
+        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify('6'))
+        navigate(WITHDRAWAL)
+
+    }
+
     return (
 
         <div  className="flex w-full lg:w-[40%] flex-col gap-5 pb-2">
@@ -46,13 +62,13 @@ export const HomeTables = () => {
                                 <Heading.Content content={'Rank de consultores'} />
                             </Heading.Root>
 
-                            <Button.Root onClick={()=> navigate(CONSULTORS)}>
+                            <Button.Root onClick={handleConsultorsNavigate}>
                                 <Button.Content content="Gerenciar" />
                             </Button.Root>
 
                         </div>
 
-                        <TableWrapper>
+                        <TableWrapper style={{minHeight: '52vh'}}>
 
                             {isLoadingConsultores ?
                             
@@ -146,14 +162,14 @@ export const HomeTables = () => {
                                 <Heading.Content content={'Pedidos de saque'} />
                             </Heading.Root>
 
-                            <Button.Root onClick={()=> navigate(WITHDRAWAL)}>
+                            <Button.Root onClick={handleWithdrawNavigate}>
                                 <Button.Content content="Gerenciar" />
                             </Button.Root>
 
                         </div>
                         
 
-                        <TableWrapper>
+                        <TableWrapper style={{minHeight: '50vh'}}>
 
                             {isLoadingWithdrawal ? 
                             

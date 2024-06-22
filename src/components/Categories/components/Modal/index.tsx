@@ -113,17 +113,19 @@ export const FormModal = ({handleClose}:{handleClose: ()=> void}) => {
                 content="Cancelar"
                 key="cancel"
                 type="button"
-                
-
-            />
+               
+    
+            >
+                Cancelar
+            </Footer.Actions>
 
             <Footer.Actions 
                 content="Confirmar"
-                key="ok"
-                className="bg-brand-purple text-white hover:bg-brand-purple/75"
                 type="submit"
 
-            />
+            >
+                Confirmar
+            </Footer.Actions>
 
 
 

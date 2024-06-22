@@ -5,7 +5,7 @@ import { FaTrash, FaWhatsapp } from "react-icons/fa6";
 
 import { TableActions } from "../components/RequestsTable/components/TableActions";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation} from "@tanstack/react-query";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { Requests } from "../components/@types/Requests";
@@ -30,6 +30,20 @@ export const useTableData = () => {
       contextHolder, 
       success, 
       error} = useMessageAction()
+
+    const [requestsData, setRequestsData] = useState<Requests[]>([]);
+
+    useEffect(()=> {
+
+      if(data) {
+        setRequestsData(data.map(d => ({
+          ...d,
+          nome_consultor:getConsultorName(d.consultor_id)
+        })))
+        
+      }
+
+    },[data])
 
     
     const { confirm } = Modal;
@@ -153,11 +167,11 @@ export const useTableData = () => {
             enableSorting: true,
         }),
     
-        columnHelper.accessor('consultor_id',{
+        columnHelper.accessor('nome_consultor',{
             header: () => <p>Consultora</p>,
             cell: ({getValue}) => {
 
-              return (getConsultorName(getValue()))
+              return (getValue())
             },
         }),
     
@@ -284,7 +298,7 @@ export const useTableData = () => {
 
     return {
         columns,
-        data,
+        data: requestsData,
         contextHolder,
         columnFilters,
         sorting,

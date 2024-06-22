@@ -36,12 +36,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           },
           Button: {
             colorPrimary: '#C882B7',
-          
+            defaultHoverColor: '#C882B7',
+            defaultHoverBorderColor: '#C882B7'
+            
           },
           Input: {
             colorPrimaryBorderHover: '#C882B7',
             activeBorderColor: '#C882B7'
-          }
+          },
+    
           
         }
         

@@ -1,36 +1,39 @@
 import { twMerge } from "tailwind-merge";
-import { Button } from "../../../../../../shared/Button"
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 
 
-interface ModalFooterActionsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+
+export const ModalFooterAction = ({content, className, children,type, ...rest}:PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => {
 
 
-    key: string;
-    content: string;
-    className?:string;
+    const choseClassName = () => {
 
-}
+        if(type==='submit') {
+            return 'bg-brand-purple text-white hover:bg-brand-purple/75'
+        } else if(type==='button') {
+            return 'hover:bg-brand-purple border border-brand-purple text-brand-purple hover:text-white'
+        }
 
-export const ModalFooterAction = ({key, content, className, ...rest}:ModalFooterActionsProps) => {
+
+    }
 
 
     return (
 
-        <div key={key}>
-                
-            <Button.Root
-                className={twMerge("bg-white border border-brand-purple text-brand-purple hover:text-white",className)} 
+     
+            <button
+                style={{
+         
+                    padding: '.3rem',
+                    minWidth: '80px',
+                    borderRadius: '5px'
+                }}
+                className={twMerge(choseClassName(),className)} 
                 {...rest}
             >
-                <Button.Wrapper>
-
-                    <Button.Content content={content} />
-
-                </Button.Wrapper>
-            </Button.Root>
-        
-        </div>
+                {children}
+            </button>
+   
 
     )
 

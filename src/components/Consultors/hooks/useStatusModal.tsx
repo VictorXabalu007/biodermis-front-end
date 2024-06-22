@@ -31,7 +31,7 @@ export const useStatusModal = ({data}:{data:UserCredentials}) => {
             footer: null,
             closable: true,
             closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
-            okButtonProps: {className: 'hidden'}, 
+            okButtonProps: {className: 'hover:tex'}, 
             cancelButtonProps: {className: 'hidden'},
             maskClosable: true,
         });

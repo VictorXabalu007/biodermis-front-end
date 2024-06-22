@@ -24,7 +24,6 @@ export const InputWrapper = styled.div`
             fill: #C882B7 !important;
         }
 
-        
 
         &:hover{
             

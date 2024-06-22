@@ -58,19 +58,7 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
 
     const {data:withdraw,isLoading} = useQuery({
         queryKey: ['withdraw'],
-        queryFn: async ()=> {
-
-
-            const data = await getWithdraw();
-            const newData = data.map(d => ({
-                ...d,
-                nome_consultor: getConsultorName(d.consultor_id),
-                saldo_disp: accessBalance.saldodisp
-            }))
-
-            return newData;
-
-        },
+        queryFn: getWithdraw
     })
 
     
@@ -122,7 +110,8 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
         isLoading,
         isWithdrawEmpty,
         getConsultorName,
-        getWithdrawDateById
+        getWithdrawDateById,
+        accessBalance
     }
 
 

@@ -10,6 +10,6 @@ export const MiniImage = ({src, ...rest}:ImageProps) => {
             src={src === null ? noImage : src}
             {...rest}
         />
-    )
+    );
     
 }

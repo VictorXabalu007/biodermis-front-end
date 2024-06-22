@@ -27,9 +27,6 @@ export const useTableData = () => {
     const [sorting, setSorting] = useState<any[]>([]);
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
-    
-    console.log(consultor);
-    
 
     
     const columns = useMemo(() => [

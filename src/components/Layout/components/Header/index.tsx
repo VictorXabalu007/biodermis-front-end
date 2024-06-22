@@ -1,6 +1,5 @@
 import { theme } from "antd";
 import { Header as H } from "antd/es/layout/layout";
-import { BORDER_GRAY } from "../../../../constants/classnames/classnames";
 import { Heading } from "../../../shared/Heading";
 import { AUTH_USER } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useEffect, useState } from "react";

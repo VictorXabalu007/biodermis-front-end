@@ -7,7 +7,7 @@ import { ButtonWrapper } from "../../../Products/style/styles"
 
 
 type HeaderProps = {
-    onDelete: () => void,
+    onDelete: (e:React.MouseEvent<HTMLButtonElement>) => void,
     title:string
 }
 

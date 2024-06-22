@@ -40,10 +40,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
   });
 
 
-  console.log(row.original);
-  
-
-
   const [fields, setFields] = useState<ProductsType>({
     ...data,
   });
@@ -94,8 +90,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
       }
 
       const headers = getHeaders();
-
-      console.log(isConsultor());
 
       if(isConsultor()){
 
@@ -187,8 +181,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
               <Button.Root 
                   onClick={handleClick}
-                  style={{borderRadius: '0 0 5px 5px', borderColor: '#000'}} 
+                  style={{borderRadius: '0 0 5px 5px'}} 
                   className="flex-1 w-full m-0"
+                  htmlType="submit"
               >
                   <Button.Wrapper>
                       <Button.Content content={text} />

@@ -3,6 +3,7 @@
 :root {
 
   font-family: "Poppins", sans-serif;
+  --brand-purple: #C882B7
   
 }
 
@@ -13,3 +14,19 @@
 .ant-message-notice-content svg {
   fill: currentColor !important;
 }
+
+
+.ok-btn:hover {
+
+  background-color: #FFF !important;
+  border-color: var(--brand-purple) !important;
+  color: var(--brand-purple) !important;
+}
+
+.cancel-btn:hover {
+
+  background-color: #FFF !important;
+  border-color: var(--brand-purple) !important;
+  color: var(--brand-purple) !important;
+}
+

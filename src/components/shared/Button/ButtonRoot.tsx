@@ -1,27 +1,24 @@
-import { ButtonHTMLAttributes, ReactNode } from "react"
+import { Button, ButtonProps } from "antd";
 import { twMerge } from "tailwind-merge"
 
 
 
-interface ButtonRootProps extends ButtonHTMLAttributes<HTMLButtonElement>{
-    children: ReactNode,
-    className?:string
-}
 
-export const ButtonRoot = ({children,className, ...rest}:ButtonRootProps) => {
+export const ButtonRoot = ({children,className, ...rest}:ButtonProps) => {
 
     return (
 
-        <button className=
+        <Button
+        size="large"
+        className=
         {twMerge('bg-brand-purple hover:bg-brand-purple/75 px-3 py-2 font-normal text-white flex items-center gap-2 rounded-md',
         className)} {...rest}>
 
           
-
-                    {children}
+                {children}
                     
           
-        </button>
+        </Button>
 
     );
 

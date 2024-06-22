@@ -21,7 +21,7 @@ export const TableFilters = ({
 
 }: TableFiltersProps) => {
 
-  const requestsName = columnsFilters.find((f) => f.id === "id")?.value || "";
+  const requestsName = columnsFilters.find((f) => f.id === "nome_consultor")?.value || "";
 
   const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
     prev.filter(f=> f.id !== id).concat({id,value})
@@ -107,7 +107,7 @@ export const TableFilters = ({
           suffix={<SearchIcon />}
           value={requestsName as string}
           onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-            onFilterChange('id',e.target.value)
+            onFilterChange('nome_consultor',e.target.value)
           }}
         />
 

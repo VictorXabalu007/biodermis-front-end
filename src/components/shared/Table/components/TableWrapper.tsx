@@ -1,10 +1,12 @@
-import { theme } from "antd"
+import { Flex, theme } from "antd"
+import { FlexProps } from "antd/lib";
+import { PropsWithChildren } from "react";
 
 
 
 
 
-export const TableWrapper = ({children}:{children:React.ReactNode}) => {
+export const TableWrapper = ({children, ...rest}:PropsWithChildren<FlexProps>) => {
 
     const {
         token: {
@@ -14,9 +16,9 @@ export const TableWrapper = ({children}:{children:React.ReactNode}) => {
 
     return (
 
-        <div style={{background: colorBgContainer}} className="flex gap-3 mb-2 flex-col border rounded-md border-gray-neutral-100 p-3">
+        <Flex {...rest} style={{background: colorBgContainer, ...rest.style}} className="flex gap-3 mb-2 flex-col border rounded-md border-gray-neutral-100 p-3">
             {children}
-        </div>
+        </Flex>
 
 
     )
