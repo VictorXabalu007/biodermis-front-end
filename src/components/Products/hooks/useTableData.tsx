@@ -106,6 +106,7 @@ export const useTableData = () => {
 
       if(isConsultor()){
 
+    
         const req = await api.delete(`/consultor/produtos/${data.produto_id}`, {
           headers
         });
@@ -130,14 +131,15 @@ export const useTableData = () => {
     onSuccess: (res, context:ProductsType)=> {
 
       const rowId = context.id;
+
+      success(res.success);
+
       
       setProducts((prev) =>
         prev.filter((data) => data.id !== rowId)
       );
 
-      
 
-      success(res.success);
       
     },
 
@@ -286,7 +288,6 @@ export const useTableData = () => {
 
           return (
             <Flex align="center" justify="center">
-              {contextHolder}
               <ButtonWrapper>
                 <Button
                   disabled={

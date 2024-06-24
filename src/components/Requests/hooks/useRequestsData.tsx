@@ -107,6 +107,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
     }, [dates, requests]);
 
     const getSellPercentualChange = () => {
+
         const now = new Date();
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
@@ -127,7 +128,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
         if (lastMonthSales === 0) {
           return currentMonthSales === 0 ? 0 : 100; 
         }
-    
+        
         const change = ((currentMonthSales - lastMonthSales) / lastMonthSales) * 100;
         return change;
       };

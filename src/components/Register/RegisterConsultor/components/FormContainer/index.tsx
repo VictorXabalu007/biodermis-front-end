@@ -159,13 +159,6 @@ export const FormContainer = () => {
 
     const userRole = watch('cargo_id');
 
-    useEffect(()=> {
-
-        console.log(errors);
-
-    },[errors])
-
-
 
     useEffect(()=> {
 

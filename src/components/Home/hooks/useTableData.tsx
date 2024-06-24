@@ -41,7 +41,6 @@ export const useTableData = () => {
 
         }
 
-        console.log(withDrawData);
         
 
     },[withdraw])

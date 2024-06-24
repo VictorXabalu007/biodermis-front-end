@@ -74,8 +74,6 @@ export const FormModal = ({handleClose}:FormModalProps) => {
         },
         onError(err:any) {
 
-            console.log(err);
-            
             error(err.response.data.error);
 
         }

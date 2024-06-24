@@ -100,25 +100,22 @@ export const useTableData = () => {
             const req = await api.delete(`/pedidos/${id}`, {
               headers
             });
-    
         
           return req.data
         },
-          onSuccess: (res, _, context:Requests) => {
+          onSuccess: (res, context) => {
 
-          const { id } = context;
-          console.log(res);
-          
-          success(res.success || `Pedido ${id} deletado com sucesso`);
+          success(res.success || `Pedido ${context} deletado com sucesso`);
           Modal.destroyAll();
 
           setData((prev) =>
-            prev.filter((data) => data.id !== id)
+            prev.filter((data) => data.id !== context)
           );
 
         },
       onError: (err: any) => {
-       
+        
+   
         error(err.response.data.error);
         Modal.destroyAll();
 

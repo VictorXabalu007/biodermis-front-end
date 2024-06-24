@@ -81,7 +81,6 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
             
         const headers = getHeaders();
 
-        console.log(data);
 
         const body = {
             "statuspag": "realizado",

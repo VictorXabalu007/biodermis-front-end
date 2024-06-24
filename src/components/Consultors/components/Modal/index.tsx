@@ -71,7 +71,6 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
         },  
         onSuccess:(res)=> {
 
-            console.log(res);
             success(res.success)
             setTimeout(()=> {
                 window.location.reload()

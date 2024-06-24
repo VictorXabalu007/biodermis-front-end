@@ -30,9 +30,6 @@ const props: UploadProps = {
   name: 'file',
   multiple: true,
   accept: '.pdf',
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
   beforeUpload() {
     return false
   }
@@ -79,7 +76,6 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
             return req.data
         },
         onSuccess : (res)=> {
-            console.log(res);
             setFinish({
                 ...finish,
                 isFinished: true,
@@ -104,7 +100,6 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
                 isFinished: true,
                 errorMsg: err.response.data.error
             })
-            console.log(err);
             
         }
     })
@@ -331,7 +326,6 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
                             onChange={(info)=> {
                                 const { status } = info.file;
                                 if (status !== 'uploading') {
-                                console.log(info.file, info.fileList);
                                 }
                                 if (status === 'done') {
                                 message.success(`${info.file.name} file uploaded successfully.`);

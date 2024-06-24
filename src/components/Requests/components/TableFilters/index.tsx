@@ -48,8 +48,9 @@ export const TableFilters = ({
   useEffect(()=> {
 
     
-    if(showFilters === false) {
+    if(!showFilters) {
       setColumnFilters([]);
+      setDateRange(['',''])
     }
 
   },[showFilters])

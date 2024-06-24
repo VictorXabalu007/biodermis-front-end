@@ -59,8 +59,6 @@ export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
                     }}
                     onChange={(info) => {
                       field.onChange(info.fileList)
-  
-                      console.log(info);
                     }}
                     {...props}
                   >

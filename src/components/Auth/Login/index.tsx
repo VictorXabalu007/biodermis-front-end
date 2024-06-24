@@ -90,6 +90,7 @@ export const Login = () => {
   const [form] = Form.useForm();
 
   return (
+
     <div className="flex gap-3 items-center w-full min-h-screen">
       <img
         src={welcomeBg}
@@ -145,7 +146,6 @@ export const Login = () => {
                       className="ant-input rounded-md py-1 border-gray-neutral-200"
                       onChange={(e) => {
                         handleInputChange();
-                    
                         onChange(e);
                       }}
                       onBlur={()=>  handleTiping('email')}

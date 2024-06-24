@@ -95,7 +95,6 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
                     }}
                     onChange={(info) => {
                       onChange(info);
-                      console.log(info);
                       
                       field.onChange(info.fileList);
                     }}
