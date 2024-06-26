@@ -20,11 +20,10 @@ export const S = () => {
 
         <Sider
         width={220}
-        
+        className="lg:relative fixed lg:z-auto z-[999]"
         style={{ 
             background: colorBgContainer , 
-            boxShadow: boxShadow
-        
+            boxShadow: boxShadow, 
         }}
         breakpoint="lg"
         collapsedWidth="0"

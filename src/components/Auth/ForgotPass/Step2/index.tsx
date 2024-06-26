@@ -52,11 +52,6 @@ export const ForgotPassStep2 = () => {
   type ForgotPassType = z.infer<typeof step2Schema>;
 
   
-  const [touchedFields, setTouchedFields] = useState({
-    newPassword:false,
-    confirmPassword: false,
-    token: false,
-  })
 
 
   const {
@@ -76,9 +71,7 @@ export const ForgotPassStep2 = () => {
     if (resetError) setResetError(null); 
   };
 
-  const handleTyping = (field:string) => {
-    setTouchedFields((prev) => ({ ...prev, [field]: true }));
-  }
+
 
 
   const resetPass = useMutation({
@@ -192,7 +185,6 @@ export const ForgotPassStep2 = () => {
                 name="password"
                 validateStatus={errors.newPassword ? 'error' : 'success'}
                 help={errors.newPassword && errors.newPassword.message}
-                hasFeedback={touchedFields.newPassword}
 
                 >
 
@@ -203,7 +195,6 @@ export const ForgotPassStep2 = () => {
                         onChange={(e)=> {
                           onChange(e.target.value)
                           handleInputChange();
-                          handleTyping('newPassword')
                         }}
                         value={value}
                         />
@@ -225,7 +216,6 @@ export const ForgotPassStep2 = () => {
                 dependencies={["password"]}
                 validateStatus={errors.confirmPassword ? 'error' : 'success'}
                 help={errors.confirmPassword && errors.confirmPassword.message}
-                hasFeedback={touchedFields.confirmPassword}
                 rules={[
                     ({ getFieldValue }) => ({
                     validator(_, value) {
@@ -249,7 +239,6 @@ export const ForgotPassStep2 = () => {
                         onChange={(e)=> {
                           onChange(e.target.value)
                           handleInputChange()
-                          handleTyping('confirmPassword')
                         }}
                         value={value}
                         className="ant-input"
@@ -286,7 +275,6 @@ export const ForgotPassStep2 = () => {
                         name="token"
                         validateStatus={errors.token ? 'error' : 'success'}
                         help={errors.token && errors.token.message}
-                        hasFeedback={touchedFields.token}
                         >
 
                         <InputWrapper>
@@ -297,7 +285,6 @@ export const ForgotPassStep2 = () => {
                                 onChange={(e)=> {
                                   onChange(e.target.value)
                                   handleInputChange()
-                                  handleTyping('token')
                                   
                                 }}
                                 value={value}

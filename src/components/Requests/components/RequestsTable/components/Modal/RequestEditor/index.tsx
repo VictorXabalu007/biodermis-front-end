@@ -80,7 +80,8 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
         mutationFn: async (data:SendData) => {
             
         const headers = getHeaders();
-
+        console.log(data);
+            
 
         const body = {
             "statuspag": "realizado",

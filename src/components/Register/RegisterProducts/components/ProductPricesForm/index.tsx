@@ -21,7 +21,7 @@ export const ProductsPricesForm = ({control,errors}:RegisterFieldProps<ProductsD
             />
 
             <Form.Group
-            className="flex"
+            className="flex lg:flex-row flex-col"
             >
 
                 <Form.InputWrapper>

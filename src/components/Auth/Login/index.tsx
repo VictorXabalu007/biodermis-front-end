@@ -25,10 +25,6 @@ export const Login = () => {
 
   const [authError, setAuthError] = useState<string | null>(null); 
   const [isLoading ,setIsLoading] = useState(false);
-  const [touchedFields, setTouchedFields] = useState({
-    email: false,
-    password: false,
-  });
 
   const loginSchema = z.object({
     email: z.string({ required_error: 'Email não pode ser vazio' })
@@ -83,9 +79,6 @@ export const Login = () => {
     if (authError) setAuthError(null); 
   };
 
-  const handleTiping = (field:any) => {
-    setTouchedFields((prev) => ({ ...prev, [field]: true }));
-  }
 
   const [form] = Form.useForm();
 
@@ -134,12 +127,11 @@ export const Login = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, value } }) => (
+              render={({ field: {onChange, value } }) => (
                 <Form.Item
                   name="email"
                   validateStatus={errors.email ? 'error' : 'success'}
                   help={errors.email && errors.email.message}
-                  hasFeedback={touchedFields.email}
                 >
                   <InputWrapper>
                     <Input
@@ -148,7 +140,6 @@ export const Login = () => {
                         handleInputChange();
                         onChange(e);
                       }}
-                      onBlur={()=>  handleTiping('email')}
                       value={value}
                       placeholder="E-mail"
                       type="email"
@@ -163,7 +154,6 @@ export const Login = () => {
               control={control}
               render={({ field: { value, onChange } }) => (
                 <Form.Item
-                  hasFeedback={touchedFields.password}
                   validateStatus={errors.password ? 'error' : 'success'}
                   help={errors.password && errors.password.message}
                   name="password"
@@ -174,7 +164,6 @@ export const Login = () => {
                       value={value}
                       onChange={(e) => {
                         handleInputChange();
-                        handleTiping('password')
                         onChange(e);
                       }}
                       placeholder="Senha"

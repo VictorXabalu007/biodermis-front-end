@@ -44,7 +44,7 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
             icon:BsGraphUpArrow ,
             title: 'Item mais vendido',
             footerHeding: getGreatherSoldProduct().mediaavs,
-            footerText: getGreatherSoldProduct().nome,
+            footerText: getGreatherSoldProduct().nome || 'Não há nenhum item no momento',
             percentual: getGreatherProductPercentualChange() + "%",
     
         },

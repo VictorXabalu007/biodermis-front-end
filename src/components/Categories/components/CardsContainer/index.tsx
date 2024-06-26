@@ -177,7 +177,8 @@ export const CardContainer = () => {
                         <Row gutter={[8,8]} style={{padding: 0}}>
 
                             {paginationItems.currentItems.map(d => (
-                                <Col span={8}>
+
+                                <Col  xs={24} sm={12} md={8} lg={8} span={8}>
                                 
                                 <FlexWrapper>
 

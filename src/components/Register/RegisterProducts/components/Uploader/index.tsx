@@ -95,7 +95,6 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
                     }}
                     onChange={(info) => {
                       onChange(info);
-                      
                       field.onChange(info.fileList);
                     }}
                     onPreview={onPreview}

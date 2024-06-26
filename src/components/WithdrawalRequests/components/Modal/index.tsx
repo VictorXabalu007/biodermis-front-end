@@ -75,7 +75,7 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
 
             return req.data
         },
-        onSuccess : (res)=> {
+        onSuccess : ()=> {
             setFinish({
                 ...finish,
                 isFinished: true,

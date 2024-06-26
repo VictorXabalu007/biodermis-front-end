@@ -116,7 +116,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
         <TableHeaderWrapper heading="Produtos gerais">
 
-            <div className="flex flex-wrap justify-between items-center">
+            <div className="flex gap-2 flex-wrap justify-between items-center">
 
                 <div className="flex flex-wrap gap-2">
                     

@@ -32,7 +32,6 @@ export const ForgotPassStep1 = () => {
     const [authError, setAuthError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [touchedField, setTouchedFiled] = useState(false);
 
     const loginSchema = z.object({
         email: z.string({required_error: 'O e-mail é necessário para recuperar sua senha'})
@@ -183,7 +182,6 @@ export const ForgotPassStep1 = () => {
                         name="email"
                         validateStatus={errors.email ? 'error' : 'success'}
                         help={errors.email && errors.email.message}
-                        hasFeedback={touchedField}
                         >
 
                             <InputWrapper>
@@ -194,7 +192,6 @@ export const ForgotPassStep1 = () => {
                                     handleInputChange()
                                     onChange(e.target.value)
                                 }}
-                                onBlur={()=>  setTouchedFiled(true)}
                                 value={value}
                                 type="email"
                                 placeholder="email"

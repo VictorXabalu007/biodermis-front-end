@@ -84,9 +84,9 @@ export const WithdrawalTable = () => {
                         setColumnFilters={setColumnFilters}
                         />
 
-                        <C.Container>
+                        <C.Container >
 
-                        <C.Table>
+                        <C.Table style={{minWidth: '800px'}}>
                         <C.Thead>
                             {table.getHeaderGroups().map(headerGroup => (
                                 <C.EvenRow key={headerGroup.id}>
