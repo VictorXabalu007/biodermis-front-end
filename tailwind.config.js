@@ -74,7 +74,7 @@ export default {
     },
   
   },
-  important: true,
+
   plugins: [
     flowbite.plugin(),
   ],

@@ -19,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       locale={ptBR}
       theme={{
         token: {
+          colorPrimary: '#C882B7',
           colorPrimaryBorderHover: '#C882B7',
           
 

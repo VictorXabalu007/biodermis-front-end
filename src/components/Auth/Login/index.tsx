@@ -137,8 +137,8 @@ export const Login = () => {
                     <Input
                       className="ant-input rounded-md py-1 border-gray-neutral-200"
                       onChange={(e) => {
-                        handleInputChange();
                         onChange(e);
+                        handleInputChange();
                       }}
                       value={value}
                       placeholder="E-mail"

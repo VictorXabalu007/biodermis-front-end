@@ -1,52 +1,77 @@
-import { Flex, Typography } from "antd"
+import { Button, Result } from "antd";
 import { useURLParams } from "../../../../hooks/useURLParams/useURLParams";
 import { useEffect, useState } from "react";
+import { api } from "../../../../service/connection";
+import { getHeaders } from "../../../../service/getHeaders";
+import { useQuery } from "@tanstack/react-query";
 
 
-const {Title} = Typography;
+type PaymentType = {
+  payment_id: any;
+  status: any;
+  payment_type: any;
+  preference_id: any;
+};
 
 export const MercardoPagoSuccess = () => {
+  const query = useURLParams();
 
-    const query = useURLParams();
+  const status = query.get("status") || null;
 
-    const status= query.get('status')  || null;
- 
-    const [payment_data, setPaymentData] = useState({})
+  const [payment_data, setPaymentData] = useState<PaymentType>(
+    {} as PaymentType
+  );
 
-    useEffect(()=> {
+  useEffect(() => {
+    if (status && status === "approved") {
+      setPaymentData({
+        payment_id: query.get("payment_id"),
+        status: status,
+        payment_type: query.get("payment_type"),
+        preference_id: query.get("preference_id"),
+      });
+    }
+  }, [status]);
 
-        if(status && status === 'approved') {
+  const { data } = useQuery({
+    queryKey: ["product_update"],
+    queryFn: async () => {
 
-            setPaymentData(
-                {
+      if (payment_data) {
+        const headers = getHeaders();
 
-                    payment_id: query.get('payment_id'),
-                    status: status,
-                    payment_type: query.get('payment_type'),
-                    preference_id: query.get('preference_id')
-             
-                }
-            );
+        const req = await api.get(
+          `/pedidos/preferences/${query.get('preference_id')}`,
+          {
+            headers,
+          }
+        );
+        console.log(req.data);
 
-        }
+        return req.data;
+      }
+    },
+  });
+
+  useEffect(() => {
+
+        console.log(data);
         
-
-    },[status]);
-
-
-    
-    
-    return (
-
-        <Flex vertical gap={3} style={{width: '100%', minHeight: '100vh'}} justify="center" align="center">
-
-            <Title>
-                Sucesso na compra!
-            </Title>
+  }, [data]);
 
 
-       </Flex>
+  console.log(payment_data);
 
-    );
-
-}
+  return (
+    <Result
+    status="success"
+    title="Compra realizada com sucesso!"
+    subTitle={`Número do pedido: ${query.get("payment_id")}`}
+    extra={[
+      <Button key="console">
+        Ok
+      </Button>,
+    ]}
+  />
+  );
+};

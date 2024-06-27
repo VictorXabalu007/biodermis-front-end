@@ -30,3 +30,5 @@ export const CATEGORIES = '/categorias'
 export const MERCADO_PAGO_SUCCESS = '/mercadopagosuccess';
 
 export const MERCADO_PAGO_FAILURE = '/mercadopagofailure';
+
+export const FORBIDDEN = '/403'

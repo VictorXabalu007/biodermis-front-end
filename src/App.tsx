@@ -12,10 +12,9 @@ import { RouteChangeListener } from './routerChangeListener'
 
 function App() {
 
- 
+
+
   return (
-
-
 
 
         <AppProvider>

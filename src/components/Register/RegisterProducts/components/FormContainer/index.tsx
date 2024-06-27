@@ -158,7 +158,7 @@ export const FormContainer = () => {
         onSuccess: (res, context:ProductsData)=> {
 
             setData(context)
-            setId(res.id)
+            setId(res.idProduct)
             setSuccess(true)
             success(res.success);
 
