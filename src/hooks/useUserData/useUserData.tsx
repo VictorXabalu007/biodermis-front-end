@@ -28,10 +28,14 @@ export const useUserData = () => {
 
     }
 
+    const getUserById = (id:number):UserCredentials => {
+        return user.find(u => u.id === id) || {} as UserCredentials
+    }
     
     return {
         user,
-        getUserNameById
+        getUserNameById,
+        getUserById
     }
 
 }

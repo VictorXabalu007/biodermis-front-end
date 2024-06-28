@@ -167,7 +167,6 @@ export const useTableData = () => {
         columnHelper.accessor('nome_consultor',{
             header: () => <p>Consultora</p>,
             cell: ({getValue}) => {
-
               return (getValue())
             },
         }),

@@ -17,6 +17,7 @@ export const useProductsData = () => {
     queryKey: ['allProducts'],
     queryFn: ()=> getAllProducts()
   });
+  
 
   const [allProducts, setAllProducts] = useState<ProductsType[]>([]);
 
@@ -58,8 +59,6 @@ export const useProductsData = () => {
       setProducts(newProducts)
 
     }
-
-    
 
 
   }, [data]);

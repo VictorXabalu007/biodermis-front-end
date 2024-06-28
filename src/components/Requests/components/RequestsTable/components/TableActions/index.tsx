@@ -11,6 +11,8 @@ import { Requests } from "../../../@types/Requests";
 import { useEffect, useState } from "react";
 import { ProductsType } from "../../../../../Products/service/getProducts";
 import { useProductsData } from "../../../../../Products/hooks/useProductsData";
+import { useUserData } from "../../../../../../hooks/useUserData/useUserData";
+import { getFormaPag } from "../../../../../../functions/Getters/getFormaPag";
 
 
 const { confirm } = Modal;
@@ -21,6 +23,7 @@ export const TableActions = ({requests}:{requests:Requests}) => {
     const [products, setProducts] = useState<ProductsType[]>([]);
 
     const {getProductsById} = useProductsData();
+    const {getUserById} = useUserData();
 
     useEffect(() => {
 
@@ -29,6 +32,8 @@ export const TableActions = ({requests}:{requests:Requests}) => {
         setProducts(fetchedProducts);
         
       }, [requests.produtos_ids, getProductsById]);
+
+    
 
     const showRequestStats = () => {
 
@@ -54,7 +59,9 @@ export const TableActions = ({requests}:{requests:Requests}) => {
 
         const data = {
             ...requests,
-            products: products
+            products: products,
+            user_data:getUserById(requests.cliente_id),
+            formaPag: getFormaPag(requests.formapag_id)
         }
 
         const blob = await ReactPDF.pdf(<PDFFile data={data} />).toBlob();

@@ -221,6 +221,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
         }
         return acc;
     }, {} as { [key: number]: number });
+
     
     return (
 
@@ -236,22 +237,22 @@ export const PDFFile = ({data}:PDFFileProps) => {
          <View style={styles.subheaderSection}>
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Dados do cliente</Text>
-                <Text style={styles.subtitleText}>Yanis Terzis</Text>
-                <Text style={styles.subtitleText}>Celular 00-0000-0000</Text>
-                <Text style={styles.subtitleText}>email@gmail.com</Text>
+                <Text style={styles.subtitleText}>{data.user_data.nome}</Text>
+                <Text style={styles.subtitleText}>{data.user_data.telefone}</Text>
+                <Text style={styles.subtitleText}>{data.user_data.email}</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Informações adicionais</Text>
-                <Text style={styles.subtitleText}>CPF 00-0000-0000</Text>
+                <Text style={styles.subtitleText}>CPF {data.user_data.cpf}</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Endereço de Entrega</Text>
-                <Text style={styles.subtitleText}>Rua tal</Text>
-                <Text style={styles.subtitleText}>Bairro tal</Text>
-                <Text style={styles.subtitleText}>Endereco Tal</Text>
-                <Text style={styles.subtitleText}>Cidade Tal</Text>
+                <Text style={styles.subtitleText}>{data.user_data.rua}</Text>
+                <Text style={styles.subtitleText}>{data.user_data.bairro}</Text>
+                <Text style={styles.subtitleText}>{data.user_data.estado}l</Text>
+                <Text style={styles.subtitleText}>{data.user_data.cidade}</Text>
             </View>
            
          </View>
@@ -276,7 +277,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                     <View>
 
-                        {data.products.map(p => {
+                        {data.products.length> 0 ? data.products.map(p => {
 
                             return (
 
@@ -305,10 +306,13 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
 
                             )
-
-
-
-                        })}
+                        }) : 
+                        <View>
+                            <Text>
+                                Produtos foram apagados ou não encontrados
+                            </Text>
+                        </View>
+                            }
 
 
                     </View>
@@ -323,21 +327,20 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                 <View style={cardStyles.card}>
                     <Text style={cardStyles.cardTitle}>Observação Loja virtual</Text>
-                    <Text style={cardStyles.cardText}>Dados de cartão...</Text>
-                    <Text style={cardStyles.cardText}>Dados de cartão...</Text>
+                    <Text style={cardStyles.cardText}>{data.formaPag}</Text>
                 </View>
 
                 <View style={cardStyles.totalCard}>
                     <View style={cardStyles.subtotalCard}>
                         <Text style={cardStyles.cardText}>Subtotal (1)</Text>
-                        <Text style={cardStyles.cardText}>R$ 180,00</Text>
+                        <Text style={cardStyles.cardText}>R$ {data.valor}</Text>
                     </View>
 
                     <View style={cardStyles.separator} />
 
                     <View style={cardStyles.subtotalCard}>
                         <Text style={cardStyles.cardText}>Valor do Frete</Text>
-                        <Text style={cardStyles.cardText}>R$ 36,80</Text>
+                        <Text style={cardStyles.cardText}>R$ {data.valorfrete}</Text>
                     </View>
 
                     <View style={cardStyles.separator} />
@@ -346,7 +349,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                     <View style={cardStyles.subtotalCard}>
                         <Text style={cardStyles.cardTitle}>Total do Pedido</Text>
-                        <Text style={cardStyles.totalContent}>R$ 216,80</Text>
+                        <Text style={cardStyles.totalContent}>R$ {(parseFloat(data.valor) + parseFloat(data.valorfrete)).toFixed(2)}</Text>
                     </View>
 
                 </View>
@@ -366,10 +369,10 @@ export const PDFFile = ({data}:PDFFileProps) => {
                     </View>
                     <View style={footerCardStyles.subcardContent}>
                         
-                        <Text style={footerCardStyles.subcardTitle}>Cartão visa - Vindi</Text>
-                        <Text style={footerCardStyles.subcardText}>R$ 204,07 00/00/0000</Text>
+                        <Text style={footerCardStyles.subcardTitle}>{data.formaPag}</Text>
+                        <Text style={footerCardStyles.subcardText}>R$ {data.valor} {data.datapedido}</Text>
                         <Text style={footerCardStyles.subcardText}>Número do comprovante</Text>
-                        <Text style={footerCardStyles.subcardText}>00000000</Text>
+                        <Text style={footerCardStyles.subcardText}>{data.mercadopago_id}</Text>
                     </View>
                 </View>
                 <View style={footerCardStyles.paymentTypeCard}>
@@ -378,14 +381,16 @@ export const PDFFile = ({data}:PDFFileProps) => {
                     </View>
                     
                     <View style={{padding: 3}}>
-                        <Text style={footerCardStyles.subcardTitle}>SEDEX</Text>
-                        <Text style={footerCardStyles.subcardText}>R$ 204,07 até 21 dias úteis</Text>
+                        <Text style={footerCardStyles.subcardTitle}>{data.formaenvio ? data.formaenvio : 'Forma de envio não disponível'} </Text>
                     </View>
                     <View style={footerCardStyles.separator} />
                      
                     <View style={footerCardStyles.subcardContent}>
                         
-                        <Text style={footerCardStyles.subcardText}>Peso do Pedido: 100 gramas</Text>
+                    <Text style={footerCardStyles.subcardText}>
+                        Peso do Pedido: {data.products.reduce((acc, p) => acc + parseFloat(p.peso), 0)} gramas
+                    </Text>
+
 
                     </View>
 
