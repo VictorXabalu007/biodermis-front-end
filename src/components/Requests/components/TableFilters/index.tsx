@@ -79,6 +79,17 @@ export const TableFilters = ({
 
   }
 
+  const handleSellChannelChange = (channel: { value: string; label: string } | null) => {
+
+     if(channel?.value===''){
+      setColumnFilters([])
+     }else{
+       onFilterChange('formapag_id', channel?.value);
+     }
+  
+
+  }
+
   useEffect(()=> {
 
     if(dateRange){
@@ -158,6 +169,7 @@ export const TableFilters = ({
                           className="w-full md:w-auto"
                           options={sellChannelOptions}
                           defaultValue={sellChannelOptions[0]}
+                          onChange={handleSellChannelChange}
                         
                       />
 

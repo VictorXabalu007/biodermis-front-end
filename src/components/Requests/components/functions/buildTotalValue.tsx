@@ -43,7 +43,7 @@ export const buildTotalValue = (value: string, paymentType: number | null) => {
         case 3:
 
             return (
-                <TotalValueComponent icon={LuNewspaper} value={value} />
+                <TotalValueComponent icon={FiCreditCard} value={value} />
             );
             
         default: 

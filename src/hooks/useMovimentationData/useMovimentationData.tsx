@@ -26,6 +26,7 @@ export const useMovimentationData = () => {
     const {data:requests,getRequestDateById} = useRequestsData();
     const {data:withdraw, getWithdrawDateById} = useWithdrawData();
 
+
     const [dates, setDates] = useState<RefinedRangeDate>();
         
     const {state, getDates} = useRangeDate();
@@ -47,6 +48,11 @@ export const useMovimentationData = () => {
 
     },[data])
 
+    const parseDate = (dateString:string) => {
+        const [day, month, year] = dateString.split('/');
+        return new Date(`${year}-${month}-${day}`);
+      };
+
     const calculateMonthlyTotals = (data: any[], monthKey: string) => {
         const totals: { [key: string]: { total: number, items: any[] } } = {};
     
@@ -59,7 +65,7 @@ export const useMovimentationData = () => {
             totals[month].total += item.valor;
             totals[month].items.push(item);
         });
-        
+
         
         return Object.keys(totals).map(month => ({
             month: parseInt(month),
@@ -69,13 +75,22 @@ export const useMovimentationData = () => {
     };
 
     const getInputData = () => {
-        const inputData = movimentations.filter(m => m.tipo === 'entrada').map(d => ({
+
+        
+        const inputData = movimentations.filter(m => m.tipo === "entrada").map(d => {
+            
+            const mes_entrada = getRequestDateById(d.pedido_id);
+            const parsedDate = parseDate(mes_entrada);
+
+            return {
             ...d,
             data_entrada: getRequestDateById(d.pedido_id),
-            mes_entrada: new Date(getRequestDateById(d.pedido_id)).getMonth(),
+            mes_entrada:parsedDate.getMonth(),
             valor: parseFloat(d.valor) 
-        }))
-        .filter(d => d.data_entrada !== undefined && !isNaN(d.mes_entrada));
+
+            }
+    
+    })
     
         if (dates && dates.startDate && dates.endDate) {
             const start = new Date(dates.startDate.split('/').reverse().join('-'));
@@ -88,18 +103,23 @@ export const useMovimentationData = () => {
     
             return calculateMonthlyTotals(filteredData, 'mes_entrada');
         }
-    
+        
+
         return calculateMonthlyTotals(inputData, 'mes_entrada');
     };
     
     const getOutputData = () => {
-        const outputData = movimentations.filter(m => m.tipo === 'saída').map(d => ({
+        const outputData = movimentations.filter(m => m.tipo === 'saída').map(d => {
+            
+            const mes_saida = getRequestDateById(d.pedido_id);
+            const parsedDate = parseDate(mes_saida);
+            
+            return {
             ...d,
             data_saida: getWithdrawDateById(d.id),
-            mes_saida: new Date(getRequestDateById(d.saque_id)).getMonth(),
+            mes_saida: parsedDate.getMonth(),
             valor: parseFloat(d.valor) 
-        }))
-        .filter(d => d.data_saida !== undefined && !isNaN(d.mes_saida));
+        }})
     
         if (dates && dates.startDate && dates.endDate) {
             const start = new Date(dates.startDate.split('/').reverse().join('-'));

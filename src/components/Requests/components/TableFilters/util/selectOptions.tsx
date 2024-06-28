@@ -84,10 +84,10 @@ export const statusOptions = [
 
 const SellChannelType = {
     SELL_CHANNEL_ALL : '',
-    SELL_CHANNEL_PIX: '1',
-    SELL_CHANNEL_CREDITO: '2',
-    SELL_CHANNEL_DEBITO: '3',
-    SELL_CHANNEL_BOLETO: '4',
+    SELL_CHANNEL_PIX: 1,
+    SELL_CHANNEL_CREDITO: 2,
+    SELL_CHANNEL_DEBITO: 3,
+    SELL_CHANNEL_BOLETO: 4,
 } as const
 
 export const sellChannelOptions = [

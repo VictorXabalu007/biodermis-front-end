@@ -194,12 +194,14 @@ export const useTableData = () => {
             )
     
         }),
-        columnHelper.accessor(row => [row.valor, row.formapag_id],{
-            id: 'totalFormaPag',
+        columnHelper.accessor('formapag_id',{
+            id: 'formapag_id',
+            filterFn: 'equals',
             header: () => <p>Valor total</p>,
-            cell: ({ getValue }) => {
-                const [valor, formapag_id] = getValue();
-                return buildTotalValue(valor as string, formapag_id as number | null);
+            cell: ({ getValue,row }) => {
+               
+                return buildTotalValue(row.original.valor as string, 
+                  getValue() as number | null);
               }
         }),
         columnHelper.display({

@@ -16,7 +16,7 @@ import { useState } from "react";
 import { AUTH_USER } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Spinner } from "../../shared/Spinner";
 
-type LoginType = {
+export type LoginType = {
   email: string;
   password: string;
 };

@@ -5,7 +5,9 @@ import { useMovimentationData } from "../useMovimentationData/useMovimentationDa
 const monthNames = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 
 export const useChartSeries = () => {
+
     const { getInputData, getOutputData } = useMovimentationData();
+
     
     const options: ApexOptions = {
         chart: {

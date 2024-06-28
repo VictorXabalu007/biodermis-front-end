@@ -80,12 +80,13 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
         mutationFn: async (data:SendData) => {
             
         const headers = getHeaders();
-        console.log(data);
-            
+
 
         const body = {
-            "statuspag": "realizado",
-            "statusentrega": "realizada"
+            "statusentrega": "realizada",
+            "formaenvio": data.shippingForm,
+            "dataenvio":data.sendDate,
+            "codigorastreio":data.sendCode
         }
         
         const req = await api.patch(`/pedidos/${id}`, body, {
@@ -122,6 +123,7 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
         <Form 
             form={form} 
             className="flex justify-between flex-col"
+            onFinish={handleSubmit(onSubmit)}
         >
 
             {contextHolder}
@@ -305,34 +307,34 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
 
                 </div>
 
+                
+                <Footer.Root>
+
+
+                        <Footer.Actions
+                        onClick={handleClose}
+                        content="Cancelar"
+                        key="cancel"
+                        type="button"
+                    
+            
+                    >
+                        Cancelar
+                    </Footer.Actions>
+
+                    <Footer.Actions 
+                        content="Confirmar"
+                        type="submit"
+
+                    >
+                        Confirmar
+                    </Footer.Actions>
+
+                </Footer.Root>
+
             </div>
 
 
-
-
-            <Footer.Root>
-
-
-                <Footer.Actions
-                    onClick={handleClose}
-                    content="Cancelar"
-                    key="cancel"
-                
-                />
-
-                <Footer.Actions 
-                    content="Confirmar"
-                    key="ok"
-                    onClick={handleSubmit(onSubmit)}
-                    className="bg-brand-purple text-white hover:bg-brand-purple/75"
-                
-
-                />
-
-              
-
-
-            </Footer.Root>
            
 
 

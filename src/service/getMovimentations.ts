@@ -11,9 +11,7 @@ export const getMovimentations = async () => {
     const req = await api.get('/movimentacoes', {
         headers
     });
-    
 
     return req.data;
-
 
 }
