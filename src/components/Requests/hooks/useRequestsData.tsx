@@ -6,22 +6,18 @@ import { FilterDateConstraints, RefinedRangeDate, useRangeDate } from "../../../
 import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isConsultor"
 import { getUserData } from "../../../functions/Getters/getUser"
 import { getHeaders } from "../../../service/getHeaders"
-import { api } from "../../../service/connection"
+import { URL, api } from "../../../service/connection"
 import { parseDate } from "../../../functions/Date/parseData"
-
-
-
+import { ProductsType, getProducts } from "../../Products/service/getProducts"
 export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
 
 
             
     const {getConsultorName} = useConsultorData();
 
-
-   
-
+ 
     const {data: requests, isError, isLoading} = useQuery<Requests[]>({
-        queryKey: ['requests'],
+        queryKey: ['requests_products'],
         queryFn: async ()=> {
 
             
@@ -31,15 +27,45 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
                 headers
             });
 
+            const products = await getProducts();
+            
             if(isConsultor()) {
                 const user = getUserData();
-                const newData = req.data.filter(r => r.consultor_id === user.usuario.id);
+                const newData = req.data.filter(r => r.consultor_id === user.usuario.id)
+                .map(d => ({
+                    ...d,
+                    products: d.produtos_ids.map(id => products.find(p=>p.id===id)).map(p => {
+                        
+                     
+                            const path = p!.imagens[0].replace(/\\/g, '\\');
+    
+                            return {
+                                ...p,
+                                imagePath:URL + "/" + path,
+                            }
+                        
+
+                    }) as ProductsType[]
+                }));
+
                 return newData;
+
             } else {
 
                 return req.data.map(d => ({
                     ...d,
+                    products: d.produtos_ids.map(id => products.find(p=>p.id===id)).map(p => {
+                        
+                     
+                        const path = p!.imagens[0].replace(/\\/g, '\\');
 
+                        return {
+                            ...p,
+                            imagePath:URL + "/" + path,
+                        }
+                    
+
+                }) as ProductsType[]
                 }));
             }
         
@@ -61,7 +87,8 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
 
         if (requests) {
 
-            setData(requests.sort((a, b) => {
+            setData(
+                requests.sort((a, b) => {
                 const dateA = parseDate(a.datapedido);
                 const dateB = parseDate(b.datapedido);
                 return dateB.getTime() - dateA.getTime();
@@ -73,11 +100,14 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
         
     }, [requests]);
 
-    
+
+
     const getRequestDataOfConsultorId = (id: number) => {
         return data.filter(d => d.consultor_id === id)
      
     };
+
+
 
     useEffect(()=> {
 
@@ -251,7 +281,7 @@ export const useRequestsData = ({ enableFilterDate = true }: FilterDateConstrain
         getTotalApprovedPayments,
         getTotalPendingPayments,
         getRequestOrderPercentChange,
-        getRequestDataOfConsultorId
+        getRequestDataOfConsultorId,
 
     }
 }

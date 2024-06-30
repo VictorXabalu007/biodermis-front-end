@@ -9,8 +9,9 @@ import { ModalStatus } from "./components/ModalStatus"
 import { queryClient } from "../../../../../../../service/queryClient"
 
 
-
 export const RequestStatus = ({requests}:{requests:Requests}) => {
+    
+
     
 
     return (
@@ -26,12 +27,12 @@ export const RequestStatus = ({requests}:{requests:Requests}) => {
                 </Text.Root>
             </div>
      
-
+          
             <QueryClientProvider client={queryClient}>
 
-                    <ModalProducts
-                        requestsId={requests.produtos_ids}
-                    />
+                     <ModalProducts
+                        products={requests.products}
+                    /> 
                 
 
                     <ModalStatus 

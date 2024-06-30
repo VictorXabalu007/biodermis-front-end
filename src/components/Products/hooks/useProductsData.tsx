@@ -63,11 +63,13 @@ export const useProductsData = () => {
 
   }, [data]);
 
+  
 
   
   const getProductsById = useCallback((id: number | number[]): ProductsType[] => {
 
     if (Array.isArray(id)) {
+     
       const newProducts = id.map(i => products.find(p => p.produto_id === i)).filter(p => p !== undefined) as ProductsType[];
       return newProducts;
       
@@ -75,7 +77,12 @@ export const useProductsData = () => {
       const product = products.find(p => p.produto_id === id);
       return product ? [product] : []; 
     }
+    
   }, [products]);
+
+  const getProductsByArrayId = useCallback((ids:number[])=> {
+    return ids.map(id => allProducts.find(p => p.id === id))
+  },[allProducts])
 
   
 
@@ -150,7 +157,8 @@ export const useProductsData = () => {
     getProductsById,
     getProductsByCategoryId,
     allProducts,
-    getGreatherProductPercentualChange
+    getGreatherProductPercentualChange,
+    getProductsByArrayId
   }
 
 

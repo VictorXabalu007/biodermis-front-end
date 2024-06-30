@@ -1,6 +1,6 @@
 
 import {  Route, Routes } from "react-router-dom";
-import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, FORBIDDEN } from "./constants/paths/paths";
+import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, FORBIDDEN, MERCADO_PAGO_FAILURE } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -17,6 +17,7 @@ import { CategoriesTemplate } from "./templates/Categories";
 import { MercardoPagoSuccess } from "./components/Requests/MercadoPago/Success";
 import { NotFoundPage } from "./components/NotFound";
 import { ForbiddenPage } from "./components/Forbidden";
+import { MercardoPagoFailure } from "./components/Requests/MercadoPago/Failure";
 
 
 export const AppRoutes = () => {
@@ -52,6 +53,7 @@ export const AppRoutes = () => {
                 <Route path={INVOICING} element={<InvoicingTemplate />} />
 
                 <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
+                <Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
                 <Route path={FORBIDDEN} element={<ForbiddenPage />} />
 
             </Routes>

@@ -299,7 +299,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                                 <View style={tableStyles.tableCol}>
                                     <Text style={tableStyles.tableCell}>
                                         
-                                        <NumericFormatter value={parseFloat(p.valortotal)} />
+                                        <NumericFormatter value={parseFloat(p.valorvenda)} />
                                     </Text>
                                 </View>
                             </View>

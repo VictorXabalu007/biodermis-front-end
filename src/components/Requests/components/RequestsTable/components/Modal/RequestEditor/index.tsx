@@ -18,6 +18,8 @@ import { getHeaders } from "../../../../../../../service/getHeaders";
 import Select from "../../../../../../shared/Input/Select";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageAction } from "../../../../../../../hooks/useMessageAction/useMessageAction";
+import { Requests } from "../../../../@types/Requests";
+import { NumericFormatter } from "../../../../../../shared/Formatter/NumericFormatter";
 
 
 
@@ -42,9 +44,10 @@ const shippingOptions = [
 type RequestEditorProps = {
     handleClose: () => void
     id: number,
+    data:Requests
 }
 
-export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
+export const RequestEditor = ({handleClose, id,data}:RequestEditorProps) => {
 
     const [isClicked, setIsClicked] = useState(false);
     const [selected, setSelected] = useState<string | undefined>(shippingOptions[0].label);
@@ -83,11 +86,14 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
 
 
         const body = {
-            "statusentrega": "realizada",
-            "formaenvio": data.shippingForm,
-            "dataenvio":data.sendDate,
-            "codigorastreio":data.sendCode
+            statusentrega: "realizada",
+            formaenvio: data.shippingForm,
+            dataenvio:data.sendDate,
+            codigorastreio:data.sendCode
         }
+
+        console.log(body);
+        
         
         const req = await api.patch(`/pedidos/${id}`, body, {
             headers
@@ -102,6 +108,7 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
             
             setTimeout(()=> {
                 handleClose(); 
+                window.location.reload()
             },2000)
      
         },
@@ -147,7 +154,7 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
 
                         <Heading.Root>
                             
-                            2925
+                            {data.id}
                          
                         </Heading.Root>
 
@@ -215,7 +222,7 @@ export const RequestEditor = ({handleClose, id}:RequestEditorProps) => {
 
                         <Heading.Root>
                             
-                            R$30,00
+                           <NumericFormatter value={parseFloat(data.valorfrete)} />
                          
                         </Heading.Root>
 

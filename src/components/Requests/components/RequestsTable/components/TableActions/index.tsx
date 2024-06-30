@@ -8,11 +8,10 @@ import ReactPDF from '@react-pdf/renderer';
 import { PDFFile } from "../../../../../../resources/PDFFile";
 import { saveAs } from 'file-saver';
 import { Requests } from "../../../@types/Requests";
-import { useEffect, useState } from "react";
-import { ProductsType } from "../../../../../Products/service/getProducts";
-import { useProductsData } from "../../../../../Products/hooks/useProductsData";
 import { useUserData } from "../../../../../../hooks/useUserData/useUserData";
 import { getFormaPag } from "../../../../../../functions/Getters/getFormaPag";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../../../../../../service/queryClient";
 
 
 const { confirm } = Modal;
@@ -20,26 +19,23 @@ const { confirm } = Modal;
 
 export const TableActions = ({requests}:{requests:Requests}) => {
 
-    const [products, setProducts] = useState<ProductsType[]>([]);
 
-    const {getProductsById} = useProductsData();
     const {getUserById} = useUserData();
 
-    useEffect(() => {
 
-        const fetchedProducts = getProductsById(requests.produtos_ids);
 
-        setProducts(fetchedProducts);
-        
-      }, [requests.produtos_ids, getProductsById]);
-
-    
 
     const showRequestStats = () => {
 
         confirm({
 
-            content: <RequestStatus requests={requests} />,
+            content:
+          
+                  <QueryClientProvider client={queryClient}>
+                   <RequestStatus requests={requests} />
+            </QueryClientProvider>
+        
+          ,
             closable: true,
             closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
             okButtonProps: {className: 'hidden'}, 
@@ -55,14 +51,18 @@ export const TableActions = ({requests}:{requests:Requests}) => {
 
     const dowloadPdf = async () => {
 
+
+
         const name = `#${requests.id < 10 ? '0' + requests.id : requests.id}Pedido`;
 
         const data = {
             ...requests,
-            products: products,
             user_data:getUserById(requests.cliente_id),
             formaPag: getFormaPag(requests.formapag_id)
         }
+
+        console.log(data);
+        
 
         const blob = await ReactPDF.pdf(<PDFFile data={data} />).toBlob();
         if(blob) {

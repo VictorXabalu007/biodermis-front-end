@@ -2,28 +2,10 @@
 import { Heading } from "../../../../../../../../shared/Heading"
 import { Text } from "../../../../../../../../shared/Text"
 import { NumericFormatter } from "../../../../../../../../shared/Formatter/NumericFormatter"
-import { useProductsData } from "../../../../../../../../Products/hooks/useProductsData"
-import { useEffect, useState } from "react"
 import { ProductsType } from "../../../../../../../../Products/service/getProducts"
 import { Flex, Image } from "antd"
 
-export const ModalProducts = ({requestsId}:{requestsId: number[]}) => {
-
-
-    const [products, setProducts] = useState<ProductsType[]>([]);
-
-    const {getProductsById} = useProductsData();
-
-
-
-    useEffect(() => {
-
-        const fetchedProducts = getProductsById(requestsId);
-
-        setProducts(fetchedProducts);
-        
-
-      }, [requestsId, getProductsById]);
+export const ModalProducts = ({products}:{products: ProductsType[]}) => {
 
 
     const productCounts = products.reduce((acc, product) => {

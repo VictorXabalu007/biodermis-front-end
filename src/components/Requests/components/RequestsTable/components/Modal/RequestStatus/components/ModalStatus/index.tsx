@@ -4,7 +4,7 @@ import { buildPaymentStatus } from "../../../../../../functions/buildPaymentStat
 import { buildDeliveryStatus } from "../../../../../../functions/buildDeliveryStatus"
 import { Requests } from "../../../../../../@types/Requests"
 import { NumericFormatter } from "../../../../../../../../shared/Formatter/NumericFormatter"
-import { Typography } from "antd"
+import { Flex, Typography } from "antd"
 import { IoCopyOutline } from "react-icons/io5"
 import { FaCheck } from "react-icons/fa6"
 import { useUserData } from "../../../../../../../../../hooks/useUserData/useUserData"
@@ -12,10 +12,12 @@ import { useUserData } from "../../../../../../../../../hooks/useUserData/useUse
 
 
 
-const { Paragraph } = Typography;
+const { Paragraph,Text:TypoText } = Typography;
 
 
 export const ModalStatus = ({requests}:{requests:Requests}) => {
+
+    console.log(requests);
 
     const {getUserNameById} = useUserData();
 
@@ -39,7 +41,7 @@ export const ModalStatus = ({requests}:{requests:Requests}) => {
             <div className="flex justify-start w-full gap-2">
                 
                 <div>
-                    {buildDeliveryStatus(requests.statusentrega, requests.id)}   
+                    {buildDeliveryStatus(requests.statusentrega, requests)}   
                 </div>
     
                 <div className="flex text-start w-full justfy-start items-center gap-2">
@@ -55,7 +57,7 @@ export const ModalStatus = ({requests}:{requests:Requests}) => {
                         
                         <FaCheck key="copied-icon" />],
                         tooltips: ['Copiar', 'Código copiada'],
-                        text: '12121212',
+                        text: requests.codigorastreio || 'sem código no momento',
                         
                     }}
                     >
@@ -68,6 +70,29 @@ export const ModalStatus = ({requests}:{requests:Requests}) => {
             </div>
     
             )
+        },
+        {
+            title: 'Endereço de entrega',
+            label: <Flex style={{maxWidth: '300px'}} gap={2} wrap>
+                <TypoText>
+                    {requests.estado}
+                </TypoText>
+                <TypoText>
+                    {requests.cidade}
+                </TypoText>
+                <TypoText>
+                    {requests.rua}
+                </TypoText>
+                <TypoText>
+                    {requests.bairro}
+                </TypoText>
+                <TypoText>
+                    {requests.complemento}
+                </TypoText>
+                <TypoText>
+                    {requests.numero}
+                </TypoText>
+            </Flex>
         },
         {
             title: 'compras/venda',
@@ -87,7 +112,7 @@ export const ModalStatus = ({requests}:{requests:Requests}) => {
         },
         {
             title: 'Forma de envio',
-            label: 'SEDEX Até 7 dias úteis'
+            label: requests.formaenvio || 'Forma de envio indisponível no momento'
         },
     ]
 

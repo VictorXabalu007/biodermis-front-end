@@ -9,7 +9,7 @@ import { Requests } from "../@types/Requests";
 
 export const buildDeliveryStatus = (status:string,data:Requests) => {
 
-    const {showRequestEditor} = useModalComponent({id: data.id});
+    const {showRequestEditor} = useModalComponent({id: data.id, data});
     
     switch(status) {
 
