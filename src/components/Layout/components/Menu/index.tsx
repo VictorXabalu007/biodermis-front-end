@@ -8,27 +8,35 @@ import { Exit } from "./components/Exit";
 import './styles.css'
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useLocation } from "react-router-dom";
 
 
 
 export const Menu = () => {
 
-    const key = JSON.parse(sessionStorage.getItem(SELECTED_MENU_KEY) ?? '0' ) || '0'
+    const location = useLocation();
 
-    const [selectedKey, setSelectedKey] = useState(key);
+    const initialKey = JSON.parse(sessionStorage.getItem(SELECTED_MENU_KEY) ?? '0' ) || '0';
 
-    const handleMenuSelect = ({ key }: {key:string}) => {
+    const [selectedKey, setSelectedKey] = useState(initialKey);
 
+    const handleMenuSelect = ({ key }: { key: string }) => {
         setSelectedKey(key);
-        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(key))
-
+        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(key));
     };
 
-   
+    useEffect(() => {
+        setSelectedKey(initialKey);
+    }, [initialKey]);
 
-    useEffect(()=> {
-        setSelectedKey(key)
-    },[selectedKey, key])
+    useEffect(() => {
+        const currentPath = location.pathname;
+        const currentItem = items.find(item => item.path === currentPath);
+        if (currentItem) {
+            setSelectedKey(currentItem.key);
+            sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(currentItem.key));
+        }
+    }, [location]);
 
     const getBackgroundColor = (key: string) => {
         return selectedKey === key ? 'rgba(200, 130, 183, .2)' : 'transparent';

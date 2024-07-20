@@ -18,7 +18,7 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
     const navigate = useNavigate();
 
     const username = columnsFilters.find((f) => f.id === "nome")?.value || "";
-
+    
     const onFilterChange = (id:string,value:any) => setColumnFilters(prev => (
         prev.filter(f=> f.id !== id).concat({id,value})
     ));
