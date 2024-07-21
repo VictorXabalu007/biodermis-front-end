@@ -12,7 +12,7 @@ export const CardContainer = () => {
 
     return (
         
-    <Flex className="w-full" justify="space-between" gap={8} align="center" wrap>
+    <Flex className="w-full" justify="space-between" gap={18} align="center" wrap>
 
     
             {items.map((item,index) => {

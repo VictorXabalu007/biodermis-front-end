@@ -5,6 +5,7 @@ import { BankOptions } from "../../../../@types/BankOpts/BankOpts";
 import { Options } from "../../../../@types/Options/Options";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Row } from "antd";
 
 
 
@@ -61,8 +62,8 @@ export const HomeWrapper = ({children}:{children:ReactNode}) => {
       },[bankOptions]);
 
     return (
-        <div className="flex w-full flex-col lg:flex-row gap-5">
+        <Row gutter={[20,16]}>
             {children}
-        </div>
+        </Row>
     )
 }

@@ -51,7 +51,7 @@ export const HomeTables = () => {
 
     return (
 
-        <div  className="flex w-full lg:w-[40%] flex-col gap-5 pb-2">
+        <div className="flex flex-col gap-5 pb-2">
 
 
              <div style={{background:colorBgContainer}} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3">

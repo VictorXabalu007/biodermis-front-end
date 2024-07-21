@@ -1,32 +1,26 @@
-import { Home } from "../../components/Home"
-
-
+import { Col } from "antd";
+import { Home } from "../../components/Home";
 
 export const HomeTemplate = () => {
+  return (
+    <Home.Layout>
+      <Home.Header heading="Home" />
 
-    return (
+      <Home.Content>
+        <Home.Wrapper>
+          <Col lg={24}>
+            <Home.Cards />
+          </Col>
 
-            <Home.Layout>
+          <Col lg={16}>
+            <Home.Chart />
+          </Col>
 
-                <Home.Header heading="Home" />
-                
-                <Home.Content >
-
-                        <Home.Cards />
-                        
-                        <Home.Wrapper>
-                        
-                            <Home.Chart/>
-                            <Home.Tables />
-                        
-                        </Home.Wrapper> 
-               
-                    
-                </Home.Content>
-
-            </Home.Layout>
-     
-    );
-
-
-}
+          <Col lg={8}>
+            <Home.Tables />
+          </Col>
+        </Home.Wrapper>
+      </Home.Content>
+    </Home.Layout>
+  );
+};
