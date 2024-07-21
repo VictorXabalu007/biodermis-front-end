@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         token: {
           colorPrimary: '#C882B7',
           colorPrimaryBorderHover: '#C882B7',
+          fontFamily:'Poppins, sans-serif'
           
 
         },
@@ -38,8 +39,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           Button: {
             colorPrimary: '#C882B7',
             defaultHoverColor: '#C882B7',
-            defaultHoverBorderColor: '#C882B7'
-            
+            defaultHoverBorderColor: '#C882B7',
+        
           },
           Input: {
             colorPrimaryBorderHover: '#C882B7',

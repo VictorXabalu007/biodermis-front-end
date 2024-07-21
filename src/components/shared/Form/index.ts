@@ -1,4 +1,5 @@
 
+
 import { FormGroupWapper } from "./FormGroupWrapper";
 import { FormInputGroup } from "./FormInputGroup";
 import { FormInputWrapper } from "./FormInputWrapper";
@@ -11,6 +12,7 @@ export const Form = {
     SubHeader:FormSubHeader,
     Group:FormInputGroup,
     InputWrapper:FormInputWrapper,
-    GroupWrapper:FormGroupWapper
+    GroupWrapper:FormGroupWapper,
+   
 
 }
