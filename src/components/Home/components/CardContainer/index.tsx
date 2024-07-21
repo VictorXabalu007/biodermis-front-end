@@ -3,6 +3,7 @@ import { Flex } from "antd";
 import { StatsCard } from "../../../shared/Card/StatsCard";
 import { useInvoicingCardItem } from "../../../Invoicing/hooks/useInvoicingCardItem";
 import { Spinner } from "../../../shared/Spinner";
+import { RequestStatusChange } from "../../../Requests/hooks/useRequestsData";
 
 
 export const CardContainer = () => {
@@ -33,7 +34,10 @@ export const CardContainer = () => {
                             textContent={item.footerText} 
                             />
         
-                            <StatsCard.Percentual percentual={item.percentual} />
+                            <StatsCard.Percentual 
+                                status={item.status as RequestStatusChange} 
+                                percentual={item.percentual}
+                             />
         
                         </StatsCard.Footer>
                     </StatsCard.Root>

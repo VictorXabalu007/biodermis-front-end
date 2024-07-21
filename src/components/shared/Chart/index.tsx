@@ -9,17 +9,14 @@ type Series = {
     data: any[],
 }
 
-interface ChartType {
-    type: "line" | "area" | "bar" | "pie" | "donut" | "radialBar" | "scatter" | "bubble" | "heatmap" | "candlestick" | "radar" | "polarArea" | "rangeBar" | "treemap" | "boxPlot" | "rangeArea" | undefined;
-}
 
-type ChartProps = {
+type TemplateChartProps = {
     options: ApexOptions,
     series: Series[],
     width?: number | string;
-} & ChartType;
+} & ApexChart;
 
-export const Chart = ({options,series,type, width}:ChartProps) => {
+export const Chart = ({options,series,type, width,...rest}:TemplateChartProps) => {
 
     
     const {
@@ -39,6 +36,7 @@ export const Chart = ({options,series,type, width}:ChartProps) => {
             type={type}
             height={400}
             width={width}
+            {...rest}
             
             />
 

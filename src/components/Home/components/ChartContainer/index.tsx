@@ -36,6 +36,8 @@ export const ChartContainer = () => {
             options={options}
             series={series}
             type="bar"
+            height={350}
+            
             
             />
 

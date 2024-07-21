@@ -10,11 +10,17 @@ import { FilterDateConstraints } from "../../../context/RangeDate/RangeDateConte
 export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
 
     const {getGreatherSoldProduct, isLoading, getGreatherProductPercentualChange} = useProductsData();
+   
     const {
         getTotalSells,
         getSellPercentualChange,
-        getRequestOrderPercentChange
+        getRequestOrderPercentChange,
+        getSellStatusChange,
+        getRequestOrderStatusChange,
+        getTotalSalesThisMonth
     } = useRequestsData({enableFilterDate});
+    
+    console.log(getTotalSalesThisMonth());
     
 
     const items = useMemo(()=> [
@@ -26,6 +32,7 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
             footerHeding: getTotalSells(),
             footerText: '(vendas)',
             percentual: getSellPercentualChange() + "%",
+            status: getSellStatusChange()
     
         },
     
@@ -33,9 +40,10 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
     
             icon:GoPackage,
             title: 'Número de pedidos',
-            footerHeding: getTotalSells(),
+            footerHeding: getTotalSalesThisMonth(),
             footerText: '(pedidos)',
             percentual: getRequestOrderPercentChange() + "%",
+            status: getRequestOrderStatusChange()
     
         },
     
@@ -46,7 +54,7 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
             footerHeding: getGreatherSoldProduct().mediaavs,
             footerText: getGreatherSoldProduct().nome || 'Não há nenhum item no momento',
             percentual: getGreatherProductPercentualChange() + "%",
-    
+            status: null
         },
 
     ],[getGreatherSoldProduct, getTotalSells]);

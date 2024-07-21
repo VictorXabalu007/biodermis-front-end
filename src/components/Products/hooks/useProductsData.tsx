@@ -146,6 +146,7 @@ export const useProductsData = () => {
     const percentual = (parseFloat(greatherSoldProduct.mediaavs) / totalMediaavs) * 100;
     return percentual;
   }
+  
 
   return {
     products,
