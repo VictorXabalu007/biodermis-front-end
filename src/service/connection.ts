@@ -1,14 +1,13 @@
 
 import axios, { AxiosInstance } from 'axios';
+import { API_URL } from './url';
 
-export const URL = 'http://localhost:3000';
 
 const createHttp = (): AxiosInstance => {
 
-   
-    
+
     const http = axios.create({
-        baseURL: URL,
+        baseURL: API_URL,
     });
     
 

@@ -20,8 +20,6 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
         getTotalSalesThisMonth
     } = useRequestsData({enableFilterDate});
     
-    console.log(getTotalSalesThisMonth());
-    
 
     const items = useMemo(()=> [
 

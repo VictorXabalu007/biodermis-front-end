@@ -10,7 +10,7 @@ import {
 import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isConsultor";
 import { getUserData } from "../../../functions/Getters/getUser";
 import { getHeaders } from "../../../service/getHeaders";
-import { URL, api } from "../../../service/connection";
+import { api } from "../../../service/connection";
 import { parseDate } from "../../../functions/Date/parseData";
 import { ProductsType, getProducts } from "../../Products/service/getProducts";
 import {
@@ -19,7 +19,10 @@ import {
   getYear,
 } from "date-fns";
 
+import { API_URL } from "../../../service/url";
+
 export type RequestStatusChange = "no change" | "increase" | "decrease";
+
 
 export const useRequestsData = ({
   enableFilterDate = true,
@@ -58,7 +61,7 @@ export const useRequestsData = ({
 
                 return {
                   ...p,
-                  imagePath: URL + "/" + path,
+                  imagePath: API_URL + "/" + path,
                 };
               }) as ProductsType[],
           }));

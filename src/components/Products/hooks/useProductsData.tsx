@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ProductsType, getAllProducts, getProducts } from "../service/getProducts";
 import { useCallback, useEffect, useState } from "react";
 import { getHeaders } from "../../../service/getHeaders";
-import { URL, api } from "../../../service/connection";
+import { api } from "../../../service/connection";
+import { API_URL } from "../../../service/url";
 
 
 export const useProductsData = () => {
@@ -44,7 +45,7 @@ export const useProductsData = () => {
     
             return {
               ...p,
-              imagePath:URL + "/" + path,
+              imagePath:API_URL + "/" + path,
             }
 
           } else {
