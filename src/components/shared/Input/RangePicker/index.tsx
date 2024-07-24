@@ -50,7 +50,7 @@ export const InputRangePicker = (props:RangePickerProps) => {
         <RangePicker
         {...props}
         style={{color: '#FFF'}}
-        className='text-white w-full md:w-[230px] p-2 bg-brand-purple flex gap-0 hover:bg-brand-purple/75 hover:border-brand-purple/75'
+        className='text-white w-full md:w-[250px] p-2 bg-brand-purple flex gap-0 hover:bg-brand-purple/75 hover:border-brand-purple/75'
         suffixIcon={<IoCalendarNumberOutline className='text-white text-2xl' />}
         defaultValue={[dayjs(defaultValue, dateFormat), 
             dayjs(defaultValue, dateFormat)]}

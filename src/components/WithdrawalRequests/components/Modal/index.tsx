@@ -43,7 +43,7 @@ type WithDrawalModalProps  = {
 export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) => {
 
     const proofSchema = z.object({
-        pixProof: z.instanceof(File).refine(file => file.name !== '',{message: 'Comprovante é necessário para o envio!'}),
+        pixProof: z.custom().refine(file => file !== null, 'Insira o comprovante!'),
     }).refine(d => d.pixProof !== null, {message: 'Comprovante é necessário para o envio!'});
 
     type Data = z.infer<typeof proofSchema>;
@@ -367,7 +367,7 @@ export const WithDrawalModal = ({handleClose, withdraw}:WithDrawalModalProps) =>
             
             
 
-            <Button.Root className="w-full mt-4">
+            <Button.Root htmlType="submit" className="w-full mt-4">
 
                     <Button.Wrapper>
                       <Button.Content content="confirmar" />

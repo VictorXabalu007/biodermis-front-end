@@ -54,7 +54,7 @@ export const TableHeader = ({columnsFilters, setColumnFilters}:TableFiltersProps
                     
                     </Input.Root>
 
-                            <Input.Root className="w-full md:w-1/3">
+                            <Input.Root className="w-full md:w-2/3">
 
                       
                                     <Select

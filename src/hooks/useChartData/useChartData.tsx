@@ -67,20 +67,28 @@ export const useChartSeries = () => {
        
     };
 
+    // const mockInputData = [200,400,500, null, 300]
+    const realInputData = monthNames.map((_, index) => {
+        const item = getInputData().find(d => d.month === index);
+        return item ? item.total : null;
+    })
+
+
+    // const mockOutputData = [null,100,500, null, null, 300]
+    const realOutputData = monthNames.map((_, index) => {
+        const item = getOutputData().find(d => d.month === index);
+        return item ? item.total : null;
+    })
+
+
     const series = [
       {
           name: "Saída",
-          data: monthNames.map((_, index) => {
-              const item = getOutputData().find(d => d.month === index);
-              return item ? item.total : null;
-          })
+          data: realOutputData
       },
       {
           name: "Entrada",
-          data: monthNames.map((_, index) => {
-              const item = getInputData().find(d => d.month === index);
-              return item ? item.total : null;
-          })
+          data: realInputData
       }
   ];
 

@@ -2,7 +2,7 @@ import { SelectLabel } from "../../../../shared/Input/Select/SelectLabel";
 
 
 export const PaymentStatus = {
-    PAID: 'realizado',
+    PAID: 'aprovado',
     PENDING: 'pendente',
 } as const;
 

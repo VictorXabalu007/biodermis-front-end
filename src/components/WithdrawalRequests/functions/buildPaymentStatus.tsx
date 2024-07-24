@@ -11,7 +11,7 @@ export const buildPaymentStatus = (status:string, withdraw:WithDrawal) => {
 
     switch(status) {
 
-        case 'realizado':
+        case 'aprovado':
             
             return (
 

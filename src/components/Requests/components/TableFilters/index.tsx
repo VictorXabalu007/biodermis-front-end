@@ -146,7 +146,7 @@ export const TableFilters = ({
                       />
 
                       <Select 
-                          className="w-full md:w-[200px]"
+                          className="w-full md:w-[220px]"
                           options={statusOptions}
                           defaultValue={statusOptions[0]}
                          
@@ -155,7 +155,7 @@ export const TableFilters = ({
                       />
 
                       <Select 
-                          className="w-full md:w-[200px]"
+                          className="w-full md:w-[230px]"
                           options={deliveryOptions}
                           // @ts-ignore
                           onChange={handleOrderStatusChange}

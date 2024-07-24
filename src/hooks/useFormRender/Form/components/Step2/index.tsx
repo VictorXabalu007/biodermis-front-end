@@ -329,7 +329,7 @@ export const FormStep2 = ({
 
             {!isReadonly &&
 
-            <Button.Root type="submit" className="mt-4 w-full">
+            <Button.Root htmlType="submit" className="mt-4 w-full">
                 <Button.Wrapper>
                     <Button.Content content="Confirmar" />
                 </Button.Wrapper>

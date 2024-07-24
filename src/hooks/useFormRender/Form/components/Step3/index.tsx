@@ -180,7 +180,7 @@ export const FormStep3 = ({isReadonly, data, onSubmit}:FormType<UserCredentials>
     
                 {!isReadonly &&
 
-                    <Button.Root type="submit" className="mt-4 w-full">
+                    <Button.Root htmlType="submit" className="mt-4 w-full">
                         <Button.Wrapper>
                             <Button.Content content="Confirmar" />
                         </Button.Wrapper>

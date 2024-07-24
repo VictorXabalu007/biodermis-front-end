@@ -9,7 +9,10 @@ import { updateBalance } from "../service/updateBalance";
 
 
 
+
 export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
+
+    const mockWithDrawal:WithDrawal[] = []
 
     const {getConsultorName} = useConsultorData();
 
@@ -24,6 +27,26 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
     const [accessBalance, setBalance] = useState({
         saldodisp: "0"
     });
+
+    for(let i = 0; i < 10; i++){
+        mockWithDrawal.push({
+            consultor_id:i,
+            id: i,
+            datasaque: new Date().toLocaleDateString(),
+            pedidos_ids:[i],
+            pedido_resto_id:i,
+            saldo_disp: accessBalance.saldodisp,
+            nome_consultor:`Consultor ${i}`,
+            srccomp:null,
+            status: i % 2=== 0 ? 'aprovado' : 'pendente',
+            valorresto: '100',
+            valorsaque:'100'
+
+            
+        })
+    }
+
+    const [mockData, _] = useState(mockWithDrawal)
 
     useEffect(()=>{
 
@@ -111,7 +134,8 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
         isWithdrawEmpty,
         getConsultorName,
         getWithdrawDateById,
-        accessBalance
+        accessBalance,
+        mockData
     }
 
 

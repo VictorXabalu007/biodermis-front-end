@@ -26,6 +26,8 @@ export const WithdrawalTable = () => {
     
     } = useTableData();
 
+    
+
 
     const table = useReactTable({
         data,

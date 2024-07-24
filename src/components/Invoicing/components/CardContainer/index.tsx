@@ -3,6 +3,7 @@ import { useInvoicingCardItem } from "../../hooks/useInvoicingCardItem";
 import { StatsCard } from "../../../shared/Card/StatsCard";
 import { InputRangePicker } from "../../../shared/Input/RangePicker";
 import { Flex, Typography } from "antd";
+import { RequestStatusChange } from "../../../Requests/hooks/useRequestsData";
 
 
 const {Text} = Typography;
@@ -49,7 +50,7 @@ export const CardContainer = () => {
                   textContent={item.footerText}
                 />
 
-                <StatsCard.Percentual percentual={item.percentual} />
+                <StatsCard.Percentual status={item.status as RequestStatusChange}  percentual={item.percentual} />
               </StatsCard.Footer>
             </StatsCard.Root>
           );
