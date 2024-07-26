@@ -31,6 +31,15 @@ Instale eslint-plugin-react e adicione plugin:react/recommended e plugin:react/j
 
 ##PONTOS IMPORTANTES
 
+Primeiro faça clone desse repositório
+
+após isso de um 
+npm install
+depois de instalar:
+npm run dev 
+
+pronto, o projeto rodará tranquilamente
+
 O arquivo .env.example possuí informações a respeito da URL para a API.
 
 Você primeiro deve criar um arquivo .env na raiz do projeto, e copiar o nome da variavél já escrita em .env.example
@@ -78,6 +87,15 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
 ##IMPORTANT POINTS
+
+First you'll have to clone this repository in your machine
+
+after, open the cmd and type:
+npm install
+after install:
+npm run dev
+
+Now, you can run the project smoothly.
 
 The file .env.example localized in the project root, contains informations regarding the URL for the API.
 
