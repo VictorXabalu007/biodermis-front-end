@@ -3,6 +3,7 @@ import { Menu } from "../Menu"
 import { Logo } from "../../../shared/Logo"
 import { useState } from "react";
 import { theme } from "antd";
+import { FaArrowLeft } from "react-icons/fa6";
 
 
 
@@ -28,6 +29,9 @@ export const S = () => {
         breakpoint="lg"
         collapsedWidth="0"
         onCollapse={setCollapsed}
+        collapsible
+
+        
         
         >
 

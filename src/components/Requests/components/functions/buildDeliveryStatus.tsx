@@ -11,6 +11,9 @@ export const buildDeliveryStatus = (status:string,data:Requests) => {
 
     const {showRequestEditor} = useModalComponent({id: data.id, data});
     
+
+    console.log(data.statuspag === PaymentStatus.PAID);
+    
     switch(status) {
 
         case 'em andamento':
