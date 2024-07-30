@@ -1,5 +1,5 @@
 
-##Portugues - BR
+##Portugues - BR 🟢🟡
 
 React + TypeScript + Vite
 Este modelo fornece uma configuração mínima para fazer o React funcionar com o Vite, com HMR (Hot Module Replacement) e algumas regras do ESLint.
@@ -29,7 +29,7 @@ Substitua plugin:@typescript-eslint/recommended por plugin:@typescript-eslint/re
 Opcionalmente, adicione plugin:@typescript-eslint/stylistic-type-checked
 Instale eslint-plugin-react e adicione plugin:react/recommended e plugin:react/jsx-runtime à lista de extends
 
-##PONTOS IMPORTANTES
+## 📌 PONTOS IMPORTANTES
 
 Primeiro faça clone desse repositório
 
@@ -40,20 +40,62 @@ npm run dev
 
 pronto, o projeto rodará tranquilamente
 
+## 🌿 VARIAVEIS DE AMBIENTE
+
 O arquivo .env.example possuí informações a respeito da URL para a API.
 
-Você primeiro deve criar um arquivo .env na raiz do projeto, e copiar o nome da variavél já escrita em .env.example
+Você primeiro deve criar 2 arquivos .env na raiz do projeto. Sendo eles .env.production ( para produção )
+e .env.development ( para desenvolvimento )
 
-![image](https://github.com/user-attachments/assets/6030e4b1-21de-4487-9e58-c5ab8a8a9bfd)
+A sua estrutura de arquivos deve seguir a seguinte ordem:
 
-Dentro dele, você deve inserir a URL para acessar a API
+![image](https://github.com/user-attachments/assets/0131040b-d225-4807-9ebb-36ee5df06e19)
 
-![image](https://github.com/user-attachments/assets/9cb7938b-eb07-457b-b93d-208aa0f2551d)
+Dentro de .env.production, você irá inserir a URL de produção.
 
-Uma vez feito isso, o projeto rodará tranquilamente
+![image](https://github.com/user-attachments/assets/348039a3-88d9-4088-b091-0b94f4a2ca14)
 
+Dentro de .env.development, você irá inserir a URL de desenvolvimento (sandbox).
 
-##English - Version
+![image](https://github.com/user-attachments/assets/2bbcfb07-f1e6-430b-864e-f3b378e6b339)
+
+Uma vez feito isso, o projeto rodará tranquilamente para ambos o ambientes
+
+## 📍 LOCALIZAR A URL
+
+Um único arquivo no projeto na pasta 'service' contém o export GLOBAL da URL
+que acessa a API.
+
+![image](https://github.com/user-attachments/assets/0180613a-a957-4310-b8b3-313a79790347)
+
+Caso você precise altera-la, é ai que deve mexer.
+Lembre-se que ao usar o Vite.js, todas as variavéis de ambiente devem utilizar
+o início VITE_ , para mais informações confira a documentação em:
+
+[https://vitejs.dev/guide/env-and-mode] (https://vitejs.dev/guide/env-and-mode 📚)
+
+## 🏗️ RODANDO O PROJETO
+
+Se você estiver rodando o projeto em desenvolvimento, basta apenas digitar 
+'npm run dev' no seu terminal.
+
+Caso você queira rodar o projeto no ambiente de produção, deve seguir os 
+seguintes passos:
+
+Primeiro faço o build da aplicação com:
+
+npm run build
+
+Após a construção, você pode servir a aplicação para verificar se tudo está funcionando corretamente:
+
+npm run serve
+
+Feito isso, uma URL será gerada no seu terminal, então apenas copie e cole ela no
+seu browser de preferencia ou de ctrl+click em cima da URL.
+
+Feito isso, a aplicação estará rodando em produção.
+
+##English - Version 🔴 ⚪ 🔵
 
 # React + TypeScript + Vite
 
@@ -86,26 +128,50 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
-##IMPORTANT POINTS
+## 🌿 ENVIRONMENT VARIABLES
+The .env.example file contains information regarding the API URL.
 
-First you'll have to clone this repository in your machine
+You first need to create 2 .env files in the root of the project. These are .env.production (for production) and .env.development (for development).
 
-after, open the cmd and type:
-npm install
-after install:
-npm run dev
+Your file structure should follow this order:
 
-Now, you can run the project smoothly.
+![image](https://github.com/user-attachments/assets/0131040b-d225-4807-9ebb-36ee5df06e19)
 
-The file .env.example localized in the project root, contains informations regarding the URL for the API.
+Inside .env.production, you should insert the production URL.
 
-You should first create a .env file in the root of the project and copy the variable names already written in .env.example.
+![image](https://github.com/user-attachments/assets/348039a3-88d9-4088-b091-0b94f4a2ca14)
 
-![image](https://github.com/user-attachments/assets/6030e4b1-21de-4487-9e58-c5ab8a8a9bfd)
+Inside .env.development, you should insert the development (sandbox) URL.
 
-Inside it, you need to enter the API URL to make the connection
+![image](https://github.com/user-attachments/assets/2bbcfb07-f1e6-430b-864e-f3b378e6b339)
 
-![image](https://github.com/user-attachments/assets/9cb7938b-eb07-457b-b93d-208aa0f2551d)
+Once this is done, the project will run smoothly in both environments.
 
-Once this is done, the project will run smoothly.
+## 📍 LOCATING THE URL
+A single file in the 'service' folder contains the GLOBAL export of the URL that accesses the API.
 
+![image](https://github.com/user-attachments/assets/0180613a-a957-4310-b8b3-313a79790347)
+
+If you need to change it, this is where you should do so.
+Remember that when using Vite.js, all environment variables must start with VITE_. For more information, check the documentation at:
+
+[https://vitejs.dev/guide/env-and-mode] 
+(https://vitejs.dev/guide/env-and-mode 📚)
+
+
+## 🏗️ RUNNING THE PROJECT
+If you are running the project in development, simply type npm run dev in your terminal.
+
+If you want to run the project in a production environment, follow these steps:
+
+First, build the application with:
+
+npm run build
+
+After the build, you can serve the application to check if everything is working correctly:
+
+npm run serve
+
+Once done, a URL will be generated in your terminal. Simply copy and paste it into your preferred browser or use Ctrl+Click on the URL.
+
+This will make the application run in production.
