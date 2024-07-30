@@ -100,11 +100,9 @@ export const FormContainer = () => {
 
             try {
     
-                const req = await api.post(`/produtos/fotos/${id}`, formData, {
+                await api.post(`/produtos/fotos/${id}`, formData, {
                     headers
                 });
-    
-                console.log(req.data);
     
             } catch (error) {
                 console.error('Error registering image:', error);

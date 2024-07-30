@@ -1,6 +1,4 @@
 import { RegisterProducts } from "../../../components/Register/RegisterProducts"
-import { PRODUCTS } from "../../../constants/paths/paths"
-
 
 
 export const RegisterProductsTemplate = () => {
@@ -15,7 +13,7 @@ export const RegisterProductsTemplate = () => {
             <RegisterProducts.Content>
                 
                 <RegisterProducts.SubHeader 
-                path={PRODUCTS}
+         
                 linkText="Voltar para produtos"
                 heading="Adicionar um produto"
                 />

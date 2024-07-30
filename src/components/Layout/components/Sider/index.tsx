@@ -3,8 +3,6 @@ import { Menu } from "../Menu"
 import { Logo } from "../../../shared/Logo"
 import { useState } from "react";
 import { theme } from "antd";
-import { FaArrowLeft } from "react-icons/fa6";
-
 
 
 export const S = () => {
@@ -31,7 +29,6 @@ export const S = () => {
         onCollapse={setCollapsed}
         collapsible
 
-        
         
         >
 

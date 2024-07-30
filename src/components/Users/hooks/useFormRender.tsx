@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { FormStep1 } from "../components/Modal/Form/components/Step1"
-import { FormStep2 } from "../components/Modal/Form/components/Step2";
-
+import { FormStep1 } from "../../../hooks/useFormRender/Form/components/Step1";
+import { FormStep2 } from "../../../hooks/useFormRender/Form/components/Step2";
 
 
 
