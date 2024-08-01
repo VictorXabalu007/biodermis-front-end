@@ -1,26 +1,30 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BannerType } from "../@types/BannerType"
+import { useQuery } from "@tanstack/react-query"
+import { getBanners } from "../service/getBanners"
 
 
 export const useBannerData = () => {
 
-    const bannerData:BannerType[] = []
+    const {data:banners} = useQuery({
+        queryKey:['banners'],
+        queryFn:getBanners
+    })
 
-    for(let i = 0; i<10; i++){
-        bannerData.push({
-            id:i,
-            src: '',
-            name:`Banner ${i}`,
-            status: 'ativo',
-            category: i % 2 === 1 ? 'maisVendido' : i + 1 === 3 ? 'principal' :'promocao'
-        })
-    }
+    const [data, setData] = useState<BannerType[]>([]);
+    
+    useEffect(()=> {
+        if(banners){
+            setData(banners)
+        }
+    },[banners])
 
-    const [data, setData] = useState<BannerType[]>(bannerData);
-
+    const isEmpty = data.every(d => d.imagens.length===0)
+    
     return {
         data,
-        setData
+        setData,
+        isEmpty
     }
 
 

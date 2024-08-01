@@ -42,7 +42,7 @@ export const useProductsData = () => {
 
             const path = p.imagens[0].replace(/\\/g, '\\');
             
-    
+            
             return {
               ...p,
               imagePath:API_URL + "/" + path,

@@ -1,5 +1,5 @@
 import React, { Dispatch, useState } from "react"
-import { BannerCategory, BannerType } from "../@types/BannerType"
+import { BannerType } from "../@types/BannerType"
 import { useBannerData } from "../hooks/useBannerData"
 import { TableHeaderWrapper } from "../../shared/Table/components/TableHeaderWrapper"
 import { Input } from "../../shared/Input/Input"
@@ -13,6 +13,7 @@ import { BannersComponents } from "."
 
 type BannerFilterProps = {
     setData:Dispatch<React.SetStateAction<BannerType[]>>
+ 
 }
 
 const selectItems = [
@@ -21,15 +22,15 @@ const selectItems = [
         label: <SelectLabel onBold="Filtrar por: " afterBold="Todos" />
     },
     {
-        value: 'promocao',
+        value: 2,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Promoção" />
     },
     {
-        value: 'maisVendido',
+        value: 3,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Mais vendidos" />
     },
     {
-        value: 'principal',
+        value: 1,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Principal" />
     },
 ]
@@ -44,14 +45,11 @@ export const BannersFilters = ({setData}:BannerFilterProps) => {
         const value = e.target.value
         setBannerName(value)
         if(value!==''){
-            setData(prev => prev.filter(p => p.name.toLowerCase().includes(value.toLowerCase())))
+            setData(prev => prev.filter(p => p.titulo.toLowerCase().includes(value.toLowerCase())))
         } else {
             setData(initialData)
         }
     }
-
-    const onCategoryChange = (category: BannerCategory) =>
-         setData(initialData.filter(p => p.category === category))
 
 
     const handleSelectChange = (value:string) => {
@@ -59,13 +57,14 @@ export const BannersFilters = ({setData}:BannerFilterProps) => {
         if(value === '') {
             setData(initialData)
         } else {
-            onCategoryChange(value as BannerCategory)
+            setData(prev => prev.filter(p => p.id === parseFloat(value)))
         }
+
     }
 
     const [open,setOpen] = useState(false);
 
-    const handleOpen =()=> setOpen(!open)
+    const handleOpen = ()=> setOpen(!open)
 
     return (
         <TableHeaderWrapper heading="Banners gerais">

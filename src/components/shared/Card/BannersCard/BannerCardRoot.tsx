@@ -1,31 +1,36 @@
-import { Card, Image, Tooltip } from "antd"
+import { Button, Card, Image, Popconfirm, Tooltip } from "antd"
 import { CardProps } from "flowbite-react"
 import {  useState } from "react";
 import { FaEye, FaStar, FaTag, FaTrash } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
-import { BannerCategory, BannerStatusType } from "../../../Banners/@types/BannerType";
+import { BannerTitle } from "../../../Banners/@types/BannerType";
 import { LuCrown } from "react-icons/lu";
 import { IconBaseProps } from "react-icons/lib";
-import { Tag } from "../../Tag";
 import { BannersComponents } from "../../../Banners/components";
+import { API_URL } from "../../../../service/url";
+import { api } from "../../../../service/connection";
+import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../../service/getHeaders";
 
 
 type CardBannerRootProps = {
-    bannerSrc: string
-    bannerName:string
-    category: BannerCategory
-    bannerStatus:BannerStatusType
-
+    imagem:string
+    titulo:BannerTitle
+    order:string
+    id:number
+    
 }
 
 const { Meta } = Card;
 
-export const BannerCardRoot = ({bannerSrc,bannerName,category,bannerStatus, children,...rest}:CardProps & CardBannerRootProps) => {
+export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardProps & CardBannerRootProps) => {
 
     const [previewVisible, setPreviewVisible] = useState(false);
     const [openEdit,setOpenEdit] = useState(false)
 
-
+    const {success,error,contextHolder} = useMessageAction();
+    
+    
     const openPreview = () => {
         setPreviewVisible(!previewVisible);
     };
@@ -37,79 +42,119 @@ export const BannerCardRoot = ({bannerSrc,bannerName,category,bannerStatus, chil
 
 
     const getIcon = () => {
-        switch(category){
-            case 'principal':
+        switch(titulo){
+            case 'Principal':
                 return <LuCrown {...iconProps} />
-            case 'maisVendido':
+            case 'Mais Vendidos':
                 return <FaStar {...iconProps} />
-            case 'promocao':
+            case 'Promoção':
                 return <FaTag  {...iconProps} />
         }
     }
 
     const getCategory = () => {
-        switch(category){
-            case 'principal':
+        switch(titulo){
+            case 'Principal':
                 return 'Principal'
-            case 'maisVendido':
+            case 'Mais Vendidos':
                 return 'Mais vendido'
-            case 'promocao':
+            case 'Promoção':
                 return 'Promoção'
         }
     }
 
-
-    const getBannerStatus = () => {
-        switch(bannerStatus){
-            case 'ativo':
-                return 'cursor-pointer text-green-solid-900 fill-green-solid-900 bg-green-solid-300'
-
-            case 'inativo':
-                return  'cursor-pointer text-red-solid-800 fill-red-solid-800 bg-red-solid-400'
-        }
-    }
-    
     const handleEdit = () => {
         setOpenEdit(true)
     }
 
+  
+
+    const deleteBanner = async  () => {
+        const headers = getHeaders();
+        const req = await api.delete(`/carrossel/${id}/${order}`,{
+            headers
+        })
+
+        if(req.status === 200) {
+            success('Banner removido com sucesso!')
+            setTimeout(()=> (
+                window.location.reload()
+            ),1000)
+        } else {
+            error(req.data.response.error)
+        }
+        
+    }
+
+
     return (
-       
+
 
             <Card 
-        
+              
                 cover={
                     <Image
                     alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    src={API_URL+"/"+imagem}
                     preview={!previewVisible ? false : { visible: previewVisible, onVisibleChange: setPreviewVisible }}
-                    
+                    style={{
+
+                        minHeight:'250px',
+                        maxHeight:'250px',
+                        objectFit:'cover'
+                    }}
                     
                     />
                 }
                 actions={[
-                    <MdOutlineEdit onClick={handleEdit} className="mx-auto" size={20} style={{fill:'darkgrey'}} key={"edit"} />,
-                    <FaEye onClick={openPreview}  className="mx-auto" size={20} style={{fill:'darkgrey'}} key={"preview"} />,
-                    <FaTrash className="mx-auto" size={15} style={{fill:'darkgrey'}} key={"delete"} />,
+                    <Button key={"edit"} type="text">
+                        <MdOutlineEdit onClick={handleEdit} className="mx-auto" size={20} style={{fill:'darkgrey'}}  />
+                    </Button>,
+                    <Button key={"preview"} type="text">
+                        <FaEye onClick={openPreview}  className="mx-auto" size={20} style={{fill:'darkgrey'}}  />
+                    </Button>,
+                    <Popconfirm
+                        key={"delete"} 
+                        title="Deletar banner?"
+                        okText="Sim"
+                        cancelText="Não"
+                        onConfirm={deleteBanner}
+                        icon={false}
+                      
+                    >
+                        <Button type="text">
+
+                            <FaTrash 
+                            className="mx-auto"
+                            size={15}
+                            style={{fill:'darkgrey'}} 
+                             />
+
+                        </Button>
+                    </Popconfirm>
                 
                 ]}
 
                 {...rest}
             >
 
+                {contextHolder}
+
             <Meta
                 avatar={<Tooltip title={`Este banner pertence a categoria: ${getCategory()}`}>{getIcon()}</Tooltip>}
-                title={bannerName}
-                description={<Tag
-                    key="status" 
-                    className={getBannerStatus()} 
-                    content={bannerStatus}
-                   />}
+                title={titulo}
+
 
                 
             />
                 {children}
-                <BannersComponents.Edit setOpen={setOpenEdit} open={openEdit} />
+                <BannersComponents.Edit 
+                    setOpen={setOpenEdit}
+                    open={openEdit}
+                    imagem={imagem}
+                    ordem={order}
+                    id={id}
+                 />
             </Card>
 
 

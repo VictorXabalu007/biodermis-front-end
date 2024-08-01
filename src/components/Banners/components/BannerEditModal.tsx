@@ -1,18 +1,34 @@
-import { Form, Modal, ModalProps } from "antd"
+import { Form, Modal, ModalProps, Upload } from "antd"
 import { FaX } from "react-icons/fa6"
 import { useBannerUpdate } from "../hooks/useBannerUpdate"
 import { Controller } from "react-hook-form";
 import { Input } from "../../shared/Input/Input";
-import { useBannerRegister } from "../hooks/useBannerRegister";
-import Select from "../../shared/Input/Select";
 import { BannerModalProps } from "../@types/BannerType";
+import { UploadProps } from "antd/lib";
+import { BsDownload } from "react-icons/bs";
+import { useState } from "react";
+
+const { Dragger } = Upload;
+
+const props: UploadProps = {
+  name: "file",
+  multiple: false,
+  beforeUpload: () => {
+    return false;
+  },
+  accept: "image/png, image/jpeg, image/jpg",
+};
+
+type CurrentBannerData = {
+  ordem:string,
+  imagem:string
+  id:number
+}
 
 
+export const BannerEditModal = ({open,setOpen,ordem,imagem,id,...rest}:ModalProps & BannerModalProps & CurrentBannerData) => {
 
-export const BannerEditModal = ({open,setOpen,...rest}:ModalProps & BannerModalProps) => {
-
-    const {errors,control,handleSubmit,onSubmit,reset} = useBannerUpdate();
-    const {bannerStatusOptions} = useBannerRegister();
+    const {errors,control,handleSubmit,onSubmit,reset,contextHolder,setValue} = useBannerUpdate({id});
     const [form] = Form.useForm();
 
     const onReset = () => {
@@ -21,6 +37,14 @@ export const BannerEditModal = ({open,setOpen,...rest}:ModalProps & BannerModalP
       reset()
     }
 
+    setValue('ordem',String(ordem))
+
+    const [initialData,setInitialData] = useState({
+      order: ordem,
+      imagem,
+    })
+
+    
     return (
        <Modal
         closable
@@ -36,27 +60,77 @@ export const BannerEditModal = ({open,setOpen,...rest}:ModalProps & BannerModalP
 
     <Form form={form}>
 
+        {contextHolder}
+
         <Controller
-          name="status"
+          name="ordem"
           control={control}
-          render={({ field: { onChange } }) => (
+          render={({ field }) => (
             <Form.Item
-              name="Status"
-              validateStatus={errors.status ? "error" : "success"}
-              help={errors.status && errors.status.message}
+              name="ordem"
+              validateStatus={errors.ordem ? "error" : "success"}
+              help={errors.ordem && errors.ordem.message}
               hasFeedback
             >
               <Input.Root className="my-2">
                 <Input.Label
-                  content="Status"
-                  htmlFor="banner"
+                  content="Ordem"
+                  htmlFor="ordem"
                   className="text-gray-neutral-600 font-[600]"
                 />
 
-                <Select
-                    options={bannerStatusOptions} 
-                    onChange={(e)=>onChange(e.value)}
+                <Input.System 
+                  {...field}
+                  id="ordem"
+                  type="number"
+                  value={initialData.order}
+                  onChange={(e)=> {
+                    field.onChange(e.target.value)
+                    setInitialData({
+                      ...initialData,
+                     order:e.target.value
+                    })
+                    setValue('ordem',e.target.value)
+                  }}
+               
                 />
+              </Input.Root>
+            </Form.Item>
+          )}
+        />
+
+      <Controller
+          name="imagem"
+          control={control}
+          render={({ field: { onChange } }) => (
+            <Form.Item
+              name="src"
+              validateStatus={errors.imagem ? "error" : "success"}
+              help={errors.imagem && errors.imagem.message}
+              hasFeedback
+            >
+              <Input.Root className="my-2">
+                <Input.Label
+                  content="Imagem"
+                  htmlFor="img"
+                  className="text-gray-neutral-600 font-[600]"
+                />
+
+                <Dragger 
+             
+  
+                onChange={(file)=>onChange(file.fileList)}
+
+                 {...props}
+                 >
+                  <p className="uploader-icon flex justify-center items-center">
+                    <BsDownload size={20} className="fill-brand-purple" />
+                  </p>
+                  <p className="ant-upload-text">
+                    Clique ou arraste o arquivo aqui
+                  </p>
+                  <p className="ant-upload-hint">Faça o upload do banner</p>
+                </Dragger>
               </Input.Root>
             </Form.Item>
           )}

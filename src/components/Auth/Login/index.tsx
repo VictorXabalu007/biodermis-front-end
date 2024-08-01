@@ -48,6 +48,7 @@ export const Login = () => {
         email: data.email,
         senha: data.password
       };
+
       const request = await api.post('/login', body);
       return request.data;
     },
@@ -59,6 +60,9 @@ export const Login = () => {
   
     },
     onError: (err: any) => {
+
+
+      
       setAuthError(err.response?.data?.error || 'Erro ao fazer login');
       setIsLoading(false)
 

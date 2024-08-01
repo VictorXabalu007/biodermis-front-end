@@ -15,11 +15,10 @@ const { Dragger } = Upload;
 
 const props: UploadProps = {
   name: "file",
-  multiple: true,
+  multiple: false,
   beforeUpload: () => {
     return false;
   },
-  listType: "picture-card",
   accept: "image/png, image/jpeg, image/jpg",
 };
 
@@ -35,7 +34,7 @@ export const BannerRegisterModal = ({
     control,
     reset,
     bannerCategoryOptions,
-    bannerStatusOptions
+    contextHolder
 } = useBannerRegister();
 
   const [form] = Form.useForm();
@@ -48,6 +47,7 @@ export const BannerRegisterModal = ({
 
   return (
     <Modal
+    
       onCancel={onReset}
       {...rest}
       open={open}
@@ -55,97 +55,79 @@ export const BannerRegisterModal = ({
       title="Registrar banner"
       closeIcon={<FaX className="fill-brand-purple" />}
       okText="Enviar"
-      onOk={handleSubmit(onSubmit)}
+      onOk={()=> {
+        handleSubmit(onSubmit)()
+        setTimeout(()=> {
+          setOpen(false)
+        },1000)
+      }}
     >
       <Form form={form}>
+
+        {contextHolder}
+
         <Controller
-          name="name"
+          name="titulo"
           control={control}
           render={({ field: { onChange } }) => (
             <Form.Item
-              name="categoria"
-              validateStatus={errors.name ? "error" : "success"}
-              help={errors.name && errors.name.message}
+              name="title"
+              validateStatus={errors.titulo ? "error" : "success"}
+              help={errors.titulo && errors.titulo.message}
               hasFeedback
             >
               <Input.Root className="my-2">
                 <Input.Label
-                  content="Nome do banner"
-                  htmlFor="banner"
-                  className="text-gray-neutral-600 font-[600]"
-                />
-
-                <Input.System
-                  id="banner"
-                  className="border-purple-solid-950 placeholder-purple-solid-950 text-sm font-[600]"
-                  placeholder="ex: cabelos"
-                  onChange={onChange}
-                />
-              </Input.Root>
-            </Form.Item>
-          )}
-        />
-
-        <Controller
-          name="status"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <Form.Item
-              name="status"
-              validateStatus={errors.status ? "error" : "success"}
-              help={errors.status && errors.status.message}
-              hasFeedback
-            >
-              <Input.Root className="my-2">
-                <Input.Label
-                  content="Status"
-                  htmlFor="status"
-                  className="text-gray-neutral-600 font-[600]"
-                />
-
-                <Select 
-                    options={bannerStatusOptions}
-                    onChange={(e) => onChange(e.value)}
-                 />
-              </Input.Root>
-            </Form.Item>
-          )}
-        />
-
-        <Controller
-          name="category"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <Form.Item
-              name="category"
-              validateStatus={errors.category ? "error" : "success"}
-              help={errors.category && errors.category.message}
-              hasFeedback
-            >
-              <Input.Root className="my-2">
-                <Input.Label
-                  content="Categoria"
-                  htmlFor="category"
+                  content="Título"
+                  htmlFor="title"
                   className="text-gray-neutral-600 font-[600]"
                 />
 
                 <Select 
                     options={bannerCategoryOptions}
                     onChange={(e) => onChange(e.value)}
+                    id="title"
                  />
+              </Input.Root>
+            </Form.Item>
+          )}
+        />
+        <Controller
+          name="ordem"
+          control={control}
+          render={({ field }) => (
+            <Form.Item
+              name="ordem"
+              validateStatus={errors.ordem ? "error" : "success"}
+              help={errors.ordem && errors.ordem.message}
+              hasFeedback
+            >
+              <Input.Root className="my-2">
+                <Input.Label
+                  content="Ordem"
+                  htmlFor="ordem"
+                  className="text-gray-neutral-600 font-[600]"
+                />
+
+                <Input.System
+                  placeholder="ex: 2"
+                  id="ordem"
+                  type="number"
+                  {...field}
+                />
               </Input.Root>
             </Form.Item>
           )}
         />
 
         <Controller
-          name="src"
+          name="imagem"
           control={control}
           render={({ field: { onChange } }) => (
             <Form.Item
               name="src"
-              validateStatus={errors.src ? "error" : "success"}
-              help={errors.src && errors.src.message}
+              validateStatus={errors.imagem ? "error" : "success"}
+              help={errors.imagem && errors.imagem.message}
               hasFeedback
             >
               <Input.Root className="my-2">

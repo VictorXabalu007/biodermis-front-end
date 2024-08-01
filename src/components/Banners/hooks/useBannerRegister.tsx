@@ -1,22 +1,57 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { bannerSchema } from "../validations/bannerSchema"
-import { BannerType } from "../@types/BannerType"
+import { BannerRegisterType, bannerSchema } from "../validations/bannerSchema"
 import { SelectLabel } from "../../shared/Input/Select/SelectLabel"
+import { useMutation } from "@tanstack/react-query"
+import { api } from "../../../service/connection"
+import { getHeaders } from "../../../service/getHeaders"
+import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction"
 
 
 
 export const useBannerRegister = () => {
 
 
-    const {handleSubmit,control,formState:{errors},reset} = useForm<BannerType>({
+    const {handleSubmit,control,formState:{errors},reset} = useForm<BannerRegisterType>({
         resolver:zodResolver(bannerSchema)
     })
 
-    const onSubmit = (data:BannerType) => {
+    const {contextHolder,success,error} = useMessageAction()
 
-        console.log(data);
+    const registerBanner = useMutation({
+        mutationFn: async (data:BannerRegisterType)=> {
+            
+            const headers = getHeaders();
+            const formData = new FormData();
+
         
+            formData.append('order',data.ordem)
+            //@ts-ignore
+            formData.append('file',data.imagem!.originFileObj as File)
+            
+
+            const req = await api.post(`/carrossel/${data.titulo}`, formData, {
+                headers
+            });
+
+            return req.data;
+
+        },
+        onSuccess:(res)=> {
+        
+            success(res.success)
+            window.location.reload()
+            
+        },
+        onError:(err:any) => {
+    
+            error(err.data.response.error)
+            
+        }
+    })
+
+    const onSubmit = (data:BannerRegisterType) => {
+        registerBanner.mutate(data)
     }
 
     const bannerStatusOptions = [
@@ -31,16 +66,16 @@ export const useBannerRegister = () => {
     ]
     const bannerCategoryOptions = [
         {
-            value: 'principal',
-            label: <SelectLabel onBold="Categoria: " afterBold="Principal" />
+            value: '1',
+            label: <SelectLabel onBold="Título: " afterBold="Principal" />
         },
         {
-            value: 'promocao',
-            label: <SelectLabel onBold="Categoria: " afterBold="Promocao" />
+            value: '2',
+            label: <SelectLabel onBold="Título: " afterBold="Promocao" />
         },
         {
-            value: 'maisVendido',
-            label: <SelectLabel onBold="Categoria: " afterBold="Mais vendido" />
+            value: '3',
+            label: <SelectLabel onBold="Título: " afterBold="Mais vendido" />
         },
     ]
 
@@ -51,7 +86,8 @@ export const useBannerRegister = () => {
         onSubmit,
         reset,
         bannerStatusOptions,
-        bannerCategoryOptions
+        bannerCategoryOptions,
+        contextHolder
     }
 
 }
