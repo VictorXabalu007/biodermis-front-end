@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../../../service/connection";
 import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../../service/getHeaders";
+import { getTypeOfPixKey } from "../../../../../functions/Getters/getTypeOfPixKey";
 
 
 export const pessoalDataSchema = z.object({
@@ -125,7 +126,7 @@ export const viewUserSchema = z.object({
     ...pessoalDataSchema.shape,
     ...addressDataSchema.shape,
     ...bankDataSchema.shape
-})
+});
 
 
 export type UserData = z.infer<typeof userSchema>
@@ -170,12 +171,48 @@ export const FormContainer = () => {
         
     },[watch,isConsultor,userRole]);
 
+    const [currentId, setCurrentId] = useState(0)
+    
+    
+    const postAddress = useMutation({
+        mutationFn: async (data:UserData) => {
+            const body = {
+                "rua": data.rua,
+                "bairro": data.bairro,
+                "estado":data.estado,
+                "cep": data.cep,
+                "cidade": data.cidade,
+                "usuario_id":currentId,
+                "numero":data.numero,
+              
+            }
 
+            const headers = getHeaders();
+          
+            const req = await api.post(`/endereco`,body, {
+                headers
+            })
+
+            return req.data
+
+            
+        },
+        onSuccess: () => {
+            success('Usuário registrado com sucesso!');
+            onReset();
+        },
+        onError: ()=> {
+            
+            error('Falha ao registrar usuário')
+        }
+    })
     const mutation = useMutation({
 
         mutationFn: async (data: UserData) => {
 
             const headers = getHeaders();
+
+          
 
             const body = {
 
@@ -183,18 +220,15 @@ export const FormContainer = () => {
                 "cpf": data.cpf,
                 "email": data.email,
                 "telefone": data.telefone,
-                "rua": data.rua,
-                "bairro": data.bairro,
-                "estado":data.estado,
-                "cep": data.cep,
-                "cidade": data.cidade,
                 "agencia": data.bankData.agencia,
                 "conta": data.bankData.conta,
                 "pix": data.bankData.pix,
                 "senha": data.senha,
-                "cargo_id": data.cargo_id
-
+                "cargo_id": data.cargo_id,
+                "banco":data.bankData.banco,
+                "tipochave": getTypeOfPixKey(data.bankData.pix)
             }
+
 
 
 
@@ -206,15 +240,18 @@ export const FormContainer = () => {
 
           },
 
-          onSuccess: (res) => {
+          onSuccess: (res,context) => {
 
-            success(res.success);
-            onReset();
+        
+            setCurrentId(res.id)
+            postAddress.mutate(context)
+            
+        
 
           },
 
         onError: (err: any) => {
-        
+            
             error(err.response.data.error);
 
         }

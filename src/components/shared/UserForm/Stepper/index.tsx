@@ -2,13 +2,14 @@ import { Steps } from "antd";
 import { useState } from "react";
 import { steps } from "./util/steps";
 import * as C from './styles'
+import { UserEditSteps } from "../../../../validations/updateUserValidation";
 
 
 type StepperProps = {
-    handleFormRender: (key:string)=> void
+    setFormType: (formType:UserEditSteps) => void
 }
 
-export const Stepper = ({handleFormRender}:StepperProps) => {
+export const Stepper = ({setFormType}:StepperProps) => {
 
     const [current, setCurrent] = useState(0);
   
@@ -17,6 +18,20 @@ export const Stepper = ({handleFormRender}:StepperProps) => {
         setCurrent(value);
         
     };
+
+    const getKey = (key:number) => {
+
+        switch(key){
+            case 0:
+                return UserEditSteps.PersonalData
+            case 1:
+                return UserEditSteps.AddressData
+            case 2:
+                return UserEditSteps.BankData
+            default:
+                return UserEditSteps.PersonalData
+        }
+    }
 
     return (
 
@@ -34,7 +49,7 @@ export const Stepper = ({handleFormRender}:StepperProps) => {
                     key={index} 
                     title={step.title}
                     icon={null}
-                    onClick={() => handleFormRender(step.key)}
+                    onClick={() => setFormType(getKey(step.key))}
                     
                     />
 

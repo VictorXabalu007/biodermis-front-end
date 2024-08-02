@@ -110,14 +110,11 @@ export const MercardoPagoSuccess = () => {
       const req = await api.patch(`/pedidos/${data.id}`,body,{
         headers
       })
-
-      console.log(req.data);
       
       return req.data
     },
     onSuccess:()=> {
 
-      
       
     },
     onError:() => {

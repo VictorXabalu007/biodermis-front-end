@@ -61,7 +61,6 @@ export const TableActions = ({requests}:{requests:Requests}) => {
             formaPag: getFormaPag(requests.formapag_id)
         }
 
-        console.log(data);
         
 
         const blob = await ReactPDF.pdf(<PDFFile data={data} />).toBlob();

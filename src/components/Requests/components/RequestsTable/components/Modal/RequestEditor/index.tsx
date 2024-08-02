@@ -92,8 +92,6 @@ export const RequestEditor = ({handleClose, id,data}:RequestEditorProps) => {
             codigorastreio:data.sendCode
         }
 
-        console.log(body);
-        
         
         const req = await api.patch(`/pedidos/${id}`, body, {
             headers

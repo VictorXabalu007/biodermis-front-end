@@ -8,12 +8,12 @@ import { FormType } from "../../../../@types/FormType/FormType";
 
 import { InovicingModal } from "../Invoicing";
 
-import { FormModal } from "../../../../hooks/useFormRender/Form";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../../../service/queryClient";
 import { UserRole } from "../../../../util/UserRole";
 import { RangeDateProvider } from "../../../../context/RangeDate/RangeDateContext";
+import { UserForm } from "../../UserForm";
 
 export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCredentials>) => {
     
@@ -24,8 +24,7 @@ export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCrede
                 return (
                     <QueryClientProvider client={queryClient}>
 
-                            <FormModal 
-                                    onSubmit={()=> {}}
+                            <UserForm 
                                     data={data} 
                                     isReadonly={isReadonly}
                                     row={row}

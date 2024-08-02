@@ -7,6 +7,5 @@ export interface FormType<T> {
     data: T;
     row: Row<T>
     table: Table<T>
-    onSubmit: (data:T) => void
-    
+
 }

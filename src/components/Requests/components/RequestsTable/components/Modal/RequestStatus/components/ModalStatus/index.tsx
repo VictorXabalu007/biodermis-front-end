@@ -17,7 +17,6 @@ const { Paragraph,Text:TypoText } = Typography;
 
 export const ModalStatus = ({requests}:{requests:Requests}) => {
 
-    console.log(requests);
 
     const {getUserNameById} = useUserData();
 

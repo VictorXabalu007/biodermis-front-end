@@ -6,10 +6,11 @@ import { getUsers } from "../service/getUsers";
 import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { getUserRole } from "../../../util/UserRole";
-import { UserCredentials } from "../../../@types/UserData/UserData";
+import { UserAddress, UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { Flex } from "antd";
 import { MiniImage } from "../../shared/Image/UserImage/miniImage";
+import { getAddress } from "../service/getAddress";
 
 
 const columnsHelper = createColumnHelper<UserCredentials>();
@@ -19,22 +20,57 @@ JSON.parse(sessionStorage.getItem(USERS_DATA) ?? '{}')
 
 export const useTableData = () => {
 
-    const {data, isLoading} = useQuery({
+    const {data, isLoading} = useQuery<UserCredentials[]>({
         queryKey: ['users'],
         queryFn: getUsers,
     })
+    const {data:address} = useQuery<UserAddress[]>({
+        queryKey: ['user-address'],
+        queryFn: getAddress,
+    })
+
+
+
 
     const [sorting,setSorting] = useState<any[]>([]);
     const [users, setUsers] = useState<UserCredentials[]>([])
+    const [userAddress, setUserAddress] = useState<UserAddress[]>([])
 
     useEffect(()=> {
-        
-        if(data){
-            setUsers(data)
+        if(address){
+            setUserAddress(address)
         }
-            
-    },[data])
+    },[address])
 
+
+
+    useEffect(()=> {
+   
+        
+        if(data && userAddress){
+            setUsers(data.map(d => {
+
+                const hasAddress = userAddress.find(add => add.usuario_id === d.id)
+            
+                if(hasAddress) {
+                    return {
+                        ...d,
+                        ...hasAddress,
+                        addressId: hasAddress.id
+                    }
+                } else {
+                    return {
+                        ...d,
+                    }
+                }
+            }));
+        }
+
+        
+            
+    },[data,userAddress,address])
+
+    
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 
     const columns = useMemo(()=>[

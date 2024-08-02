@@ -11,6 +11,18 @@ export const updateUser = async (data:UserCredentials, id: number) => {
         headers
     })
 
-    return req.data;
+    const addressReq = await api.patch(`/endereco/${data.id}`,{
+        "rua": data.rua,
+        "bairro": data.bairro,
+        "complemento": data.numero,
+        "numero": data.numero,
+        "cep": data.cep,
+        "cidade": data.cidade,
+        "estado": data.estado,
+    },{
+        headers
+    })
+
+    return req.data && addressReq.data;
 
 }

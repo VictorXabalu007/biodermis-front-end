@@ -105,7 +105,7 @@ export const FormContainer = () => {
                 });
     
             } catch (error) {
-                console.error('Error registering image:', error);
+               
             }
 
         
