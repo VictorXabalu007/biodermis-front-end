@@ -86,7 +86,8 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
         
     }
 
-
+    console.log(API_URL+"/"+imagem);
+    
     return (
 
 

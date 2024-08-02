@@ -39,7 +39,8 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
                 neighboorhood:data.bairro,
                 number:data.numero,
                 state:data.estado,
-                street:data.rua
+                street:data.rua,
+                complement:data.complemento,
             },
             bankData:{
                 account:data.conta,
@@ -132,7 +133,7 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
                 const body = {
                     "rua": data.addressData.street,
                     "bairro": data.addressData.neighboorhood,
-                    "complemento": data.addressData.number,
+                    "complemento": data.addressData.complement,
                     "numero": data.addressData.number,
                     "cep": data.addressData.cep,
                     "cidade":  data.addressData.city,
@@ -151,7 +152,7 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
                 const body = {
                     "rua": data.addressData.street,
                     "bairro": data.addressData.neighboorhood,
-                    "complemento": data.addressData.number,
+                    "complemento": data.addressData.complement,
                     "numero": data.addressData.number,
                     "cep": data.addressData.cep,
                     "cidade":  data.addressData.city,

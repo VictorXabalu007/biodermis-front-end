@@ -20,6 +20,7 @@ export const useBannerData = () => {
     },[banners])
 
     const isEmpty = data.every(d => d.imagens.length===0)
+
     
     return {
         data,

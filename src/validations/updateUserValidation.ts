@@ -30,7 +30,9 @@ const editUserAddressDataSchema = z.object({
     neighboorhood: z.string({required_error:'O bairro não pode ser vazio!'})
     .min(1,'Por favor, insira o bairro!'),
     city: z.string({required_error:'A cidade não pode ser vazia!'})
-    .min(1,'Por favor, insira a cidade!')
+    .min(1,'Por favor, insira a cidade!'),
+    complement: z.string({required_error:'Insira o complemento por favor!'})
+    .min(1,'Por favor, insira o complemento!')
 })
 
 const editUserBankDataSchema = z.object({

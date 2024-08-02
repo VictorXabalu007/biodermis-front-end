@@ -200,14 +200,13 @@ export const FormContainer = () => {
 
             
         },
-        onSuccess: () => {
-            success('Usuário registrado com sucesso!');
+        onSuccess: (res) => {
+            success(res.success);
             onReset();
         },
-        onError: (err)=> {
-            console.log(err);
-            
-            error('Falha ao registrar usuário')
+        onError: (err:any)=> {
+
+            error(err.response.data.error)
         }
     })
     const mutation = useMutation({
@@ -215,7 +214,6 @@ export const FormContainer = () => {
         mutationFn: async (data: UserData) => {
 
             const headers = getHeaders();
-
           
 
             const body = {

@@ -23,7 +23,8 @@ const EditAddressData = () => {
     neighboorhood,
     state,
     street,
-    number
+    number,
+    complement
   } = getValues().addressData
 
   return (
@@ -294,6 +295,55 @@ const EditAddressData = () => {
                                 <Input.System
 
                                 id="city"
+                                {...field}
+                                
+
+
+                                />
+                            
+
+                            </Input.Root>
+
+                        </Form.InputWrapper>
+
+
+                    </FormItem>
+
+
+
+                )}
+                
+                />
+      
+      </Col>
+      <Col lg={12}>
+      
+      <Controller 
+                name="addressData.complement"
+                control={control}
+                rules={{required:true}}
+                defaultValue={complement}
+                render={({field})=> (
+
+                    <FormItem
+                    name={field.name}
+                    validateStatus={errors.addressData?.complement ? 'error' : 'success'}
+                    help={errors.addressData?.complement && errors.addressData.complement.message}
+                    
+                    >
+
+                        <Form.InputWrapper>
+
+                            <Input.Root>
+                                
+                                <Input.Label 
+                                className="text-gray-neutral-400"
+                                content="Complemento"
+                                htmlFor="complement"
+                                />
+                                <Input.System
+
+                                id="complement"
                                 {...field}
                                 
 

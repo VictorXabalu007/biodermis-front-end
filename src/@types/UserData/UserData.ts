@@ -16,7 +16,7 @@ export type UserCredentials = {
   agencia: string;
   banco:string,
   cargo_id: number;
-
+  complemento:string
   conta: string;
   cpf: string;
   email: string;
