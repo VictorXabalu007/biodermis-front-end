@@ -21,7 +21,7 @@ export const TableActions = ({data, row, table}:TableActionsProps<UserCredential
         confirm({
 
             content:<ModalNavigator 
-                onSubmit={()=> {}}
+        
                 data={data} 
                 isReadonly={props.readOnly} 
                 table={table}

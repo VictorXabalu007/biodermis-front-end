@@ -259,6 +259,46 @@ export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData
               )}}
 
             />
+           <Controller 
+           
+            control={control}
+            name="complemento"
+            render={({field:{onChange}})=> {
+              return (
+
+                <Item
+                  name="number"
+                  validateStatus={errors.complemento ? 'error' : 'success'}
+                  help={errors.complemento && errors.complemento.message}
+                  hasFeedback
+                >
+
+                  <Form.InputWrapper >
+                  <Input.Root>
+
+                    <Input.Label 
+                    content="Complemento"
+                    className="text-black"
+                    htmlFor="complemento"
+                    />
+                    <Input.System 
+                    placeholder="0000"
+                    onChange={onChange}
+                    id="number"
+                    type="complemento"
+                    />
+
+      
+                    
+                    </Input.Root>
+                  </Form.InputWrapper >
+
+
+                </Item>
+
+              )}}
+
+            />
    
 
 

@@ -65,6 +65,8 @@ export const addressDataSchema = z.object({
     .min(1,'Cidade é obrigatório para o cadastro'),
 
     numero: z.string().optional(),
+    complemento: z.string({required_error:'Insira o complemento por favor!'})
+    .min(1,'Por favor, insira o complemento!')
 
 
 });
@@ -184,6 +186,7 @@ export const FormContainer = () => {
                 "cidade": data.cidade,
                 "usuario_id":currentId,
                 "numero":data.numero,
+                "complemento":data.complemento
               
             }
 
@@ -201,7 +204,8 @@ export const FormContainer = () => {
             success('Usuário registrado com sucesso!');
             onReset();
         },
-        onError: ()=> {
+        onError: (err)=> {
+            console.log(err);
             
             error('Falha ao registrar usuário')
         }
