@@ -3,8 +3,8 @@ import { RegisterFieldProps } from "../../../../../@types/RegisterFieldsProps";
 import { Controller } from "react-hook-form";
 import {  UserRole } from "../../../../../../../util/UserRole";
 import { Form } from "../../../../../../shared/Form";
-import { UserData } from "../..";
 import { FormItem } from "../../../../../../shared/Form/FormItem";
+import { UserData } from "../../../../../../../validations/registerUserValidation";
 
 
 export const Checkboxes = ({control}: RegisterFieldProps<UserData>) => {

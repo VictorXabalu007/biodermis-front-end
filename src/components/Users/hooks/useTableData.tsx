@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { TableActions } from "../components/TableActions";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../service/getUsers";
-import { UserData } from "../../Register/RegisterConsultor/components/FormContainer";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { getUserRole } from "../../../util/UserRole";
 import { UserAddress, UserCredentials } from "../../../@types/UserData/UserData";
@@ -11,6 +10,7 @@ import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle
 import { Flex } from "antd";
 import { MiniImage } from "../../shared/Image/UserImage/miniImage";
 import { getAddress } from "../service/getAddress";
+import { UserData } from "../../../validations/registerUserValidation";
 
 
 const columnsHelper = createColumnHelper<UserCredentials>();

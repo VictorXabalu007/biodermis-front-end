@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form"
-import { UserEditType } from "../../../validations/updateUserValidation"
+import { UserEditRole, UserEditType } from "../../../validations/updateUserValidation"
 import { Col, Row } from "antd"
 import { Form } from "../Form"
 import { Input } from "../Input/Input"
@@ -17,6 +17,7 @@ const EditBankData = () => {
     control
   } = useFormContext<UserEditType>();
 
+  const isUser = getValues().userType === UserEditRole.UserClient
   const {
     account,
     agency,
@@ -195,6 +196,7 @@ const EditBankData = () => {
                         onChange(bank);
                       }
                     }}
+                    isDisabled={isUser}
                     isSearchable
                   />
                 </Input.Root>

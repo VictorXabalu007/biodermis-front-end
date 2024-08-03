@@ -1,6 +1,6 @@
 
 import { FormProvider, useForm } from "react-hook-form";
-import { userEditSchema, UserEditSteps, UserEditType } from "../../../validations/updateUserValidation";
+import { UserEditRole, userEditSchema, UserEditSteps, UserEditType } from "../../../validations/updateUserValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormType } from "../../../@types/FormType/FormType";
 import { Stepper } from "./Stepper";
@@ -16,7 +16,6 @@ import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
 import { getTypeOfPixKey } from "../../../functions/Getters/getTypeOfPixKey";
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
-
 
 export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials>) => {
 
@@ -47,7 +46,9 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
                 agency:data.agencia,
                 bank:data.banco,
                 pixkey:data.pix
-            }
+            },
+            userType: row.original.cargo_id === UserRole.CONSULTOR ? UserEditRole.Consultor : 
+            row.original.cargo_id === UserRole.USER ? UserEditRole.UserClient : UserEditRole.NormalUser
         },
         resolver: zodResolver(userEditSchema),
         mode: 'all',
@@ -66,6 +67,7 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
         setValue('formType',formType);
 
     }
+
 
     const updateUserData = useMutation({
         mutationFn: async (data:UserEditType) => {
@@ -266,6 +268,7 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
            <Form 
            layout="vertical"
            onFinish={handleSubmit(onSubmit)}
+           disabled={row.original.cargo_id === UserRole.USER}
 
            >
 

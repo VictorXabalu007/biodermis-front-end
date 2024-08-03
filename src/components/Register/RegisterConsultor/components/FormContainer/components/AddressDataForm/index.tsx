@@ -3,8 +3,9 @@ import { RegisterFieldProps } from "../../../../../@types/RegisterFieldsProps";
 import { Controller } from "react-hook-form";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
-import { UserData } from "../..";
+
 import { Form as AntdForm } from "antd";
+import { UserData } from "../../../../../../../validations/registerUserValidation";
 
 export const AddressDataForm = ({ errors, control }: RegisterFieldProps<UserData>) => {
 

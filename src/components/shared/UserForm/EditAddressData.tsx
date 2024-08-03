@@ -1,11 +1,12 @@
 import { Col, Row } from "antd"
 import { Controller, useFormContext } from "react-hook-form";
-import { UserEditType } from "../../../validations/updateUserValidation";
+import { UserEditRole, UserEditType } from "../../../validations/updateUserValidation";
 import { Input } from "../Input/Input";
 import { FormItem } from "../Form/FormItem";
 import { GrLocation } from "react-icons/gr";
 import { PatternFormat } from "react-number-format";
 import { Form } from "../Form";
+
 
 const EditAddressData = () => {
 
@@ -16,7 +17,8 @@ const EditAddressData = () => {
   } = useFormContext<UserEditType>()
 
 
-  
+  const isUser = getValues().userType === UserEditRole.UserClient
+
   const {
     cep,
     city,
@@ -105,6 +107,7 @@ const EditAddressData = () => {
                                
                                 onChange(e.target.value)
                             }}
+                            disabled={isUser}
                             value={cep}
                         />
                     
@@ -155,7 +158,7 @@ const EditAddressData = () => {
                                 }}
                                 id="number"
                                 type="number"
-                            
+                                disabled={isUser}
                                 />
                             
 

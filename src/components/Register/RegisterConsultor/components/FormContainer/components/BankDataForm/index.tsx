@@ -3,11 +3,12 @@ import { RegisterFieldProps } from "../../../../../@types/RegisterFieldsProps";
 import { usePixkey } from "../../../../../../../hooks/usePixkey";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
-import { UserData } from "../..";
+
 import { Form as AntdForm } from "antd";
 import Select from "../../../../../../shared/Input/Select";
 import { BANK_OPS } from "../../../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Options } from "../../../../../../../@types/Options/Options";
+import { UserData } from "../../../../../../../validations/registerUserValidation";
 
 const Item = AntdForm.Item;
 

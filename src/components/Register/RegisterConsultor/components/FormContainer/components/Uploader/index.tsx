@@ -4,9 +4,10 @@ import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
 import { RegisterFieldProps } from '../../../../../@types/RegisterFieldsProps';
 import { Form } from '../../../../../../shared/Form';
-import { UserData } from '../..';
+
 import { FormItem } from '../../../../../../shared/Form/FormItem';
 import { DraggerWrapper } from './styles/styles';
+import { UserData } from '../../../../../../../validations/registerUserValidation';
 
 
 const { Dragger } = Upload;

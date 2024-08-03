@@ -1,6 +1,6 @@
 import { Col, Row } from "antd"
 import { Controller, useFormContext } from "react-hook-form";
-import { UserEditType } from "../../../validations/updateUserValidation";
+import { UserEditRole, UserEditType } from "../../../validations/updateUserValidation";
 import { FormItem } from "../Form/FormItem";
 import { Input } from "../Input/Input";
 import { PatternFormat } from "react-number-format";
@@ -15,6 +15,8 @@ const EditPersonalData = () => {
   control,
   getValues,
   } = useFormContext<UserEditType>()
+
+  const isUser = getValues().userType === UserEditRole.UserClient
 
   const {
     personalData
@@ -109,6 +111,7 @@ const EditPersonalData = () => {
                                 onChange(e.target.value);
                             }}
                             value={cpf}
+                            disabled={isUser}
                             
                             
                             
@@ -153,7 +156,7 @@ const EditPersonalData = () => {
                           className="rounded-md py-2 px-1 border border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                           onChange={onChange}
                           value={phone}
-
+                          disabled={isUser}
 
 
                           />

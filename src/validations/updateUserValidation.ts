@@ -36,6 +36,13 @@ const editUserAddressDataSchema = z.object({
 })
 
 const editUserBankDataSchema = z.object({
+    agency: z.string().optional(),
+    pixkey: z.string().optional().refine(val => val && isPixKey(val),'Chave pix inválida inserida!'),
+    account: z.string().optional(),
+    bank: z.string().optional()
+})
+
+const editConsultorBankDataSchema = z.object({
     agency: z.string({required_error:'Por favor, insira agencia!'})
     .min(1,'A agência não pode ser vazia!'),
     pixkey: z.string({required_error:'A chave pix não pode ser vazia!'})
@@ -49,11 +56,18 @@ const editUserBankDataSchema = z.object({
 type PersonalEditType = z.infer<typeof editUserPersonalDataSchema>
 type AddressEditType = z.infer<typeof editUserAddressDataSchema>
 type BankEditType = z.infer<typeof editUserBankDataSchema>
+export type ConsultorBankEditType = z.infer<typeof editConsultorBankDataSchema>
 
 export enum UserEditSteps  {
     PersonalData = 'personalData',
     AddressData = 'addressData',
     BankData = 'bankData'
+}
+
+export enum UserEditRole  {
+    NormalUser = 'normalUser',
+    Consultor = 'consultor',
+    UserClient = 'client'
 }
 
 const userEditSchema = z.discriminatedUnion('formType',[
@@ -76,6 +90,7 @@ export type UserEditType = {
     personalData: PersonalEditType,
     addressData:AddressEditType,
     bankData:BankEditType
+    userType: UserEditRole
 }
 
 
