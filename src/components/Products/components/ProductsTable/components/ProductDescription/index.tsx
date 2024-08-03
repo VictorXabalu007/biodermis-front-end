@@ -127,6 +127,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
 
       error(err.response.data.error);
+      setIsEditable(true)
+      setIsEditing(true)
+      setText('Salvar edição')
 
       
     }

@@ -3,11 +3,11 @@ import { RegisterFieldProps } from "../../../../../@types/RegisterFieldsProps";
 import { PatternFormat } from "react-number-format";
 import { Form } from "../../../../../../shared/Form";
 import { Input } from "../../../../../../shared/Input/Input";
-import { UserData } from "../..";
 
 import { InputWrapper } from "../../../../../../Auth/Login/styles";
 import { InputPassword } from "../../../../../../shared/Input/Password";
 import { FormItem } from "../../../../../../shared/Form/FormItem";
+import { UserData } from "../../../../../../../validations/registerUserValidation";
 
 
 

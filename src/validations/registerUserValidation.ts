@@ -60,7 +60,6 @@ const addressDataSchema = z.object({
 
 const bankDataSchema = z.object({
 
-
     agencia: z.string({required_error: 'Número da Agencia é obrigatório para o cadastro'})
     .min(1,'Número da Agencia não pode ser vazio')
     .optional(),
