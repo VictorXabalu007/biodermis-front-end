@@ -11,6 +11,7 @@ import { API_URL } from "../../../../service/url";
 import { api } from "../../../../service/connection";
 import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../service/getHeaders";
+import { isValidUrl } from "../../../../functions/Validators/isLink";
 
 
 type CardBannerRootProps = {
@@ -86,7 +87,7 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
         
     }
 
-    console.log(API_URL+"/"+imagem);
+    const isLink = isValidUrl(imagem)
     
     return (
 
@@ -96,7 +97,7 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
                 cover={
                     <Image
                     alt="example"
-                    src={API_URL+"/"+imagem}
+                    src={isLink ? imagem : API_URL+"/"+imagem}
                     preview={!previewVisible ? false : { visible: previewVisible, onVisibleChange: setPreviewVisible }}
                     style={{
 

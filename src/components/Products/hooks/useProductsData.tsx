@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
 import { API_URL } from "../../../service/url";
+import { isValidUrl } from "../../../functions/Validators/isLink";
 
 
 export const useProductsData = () => {
@@ -42,10 +43,11 @@ export const useProductsData = () => {
 
             const path = p.imagens[0].replace(/\\/g, '\\');
             
+            const isLink = isValidUrl(path)
             
             return {
               ...p,
-              imagePath:API_URL + "/" + path,
+              imagePath: isLink ? path : API_URL + "/" + path,
             }
 
           } else {
