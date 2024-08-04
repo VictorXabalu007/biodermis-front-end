@@ -2,9 +2,9 @@ import { Controller } from "react-hook-form";
 import { Form } from "../../../../shared/Form";
 import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
-import { ProductsData } from "../FormContainer";
 import InputMoney from "../../../../shared/Input/InputNumber";
 import { FormItem } from "../../../../shared/Form/FormItem";
+import { ProductsData } from "../../../../../validations/registerProductValidation";
 
 
 

@@ -2,7 +2,6 @@ import type { UploadFile, UploadProps } from 'antd';
 import {  message, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
-import { ProductsData } from '../FormContainer';
 import { Form } from '../../../../shared/Form';
 import { RegisterFieldProps } from '../../../@types/RegisterFieldsProps';
 import { GetProp } from 'antd/lib';
@@ -10,6 +9,7 @@ import { Ref, forwardRef, useImperativeHandle, useState } from 'react';
 import { FormItem } from '../../../../shared/Form/FormItem';
 import { UploaderWrapper } from './styles';
 import { RcFile } from 'antd/es/upload';
+import { ProductsData } from '../../../../../validations/registerProductValidation';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 

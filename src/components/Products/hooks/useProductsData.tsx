@@ -47,7 +47,7 @@ export const useProductsData = () => {
             
             return {
               ...p,
-              imagePath: isLink ? path : API_URL + "/" + path,
+              imagePath:isLink ? path : API_URL + "/" + path,
             }
 
           } else {

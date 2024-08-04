@@ -2,12 +2,13 @@ import { Controller } from "react-hook-form";
 import { Form } from "../../../../shared/Form";
 import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
-import { ProductsData } from "../FormContainer";
 import TextArea from "antd/es/input/TextArea";
 import { FormItem } from "../../../../shared/Form/FormItem";
-import Select from "../../../../shared/Input/Select";
+
 import { CategoryType } from "../../../../Categories/service/getCategory";
 import { CATEGORIES } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { Select } from "antd";
+import { ProductsData } from "../../../../../validations/registerProductValidation";
 
 
 
@@ -106,11 +107,13 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                                     
                                     />
 
-                                   <Select
-                                    isSearchable
-                                    options={categories}
-                                    onChange={(selectedOption) => onChange(selectedOption?.value)}
-                                   />
+                                <Select
+                                        mode="multiple"
+                                        placeholder="Selecione"
+                                        onChange={(e)=>onChange(e)}
+                                        style={{ width: '100%' }}
+                                        options={categories}
+                                        />
 
                                 </Input.Root>
 
