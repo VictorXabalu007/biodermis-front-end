@@ -1,4 +1,4 @@
-import { Form, Modal, ModalProps, Upload } from "antd";
+import { Form, message, Modal, ModalProps, Upload } from "antd";
 import { FaX } from "react-icons/fa6";
 import { useBannerRegister } from "../hooks/useBannerRegister";
 import { Controller } from "react-hook-form";
@@ -8,6 +8,7 @@ import Select from "../../shared/Input/Select";
 import { UploadProps } from "antd/lib";
 import { BsDownload } from "react-icons/bs";
 import { BannerModalProps } from "../@types/BannerType";
+import { RcFile } from "antd/es/upload";
 
 
 
@@ -16,8 +17,15 @@ const { Dragger } = Upload;
 const props: UploadProps = {
   name: "file",
   multiple: false,
-  beforeUpload: () => {
-    return false;
+  beforeUpload: (file: RcFile) => {
+    const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+    const isValidExtension = /\.(png|jpe?g)$/i.test(file.name);
+
+    if (!isValidType || !isValidExtension) {
+      message.error('Faça upload apenas de arquivos PNG, JPEG, ou JPG!');
+      return Upload.LIST_IGNORE;
+    }
+    return false; 
   },
   accept: "image/png, image/jpeg, image/jpg",
 };

@@ -1,5 +1,5 @@
 import type { UploadFile, UploadProps } from 'antd';
-import {  Upload } from 'antd';
+import {  message, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
 import { ProductsData } from '../FormContainer';
@@ -9,6 +9,7 @@ import { GetProp } from 'antd/lib';
 import { Ref, forwardRef, useImperativeHandle, useState } from 'react';
 import { FormItem } from '../../../../shared/Form/FormItem';
 import { UploaderWrapper } from './styles';
+import { RcFile } from 'antd/es/upload';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -20,11 +21,15 @@ const props: UploadProps = {
   multiple: true,
   accept: "image/png, image/jpeg, image/jpg",
 
+  beforeUpload: (file: RcFile) => {
+    const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type);
+    const isValidExtension = /\.(png|jpe?g)$/i.test(file.name);
 
-  beforeUpload: () => {
-    
-    return false;
-    
+    if (!isValidType || !isValidExtension) {
+      message.error('Faça upload apenas de arquivos PNG, JPEG, ou JPG!');
+      return Upload.LIST_IGNORE;
+    }
+    return false; 
   },
   listType: 'picture-card',
   
