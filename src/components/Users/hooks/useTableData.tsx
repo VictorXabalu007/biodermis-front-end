@@ -11,6 +11,7 @@ import { Flex } from "antd";
 import { MiniImage } from "../../shared/Image/UserImage/miniImage";
 import { getAddress } from "../service/getAddress";
 import { UserData } from "../../../validations/registerUserValidation";
+import { buildStatus } from "../../../functions/buildStatus";
 
 
 const columnsHelper = createColumnHelper<UserCredentials>();
@@ -110,7 +111,13 @@ export const useTableData = () => {
                 filterFn: 'equals'
                 
             }),
-
+            columnsHelper.accessor('status',{
+                id: 'status',
+                header: () => <p>Status</p>,
+                cell: ({getValue, row}) => (
+                    buildStatus(getValue(), row.original,false)
+                )
+            }),
             columnsHelper.display({
                 id: 'actions',
                 header: () => <p>Ações</p> ,

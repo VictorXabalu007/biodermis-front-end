@@ -1,6 +1,6 @@
 import { ColumnFilter, createColumnHelper } from "@tanstack/react-table";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-import { buildStatus } from "../functions/buildStatus";
+import { buildStatus } from "../../../functions/buildStatus";
 import { TableActions } from "../components/TableActions";
 import { IoIosArrowUp } from "react-icons/io";
 import { Text } from "../../shared/Text";

@@ -20,7 +20,6 @@ export type UserCredentials = {
   conta: string;
   cpf: string;
   email: string;
-
   id: number;
   nome: string;
   pix: string;
