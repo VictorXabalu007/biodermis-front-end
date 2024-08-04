@@ -50,6 +50,11 @@ export const buildStatus = (status: UserStatus, data:UserCredentials, enableClic
                     title: 'Em aprovação'
 
                 };
+            default: 
+                return {
+                    className: '',
+                    title:'Não encontrado'
+                }
         
 
     }
