@@ -125,11 +125,6 @@ export const useProductsData = () => {
 
   }
 
-  const getProductsByCategoryId = (id:number) => {
-
-
-    return products.filter(p => p.categoria_id === id) || []
-  }
 
  
   const getGreatherProductPercentualChange = () => {
@@ -159,7 +154,6 @@ export const useProductsData = () => {
     getProductIdByName,
     getImageByPath,
     getProductsById,
-    getProductsByCategoryId,
     allProducts,
     getGreatherProductPercentualChange,
     getProductsByArrayId

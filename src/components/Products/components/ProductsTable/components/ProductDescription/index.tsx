@@ -81,7 +81,16 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
     mutationFn: async (data:ProductsType)=> {
 
       const body = {
-        ...data
+        "nome": data.nome,
+        "descricao":data.descricao,
+        "categoria_ids": data.categoria_ids,
+        "valorvenda" :data.valorvenda,
+        "valormin" :data.valormin,
+        "valormax":data.valormax,
+        "altura" :data.altura,
+        "peso" :data.peso,
+        "largura" : data.largura,
+        "profundidade":data.profundidade,
       }
 
       const headers = getHeaders();
@@ -94,6 +103,8 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
           headers
         });
 
+        console.log('caiu aqui');
+        
         return reqConsult.data
 
       } else {
