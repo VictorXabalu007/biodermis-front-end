@@ -37,5 +37,6 @@ export type Requests = {
     nome_consultor:string
     user_data: UserCredentials
     formaPag: string
+    nomeCliente: string
 
 }

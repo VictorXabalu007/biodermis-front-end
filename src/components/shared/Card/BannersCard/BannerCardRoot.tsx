@@ -1,4 +1,4 @@
-import { Button, Card, Image, Popconfirm, Tooltip } from "antd"
+import { Button, Card, Flex, Image, Popconfirm, Tooltip, Typography } from "antd"
 import { CardProps } from "flowbite-react"
 import {  useState } from "react";
 import { FaEye, FaStar, FaTag, FaTrash } from "react-icons/fa6";
@@ -37,7 +37,7 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
     };
 
     const iconProps:IconBaseProps = {
-        size: 20, className: "mt-5 text-brand-purple" 
+        size: 20, className: "text-brand-purple" 
     }
 
 
@@ -143,11 +143,16 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
                 {contextHolder}
 
             <Meta
-                avatar={<Tooltip title={`Este banner pertence a categoria: ${getCategory()}`}>{getIcon()}</Tooltip>}
-                title={titulo}
 
+                title={<Flex gap={5} align="center">
+                    
+                    <Tooltip title={`Este banner pertence a categoria: ${getCategory()}`}>{getIcon()}</Tooltip>
+                    
+                    <Typography.Title style={{margin:0}} level={5}>
+                        {titulo}
+                    </Typography.Title>
+                </Flex>}
 
-                
             />
                 {children}
                 <BannersComponents.Edit 

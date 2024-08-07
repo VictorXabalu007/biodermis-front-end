@@ -84,7 +84,6 @@ export const useTableData = () => {
         ),
       });
     };
-
     
     
     const columnHelper = createColumnHelper<Requests>();
@@ -170,7 +169,12 @@ export const useTableData = () => {
               return (getValue())
             },
         }),
-    
+        columnHelper.accessor('nomeCliente',{
+            header: () => <p>Cliente</p>,
+            cell: ({getValue}) => {
+              return getValue()
+            },
+        }),
         columnHelper.accessor('statuspag',{
             header: () => <p>Status pagamento</p>,
             cell: ({getValue}) => buildPaymentStatus(getValue()),

@@ -19,7 +19,6 @@ import { getHeaders } from "../../../service/getHeaders";
 import { Image } from "antd/lib";
 import { useCategoriesData } from "../../Categories/hooks/useCategoriesData";
 
-
 const columnHelper = createColumnHelper<ProductsType>();
 
 export const useTableData = () => {
@@ -54,7 +53,6 @@ export const useTableData = () => {
   const handleCancel = () => {
     Modal.destroyAll();
   };
-
 
   const { confirm } = Modal;
 
