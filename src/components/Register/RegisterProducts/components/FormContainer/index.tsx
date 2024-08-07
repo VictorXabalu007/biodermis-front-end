@@ -87,7 +87,7 @@ export const FormContainer = () => {
                 "peso": data.weight,
                 "largura": data.width,
                 "profundidade": data.depth,
-                "categoria_id": data.category[0]
+                "categoria_ids": data.category
 
             }
             
@@ -108,8 +108,6 @@ export const FormContainer = () => {
             setId(res.idProduct)
             setSuccess(true)
             success(res.success);
-
-    
             onReset();
        
         },

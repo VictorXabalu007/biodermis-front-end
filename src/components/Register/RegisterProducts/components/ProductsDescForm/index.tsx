@@ -12,7 +12,6 @@ import { ProductsData } from "../../../../../validations/registerProductValidati
 
 
 
-
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
 
     const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []

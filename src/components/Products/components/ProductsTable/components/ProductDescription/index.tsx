@@ -13,8 +13,7 @@ import { api } from "../../../../../../service/connection";
 import { isConsultor } from "../../../../../../functions/Validators/ValidateConsultor/isConsultor";
 import { useMessageAction } from "../../../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../../../service/getHeaders";
-import { Flex, Image } from "antd";
-import Select from "../../../../../shared/Input/Select";
+import { Flex, Image, Select } from "antd";
 import { CATEGORIES } from "../../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { CategoryType } from "../../../../../Categories/service/getCategory";
 
@@ -27,7 +26,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
   const productNameRef = useRef<HTMLInputElement>(null);
   
   const {contextHolder, success, error} = useMessageAction();
-
   
   const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
 
@@ -39,11 +37,9 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
   });
 
-
   const [fields, setFields] = useState<ProductsType>({
     ...data,
   });
-
 
 
   const handleBlur = (fieldName: keyof ProductsType) => {
@@ -60,7 +56,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
     };
 
   };
-
 
   const [text, setText] = useState('Editar produto');
 
@@ -152,7 +147,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
     }))
 ]
 
-  const categoryIndex = categories.findIndex(c => c.value === fields.categoria_id)
+  // const categoryIndex = categories.findIndex(c => c.value === fields.categoria_id)
 
 
   return (
@@ -184,7 +179,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
               <Button.Root 
                   onClick={handleClick}
-                  style={{borderRadius: '0 0 5px 5px'}} 
+                  style={{borderRadius: '5px 5px 0'}} 
                   className="flex-1 w-full m-0"
                   htmlType="submit"
               >
@@ -352,8 +347,8 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
               <Controller 
               
               control={control}
-              name="categoria_id"
-              render={({field:{onChange}})=> (
+              name="categoria_ids"
+              render={({field:{onChange,value}})=> (
 
               <Form.InputWrapper>
                 <InputRoot>
@@ -363,15 +358,17 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
                     className="text-gray-neutral-400"
                   />
 
+
                   <Select
-                        isSearchable
-                        options={categories}
-                        defaultValue={categories[categoryIndex]}
-                        onChange={(selectedOption) => onChange(selectedOption?.value)}
-                        isDisabled={!isEditable}
+                    style={{
+                      width:'250px'
+                    }}
+                    options={categories}
+                    mode="multiple"
+                    onChange={(selectedOption) => onChange(selectedOption)}
+                    disabled={!isEditable}
+                    value={value ? value : [...fields.categoria_ids,value]}
                   />
-
-
 
                   
                 </InputRoot>

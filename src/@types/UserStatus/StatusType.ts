@@ -1,4 +1,4 @@
 
 
 
-export type UserStatus = "isAtivo" | "Inativo" | "inativo" | "Em aprovação";
+export type UserStatus = "isAtivo" | "Ativo" | "Inativo" | "inativo" | "Em aprovação";

@@ -1,8 +1,5 @@
 
 
-
-
-
 import { BrowserRouter } from 'react-router-dom'
 import { AppProvider } from './context'
 import { AppRoutes } from './routes'
@@ -11,8 +8,6 @@ import { RouteChangeListener } from './routerChangeListener'
 
 
 function App() {
-
-
 
   return (
 

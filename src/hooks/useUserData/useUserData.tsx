@@ -13,7 +13,7 @@ export const useUserData = () => {
     });
 
 
-    const [user ,setUser] = useState<UserCredentials[]>([]);
+    const [user,setUser] = useState<UserCredentials[]>([]);
 
     useEffect(()=> {
         if(data){
@@ -22,7 +22,6 @@ export const useUserData = () => {
     },[data]);
 
     const getUserNameById = (id:number) => {
-
 
         return user.find(u => u.id === id)?.nome || 'Nome não encontrado'
 
@@ -35,7 +34,7 @@ export const useUserData = () => {
     return {
         user,
         getUserNameById,
-        getUserById
+        getUserById,
     }
 
 }

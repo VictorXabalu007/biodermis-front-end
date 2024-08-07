@@ -6,7 +6,7 @@ import { getHeaders } from "../../../service/getHeaders";
 
 export type ProductsType = {
   altura: string;
-  categoria_id: number;
+  categoria_ids: number[];
   descricao: string;
   estoque: number;
   id: number;

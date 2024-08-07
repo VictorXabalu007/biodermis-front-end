@@ -80,9 +80,9 @@ export const FormContainer = () => {
 
             
         },
-        onSuccess: (res) => {
+        onSuccess: () => {
             
-            success(res.success);
+            success('Usuário cadastrado com sucesso!');
             onReset();
         },
         onError: (err:any)=> {

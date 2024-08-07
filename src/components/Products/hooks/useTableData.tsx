@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-
 import { Button, Checkbox, Flex, Modal } from "antd";
 import { FaTrash } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from "react-icons/io";
@@ -56,7 +55,6 @@ export const useTableData = () => {
     Modal.destroyAll();
   };
 
-  
 
   const { confirm } = Modal;
 
@@ -186,16 +184,15 @@ export const useTableData = () => {
           
         },
       }),
-      columnHelper.accessor("categoria_id", {
-        id: "categoria_id",
+      columnHelper.accessor("categoria_ids", {
+        id: "categoria_ids",
         header: () => <p>SKU</p>,
         cell: ({ getValue }) => {
           return (
             <p>{getCategoryNameById(getValue())}</p>
           )
-        }
-      ,
-        filterFn: 'equals'
+        },
+        filterFn: 'arrIncludes'
       }),
       columnHelper.accessor("nome", {
         id: "productName",

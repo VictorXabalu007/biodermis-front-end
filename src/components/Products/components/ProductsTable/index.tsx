@@ -20,7 +20,7 @@ export const ProductsTable = () => {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
     const {products, columns, setProducts, isLoading, contextHolder} = useTableData();
-    
+
     const table = useReactTable<ProductsType>({
 
         data: products,
@@ -46,7 +46,9 @@ export const ProductsTable = () => {
                     } : row
                 )
             )
-        }
+        },
+    
+        
 
     });
 

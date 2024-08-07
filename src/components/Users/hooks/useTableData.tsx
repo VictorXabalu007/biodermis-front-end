@@ -62,8 +62,6 @@ export const useTableData = () => {
                 } else {
                     return {
                         ...d,
-                        //@ts-ignore
-                        status: d.status === 'Ativo' ? 'isAtivo' : d.status
                     }
                 }
             }));
@@ -73,7 +71,6 @@ export const useTableData = () => {
             
     },[data,userAddress,address])
 
-    console.log(data);
     
     const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
 

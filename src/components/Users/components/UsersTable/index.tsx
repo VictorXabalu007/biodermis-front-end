@@ -25,6 +25,8 @@ export const UsersTable = () => {
          setSorting,
          isLoading
     } = useTableData();
+
+    console.log(users);
     
     const table = useReactTable<UserCredentials>({
 

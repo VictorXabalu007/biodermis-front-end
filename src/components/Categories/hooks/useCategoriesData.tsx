@@ -32,7 +32,6 @@ export const useCategoriesData = () => {
 
     },[categories]);
 
-
     const { confirm } = Modal;
 
   const showConfirmModal = (
@@ -70,13 +69,11 @@ export const useCategoriesData = () => {
   };
 
 
-  const getCategoryNameById = (id:number) => {
-
-
-    const name = data.find(c => c.id === id);
+  const getCategoryNameById = (ids:number[]) => {
     
-    return name?.categoria;
-
+    const names = data.filter(d => ids.includes(d.id))
+    
+    return names.flatMap(d => d.categoria).join(', ');
 
   }
 
@@ -97,8 +94,6 @@ export const useCategoriesData = () => {
     ];
 
   };
-
-
 
 
     return {

@@ -19,7 +19,8 @@ import { ContainerPagination } from "../../../shared/Pagination/ContainerPaginat
 import { usePagination } from "../../../../hooks/usePagination/usePagination";
 
 
-const PAGE_SIZE  = 9
+const PAGE_SIZE  = 9;
+
 export const CardContainer = () => {
 
     const {
@@ -44,8 +45,6 @@ export const CardContainer = () => {
     const handleClose = () => {
         Modal.destroyAll()
     }
-
-    
 
 
     const paginationItems = usePagination({data,pageSize: PAGE_SIZE})
@@ -153,7 +152,7 @@ export const CardContainer = () => {
                     <>
 
                         <CardsFilter 
-                            data={data}
+                            data={data ?? []}
                             setData={setData}
                         />
 

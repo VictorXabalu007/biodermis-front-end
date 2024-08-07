@@ -11,7 +11,7 @@ import { CategoryType } from "../../service/getCategory";
 import { Dispatch, useEffect, useState } from "react";
 
 type CardFilterProps = {
-    data:CategoryType[],
+    data:CategoryType[] | undefined,
     setData:Dispatch<React.SetStateAction<CategoryType[]>>
 }
 
@@ -22,10 +22,12 @@ export const CardsFilter = ({data,setData}:CardFilterProps) => {
     const [categoryName, setCategoryName] = useState<string>('');
   
     useEffect(() => {
-      if (data && initialData.length === 0) {
+
+      if (data && data?.length > 0 && initialData.length === 0) {
         setInitialData(data);
       }
-    }, [data, initialData.length]);
+    
+    }, []);
   
     useEffect(() => {
       if (categoryName.trim() === '') {
@@ -43,16 +45,13 @@ export const CardsFilter = ({data,setData}:CardFilterProps) => {
       setCategoryName(categoria);
     };
 
-
     const {confirm} = Modal;
 
     const handleClose = () => {
         Modal.destroyAll();
     }
-
     
     const showRegisterModal = () => {
-
 
         confirm({
             content: <FormModal handleClose={handleClose} />,
@@ -62,7 +61,6 @@ export const CardsFilter = ({data,setData}:CardFilterProps) => {
             okButtonProps: {className: 'hidden'}, 
             cancelButtonProps: {className: 'hidden'},
         })
-
 
     }
 

@@ -47,9 +47,10 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
     const handleCategoriesChange = (selectedOption: { value: string | number; label: string } | null) => {
         const categoryId = selectedOption?.value;
         if (categoryId === '') {
-          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id'));
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_ids'));
         } else {
-          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id').concat({ id: 'categoria_id', value: Number(categoryId) }));
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_ids')
+          .concat({ id: 'categoria_ids', value: Number(categoryId) }));
         }
 
         
@@ -59,9 +60,11 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
         if (state.categoria_id !== null) {
 
-          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_id').concat({ id: 'categoria_id', value: state.categoria_id }));
+          setColumnFilters(prev => prev.filter(f => f.id !== 'categoria_ids')
+          .concat({ id: 'categoria_ids', value: state.categoria_id }));
           
         }
+
       }, [state.categoria_id]);
 
 
