@@ -25,11 +25,12 @@ export const useTableData = () => {
 
     const {getConsultorName, data,setData,isError, isLoading} = useRequestsData();
 
-      
+    
     const {
       contextHolder, 
       success, 
       error} = useMessageAction()
+
 
     const [requestsData, setRequestsData] = useState<Requests[]>([]);
 
@@ -172,7 +173,7 @@ export const useTableData = () => {
         columnHelper.accessor('nomeCliente',{
             header: () => <p>Cliente</p>,
             cell: ({getValue}) => {
-              return getValue()
+              return getValue() || 'Não disponível'
             },
         }),
         columnHelper.accessor('statuspag',{

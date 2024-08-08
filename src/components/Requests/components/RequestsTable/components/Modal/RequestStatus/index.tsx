@@ -12,6 +12,7 @@ import { queryClient } from "../../../../../../../service/queryClient"
 export const RequestStatus = ({requests}:{requests:Requests}) => {
     
 
+    console.log(requests);
     
 
     return (

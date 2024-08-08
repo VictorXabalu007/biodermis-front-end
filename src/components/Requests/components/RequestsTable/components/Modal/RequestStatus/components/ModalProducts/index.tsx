@@ -8,12 +8,14 @@ import { Flex, Image } from "antd"
 export const ModalProducts = ({products}:{products: ProductsType[]}) => {
 
 
-    const productCounts = products.reduce((acc, product) => {
+    const productCounts = products?.reduce((acc, product) => {
         if (product) {
             acc[product.id] = (acc[product.id] || 0) + 1;
         }
         return acc;
-    }, {} as { [key: number]: number });
+    }, {} as { [key: number]: number }) || 0
+
+    
 
 
     return (

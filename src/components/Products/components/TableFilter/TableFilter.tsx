@@ -149,7 +149,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                                 onChange={(e)=> {
                                     handleCategoriesChange(e)
                                 }}
-                                className="w-full md:w-[200px]"
+                                className="w-full md:w-[250px]"
                                 
                                 
                             />

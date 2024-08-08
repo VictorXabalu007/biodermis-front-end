@@ -7,22 +7,19 @@ import {
   RefinedRangeDate,
   useRangeDate,
 } from "../../../context/RangeDate/RangeDateContext";
-import { isConsultor } from "../../../functions/Validators/ValidateConsultor/isConsultor";
-import { getUserData } from "../../../functions/Getters/getUser";
 import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
 import { parseDate } from "../../../functions/Date/parseData";
-import { ProductsType, getProducts } from "../../Products/service/getProducts";
+import { ProductsType } from "../../Products/service/getProducts";
 import {
   parse,
   getMonth,
   getYear,
 } from "date-fns";
+import { useProductsData } from "../../Products/hooks/useProductsData";
 
-import { API_URL } from "../../../service/url";
 
 export type RequestStatusChange = "no change" | "increase" | "decrease";
-
 
 export const useRequestsData = ({
   enableFilterDate = true,
@@ -36,7 +33,7 @@ export const useRequestsData = ({
   const {
     data: requests,
     isError,
-    isLoading,
+    isLoading:requestsLoading,
   } = useQuery<Requests[]>({
     queryKey: ["requests_products"],
     queryFn: async () => {
@@ -46,60 +43,63 @@ export const useRequestsData = ({
         headers,
       });
 
-      const products = await getProducts();
 
-      if (isConsultor()) {
-        const user = getUserData();
-        const newData = req.data
-          .filter((r) => r.consultor_id === user.usuario.id)
-          .map((d) => ({
-            ...d,
-            products: d.produtos_ids
-              .map((id) => products.find((p) => p.id === id))
-              .map((p) => {
-                const path = p!.imagens[0].replace(/\\/g, "\\");
-
-                return {
-                  ...p,
-                  imagePath: API_URL + "/" + path,
-                };
-              }) as ProductsType[],
-          }));
-
-        return newData;
-      } else {
-        return req.data.map((d) => ({
-          ...d,
-          products: d.produtos_ids
-            .map((id) => products.find((p) => p.id === id))
-            .map((p) => {
-              const path = p!.imagens[0].replace(/\\/g, "\\");
-
-              return {
-                ...p,
-                imagePath: URL + "/" + path,
-              };
-            }) as ProductsType[],
-        }));
-      }
+      return req.data
+      
     },
+
   });
+
+  const {products,isLoading:productsLoading} = useProductsData();
+
+
+  const isLoading = productsLoading || requestsLoading
 
   const { state, getDates } = useRangeDate();
   const [dates, setDates] = useState<RefinedRangeDate>();
   const [data, setData] = useState<Requests[]>([]);
-
+  
   useEffect(() => {
-    if (requests) {
-      setData(
-        requests.sort((a, b) => {
-          const dateA = parseDate(a.datapedido);
-          const dateB = parseDate(b.datapedido);
-          return dateB.getTime() - dateA.getTime();
-        })
-      );
+
+    if (requests && products) {
+
+      const newData = requests.sort((a, b) => {
+        const dateA = parseDate(a.datapedido);
+        const dateB = parseDate(b.datapedido);
+        return dateB.getTime() - dateA.getTime();
+      }).map(req => ({
+        ...req,
+          products: req.produtos_ids
+            .map((id) => products.find((p) => p.id === id))
+            .map((p) => {
+             
+              if(p?.imagens) {
+                const path = p?.imagens[0].replace(/\\/g, "\\") 
+                return {
+                  ...p,
+                  imagePath: (URL + "/" + path) ,
+                };
+              } else {
+                return {
+                  ...p,
+                  imagePath:'' ,
+                }
+              }
+          
+            }) as ProductsType[],
+   
+      }))
+
+
+      setData(newData);
+
     }
-  }, [requests]);
+
+    
+    
+  }, [requests,products]);
+
+  
 
   const getRequestDataOfConsultorId = (id: number) => {
     return data.filter((d) => d.consultor_id === id);
@@ -126,7 +126,7 @@ export const useRequestsData = ({
 
       setData(filteredData);
     } else if (requests) {
-      setData(requests);
+      setData(prev => prev);
     }
   }, [dates, requests]);
 

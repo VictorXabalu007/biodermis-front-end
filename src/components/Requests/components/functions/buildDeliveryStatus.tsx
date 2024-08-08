@@ -6,7 +6,6 @@ import { Requests } from "../@types/Requests";
 
 
 
-
 export const buildDeliveryStatus = (status:string,data:Requests) => {
 
     const {showRequestEditor} = useModalComponent({id: data.id, data});
@@ -14,7 +13,7 @@ export const buildDeliveryStatus = (status:string,data:Requests) => {
     
     switch(status) {
 
-        case 'em andamento':
+        case "pendente":
             return (
                 <Tag
                 onClick={()=> {
