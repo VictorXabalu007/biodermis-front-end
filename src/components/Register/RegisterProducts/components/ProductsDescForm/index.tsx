@@ -2,13 +2,13 @@ import { Controller } from "react-hook-form";
 import { Form } from "../../../../shared/Form";
 import { Input } from "../../../../shared/Input/Input";
 import { RegisterFieldProps } from "../../../@types/RegisterFieldsProps";
-import TextArea from "antd/es/input/TextArea";
 import { FormItem } from "../../../../shared/Form/FormItem";
 
 import { CategoryType } from "../../../../Categories/service/getCategory";
 import { CATEGORIES } from "../../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Select } from "antd";
 import { ProductsData } from "../../../../../validations/registerProductValidation";
+import { QuillInput } from "../../../../shared/Input/QuillInput";
 
 
 
@@ -130,7 +130,7 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                     
                     control={control}
                     name="description"
-                    render={({field:{onChange}})=> {
+                    render={({field})=> {
 
                         return (
 
@@ -144,18 +144,39 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
 
                             <label
                             htmlFor="description"
+                  
                             >
                                 Descrição
                             </label>
                             
-                            <TextArea 
-                            className="hover:border-brand-purple"
-                            style={{resize: 'none'}}
-                            placeholder="Produto com..."
-                            rows={4} 
-                            onChange={onChange}
-                            id="description"
-                            />
+                                {/* <TextArea 
+                                className="hover:border-brand-purple"
+                                style={{resize: 'none'}}
+                                placeholder="Produto com..."
+                                rows={4} 
+                                onChange={onChange}
+                                id="description"
+                                /> */}
+
+                                <QuillInput
+                                    className="mt-2"
+                                    id="description"
+                                    placeholder="Produto com..."
+                                    onChange={(___, __, _, editor) => {
+                                        
+
+                                        const text = editor.getHTML();
+
+                                        console.log(text);
+                                        
+                                        if(text === '<p><br></p>') {
+                                            field.onChange('')
+                                        } else {
+                                            field.onChange(text);
+                                        }
+                                    
+                                    }}
+                                />
 
                             
                             </FormItem>
