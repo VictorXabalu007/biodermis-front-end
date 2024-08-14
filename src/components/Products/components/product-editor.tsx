@@ -1,4 +1,7 @@
-import { Col, Empty, Flex, Form, Image, Input, InputRef, Row, Select, Typography } from "antd";
+import {
+  Col, Empty, Flex, Form,
+  Image, Input, InputRef, Popconfirm, Row, Select, Typography, Upload
+} from "antd";
 import { useParams } from "react-router-dom";
 import { SubHeader } from "../../shared/SubHeader";
 import { useEffect, useRef, useState } from "react";
@@ -13,20 +16,31 @@ import { QuillInput } from "../../shared/Input/QuillInput";
 import { Button } from "../../shared/Button";
 import { useProductUpdate } from "../hooks/useProductUpdate";
 import { API_URL } from "../../../service/url";
+import { useUpload } from "../../../hooks/useUpload";
+import { useImageUpload } from "../hooks/useImageUpload";
+import { UploadFile } from "antd/lib";
 
 const ProductEditor = () => {
-
   const { id } = useParams();
-
   const { products } = useProductsData();
+  const [currentProduct, setCurrentProduct] = useState<ProductsType>({} as ProductsType);
 
-  const [currentProduct, setCurrentProduct] = useState<ProductsType>(
-    {} as ProductsType
-  );
+  const [initialData,setInitialData] = useState({} as ProductsType)
+  const {
+    fileList,
+    handlePreview,
+    previewImage,
+    previewOpen,
+    uploadButton,
+    setFileList,
+    handleUpload,
+    setPreviewOpen,
+    setPreviewImage
+  } = useUpload({ initialImage: currentProduct.imagens });
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const dataCategories: CategoryType[] =
-    JSON.parse(sessionStorage.getItem(CATEGORIES) ?? "{}") || [];
+  const dataCategories: CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? "{}") || [];
 
   const categories = [
     ...dataCategories.map((d) => ({
@@ -42,6 +56,7 @@ const ProductEditor = () => {
       if (product) {
         setCurrentProduct(product);
         setIsLoading(false);
+        setInitialData(product)
       } else {
         setIsLoading(false);
         setCurrentProduct({} as ProductsType);
@@ -49,8 +64,6 @@ const ProductEditor = () => {
     }
   }, [id, products]);
 
-  const [isEditable, setIsEditable] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const productNameRef = useRef<InputRef>(null);
 
   const {
@@ -58,24 +71,48 @@ const ProductEditor = () => {
     control,
     contextHolder,
     setValue,
+    errors,
+    reset,
     updateProductMutation
   } = useProductUpdate({
-    data:currentProduct,
-    id:currentProduct.id,
-    isEditing,
-  })
+    data: currentProduct,
+    id: currentProduct.id,
+    isEditing: true,
+  });
 
-  
-  const onSubmit = (data:ProductsType) => {
-    
+  const {
+    uploadImageMutation,
+    imageContextHolder,
+    deleteImageMutation
+  } = useImageUpload({ id: currentProduct.id });
+
+  const handleRemove = async (file: UploadFile) => {
+    setFileList(prevFileList => prevFileList.filter(item => item.uid !== file.uid));
+    deleteImageMutation.mutate(currentProduct.id);
+  };
+
+  const onSubmit = (data: ProductsType) => {
     updateProductMutation.mutate(data);
-    setIsEditable(!isEditable)
-    setIsEditing(!isEditing)
+    uploadImageMutation.mutate(fileList);
+  };
 
-  }
+  const handleCancel = () => {
+    setCurrentProduct(initialData);
+    
+      setFileList(
+        initialData.imagens.map((image) => ({
+          url: API_URL + "/" + image,
+          uid: image,
+          name: image,
+          status: 'done',
+        }))
+      )
+  
+    reset(initialData); 
+
+  };
 
   useEffect(() => {
-
     if (currentProduct) {
       setValue("nome", currentProduct.nome);
       setValue("altura", currentProduct.altura);
@@ -87,23 +124,20 @@ const ProductEditor = () => {
       setValue("descricao", currentProduct.descricao);
       setValue("categoria_ids", currentProduct.categoria_ids);
       setValue("peso", currentProduct.peso);
+      setValue("imagens", currentProduct.imagens);
     }
-
   }, [currentProduct, setValue]);
 
-  console.log(currentProduct);
-
-  const handleEdit = () => {
-    setIsEditable(!isEditable);
-    setIsEditing(!isEditing);
-    productNameRef.current?.focus();
-  };
+  useEffect(() => {
+    if (currentProduct) {
+      productNameRef.current?.focus();
+    }
+  }, [currentProduct]);
 
   return (
-
     <Row gutter={[32, 32]}>
-
       {contextHolder}
+      {imageContextHolder}
 
       <Col lg={24}>
         <SubHeader heading="Editar produto" linkText="Voltar para produtos" />
@@ -117,11 +151,7 @@ const ProductEditor = () => {
         ) : (
           <>
             <Col lg={12}>
-              <Form 
-                layout="vertical" 
-                initialValues={currentProduct}
-               
-              >
+              <Form layout="vertical" initialValues={currentProduct} onFinish={handleSubmit(onSubmit)}>
                 <Row gutter={[32, 32]}>
                   <Col lg={12}>
                     <Controller
@@ -129,18 +159,16 @@ const ProductEditor = () => {
                       name="nome"
                       defaultValue={currentProduct.nome}
                       render={({ field }) => (
-                        <Form.Item 
-                        
-                        label="Nome"
+                        <Form.Item
+                          label="Nome"
+                          validateStatus={errors.nome ? "error" : undefined}
+                          help={errors.nome?.message}
                         >
                           <Input
                             {...field}
                             value={currentProduct.nome}
                             ref={productNameRef}
-                            disabled={!isEditable}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 nome: e.target.value,
@@ -159,15 +187,16 @@ const ProductEditor = () => {
                       name="altura"
                       defaultValue={currentProduct?.altura}
                       render={({ field }) => (
-                        <Form.Item label="Altura (em cm)">
+                        <Form.Item
+                          label="Altura (em cm)"
+                          validateStatus={errors.altura ? "error" : undefined}
+                          help={errors.altura?.message}
+                        >
                           <Input
                             {...field}
-                            disabled={!isEditable}
                             type="number"
                             value={currentProduct?.altura}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 altura: e.target.value,
@@ -186,15 +215,16 @@ const ProductEditor = () => {
                       name="profundidade"
                       defaultValue={currentProduct?.profundidade}
                       render={({ field }) => (
-                        <Form.Item label="Profundidade (em cms)">
+                        <Form.Item
+                          label="Profundidade (em cm)"
+                          validateStatus={errors.profundidade ? "error" : undefined}
+                          help={errors.profundidade?.message}
+                        >
                           <Input
                             {...field}
-                            disabled={!isEditable}
                             type="number"
                             value={currentProduct?.profundidade}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 profundidade: e.target.value,
@@ -213,15 +243,16 @@ const ProductEditor = () => {
                       name="largura"
                       defaultValue={currentProduct?.largura}
                       render={({ field }) => (
-                        <Form.Item label="Largura (em cms)">
+                        <Form.Item
+                          label="Largura (em cm)"
+                          validateStatus={errors.largura ? "error" : undefined}
+                          help={errors.largura?.message}
+                        >
                           <Input
                             {...field}
-                            disabled={!isEditable}
                             type="number"
                             value={currentProduct?.largura}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 largura: e.target.value,
@@ -239,7 +270,11 @@ const ProductEditor = () => {
                       control={control}
                       name="valorvenda"
                       render={({ field }) => (
-                        <Form.Item label="Preço de venda (em R$)">
+                        <Form.Item
+                          label="Preço de venda (em R$)"
+                          validateStatus={errors.valorvenda ? "error" : undefined}
+                          help={errors.valorvenda?.message}
+                        >
                           <InputMoney
                             className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                             value={parseFloat(currentProduct.valorvenda)}
@@ -251,7 +286,6 @@ const ProductEditor = () => {
                               field.onChange(e.target.value);
                             }}
                             prefix={"R$"}
-                            readOnly={!isEditable}
                           />
                         </Form.Item>
                       )}
@@ -264,18 +298,19 @@ const ProductEditor = () => {
                       name="valormin"
                       defaultValue={currentProduct?.valormin}
                       render={({ field }) => (
-                        <Form.Item label="Preço mínimo (em R$)">
+                        <Form.Item
+                          label="Preço mínimo (em R$)"
+                          validateStatus={errors.valormin ? "error" : undefined}
+                          help={errors.valormin?.message}
+                        >
                           <InputMoney
                             {...field}
                             className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                             prefix="R$"
                             value={parseFloat(currentProduct.valormin)}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               field.onChange(e.target.value);
                             }}
-                            readOnly={!isEditable}
                           />
                         </Form.Item>
                       )}
@@ -288,21 +323,22 @@ const ProductEditor = () => {
                       name="valormax"
                       defaultValue={currentProduct?.valormax}
                       render={({ field }) => (
-                        <Form.Item label="Preço máximo (em R$)">
+                        <Form.Item
+                          label="Preço máximo (em R$)"
+                          validateStatus={errors.valormax ? "error" : undefined}
+                          help={errors.valormax?.message}
+                        >
                           <InputMoney
                             className="rounded-md border py-2 px-2 border-gray-neutral-200 hover:border-gray-neutral-400 focus:border-gray-neutral-400 focus:outline-none"
                             prefix="R$"
                             value={parseFloat(currentProduct.valormax)}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => {
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 valormax: e.target.value,
                               }));
                               field.onChange(e.target.value);
                             }}
-                            readOnly={!isEditable}
                           />
                         </Form.Item>
                       )}
@@ -314,22 +350,17 @@ const ProductEditor = () => {
                       control={control}
                       name="categoria_ids"
                       render={({ field }) => (
-                        <Form.Item label="Categorias">
+                        <Form.Item
+                          label="Categorias"
+                          validateStatus={errors.categoria_ids ? "error" : undefined}
+                          help={errors.categoria_ids?.message}
+                        >
                           <Select
-                            style={{
-                              width: "250px",
-                            }}
+                            style={{ width: "250px" }}
                             options={categories}
                             mode="multiple"
-                            onChange={(selectedOption) =>
-                              field.onChange(selectedOption)
-                            }
-                            disabled={!isEditable}
-                            value={
-                              Array.isArray(field.value)
-                                ? field.value
-                                : currentProduct.categoria_ids || []
-                            }
+                            onChange={(selectedOption) => field.onChange(selectedOption)}
+                            value={Array.isArray(field.value) ? field.value : currentProduct.categoria_ids || []}
                           />
                         </Form.Item>
                       )}
@@ -342,12 +373,15 @@ const ProductEditor = () => {
                       name="peso"
                       defaultValue={currentProduct?.peso}
                       render={({ field }) => (
-                        <Form.Item label="Peso">
+                        <Form.Item
+                          label="Peso"
+                          validateStatus={errors.peso ? "error" : undefined}
+                          help={errors.peso?.message}
+                        >
                           <Input
                             {...field}
                             value={currentProduct?.peso}
-                            disabled={!isEditable}
-                            onChange={(e)=>{
+                            onChange={(e) => {
                               setCurrentProduct((prev) => ({
                                 ...prev,
                                 peso: e.target.value,
@@ -364,14 +398,17 @@ const ProductEditor = () => {
                       control={control}
                       name="descricao"
                       render={({ field }) => (
-                        <Form.Item label="Descrição">
+                        <Form.Item
+                          label="Descrição"
+                          validateStatus={errors.descricao ? "error" : undefined}
+                          help={errors.descricao?.message}
+                        >
                           <QuillInput
                             className="mt-2"
                             id="description"
                             value={currentProduct.descricao}
                             onChange={(___, __, _, editor) => {
                               const text = editor.getHTML();
-
                               if (text !== currentProduct.descricao) {
                                 if (text === "<p><br></p>") {
                                   field.onChange("");
@@ -395,118 +432,105 @@ const ProductEditor = () => {
                   </Col>
 
                   <Col lg={24}>
+                    <Flex gap={15}>
+                      <Button.Root
+                        className="w-1/3"
+                        htmlType="submit"
+                        aria-label="submit fields"
+                      >
+                        <Button.Wrapper>
+                          <Button.Content content="Enviar" />
+                        </Button.Wrapper>
+                      </Button.Root>
+                      
 
-                    {isEditing ? (
-                      <Flex gap={15}>
-                        <Button.Root
-                          className="w-1/3"
-                          htmlType="submit"
-                          aria-label="submit fields"
-                          onClick={handleSubmit(onSubmit)}
-                        >
-                          <Button.Wrapper>
-                            <Button.Content content="Enviar" />
-                          </Button.Wrapper>
-                        </Button.Root>
+                      <Popconfirm
+                        title="Deseja mesmo cancelar?"
+                        onConfirm={handleCancel}
+                        
+                      >
 
                         <Button.Root
                           className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
                           htmlType="reset"
                           aria-label="reset fields"
+                          disabled={initialData === currentProduct}
                         >
                           <Button.Wrapper>
-                            <Button.Content content="cancelar" />
+                            <Button.Content content="Cancelar" />
                           </Button.Wrapper>
                         </Button.Root>
-                      </Flex>
-                    ) : (
-                      <Flex>
-                        <Button.Root
-                          className="w-1/3"
-                          htmlType="button"
-                          aria-label="enable editing"
-                          onClick={handleEdit}
-                        >
-                          <Button.Wrapper>
-                            <Button.Content content="editar" />
-                          </Button.Wrapper>
-                        </Button.Root>
-                      </Flex>
-                    )}
+
+
+                      </Popconfirm>
+                    </Flex>
                   </Col>
                 </Row>
               </Form>
             </Col>
 
             <Col lg={12}>
-            
-                <Row>
-                    
+              <Row>
+                <Col lg={24}>
+                  <Flex>
+                    <Flex gap={4}>
+                      <Typography.Title>
+                        {currentProduct?.nome}
+                      </Typography.Title>
+                    </Flex>
+                  </Flex>
+                </Col>
+
+                <Col lg={24}>
+                  <Row>
                     <Col lg={24}>
-
-                      <Flex>
-
-
-                        <Flex gap={4}>
-
-                          <Typography.Title>
-                            {currentProduct?.nome}
-                          </Typography.Title>
-
-                        </Flex>
-
-
-                      </Flex>
-
+                      <Controller
+                        control={control}
+                        name="imagens"
+                        defaultValue={currentProduct.imagens}
+                        render={({ field }) => (
+                          <>
+                            <Upload
+                              action={API_URL + '/upload'}
+                              listType="picture-card"
+                              fileList={fileList}
+                              onPreview={handlePreview}
+                              onChange={(file) => {
+                                handleUpload(file);
+                                field.onChange(file.fileList);
+                              }}
+                              onRemove={(file) => {
+                                handleRemove(file);
+                                field.onChange(file);
+                              }}
+                              beforeUpload={() => false}
+                            >
+                              {fileList.length >= 8 ? null : uploadButton}
+                            </Upload>
+                            {previewImage && (
+                              <Image
+                                wrapperStyle={{ display: 'none' }}
+                                preview={{
+                                  visible: previewOpen,
+                                  onVisibleChange: (visible) => setPreviewOpen(visible),
+                                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                                }}
+                                src={previewImage}
+                              />
+                            )}
+                          </>
+                        )}
+                      />
                     </Col>
-
-                    <Col lg={24}>
-
-                      {currentProduct.imagens ? (
-                        <>
-                          <Row gutter={[16,16]}>
-                          {currentProduct.imagens.map((image,index)=> (
-
-                              <Col lg={8}>
-                                
-                                <Image 
-                                  key={index}
-                                  height={"150px"}
-                                  src={API_URL + "/" + image} 
-                                  alt={image} 
-                                  fallback="https://via.placeholder.com/150"
-                                  className="rounded-md m-0"
-                                  style={
-                                    {
-                                      borderRadius: '10px',
-                                      maxHeight: '200px',
-                                      objectFit:'cover'
-                                    }}
-                                  
-                                />
-
-                              </Col>
-                         
-                          ))}
-                             </Row>
-                        </>
-                      ) : (
-                        <Empty 
-                          description="Imagens não encontradas"
-                        />
-                      )}
-                    </Col>
-                </Row>
-            
+                  </Row>
+                </Col>
+              </Row>
             </Col>
           </>
         )
       ) : (
-
         <Empty description="Produto não encontrado" />
-
       )}
-      
     </Row>
   );
 };

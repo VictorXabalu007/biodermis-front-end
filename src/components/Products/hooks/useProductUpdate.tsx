@@ -20,7 +20,7 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
     
     const [result,setResult] = useState({success:false,finish:false})
     const {contextHolder, success, error} = useMessageAction();
-    const {control, handleSubmit,setValue,formState:{errors}} = useForm<ProductsType>({
+    const {control, handleSubmit,setValue,formState:{errors},reset} = useForm<ProductsType>({
         mode:'all',
         criteriaMode:'all',
         defaultValues: {
@@ -70,6 +70,7 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
         contextHolder,
         setValue,
         errors,
-        updateProductMutation
+        updateProductMutation,
+        reset
     }
 }

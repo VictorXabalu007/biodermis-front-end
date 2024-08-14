@@ -36,6 +36,8 @@ const updateProductSchema = z.object({
       peso: z
       .string({ required_error: 'O peso é obrigatório' })
       .min(0, { message: "O peso deve ser maior que 0" }),
+      imagens: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos uma imagem'),
+      {required_error: 'Pelo menos uma imagem deve ser cadastrada!'}).refine(arr => arr.length !== 0, 'Pelo menos uma imagem é necessária!')
   });
 
 export {
