@@ -1,12 +1,10 @@
 import { useEffect, useMemo } from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
-import { Button, Checkbox, Flex, Modal } from "antd";
-import { FaTrash } from "react-icons/fa6";
-import { IoIosArrowDown, IoIosArrowUp, IoMdClose } from "react-icons/io";
+import { Button, Checkbox, Flex, Modal, Popconfirm, Tooltip } from "antd";
+import { FaEye, FaTrash } from "react-icons/fa6";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import styled from "styled-components";
-import { BRAND_PURPLE } from "../../../constants/classnames/classnames";
-import { ButtonWrapper } from "../style/styles";
 import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ProductsType } from "../service/getProducts";
@@ -18,10 +16,13 @@ import { useProductsData } from "./useProductsData";
 import { getHeaders } from "../../../service/getHeaders";
 import { Image } from "antd/lib";
 import { useCategoriesData } from "../../Categories/hooks/useCategoriesData";
+import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper<ProductsType>();
 
 export const useTableData = () => {
+
+  const navigate = useNavigate();
 
   const {products, isLoading, setProducts} = useProductsData();
 
@@ -29,7 +30,6 @@ export const useTableData = () => {
     queryKey: ['category'],
     queryFn: getCategory
   });
-
 
   const {getCategoryNameById} = useCategoriesData();
 
@@ -49,79 +49,23 @@ export const useTableData = () => {
 
   },[categories, products])
 
-  
-  const handleCancel = () => {
-    Modal.destroyAll();
-  };
-
-  const { confirm } = Modal;
-
-  const showConfirmModal = (
-    handleOk: () => void,
-    handleCancel: () => void,
-    content: string
-  ) => {
-    confirm({
-      title: "Confirmar exclusão",
-      content: content,
-      closable: true,
-      closeIcon: <IoMdClose style={{ fill: BRAND_PURPLE }} />,
-      okButtonProps: { className: "hidden" },
-      cancelButtonProps: { className: "hidden" },
-      width: "40%",
-      maskClosable: true,
-      footer: () => (
-        <>
-          <Button
-            className="cancel-btn border border-brand-purple hover:border-brand-purple"
-            onClick={handleCancel}
-            key="cancel"
-          >
-            Cancelar
-          </Button>
-
-          <Button
-            className="ok-btn bg-brand-purple text-white"
-            onClick={handleOk}
-            key="ok"
-          >
-            Confirmar
-          </Button>
-        </>
-      ),
-    });
-  };
 
 
   const deleteProduct = useMutation({
     mutationFn: async (data:ProductsType)=> {
 
-      let reqData = null;
 
       const headers = getHeaders();
 
-      if(isConsultor()){
 
-    
-        const req = await api.delete(`/consultor/produtos/${data.produto_id}`, {
+      const req = await api.delete(`/produtos/${data.id}`, {
           headers
-        });
-          
-
-        reqData = req.data
-
-      } else {
-
-        const req = await api.delete(`/produtos/${data.id}`, {
-          headers
-        });
+      });
 
   
-        reqData = req.data
+       return req.data
 
-      }
-
-      return reqData;
+    
 
     },
     onSuccess: (res, context:ProductsType)=> {
@@ -237,22 +181,49 @@ export const useTableData = () => {
           return row.getCanExpand() ? (
             <Flex align="center" justify="center">
               <Wrapper>
-                <Button
-                  className="expand-btn border border-purple-solid-500"
-                  aria-label="expand row"
-                  size="small"
-                  icon={
-                    row.getIsExpanded() ? (
-                      <IoIosArrowDown className="transition-all fill-purple-solid-500" />
-                    ) : (
-                      <IoIosArrowUp className="transition-all fill-purple-solid-500" />
-                    )
-                  }
-                  onClick={row.getToggleExpandedHandler()}
-                />
+
+                <Tooltip title={row.getIsExpanded() ? 'Ver menos' : 'Ver mais'}>
+
+                  <Button
+                    className="expand-btn border border-purple-solid-500"
+                    aria-label="expand row"
+                    size="small"
+                    icon={
+                      row.getIsExpanded() ? (
+                        <IoIosArrowDown className="transition-all fill-purple-solid-500" />
+                      ) : (
+                        <IoIosArrowUp className="transition-all fill-purple-solid-500" />
+                      )
+                    }
+                    onClick={row.getToggleExpandedHandler()}
+                  />
+
+
+                </Tooltip>
               </Wrapper>
             </Flex>
           ) : null;
+        },
+      }),
+      columnHelper.display({
+        id: "view",
+        header: () => <p>Visualizar</p>,
+        cell: ({ row }) => {
+
+          return (
+            <Tooltip title="Editar de perto">
+
+            <Button
+              className="expand-btn border border-purple-solid-500"
+              aria-label="expand row"
+              size="small"
+              icon={<FaEye className="transition-all fill-purple-solid-500" />}
+              onClick={()=>navigate(`edit/${row.original.id}`)}
+            />
+
+
+          </Tooltip>
+          )
         },
       }),
       columnHelper.display({
@@ -283,25 +254,33 @@ export const useTableData = () => {
 
           return (
             <Flex align="center" justify="center">
-              <ButtonWrapper>
-                <Button
-                  disabled={
-                    !table.getIsAllRowsSelected() &&
-                    !table.getIsSomeRowsSelected()
-                  }
-                  onClick={() =>
-                    showConfirmModal(
-                      handleOk,
-                      handleCancel,
-                      "Tem certeza que deseja excluir este conjunto de produtos?"
-                    )
-                  }
-                  aria-label="Delete row"
-                  icon={<FaTrash />}
-                  className="delete-btn bg-brand-purple"
-                  size="middle"
-                />
-              </ButtonWrapper>
+              
+              <Popconfirm 
+              title="Tem certeza que deseja excluir este conjunto de produtos?"
+              onConfirm={handleOk}
+              >
+
+                <Tooltip
+                  title="Selecione um produto e clique no botão para deletar"
+                >
+
+                    <Button
+                      disabled={
+                        !table.getIsAllRowsSelected() &&
+                        !table.getIsSomeRowsSelected()
+                      }
+                      aria-label="Delete row"
+                      icon={<FaTrash />}
+                      className="delete-btn bg-brand-purple"
+                      size="middle"
+                    />
+
+
+                </Tooltip>
+
+
+              </Popconfirm>
+              
             </Flex>
           );
         },
@@ -314,21 +293,23 @@ export const useTableData = () => {
           };
 
           return (
-            <ButtonWrapper>
-              <Button
-                aria-label="Delete row"
-                icon={<FaTrash />}
-                className="delete-btn bg-brand-purple"
-                size="middle"
-                onClick={() =>
-                  showConfirmModal(
-                    handleOk,
-                    handleCancel,
-                    "Tem certeza que deseja excluir este produto?"
-                  )
-                }
-              />
-            </ButtonWrapper>
+
+            <Popconfirm 
+            onConfirm={handleOk}
+            title="Deseja mesmo deletar esse produto?"
+            >
+
+                <Button
+                  aria-label="Delete row"
+                  icon={<FaTrash />}
+                  className="delete-btn bg-brand-purple"
+                  size="middle"
+               
+                />
+
+
+            </Popconfirm>
+          
           );
         },
       }),

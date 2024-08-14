@@ -1,19 +1,21 @@
 
-import { useState } from "react";
-import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
-import { TableFilter } from "../TableFilter/TableFilter";
-import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import * as C from '../../../../styles/TableStyles/styles'
-import { useTableData } from "../../hooks/useTableData";
-import { Pagination } from "../../../shared/Pagination";
-import { ProductView } from "./components/ProductDescription";
-import { TableSorters } from "../../../shared/Table/components/TableSorters";
-import { Spinner } from "../../../shared/Spinner";
-import { ProductsType } from "../../service/getProducts";
-import { validateRowSelected } from "../../../../functions/Validators/ValidateRowSelected/validateRowSelected";
-import { Empty } from "antd";
-import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness";
 
+
+import { useState } from "react";
+
+import { ColumnFilter, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import * as C from '../../../styles/TableStyles/styles'
+import { ProductsType } from "../service/getProducts";
+import { useTableData } from "../hooks/useTableData";
+import { useEmptiness } from "../../../hooks/useEmptiness/useEmptiness";
+import { TableWrapper } from "../../shared/Table/components/TableWrapper";
+import { Spinner } from "flowbite-react";
+import { TableFilter } from "./table-filter";
+import { Empty } from "antd";
+import { TableSorters } from "../../shared/Table/components/TableSorters";
+import { validateRowSelected } from "../../../functions/Validators/ValidateRowSelected/validateRowSelected";
+import { Pagination } from "../../shared/Pagination";
+import { ProductView } from "./product-description";
 
 
 export const ProductsTable = () => {
@@ -113,10 +115,11 @@ export const ProductsTable = () => {
                             ))}
                         </C.Thead>
 
-                        
-
+                    
                         <tbody>
+
                             {table.getRowModel().rows.map((row)=> (
+
                                 <>
                             
                                     <C.HoverRow key={row.id}>
@@ -127,6 +130,7 @@ export const ProductsTable = () => {
                                             </C.Td>
                                         ))}
                                     </C.HoverRow>
+
                                     {
                                         row.getIsExpanded() && 
                                         (

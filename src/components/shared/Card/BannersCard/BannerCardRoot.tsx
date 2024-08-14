@@ -11,7 +11,7 @@ import { API_URL } from "../../../../service/url";
 import { api } from "../../../../service/connection";
 import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../service/getHeaders";
-import { isValidUrl } from "../../../../functions/Validators/isLink";
+import { isValidURL } from "../../../../functions/Validators/isLink";
 
 
 type CardBannerRootProps = {
@@ -87,7 +87,7 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
         
     }
 
-    const isLink = isValidUrl(imagem)
+    const isLink = isValidURL(imagem)
     
     return (
 

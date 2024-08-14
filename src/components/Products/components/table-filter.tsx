@@ -1,27 +1,18 @@
+
 import { useNavigate } from "react-router-dom";
-import { TableHeaderWrapper } from "../../../shared/Table/components/TableHeaderWrapper";
-import { Input } from "../../../shared/Input/Input";
-import { SearchIcon } from "../../../shared/Icon/SearchIcon";
-import { Button } from "../../../shared/Button";
-import { REGISTER_PRODUCTS } from "../../../../constants/paths/paths";
+import { useCategoryFilter } from "../../../context/CategoryFilterContext/CategoryFilterContext";
+import { TableFiltersProps } from "../../../@types/Filters/TableFilterProps";
+import { CategoryType } from "../../Categories/service/getCategory";
+import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useEffect } from "react";
+import { REGISTER_PRODUCTS } from "../../../constants/paths/paths";
+import { SelectLabel } from "../../shared/Input/Select/SelectLabel";
+import { TableHeaderWrapper } from "../../shared/Table/components/TableHeaderWrapper";
+import { Input } from "../../shared/Input/Input";
+import { Button } from "../../shared/Button";
+import Select from "../../shared/Input/Select";
+import { SearchIcon } from "../../shared/Icon/SearchIcon";
 import { FaPlus } from "react-icons/fa6";
-import { TableFiltersProps } from "../../../../@types/Filters/TableFilterProps";
-import { isConsultor } from "../../../../functions/Validators/ValidateConsultor/isConsultor";
-import { Modal } from "antd";
-import { IoMdClose } from "react-icons/io";
-import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
-import { FormModal } from "../Modal";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "../../../../service/queryClient";
-import Select from "../../../shared/Input/Select";
-import React, { useEffect } from "react";
-import { useCategoryFilter } from "../../../../context/CategoryFilterContext/CategoryFilterContext";
-import { CATEGORIES } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { CategoryType } from "../../../Categories/service/getCategory";
-import { SelectLabel } from "../../../shared/Input/Select/SelectLabel";
-
-
-const {confirm} = Modal;
 
 
 export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps) => {
@@ -35,13 +26,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
         prev.filter(f=> f.id !== id).concat({id,value})
     ));
 
-    const handleClose = () => {
-        Modal.destroyAll();
-    }
-
-
     const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES)?? '[]') || [];
-
 
 
     const handleCategoriesChange = (selectedOption: { value: string | number; label: string } | null) => {
@@ -68,37 +53,12 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
       }, [state.categoria_id]);
 
 
-    const showConsultorModal = () => {
-        confirm({
-            content: 
-            <QueryClientProvider client={queryClient}>
-
-                <FormModal handleClose={handleClose} />
-
-            </QueryClientProvider>
-           
-            ,
-            maskClosable: true,
-            closeIcon: <IoMdClose style={{fill: BRAND_PURPLE}} />,
-            closable: true,
-            okButtonProps: {className: 'hidden'}, 
-            cancelButtonProps: {className: 'hidden'},
-        })
-    }
 
 
 
     const handleClick = () => {
 
-
-        if(isConsultor()){
-
-            showConsultorModal();
-
-        } else {
-            navigate(REGISTER_PRODUCTS)
-        }
-
+        navigate(REGISTER_PRODUCTS)
 
     }
 
@@ -165,7 +125,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
                 </div>
 
                     
-                {!isConsultor() &&
+           
                 
                     <div className="flex flex-wrap gap-2">
 
@@ -178,7 +138,7 @@ export const TableFilter = ({columnsFilters,setColumnFilters}:TableFiltersProps)
 
                     </div>
                 
-                }
+                
 
             </div>
 

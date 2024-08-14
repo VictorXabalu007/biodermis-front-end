@@ -14,7 +14,7 @@ export const ModalProducts = ({products}:{products: ProductsType[]}) => {
         }
         return acc;
     }, {} as { [key: number]: number }) || 0
-
+    
     
 
 

@@ -4,8 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
 import { API_URL } from "../../../service/url";
-import { isValidUrl } from "../../../functions/Validators/isLink";
-
+import { isValidURL } from "../../../functions/Validators/isLink";
 
 export const useProductsData = () => {
 
@@ -24,14 +23,15 @@ export const useProductsData = () => {
   const [allProducts, setAllProducts] = useState<ProductsType[]>([]);
 
   useEffect(()=> {
+
     if(totalProducts){
       setAllProducts(totalProducts)
     }
+
   },[totalProducts]);
 
 
   const [products, setProducts] = useState<ProductsType[]>([]);
-
 
   useEffect(() => {
     
@@ -43,11 +43,11 @@ export const useProductsData = () => {
 
             const path = p.imagens[0].replace(/\\/g, '\\');
             
-            const isLink = isValidUrl(path)
+            const isLink = isValidURL(path)
             
             return {
               ...p,
-              imagePath:isLink ? path : API_URL + "/" + path,
+              imagePath: isLink ? path : API_URL + "/" + path,
             }
 
           } else {
@@ -58,7 +58,6 @@ export const useProductsData = () => {
 
       })
       
-
       setProducts(newProducts)
 
     }
@@ -67,7 +66,6 @@ export const useProductsData = () => {
   }, [data]);
 
   
-
   
   const getProductsById = useCallback((id: number | number[]): ProductsType[] => {
 
@@ -86,7 +84,6 @@ export const useProductsData = () => {
   const getProductsByArrayId = useCallback((ids:number[])=> {
     return ids.map(id => allProducts.find(p => p.id === id))
   },[allProducts])
-
   
 
   const getImageByPath = async (path:string) => {

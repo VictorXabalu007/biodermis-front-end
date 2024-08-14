@@ -148,15 +148,7 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                             >
                                 Descrição
                             </label>
-                            
-                                {/* <TextArea 
-                                className="hover:border-brand-purple"
-                                style={{resize: 'none'}}
-                                placeholder="Produto com..."
-                                rows={4} 
-                                onChange={onChange}
-                                id="description"
-                                /> */}
+                        
 
                                 <QuillInput
                                     className="mt-2"
@@ -166,8 +158,6 @@ export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsDat
                                         
 
                                         const text = editor.getHTML();
-
-                                        console.log(text);
                                         
                                         if(text === '<p><br></p>') {
                                             field.onChange('')

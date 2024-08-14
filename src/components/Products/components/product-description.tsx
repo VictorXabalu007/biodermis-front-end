@@ -1,21 +1,17 @@
-import { Controller, useForm } from "react-hook-form";
-import { Form } from "../../../../../shared/Form";
-import { Input } from "../../../../../shared/Input/Input";
-import { InputRoot } from "../../../../../shared/Input/Input/InputRoot";
-import InputMoney from "../../../../../shared/Input/InputNumber";
-import React, { useEffect, useRef, useState } from "react";
-import { TableActionsProps } from "../../../../../../@types/TableActions/TableActions";
-import { ProductsType } from "../../../../service/getProducts";
-
-import { Button } from "../../../../../shared/Button";
-import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../../../../service/connection";
-import { isConsultor } from "../../../../../../functions/Validators/ValidateConsultor/isConsultor";
-import { useMessageAction } from "../../../../../../hooks/useMessageAction/useMessageAction";
-import { getHeaders } from "../../../../../../service/getHeaders";
+import { useEffect, useRef, useState } from "react";
+import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { ProductsType } from "../service/getProducts";
+import { Controller } from "react-hook-form";
 import { Flex, Image, Select } from "antd";
-import { CATEGORIES } from "../../../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { CategoryType } from "../../../../../Categories/service/getCategory";
+import { Button } from "../../shared/Button";
+import { Form } from "../../shared/Form";
+import { InputRoot } from "../../shared/Input/Input/InputRoot";
+import { Input } from "../../shared/Input/Input";
+import InputMoney from "../../shared/Input/InputNumber";
+import { CategoryType } from "../../Categories/service/getCategory";
+import { TableActionsProps } from "../../../@types/TableActions/TableActions";
+import { useProductUpdate } from "../hooks/useProductUpdate";
+
 
 export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>) => {
 
@@ -24,17 +20,10 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const productNameRef = useRef<HTMLInputElement>(null);
   
-  const {contextHolder, success, error} = useMessageAction();
   
   const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
 
-  const {control, handleSubmit} = useForm<ProductsType>({
-
-    defaultValues: {
-      ...data
-    }
-
-  });
+  
 
   const [fields, setFields] = useState<ProductsType>({
     ...data,
@@ -76,88 +65,36 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
   },[text, isEditable])
 
-  const mutation = useMutation({
-    mutationFn: async (data:ProductsType)=> {
-
-      const body = {
-        "nome": data.nome,
-        "descricao":data.descricao,
-        "categoria_ids": data.categoria_ids,
-        "valorvenda" :data.valorvenda,
-        "valormin" :data.valormin,
-        "valormax":data.valormax,
-        "altura" :data.altura,
-        "peso" :data.peso,
-        "largura" : data.largura,
-        "profundidade":data.profundidade,
-      }
-
-      const headers = getHeaders();
-
-      if(isConsultor()){
-
-        const reqConsult = await api.patch(`/consultor/produtos/${data.produto_id}`,{
-          valorprod: data.valorvenda
-        },{
-          headers
-        });
-
-        console.log('caiu aqui');
-        
-        return reqConsult.data
-
-      } else {
-        
-          const req = await api.patch(`/produtos/${data.id}`,body,{
-              headers
-          })
-              
-
-        return req.data;
-
-      }
-
-    },
-    onSuccess: (res, context)=> {
-
-      success(res.success);
-
-      //@ts-ignore
-      table.options.meta?.updateData(row.index, context);
-  
-
-      
-    },
-    onError:(err:any)=> {
-
-
-      error(err.response.data.error);
-      setIsEditable(true)
-      setIsEditing(true)
-      setText('Salvar edição')
-
-      
-    }
-  })
-
-  const onSubmit = (data:ProductsType) => {
-
-    if(!isEditing){
-
-      mutation.mutate(data);
-
-    }
-    
-  }
+  const {
+    handleSubmit,
+    onSubmit,
+    contextHolder,
+    control,
+    result,
+  } = useProductUpdate({
+    data,
+    id: data.id,
+    isEditing,
+    row,
+    table
+  });
 
   const categories = [
     ...dataCategories.map(d => ({
         value: d.id,
         label: d.categoria
     }))
-]
+  ]
 
-  // const categoryIndex = categories.findIndex(c => c.value === fields.categoria_id)
+  useEffect(()=> {
+
+    if(result.success){
+      setIsEditable(false);
+      setIsEditing(false);
+      setText('Editar produto');
+    } 
+
+  },[result]);
 
 
   return (
@@ -251,61 +188,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
                 />
 
-
-
-              {isConsultor() ?
-              
-                <>
-
-              <Controller 
-                  
-                  control={control}
-                  name="valortotal"
-                  render={({field})=> (
-
-                  <Form.InputWrapper>
-                    <InputRoot className="w-[120px]">
-                      <Input.Label
-                        content="Preço de venda"
-                        className="text-gray-neutral-400"
-                      />
-
-                      <InputMoney
-                        
-                        className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                        value={parseFloat(fields.valortotal)}
-                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-
-
-                              setFields(prev => ({
-                                ...prev,
-                                valortotal: e.target.value
-                              }));
-                              field.onChange(e.target.value)
-                          
-                          
-                            }
-                          }
-                        prefix={"R$"}
-                        onBlur={handleBlur('valortotal')}
-                        readOnly={!isEditable}
-
-                      
-                      />
-                    </InputRoot>
-
-                  </Form.InputWrapper>
-
-                  )}/>
-
-
-              
-              
-                </> : (
-
-                <>
-                
-                  
                 <Controller 
                   
                   control={control}
@@ -347,12 +229,10 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
 
                   )}/>
                 
-                
-                </>
+          
 
 
-
-              )}
+              
 
 
               </Flex>
@@ -535,6 +415,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
             </Flex>
 
             <Flex gap={22} vertical>
+
               <Flex>
 
                 <Controller
@@ -605,10 +486,7 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
               />
             </Flex>
             
-  
           </Flex>
-
-    
 
         </Flex>
 

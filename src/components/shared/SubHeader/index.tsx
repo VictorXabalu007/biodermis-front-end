@@ -17,7 +17,8 @@ export const SubHeader = ({linkText,heading}:SubHeaderProps) => {
     const handleGoBack = () => {
         navigate(-1);
     };
-
+        
+  
     return (
 
         <div className="flex items-center gap-10">

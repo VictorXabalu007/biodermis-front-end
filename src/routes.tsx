@@ -1,11 +1,11 @@
 
 import {  Route, Routes } from "react-router-dom";
-import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, FORBIDDEN, MERCADO_PAGO_FAILURE, BANNERS } from "./constants/paths/paths";
+import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, FORBIDDEN, MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
 import { UsersTemplate } from "./templates/Users";
-import { ProductsTemplate } from "./templates/Products";
+
 import { WithdrawalRequestsTemplate } from "./templates/WithdrawalRequests";
 import { InvoicingTemplate } from "./templates/Invoicing";
 import { RegisterConsultorTemplate } from "./templates/Register/RegisterConsultor";
@@ -19,7 +19,8 @@ import { NotFoundPage } from "./components/NotFound";
 import { ForbiddenPage } from "./components/Forbidden";
 import { MercardoPagoFailure } from "./components/Requests/MercadoPago/Failure";
 import { BannersTemplate } from "./templates/Banners";
-
+import EditProduct from "./templates/Products/edit-product";
+import { ProductsTemplate } from "./templates/Products/product-view";
 
 export const AppRoutes = () => {
 
@@ -45,7 +46,10 @@ export const AppRoutes = () => {
 
                 <Route path={USERS} element={<UsersTemplate />} />
 
-                <Route path={PRODUCTS} element={<ProductsTemplate />} />
+                <Route path={PRODUCTS} >
+                    <Route index element={<ProductsTemplate />} />
+                    <Route path={EDIT_PRODUCT} element={<EditProduct />} />
+                </Route>
                 <Route path={REGISTER_PRODUCTS} element={<RegisterProductsTemplate />} />
 
                 <Route path={CATEGORIES} element={<CategoriesTemplate />} />

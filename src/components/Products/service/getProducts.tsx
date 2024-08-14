@@ -8,9 +8,9 @@ export type ProductsType = {
   altura: string;
   categoria_ids: number[];
   descricao: string;
-  estoque: number;
+  estoque: string;
   id: number;
-  imagens: string; 
+  imagens: string[]; 
   inativo: boolean;
   largura: string;
   mediaavs: string;

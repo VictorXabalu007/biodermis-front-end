@@ -25,6 +25,8 @@ export const REGISTER_CONSULTOR = '/consultores/registrar+consultor'
 
 export const REGISTER_PRODUCTS = '/produtos/registrar+produto'
 
+export const EDIT_PRODUCT = 'edit/:id'
+
 export const CATEGORIES = '/categorias'
 
 export const MERCADO_PAGO_SUCCESS = '/mercadopagosuccess';
@@ -34,3 +36,5 @@ export const MERCADO_PAGO_FAILURE = '/mercadopagofailure';
 export const FORBIDDEN = '/403'
 
 export const BANNERS = '/banners'
+
+

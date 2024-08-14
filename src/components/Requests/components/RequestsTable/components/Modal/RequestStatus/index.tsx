@@ -12,9 +12,6 @@ import { queryClient } from "../../../../../../../service/queryClient"
 export const RequestStatus = ({requests}:{requests:Requests}) => {
     
 
-    console.log(requests);
-    
-
     return (
 
         <div className="flex w-full flex-col p-3 gap-2">
@@ -28,7 +25,7 @@ export const RequestStatus = ({requests}:{requests:Requests}) => {
                 </Text.Root>
             </div>
      
-          
+
             <QueryClientProvider client={queryClient}>
 
                      <ModalProducts
