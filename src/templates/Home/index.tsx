@@ -1,13 +1,17 @@
 import { Col } from "antd";
 import { Home } from "../../components/Home";
+import { useStateTheme } from "../../context/ThemeProvider";
 
 export const HomeTemplate = () => {
-  return (
-    <Home.Layout>
-      <Home.Header heading="Home" />
 
-      <Home.Content>
+  const {setTitle} = useStateTheme();
+  setTitle('Home');
+
+  return (
+
+        
         <Home.Wrapper>
+
           <Col lg={24}>
             <Home.Cards />
           </Col>
@@ -19,8 +23,8 @@ export const HomeTemplate = () => {
           <Col lg={8}>
             <Home.Tables />
           </Col>
+
         </Home.Wrapper>
-      </Home.Content>
-    </Home.Layout>
+  
   );
 };

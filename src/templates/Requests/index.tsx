@@ -1,30 +1,16 @@
-import { Requests } from "../../components/Requests"
-
+import { Requests } from "../../components/Requests";
+import { useStateTheme } from "../../context/ThemeProvider";
 
 export const RequestsTemplate = () => {
+  const { setTitle } = useStateTheme();
+  setTitle("Pedidos");
+  return (
 
+    <>
+      <Requests.Cards />
 
-
-    return (
-
-
-
-            <Requests.Layout>
-
-                <Requests.Header heading="Pedidos" />
-
-                <Requests.Content>
-
-                        <Requests.Cards />
-
-                        <Requests.Table />
-
-                </Requests.Content>
-
-
-            </Requests.Layout>
-
-    );
-
-
-}
+      <Requests.Table />
+    </>
+    
+  );
+};

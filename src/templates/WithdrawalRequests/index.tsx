@@ -1,20 +1,17 @@
 import { WithdrawalRequests } from "../../components/WithdrawalRequests"
+import { useStateTheme } from "../../context/ThemeProvider";
 
 
 
 export const WithdrawalRequestsTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Pedidos de saque')
+    
     return (
-        <WithdrawalRequests.Layout>
-
-            <WithdrawalRequests.Header heading="Pedidos de saque" />
-
-            <WithdrawalRequests.Content>
+ 
 
                 <WithdrawalRequests.Table />
 
-            </WithdrawalRequests.Content>
-
-        </WithdrawalRequests.Layout>
     );
 }

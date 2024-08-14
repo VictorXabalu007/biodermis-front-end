@@ -1,6 +1,10 @@
 
-import {  Route, Routes } from "react-router-dom";
-import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, FORGOT_PASS_1, FORGOT_PASS_2, HOME, INVOICING, PRODUCTS, REGISTER_CONSULTOR, REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, FORBIDDEN, MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths/paths";
+import {  Outlet, Route, Routes } from "react-router-dom";
+import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, 
+    FORGOT_PASS_1, FORGOT_PASS_2, HOME, 
+    INVOICING, PRODUCTS, REGISTER_CONSULTOR, 
+    REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, 
+    MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -16,11 +20,11 @@ import { ForgotPassStep2 } from "./components/Auth/ForgotPass/Step2";
 import { CategoriesTemplate } from "./templates/Categories";
 import { MercardoPagoSuccess } from "./components/Requests/MercadoPago/Success";
 import { NotFoundPage } from "./components/NotFound";
-import { ForbiddenPage } from "./components/Forbidden";
 import { MercardoPagoFailure } from "./components/Requests/MercadoPago/Failure";
 import { BannersTemplate } from "./templates/Banners";
 import EditProduct from "./templates/Products/edit-product";
 import { ProductsTemplate } from "./templates/Products/product-view";
+import { Layout } from "./components/Layout/Layout";
 
 export const AppRoutes = () => {
 
@@ -33,12 +37,24 @@ export const AppRoutes = () => {
 
                 <Route path={DEFAULT_PATH} element={<Login />} />
                 <Route path={"*"} element={<NotFoundPage />} />
-                
-            
                 <Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
                 <Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
+                
+
+                <Route
+                    element={
+                        <Layout>
+                            <Outlet>
+
+
+                            </Outlet>
+                        </Layout>
+                    }
+                    >
 
                 <Route path={HOME} element={<HomeTemplate />} />
+
+                
                 <Route path={REQUESTS} element={<RequestsTemplate />} />
 
                 <Route path={CONSULTORS} element={<ConsultorsTemplate />} />
@@ -60,7 +76,8 @@ export const AppRoutes = () => {
                 <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
                 <Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
                 <Route path={BANNERS} element={<BannersTemplate />} />
-                <Route path={FORBIDDEN} element={<ForbiddenPage />} />
+                
+                </Route>
 
             </Routes>
 

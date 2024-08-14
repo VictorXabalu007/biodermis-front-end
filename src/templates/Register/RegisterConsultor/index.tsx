@@ -1,17 +1,16 @@
 import { RegisterConsultor } from "../../../components/Register/RegisterConsultor"
+import { useStateTheme } from "../../../context/ThemeProvider";
 
 
 export const RegisterConsultorTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Cadastro de usuários')
+
     return (
         
-        <RegisterConsultor.Layout>
-
-            <RegisterConsultor.Header
-            heading="Cadastro de Usuários"
-            />
-            
-            <RegisterConsultor.Content>
+        <>
+        
 
                 <RegisterConsultor.SubHeader
                     linkText="voltar"
@@ -19,10 +18,10 @@ export const RegisterConsultorTemplate = () => {
                 />
 
                 <RegisterConsultor.Form />
+        
+        </>
+            
 
-            </RegisterConsultor.Content>
-
-        </RegisterConsultor.Layout>
 
     );
 }

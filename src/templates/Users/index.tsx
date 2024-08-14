@@ -1,24 +1,20 @@
 import { Users } from "../../components/Users"
+import { useStateTheme } from "../../context/ThemeProvider";
 
 
 
 
 export const UsersTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Usuários');
+
     return (
         
-        <Users.Layout>
 
-            <Users.Header heading="Usuários" />
+        <Users.Table />
 
-
-            <Users.Content>
-
-                <Users.Table />
-
-            </Users.Content>
-
-        </Users.Layout>
+      
         
     );
 }

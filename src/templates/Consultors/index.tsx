@@ -1,24 +1,17 @@
 import { Consultors } from "../../components/Consultors"
+import { useStateTheme } from "../../context/ThemeProvider"
 
 
 export const ConsultorsTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Consultores');
 
     return (
-        
-        <Consultors.Layout>
-
-            <Consultors.Header heading="Consultores" />
 
 
-            <Consultors.Content>
+        <Consultors.Table />
 
-                <Consultors.Table />
-
-            </Consultors.Content>
-
-
-        </Consultors.Layout>
         
     )
 

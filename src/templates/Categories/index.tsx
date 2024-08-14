@@ -1,28 +1,18 @@
 import { Categories } from "../../components/Categories"
+import { useStateTheme } from "../../context/ThemeProvider"
 
 
 
 
 export const CategoriesTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Categorias')
 
     return(
 
-        <Categories.Layout>
 
+         <Categories.Cards />
 
-            <Categories.Header
-                heading="Categorias"
-            />
-
-
-            <Categories.Content>
-
-                    <Categories.Cards />
-
-            </Categories.Content>
-
-
-        </Categories.Layout>
     )
 }

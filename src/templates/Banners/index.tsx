@@ -1,23 +1,16 @@
 import { Banners } from "../../components/Banners"
+import { useStateTheme } from "../../context/ThemeProvider"
 
 export const BannersTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Banners')
+
     return (
-        <Banners.Layout>
+  
+
+        <Banners.Container />
 
 
-        <Banners.Header
-            heading="Banners"
-        />
-
-
-        <Banners.Content>
-
-                <Banners.Container />
-
-        </Banners.Content>
-
-
-    </Banners.Layout>
     )
 }

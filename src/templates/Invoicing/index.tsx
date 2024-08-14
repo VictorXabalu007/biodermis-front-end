@@ -1,26 +1,26 @@
 import { Invoicing } from "../../components/Invoicing"
+import { useStateTheme } from "../../context/ThemeProvider";
 
 
 
 export const InvoicingTemplate = () => {
 
+    const {setTitle} = useStateTheme();
+    setTitle('Faturamento');
+    
     return (
 
-        <Invoicing.Layout>
+        <>
+        
+        <Invoicing.Cards />
 
-            <Invoicing.Header heading="Faturamento" />
+        <Invoicing.Chart />
 
-            <Invoicing.Content >
+        <Invoicing.Data />
+        
+        </>
 
-                <Invoicing.Cards />
 
-                <Invoicing.Chart />
-
-                <Invoicing.Data />
-
-            </Invoicing.Content>
-
-        </Invoicing.Layout>
 
     );
 }

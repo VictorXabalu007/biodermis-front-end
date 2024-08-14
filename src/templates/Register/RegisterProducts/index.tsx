@@ -1,29 +1,27 @@
 import { RegisterProducts } from "../../../components/Register/RegisterProducts"
+import { useStateTheme } from "../../../context/ThemeProvider"
 
 
 export const RegisterProductsTemplate = () => {
+
+
+    const {setTitle} = useStateTheme();
+    setTitle('Cadastrar produtos')
+
     return (
 
-        <RegisterProducts.Layout>
-            
-            <RegisterProducts.Header
+        <>
+        
+            <RegisterProducts.SubHeader 
+    
+            linkText="Voltar para produtos"
             heading="Adicionar um produto"
             />
 
-            <RegisterProducts.Content>
+            <RegisterProducts.Form />
+        
+        </>
                 
-                <RegisterProducts.SubHeader 
-         
-                linkText="Voltar para produtos"
-                heading="Adicionar um produto"
-                />
-
-                <RegisterProducts.Form />
-
-            </RegisterProducts.Content>
-
-
-        </RegisterProducts.Layout>
 
     )
 }

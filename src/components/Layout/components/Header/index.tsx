@@ -4,11 +4,13 @@ import { Heading } from "../../../shared/Heading";
 import { AUTH_USER } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useEffect, useState } from "react";
 import { UserData } from "../../../../@types/UserData/UserData";
+import { useStateTheme } from "../../../../context/ThemeProvider";
 
 
-export const Header = ({heading}:{heading:string}) => {
+export const Header = () => {
 
     const [username, setUsername] = useState<string>('Username');
+    const {title} = useStateTheme();
 
     const {
 
@@ -44,7 +46,7 @@ export const Header = ({heading}:{heading:string}) => {
 
             <div>
                 <Heading.Root>
-                    <Heading.Content content={heading} />
+                    <Heading.Content content={title} />
                 </Heading.Root> 
         
             </div>

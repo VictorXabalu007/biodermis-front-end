@@ -2,6 +2,8 @@
 import { ReactNode } from 'react';
 import { S as Sider } from './components/Sider';
 import { Root } from './components/Root';
+import { Content } from './components/Content';
+import { Header } from './components/Header';
 
 
 type LayoutProps = {
@@ -18,8 +20,15 @@ export const Layout = ({children}:LayoutProps) => {
       <Sider />
 
         <Root>
+
+          <Header />
           
-          {children}
+          <Content>
+
+            {children}
+
+          </Content>
+            
 
         </Root>
 

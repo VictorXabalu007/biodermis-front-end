@@ -27,6 +27,7 @@ const ProductEditor = () => {
   const [currentProduct, setCurrentProduct] = useState<ProductsType>({} as ProductsType);
 
   const [initialData,setInitialData] = useState({} as ProductsType)
+  
   const {
     fileList,
     handlePreview,

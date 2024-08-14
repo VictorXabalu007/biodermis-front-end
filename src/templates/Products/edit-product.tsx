@@ -1,23 +1,19 @@
 import { Products } from "../../components/Products"
+import { useStateTheme } from "../../context/ThemeProvider"
 
 
 
 
 const EditProduct = () => {
+
+  const {setTitle} = useStateTheme();
+  setTitle('Editar produto')
   return (
 
-    <Products.Layout>
-
-        <Products.Header heading="Editar produto" />
-
-        <Products.Content>
-
+    
             <Products.Editor />
             
-        </Products.Content>
-
-
-    </Products.Layout>
+       
 
   )
 }
