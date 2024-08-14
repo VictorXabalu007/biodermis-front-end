@@ -1,30 +1,25 @@
 
-import { ReactNode } from "react"
-import { BORDER_GRAY } from "../../../../constants/classnames/classnames"
-import { theme } from "antd"
+
+import { Card, CardProps } from "antd"
 
 
 
-export const StatsCardRoot = ({children}:{children:ReactNode}) => {
-
-    const {
-        token: {
-            colorBgContainer
-        }
-    } = theme.useToken();
-
+export const StatsCardRoot = ({children,style,...rest}:CardProps) => {
 
     return (
-        <div
-        style={{border:BORDER_GRAY, background: colorBgContainer, minHeight: '160px'}}
-        className="p-5 flex-1 flex rounded-md flex-col"
-        >
+    
+        <Card
+        style={{
+            flex: 1,
+            ...style
+        }}
+         {...rest}>
+
             {children}
 
-        </div>
+        </Card>
 
-    )
-
+    );
 
 
 }

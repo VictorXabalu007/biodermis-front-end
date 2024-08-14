@@ -1,29 +1,30 @@
 
-import { ReactNode } from "react"
-import { BORDER_GRAY } from "../../../../../constants/classnames/classnames"
-import { twMerge } from "tailwind-merge"
-import { theme } from "antd";
+
+
+import { Card, CardProps } from "antd";
 
 
 
-export const ChartWrapper = ({children,className}:{children:ReactNode, className?:string}) => {
+export const ChartWrapper = ({children,...rest}:CardProps) => {
     
-    const {
-        token: {
-            colorBgContainer
-        }
-    } = theme.useToken();
-    
-    
+
     return (
 
 
-        <div style={{border:BORDER_GRAY, background: colorBgContainer}} 
-        className={twMerge("rounded-md mb-auto flex flex-col w-full",className)}
-        >   
+         <Card 
+         {...rest}
+         bodyStyle={{
+            padding:'10px 0',
+            flex:1,
+            minHeight:'520px',
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'space-between',
+
+         }}
+         >
 
             {children}
-
-         </div>
+         </Card>
     )
 }
