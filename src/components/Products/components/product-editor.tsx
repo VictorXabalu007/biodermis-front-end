@@ -21,6 +21,7 @@ import { useImageUpload } from "../hooks/useImageUpload";
 import { UploadFile } from "antd/lib";
 
 const ProductEditor = () => {
+  
   const { id } = useParams();
   const { products } = useProductsData();
   const [currentProduct, setCurrentProduct] = useState<ProductsType>({} as ProductsType);
@@ -345,27 +346,7 @@ const ProductEditor = () => {
                     />
                   </Col>
 
-                  <Col lg={12}>
-                    <Controller
-                      control={control}
-                      name="categoria_ids"
-                      render={({ field }) => (
-                        <Form.Item
-                          label="Categorias"
-                          validateStatus={errors.categoria_ids ? "error" : undefined}
-                          help={errors.categoria_ids?.message}
-                        >
-                          <Select
-                            style={{ width: "250px" }}
-                            options={categories}
-                            mode="multiple"
-                            onChange={(selectedOption) => field.onChange(selectedOption)}
-                            value={Array.isArray(field.value) ? field.value : currentProduct.categoria_ids || []}
-                          />
-                        </Form.Item>
-                      )}
-                    />
-                  </Col>
+              
 
                   <Col lg={12}>
                     <Controller
@@ -387,6 +368,30 @@ const ProductEditor = () => {
                                 peso: e.target.value,
                               }));
                             }}
+                          />
+                        </Form.Item>
+                      )}
+                    />
+                  </Col>
+
+                  <Col lg={24}>
+                    <Controller
+                      control={control}
+                      name="categoria_ids"
+                      render={({ field }) => (
+                        <Form.Item
+                          label="Categorias"
+                          validateStatus={errors.categoria_ids ? "error" : undefined}
+                          help={errors.categoria_ids?.message}
+                        >
+                          <Select
+                            
+                            options={categories}
+                            mode="multiple"
+                            onChange={(selectedOption) => field.onChange(selectedOption)}
+                            value={Array.isArray(field.value) ? field.value : currentProduct.categoria_ids || []}
+                            size="large"
+
                           />
                         </Form.Item>
                       )}

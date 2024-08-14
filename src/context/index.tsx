@@ -7,6 +7,7 @@ import { RangeDateProvider } from "./RangeDate/RangeDateContext";
 export const AppProvider = ({children}:ProviderProps) => {
 
     return (
+
         <RangeDateProvider>
             <CategoryFilterProvider>
 
@@ -14,6 +15,7 @@ export const AppProvider = ({children}:ProviderProps) => {
 
             </CategoryFilterProvider>
         </RangeDateProvider>
+        
     )
 
 }

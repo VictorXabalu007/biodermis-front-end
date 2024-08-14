@@ -23,6 +23,7 @@ export const S = () => {
         style={{ 
             background: colorBgContainer , 
             boxShadow: boxShadow, 
+            minHeight:'100vh'
         }}
         breakpoint="lg"
         collapsedWidth="0"
