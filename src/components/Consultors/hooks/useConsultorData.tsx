@@ -3,6 +3,7 @@ import { UserCredentials } from "../../../@types/UserData/UserData";
 import { useEffect, useState } from "react";
 import { getConsultors } from "../service/getConsultors";
 import { UserRole } from "../../../util/userRole";
+import { UserStatus } from "../../../@types/UserStatus/StatusType";
 
 
 export const useConsultorData = () => {
@@ -21,7 +22,7 @@ export const useConsultorData = () => {
           const rankedData = sortedData.map((d, index) => ({
             ...d,
             rank: String(index + 1),
-            status: d.status === 'Ativo' ? 'isAtivo' : d.status,
+            status: d.status.toLocaleLowerCase() as UserStatus,
           }));
           setConsultor(rankedData);
         }

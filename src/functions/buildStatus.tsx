@@ -2,6 +2,7 @@ import { UserCredentials } from "../@types/UserData/UserData";
 import { UserStatus } from "../@types/UserStatus/StatusType";
 import { Tag } from "../components/shared/Tag";
 import { useStatusModal } from "../components/Consultors/hooks/useStatusModal";
+import { Tooltip } from "antd";
 
 
 export const buildStatus = (status: UserStatus, data:UserCredentials, enableClick:boolean = true) => {
@@ -21,7 +22,7 @@ export const buildStatus = (status: UserStatus, data:UserCredentials, enableClic
 
         switch(status) {
     
-            case 'isAtivo':
+            case 'ativo':
     
                 return {
                     
@@ -31,8 +32,8 @@ export const buildStatus = (status: UserStatus, data:UserCredentials, enableClic
                 };
     
     
-            case 'Inativo':
             case 'inativo':
+
     
                 return {
                     
@@ -43,7 +44,7 @@ export const buildStatus = (status: UserStatus, data:UserCredentials, enableClic
     
                 };
     
-            case 'Em aprovação':
+            case 'em aprovação':
                 return {
                     
                     className: "cursor-pointer text-yeallow-solid-900 fill-yeallow-solid-900 bg-yeallow-solid-400",
@@ -65,12 +66,16 @@ export const buildStatus = (status: UserStatus, data:UserCredentials, enableClic
     }
 
     return (
+        <Tooltip title="Atualizar status">
+
             <Tag
             content={getStatusProps().title}
             className={getStatusProps().className}
             key="status"
             onClick={handleClick}
         /> 
+
+        </Tooltip>
     )
 
 

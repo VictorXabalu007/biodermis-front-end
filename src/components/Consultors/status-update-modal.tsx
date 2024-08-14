@@ -25,15 +25,15 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
     const selectOps = [
         {
             value: 1,
-            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('isAtivo',data, false)} />
+            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('ativo',data, false)} />
         },
         {
             value: 2,
-            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('Em aprovação',data, false)} />
+            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('em aprovação',data, false)} />
         },
         {
             value: 3,
-            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('Inativo',data, false)} />
+            label: <SelectLabel onBold="Mudar para: " afterBold={buildStatus('inativo',data, false)} />
         },
     ]
 

@@ -63,7 +63,6 @@ const ConsultorsTable = () => {
       
               data={data} 
               isReadonly={readOnly} 
-        
              
           />,
           
@@ -73,7 +72,8 @@ const ConsultorsTable = () => {
           closable: true,
           centered: true,
           closeIcon: <IoMdClose color={colors.primaryPurple} />,
-          width: 500
+          width: 500,
+          icon:null
           
       });
 
@@ -163,7 +163,7 @@ const ConsultorsTable = () => {
           type="text"
           onClick={()=>handleEditClick(record)}
           >
-            <HiOutlinePencilAlt size={15} />
+            <HiOutlinePencilAlt size={20} />
           </Button>
         </Tooltip>
       ),
@@ -172,7 +172,7 @@ const ConsultorsTable = () => {
 
   return (
     <TableWrapper>
-      <TableHeaderWrapper heading="Lista consultores">
+      <TableHeaderWrapper heading="Lista de consultores">
         <Flex wrap justify="space-between" align="center">
           <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
             <Select
@@ -205,6 +205,7 @@ const ConsultorsTable = () => {
           <Table 
             dataSource={filteredData} 
             columns={columns} 
+            scroll={{x: 300}}
           />
 
    
