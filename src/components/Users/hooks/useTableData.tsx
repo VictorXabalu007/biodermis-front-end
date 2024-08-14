@@ -4,7 +4,7 @@ import { TableActions } from "../components/TableActions";
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../service/getUsers";
 import { USERS_DATA } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { getUserRole } from "../../../util/UserRole";
+import { getUserRole } from "../../../util/userRole";
 import { UserAddress, UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { Flex } from "antd";

@@ -7,7 +7,7 @@ import { BankDataForm } from "./components/BankDataForm";
 import { Uploader } from "./components/Uploader";
 import { Checkboxes } from "./components/Checkboxes";
 import { useEffect, useState } from "react";
-import { UserRole } from "../../../../../util/UserRole";
+import { UserRole } from "../../../../../util/userRole";
 import { Form  } from "antd";
 import { PessoalDataForm } from "./components/PessoalDataForm";
 import { useMutation } from "@tanstack/react-query";

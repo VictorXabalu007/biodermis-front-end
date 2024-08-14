@@ -1,5 +1,5 @@
 
-import { UserRole } from "../../../util/UserRole";
+import { UserRole } from "../../../util/userRole";
 import { getUserData } from "../../Getters/getUser";
 
 

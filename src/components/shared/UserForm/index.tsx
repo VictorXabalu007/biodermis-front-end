@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormType } from "../../../@types/FormType/FormType";
 import { Stepper } from "./Stepper";
 import { Alert, Form } from "antd";
-import { UserRole } from "../../../util/UserRole";
+import { UserRole } from "../../../util/userRole";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import EditPersonalData from "./EditPersonalData";
 import EditAddressData from "./EditAddressData";

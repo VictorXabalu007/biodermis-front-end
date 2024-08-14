@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import { useEffect, useState } from "react";
 import { getConsultors } from "../service/getConsultors";
-import { UserRole } from "../../../util/UserRole";
+import { UserRole } from "../../../util/userRole";
 
 
 export const useConsultorData = () => {

@@ -3,7 +3,7 @@
 import {z} from 'zod'
 import { isCpf } from '../functions/Validators/ValidateCPF';
 import { isPhoneNumber } from '../functions/Validators/ValidatePhoneNumber';
-import { UserRole } from '../util/UserRole';
+import { UserRole } from '../util/userRole';
 import { isPixKey } from '../functions/Validators/ValidatePixKey';
 
 const pessoalDataSchema = z.object({

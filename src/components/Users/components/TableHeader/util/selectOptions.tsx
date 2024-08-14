@@ -1,4 +1,4 @@
-import { UserRole } from "../../../../../util/UserRole";
+import { UserRole } from "../../../../../util/userRole";
 import { SelectLabel } from "../../../../shared/Input/Select/SelectLabel";
 
 

@@ -7,7 +7,7 @@ import { Modal } from "antd";
 import { TableActionsProps } from "../../../../@types/TableActions/TableActions";
 import { ModalNavigator } from "../../../shared/Modal/Navigator";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
-import { UserRole } from "../../../../util/UserRole";
+import { UserRole } from "../../../../util/userRole";
 
 
 export const TableActions = ({data, table, row}:TableActionsProps<UserCredentials>) => {

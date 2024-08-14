@@ -11,7 +11,7 @@ import { InovicingModal } from "../Invoicing";
 import { UserCredentials } from "../../../../@types/UserData/UserData";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../../../service/queryClient";
-import { UserRole } from "../../../../util/UserRole";
+import { UserRole } from "../../../../util/userRole";
 import { RangeDateProvider } from "../../../../context/RangeDate/RangeDateContext";
 import { UserForm } from "../../UserForm";
 

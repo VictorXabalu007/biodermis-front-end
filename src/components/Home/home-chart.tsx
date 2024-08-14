@@ -1,13 +1,13 @@
 
 import { FaMoneyBills } from "react-icons/fa6"
-import { Chart } from "../../../shared/Chart"
-import { ChartHeader } from "../../../shared/Chart/components/ChartHeader"
-import { InputRangePicker } from "../../../shared/Input/RangePicker"
-import { ChartWrapper } from "../../../shared/Chart/components/ChartWrapper"
-import { useChartSeries } from "../../../../hooks/useChartData/useChartData"
+import { Chart } from "../shared/Chart"
+import { ChartHeader } from "../shared/Chart/components/ChartHeader"
+import { InputRangePicker } from "../shared/Input/RangePicker"
+import { ChartWrapper } from "../shared/Chart/components/ChartWrapper"
+import { useChartSeries } from "../../hooks/useChartData/useChartData"
 
 
-export const ChartContainer = () => {
+const HomeChart = () => {
 
     const {series,options} = useChartSeries();
     
@@ -46,3 +46,5 @@ export const ChartContainer = () => {
     );
 
 }
+
+export default HomeChart

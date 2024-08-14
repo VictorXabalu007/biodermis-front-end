@@ -1,60 +1,28 @@
-import { Button } from "../../../shared/Button";
-import { Heading } from "../../../shared/Heading";
-import * as C from '../../../../styles/TableStyles/styles'
-import { useTableData } from "../../hooks/useTableData";
-import { flexRender } from "@tanstack/react-table";
-import { Pagination } from "../../../shared/Pagination";
-import { useNavigate } from "react-router-dom";
-import { CONSULTORS, WITHDRAWAL } from "../../../../constants/paths/paths";
-import { Spinner } from "../../../shared/Spinner";
-import { Empty, theme } from "antd";
-import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
-import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
-export const HomeTables = () => {
-
-    const {
-        consultorsTable,
-        withdrawalTable, 
-        isLoadingConsultores,
-        isLoadingWithdrawal,
-        isConsultorsEmpty,
-        isWithdrawEmpty
-    
-    } = useTableData();
-
-    const navigate = useNavigate();
-
-    const {
-
-        token: {
-            colorBgContainer
-        }
-
-    } = theme.useToken();
-
-    const handleConsultorsNavigate = () => {
+import { Flex } from "antd";
+import HomeConsultorsTable from "./homeTables/consultors-table";
+import HomeWithdrawTable from "./homeTables/withdraw-table";
 
 
-        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify('2'))
-        navigate(CONSULTORS)
-    }
+const HomeTables = () => {
 
-    const handleWithdrawNavigate = () => {
 
-        
-        sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify('6'))
-        navigate(WITHDRAWAL)
-
-    }
 
     return (
 
-        <div className="flex flex-col gap-5 pb-2">
+        <Flex 
+            gap={15}
+            vertical
+        >
 
+            <HomeConsultorsTable
 
-             <div style={{background:colorBgContainer}} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3">
+            />
+
+            <HomeWithdrawTable />
+
+             {/* <div style={{background:colorBgContainer}} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3">
 
                         <div className="flex justify-between">
 
@@ -153,9 +121,9 @@ export const HomeTables = () => {
 
                         </TableWrapper>
                               
-             </div>
+             </div> */}
 
-             <div style={{background:colorBgContainer}} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3" >
+             {/* <div style={{background:colorBgContainer}} className="flex gap-3 flex-col border rounded-md border-neutral-gray-100 p-3" >
                         <div className="flex justify-between">
 
                             <Heading.Root className="text-[16px]">
@@ -255,13 +223,18 @@ export const HomeTables = () => {
 
 
 
-                        </TableWrapper>
+                        </TableWrapper> */}
 
                             
-             </div>
+             {/* </div> */}
+        </Flex>
+
+
            
-        </div>
+    
 
     );
 
 }
+
+export default HomeTables

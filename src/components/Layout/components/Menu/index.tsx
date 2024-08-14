@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import './styles.css'
 import { Link } from "../../../shared/Link";
 import { LinkContent } from "../../../shared/Link/LinkContent";
-import { Exit } from "./components/Exit";
+
 import './styles.css'
 import { BRAND_PURPLE } from "../../../../constants/classnames/classnames";
 import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useLocation } from "react-router-dom";
+import { ExitButton } from "../../../shared/Button/ExitButton";
 
 
 
@@ -114,7 +115,7 @@ export const Menu = () => {
                 ))}
 
        
-            <Exit />
+                <ExitButton />
        
 
         </M>
