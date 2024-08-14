@@ -1,8 +1,7 @@
 
-import { Flex } from "antd";
+import { Flex, Skeleton } from "antd";
 import { StatsCard } from "../shared/Card/StatsCard";
 import { useInvoicingCardItem } from "../Invoicing/hooks/useInvoicingCardItem";
-import { Spinner } from "../shared/Spinner";
 import { RequestStatusChange } from "../Requests/hooks/useRequestsData";
 
 
@@ -21,7 +20,7 @@ export const HomeCardContainer = () => {
 
                 isLoading ? <>
 
-                    <Spinner key={item.percentual} />
+                    <Skeleton key={index}  />
                 
                 </> : (
 

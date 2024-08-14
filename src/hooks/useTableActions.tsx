@@ -3,14 +3,14 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputRef, Space, TableColumnType } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { FilterDropdownProps } from "antd/es/table/interface";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type UseTableActionsProps<T extends { key: React.Key }> = {
+type UseTableActionsProps<T extends { id: React.Key }> = {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
 }
 
-export const useTableActions = <T extends { key: React.Key }>({
+export const useTableActions = <T extends { id: React.Key }>({
     data,
     setData
 }: UseTableActionsProps<T>) => {
@@ -19,6 +19,13 @@ export const useTableActions = <T extends { key: React.Key }>({
     const [_, setSearchText] = useState("");
     const [__, setSearchedColumn] = useState<DataIndex | "">("");
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+    const [filteredData, setFilteredData] = useState<T[]>([]);
+
+    useEffect(()=> {
+        if(data){
+            setFilteredData(data)
+        }
+      },[data])
 
     const handleSearch = (
         selectedKeys: string[],
@@ -37,7 +44,7 @@ export const useTableActions = <T extends { key: React.Key }>({
 
     const [editingKey, setEditingKey] = useState("");
 
-    const isEditing = (record: T) => record.key === editingKey;
+    const isEditing = (record: T) => record.id === editingKey;
 
     const cancel = () => {
         setEditingKey("");
@@ -51,7 +58,7 @@ export const useTableActions = <T extends { key: React.Key }>({
         try {
             const row = (await form.validateFields()) as T;
             const newData = [...data];
-            const index = newData.findIndex((item) => key === item.key);
+            const index = newData.findIndex((item) => key === item.id);
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, {
@@ -158,7 +165,7 @@ export const useTableActions = <T extends { key: React.Key }>({
     const handleSelectAll = (e: CheckboxChangeEvent) => {
         const checked = e.target.checked;
         if (checked) {
-            setSelectedKeys(data.map(keys => keys.key));
+            setSelectedKeys(data.map(keys => keys.id));
         } else {
             setSelectedKeys([]);
         }
@@ -175,7 +182,7 @@ export const useTableActions = <T extends { key: React.Key }>({
     };
 
     const rowClassName = (record: T) => {
-      return selectedKeys.includes(record.key) ? "selected-row" : "";
+      return selectedKeys.includes(record.id) ? "selected-row" : "";
     };
 
     return {
@@ -190,6 +197,8 @@ export const useTableActions = <T extends { key: React.Key }>({
         handleCheckboxChange,
         selectedKeys,
         rowClassName,
-        setSelectedKeys
+        setSelectedKeys,
+        filteredData,
+        setFilteredData
     };
 };

@@ -1,24 +1,19 @@
-import { Flex, theme } from "antd"
-import { FlexProps } from "antd/lib";
-import { PropsWithChildren } from "react";
+import { Card, CardProps, } from "antd"
 
 
 
 
 
-export const TableWrapper = ({children, ...rest}:PropsWithChildren<FlexProps>) => {
 
-    const {
-        token: {
-            colorBgContainer
-        }
-    } = theme.useToken();
+export const TableWrapper = ({children, ...rest}:CardProps) => {
+
+
 
     return (
 
-        <Flex {...rest} style={{background: colorBgContainer, ...rest.style}} className="flex gap-3 mb-2 flex-col border rounded-md border-gray-neutral-100 p-3">
+        <Card {...rest}>
             {children}
-        </Flex>
+        </Card>
 
 
     )

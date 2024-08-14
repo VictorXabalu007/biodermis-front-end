@@ -10,7 +10,13 @@ const Select = (props: Props<any>) => (
       control: provided => ({
         ...provided,
         padding: '2px 0',
+        minWidth: '200px',
         width: 'auto',
+     
+      }),
+      menu: provided => ({
+        ...provided,
+        zIndex: 999
       }),
       ...props.styles,
     }}

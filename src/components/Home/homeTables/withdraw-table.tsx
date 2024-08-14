@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Image, Table, TableColumnType, Tooltip } from "antd";
+import { Button, Card, Flex, Image, Skeleton, Table, TableColumnType, Tooltip } from "antd";
 import { useWithdrawData } from "../../WithdrawalRequests/hooks/useWithdrawData";
 import Title from "../../shared/Typography/typography-title";
 import { useNavigate } from "react-router-dom";
@@ -105,12 +105,14 @@ const HomeWithdrawTable = () => {
 
 
         {isLoading ? <>
-        
+            
+            <Skeleton />
+
         </> : <>
         
             
                 <Table
-                
+                scroll={{ x: 300 }}
                 columns={columns}
                 dataSource={withDrawData}
         

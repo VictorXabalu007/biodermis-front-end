@@ -1,4 +1,5 @@
-import { Consultors } from "../../components/Consultors"
+
+import ConsultorsTable from "../../components/Consultors/consultors-table";
 import { useStateTheme } from "../../context/ThemeProvider"
 
 
@@ -10,7 +11,7 @@ export const ConsultorsTemplate = () => {
     return (
 
 
-        <Consultors.Table />
+        <ConsultorsTable />
 
         
     )

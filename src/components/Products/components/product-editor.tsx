@@ -1,13 +1,12 @@
 import {
   Col, Empty, Flex, Form,
-  Image, Input, InputRef, Popconfirm, Row, Select, Typography, Upload
+  Image, Input, InputRef, Popconfirm, Row, Select, Skeleton, Typography, Upload
 } from "antd";
 import { useParams } from "react-router-dom";
 import { SubHeader } from "../../shared/SubHeader";
 import { useEffect, useRef, useState } from "react";
 import { ProductsType } from "../service/getProducts";
 import { useProductsData } from "../hooks/useProductsData";
-import { Spinner } from "../../shared/Spinner";
 import { Controller } from "react-hook-form";
 import InputMoney from "../../shared/Input/InputNumber";
 import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
@@ -148,7 +147,7 @@ const ProductEditor = () => {
       {currentProduct ? (
         isLoading ? (
           <Col lg={24}>
-            <Spinner />
+            <Skeleton />
           </Col>
         ) : (
           <>

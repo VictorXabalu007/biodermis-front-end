@@ -1,16 +1,16 @@
 import { Flex, Form, Typography } from "antd"
-import { UserCredentials } from "../../../../@types/UserData/UserData"
-import { SelectLabel } from "../../../shared/Input/Select/SelectLabel"
+import { UserCredentials } from "../../@types/UserData/UserData"
+import { SelectLabel } from "../shared/Input/Select/SelectLabel"
 import Select from "react-select"
-import { Button } from "../../../shared/Button"
+import { Button } from "../shared/Button"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { buildStatus } from "../../../../functions/buildStatus"
+import { buildStatus } from "../../functions/buildStatus"
 import { useMutation } from "@tanstack/react-query"
-import { api } from "../../../../service/connection"
-import { getHeaders } from "../../../../service/getHeaders"
-import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction"
+import { api } from "../../service/connection"
+import { getHeaders } from "../../service/getHeaders"
+import { useMessageAction } from "../../hooks/useMessageAction/useMessageAction"
 
 const {Title} = Typography
 

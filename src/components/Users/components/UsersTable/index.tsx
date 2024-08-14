@@ -6,8 +6,7 @@ import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData.tsx"
 import { Pagination } from "../../../shared/Pagination/index.tsx"
 import { TableSorters } from "../../../shared/Table/components/TableSorters.tsx"
-import { Empty, Spin } from "antd"
-import { Spinner } from "../../../shared/Spinner/index.tsx"
+import { Empty, Skeleton, Spin } from "antd"
 import { UserCredentials } from "../../../../@types/UserData/UserData.ts"
 import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness.tsx"
 
@@ -64,7 +63,7 @@ export const UsersTable = () => {
 
             {isLoading ?
             
-                <Spinner />
+                <Skeleton />
 
             : (
 

@@ -14,7 +14,6 @@ import { Heading } from "../../../shared/Heading";
 import { Text } from "../../../shared/Text";
 import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
-import { Spinner } from "../../../shared/Spinner";
 import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
 import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -212,9 +211,9 @@ export const ForgotPassStep1 = () => {
 
                         {isLoading ? 
                         <>
-                            <Spinner 
-                                content="Enviando..."
-                            />
+                      
+                                Enviando...
+               
                         </> : (
 
 

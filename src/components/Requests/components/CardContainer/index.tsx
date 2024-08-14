@@ -1,8 +1,7 @@
-import { Flex } from "antd";
+import { Flex, Skeleton } from "antd";
 import { ProgressCard } from "../../../shared/Card/ProgressCard";
 import { useRequestCardItem } from "../../hooks/useRequestCardItems";
 import { getColorStylesByKey } from "./functions/getColorStylesByKey";
-import { Spinner } from "../../../shared/Spinner";
 
 
 export const CardContainer = () => {
@@ -19,7 +18,7 @@ export const CardContainer = () => {
 
                     isLoading ? <>
                     
-                        <Spinner key={item.key} />
+                        <Skeleton key={item.key} />
                     
                     </> : 
                     (

@@ -15,8 +15,6 @@ import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
 import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { DEFAULT_PATH } from "../../../../constants/paths/paths";
-import { Spinner } from "../../../shared/Spinner";
-
 
 
 export const ForgotPassStep2 = () => {
@@ -310,9 +308,7 @@ export const ForgotPassStep2 = () => {
 
               {isLoading ? <>
 
-              <Spinner
-                content="Alterando sua senha...."
-              />
+                Alterando sua senha....
               
               </> : (
 

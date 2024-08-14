@@ -2,8 +2,7 @@
 import { useCategoriesData } from "../../hooks/useCategoriesData";
 import { CardsFilter } from "../CardsFilter";
 import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
-import { Spinner } from "../../../shared/Spinner";
-import { Col, Empty, Flex, Modal, Row } from "antd";
+import { Col, Empty, Flex, Modal, Row, Skeleton } from "antd";
 import { CategoriesCard } from "../../../shared/Card/CategoriesCard";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
@@ -139,7 +138,7 @@ export const CardContainer = () => {
 
         {isLoading ?
             
-            <Spinner />
+            <Skeleton />
 
             : (
 

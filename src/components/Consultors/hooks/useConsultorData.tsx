@@ -21,7 +21,7 @@ export const useConsultorData = () => {
           const rankedData = sortedData.map((d, index) => ({
             ...d,
             rank: String(index + 1),
-            status: d.status === 'Ativo' ? 'isAtivo' : d.status
+            status: d.status === 'Ativo' ? 'isAtivo' : d.status,
           }));
           setConsultor(rankedData);
         }

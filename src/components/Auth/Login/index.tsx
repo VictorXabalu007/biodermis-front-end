@@ -10,11 +10,11 @@ import welcomeBg from '../../../assets/purple-frame-welcome.png';
 import biodermisLogo from '../../../assets/small-logo.png';
 import { Text } from "../../shared/Text";
 import { Link } from "../../shared/Link";
-import { BtnWrapper, InputWrapper } from "./styles";
+import { InputWrapper } from "./styles";
 import { FORGOT_PASS_1, HOME } from "../../../constants/paths/paths";
 import { useState } from "react";
 import { AUTH_USER } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { Spinner } from "../../shared/Spinner";
+
 
 export type LoginType = {
   email: string;
@@ -186,26 +186,19 @@ export const Login = () => {
 
             <Form.Item>
 
-              {isLoading ? <>
-              
-                <Spinner 
-                  content="Carregando..."
-                />
-              
-              </> : (
 
 
-              <BtnWrapper>
+           
                 <Button
-                  className="auth-btn bg-brand-purple text-white w-full text-center"
+                  loading={isLoading}
                   htmlType="submit"
                 >
                   Entrar
                 </Button>
-              </BtnWrapper>
+          
 
 
-              )}
+              
             </Form.Item>
           </Flex>
         </Form>

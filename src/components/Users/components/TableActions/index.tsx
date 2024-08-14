@@ -23,8 +23,7 @@ export const TableActions = ({data, table, row}:TableActionsProps<UserCredential
             <ModalNavigator 
             data={data} 
             isReadonly={props.readOnly}
-            table={table}
-            row={row}
+      
             />,
             okButtonProps: {className: 'hidden'}, 
             cancelButtonProps: {className: 'hidden'},

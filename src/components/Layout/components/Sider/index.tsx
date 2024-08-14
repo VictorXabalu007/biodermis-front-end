@@ -29,7 +29,6 @@ export const S = () => {
         collapsedWidth="0"
         onCollapse={setCollapsed}
         collapsible
-
         
         >
 

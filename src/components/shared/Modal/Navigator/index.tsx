@@ -15,7 +15,7 @@ import { UserRole } from "../../../../util/userRole";
 import { RangeDateProvider } from "../../../../context/RangeDate/RangeDateContext";
 import { UserForm } from "../../UserForm";
 
-export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCredentials>) => {
+export const ModalNavigator = ({data, isReadonly}:FormType<UserCredentials>) => {
     
     const render = (key: string, isReadonly?:boolean) => {
 
@@ -27,8 +27,9 @@ export const ModalNavigator = ({data, table, row, isReadonly}:FormType<UserCrede
                             <UserForm 
                                     data={data} 
                                     isReadonly={isReadonly}
-                                    row={row}
-                                    table={table}
+                   
+                                    
+
                                 />
                                 
                     </QueryClientProvider>

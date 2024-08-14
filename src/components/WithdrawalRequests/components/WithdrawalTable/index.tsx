@@ -7,8 +7,7 @@ import * as C from '../../../../styles/TableStyles/styles'
 import { useTableData } from "../../hooks/useTableData"
 import { Pagination } from "../../../shared/Pagination"
 import { TableSorters } from "../../../shared/Table/components/TableSorters"
-import { Spinner } from "../../../shared/Spinner"
-import { Empty } from "antd"
+import { Empty, Skeleton } from "antd"
 import { useEmptiness } from "../../../../hooks/useEmptiness/useEmptiness"
 
 
@@ -53,7 +52,9 @@ export const WithdrawalTable = () => {
 
             {isLoading ?
             
-                <Spinner /> :
+                <Skeleton />
+                
+                :
 
                 (
                 <>

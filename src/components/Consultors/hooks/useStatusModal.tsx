@@ -1,6 +1,6 @@
 import { Modal } from "antd"
 import { UserCredentials } from "../../../@types/UserData/UserData";
-import { StatusModal } from "../components/Modal";
+import { StatusModal } from "../status-update-modal";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../../service/queryClient";
 import { IoMdClose } from "react-icons/io";

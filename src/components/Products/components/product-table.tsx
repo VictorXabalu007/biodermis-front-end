@@ -9,9 +9,8 @@ import { ProductsType } from "../service/getProducts";
 import { useTableData } from "../hooks/useTableData";
 import { useEmptiness } from "../../../hooks/useEmptiness/useEmptiness";
 import { TableWrapper } from "../../shared/Table/components/TableWrapper";
-import { Spinner } from "flowbite-react";
 import { TableFilter } from "./table-filter";
-import { Empty } from "antd";
+import { Empty, Skeleton } from "antd";
 import { TableSorters } from "../../shared/Table/components/TableSorters";
 import { validateRowSelected } from "../../../functions/Validators/ValidateRowSelected/validateRowSelected";
 import { Pagination } from "../../shared/Pagination";
@@ -66,7 +65,7 @@ export const ProductsTable = () => {
 
         {isLoading ?
             
-            <Spinner />
+            <Skeleton />
 
             : (
 

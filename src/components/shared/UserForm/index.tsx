@@ -17,7 +17,7 @@ import { api } from "../../../service/connection";
 import { getTypeOfPixKey } from "../../../functions/Getters/getTypeOfPixKey";
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
 
-export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials>) => {
+export const UserForm = ({isReadonly, data}:FormType<UserCredentials>) => {
 
     const {contextHolder,success,error} = useMessageAction()
     
@@ -47,8 +47,8 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
                 bank:data.banco,
                 pixkey:data.pix
             },
-            userType: row.original.cargo_id === UserRole.CONSULTOR ? UserEditRole.Consultor : 
-            row.original.cargo_id === UserRole.USER ? UserEditRole.UserClient : UserEditRole.NormalUser
+            userType: data.cargo_id === UserRole.CONSULTOR ? UserEditRole.Consultor : 
+            data.cargo_id === UserRole.USER ? UserEditRole.UserClient : UserEditRole.NormalUser
         },
         resolver: zodResolver(userEditSchema),
         mode: 'all',
@@ -70,46 +70,36 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
 
 
     const updateUserData = useMutation({
-        mutationFn: async (data:UserEditType) => {
+        mutationFn: async (userData:UserEditType) => {
 
             const headers = getHeaders();
 
             const body = {
-                "nome": data.personalData.name,
-                "cpf": data.personalData.cpf,
-                "telefone": data.personalData.phone,
-                "agencia": row.original.agencia,
-                "conta": row.original.conta,
-                "pix": row.original.pix,
-                "tipochave": getTypeOfPixKey(row.original.pix),
-                "banco":row.original.banco,
-                "email":data.personalData.email
+                "nome": userData.personalData.name,
+                "cpf": userData.personalData.cpf,
+                "telefone": userData.personalData.phone,
+                "agencia": data.agencia,
+                "conta": data.conta,
+                "pix": data.pix,
+                "tipochave": getTypeOfPixKey(data.pix),
+                "banco":data.banco,
+                "email":data.email
             }
 
-            const req = await api.patch(`/usuarios/${row.original.id}`,body,{
+            const req = await api.patch(`/usuarios/${data.id}`,body,{
                 headers
             });
 
             return req.data
 
         },
-        onSuccess: (res, data:UserEditType) => {
+        onSuccess: (res) => {
             
             success(res.success)
 
-            const body = {
-                "nome": data.personalData.name,
-                "cpf": data.personalData.cpf,
-                "telefone": data.personalData.phone,
-                "agencia": row.original.agencia,
-                "conta": row.original.conta,
-                "pix": row.original.pix,
-                "banco":row.original.banco,
-                "email":data.personalData.email
-            }
-   
-            //@ts-ignore
-            table.options.meta?.updateData(row.index, body);
+            setTimeout(()=> {
+                window.location.reload();
+            },1000)
             
 
         },
@@ -121,29 +111,29 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
     })
     
     const updateUserAddress = useMutation({
-        mutationFn: async (data:UserEditType) => {
+        mutationFn: async (userData:UserEditType) => {
 
             const headers = getHeaders();
 
-            const hasAddress = (row.original.estado &&
-            row.original.cidade && row.original.cep && row.original.cidade &&
-            row.original.numero) !== undefined
+            const hasAddress = (data.estado &&
+            data.cidade && data.cep && data.cidade &&
+            data.numero) !== undefined
             
 
             if(hasAddress) {
                 
                 const body = {
-                    "rua": data.addressData.street,
-                    "bairro": data.addressData.neighboorhood,
-                    "complemento": data.addressData.complement,
-                    "numero": data.addressData.number,
-                    "cep": data.addressData.cep,
-                    "cidade":  data.addressData.city,
-                    "estado": data.addressData.state,
+                    "rua": userData.addressData.street,
+                    "bairro": userData.addressData.neighboorhood,
+                    "complemento": userData.addressData.complement,
+                    "numero": userData.addressData.number,
+                    "cep": userData.addressData.cep,
+                    "cidade":  userData.addressData.city,
+                    "estado": userData.addressData.state,
         
                 }
     
-                const req = await api.patch(`/endereco/${row.original.addressId}`,body,{
+                const req = await api.patch(`/endereco/${data.addressId}`,body,{
                     headers
                 });
     
@@ -152,14 +142,14 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
             } else {
 
                 const body = {
-                    "rua": data.addressData.street,
-                    "bairro": data.addressData.neighboorhood,
-                    "complemento": data.addressData.complement,
-                    "numero": data.addressData.number,
-                    "cep": data.addressData.cep,
-                    "cidade":  data.addressData.city,
-                    "estado": data.addressData.state,
-                    "usuario_id":row.original.id
+                    "rua": userData.addressData.street,
+                    "bairro": userData.addressData.neighboorhood,
+                    "complemento": userData.addressData.complement,
+                    "numero": userData.addressData.number,
+                    "cep": userData.addressData.cep,
+                    "cidade":  userData.addressData.city,
+                    "estado": userData.addressData.state,
+                    "usuario_id":data.id
         
                 }
     
@@ -171,13 +161,14 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
             }
 
         },
-        onSuccess: (res, context:UserEditType) => {
+        onSuccess: (res) => {
             
             success(res.success)
       
    
-            //@ts-ignore
-            table.options.meta?.updateData(row.index, context);
+            setTimeout(()=> {
+                window.location.reload();
+            },1000)
             
 
         },
@@ -190,47 +181,36 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
     })
 
     const updateUserBank = useMutation({
-        mutationFn: async (data:UserEditType) => {
+        mutationFn: async (userData:UserEditType) => {
 
             const headers = getHeaders();
 
             const body = {
-                "nome": row.original.nome,
-                "cpf":row.original.cpf,
-                "telefone":row.original.telefone,
-                "agencia": data.bankData.agency,
-                "conta": data.bankData.account,
-                "pix": data.bankData.pixkey,
-                "tipochave": getTypeOfPixKey(data.bankData.pixkey),
-                "banco":data.bankData.bank, 
-                "email":row.original.email
+                "nome": data.nome,
+                "cpf":data.cpf,
+                "telefone":data.telefone,
+                "agencia": userData.bankData.agency,
+                "conta": userData.bankData.account,
+                "pix": userData.bankData.pixkey,
+                "tipochave": getTypeOfPixKey(userData.bankData.pixkey),
+                "banco":userData.bankData.bank, 
+                "email":data.email
             }
 
-            const req = await api.patch(`/usuarios/${row.original.id}`,body,{
+            const req = await api.patch(`/usuarios/${data.id}`,body,{
                 headers
             });
 
             return req.data
 
         },
-        onSuccess: (res, data:UserEditType) => {
+        onSuccess: (res) => {
             
             success(res.success)
-            const body = {
-                "nome": row.original.nome,
-                "cpf":row.original.cpf,
-                "telefone":row.original.telefone,
-                "agencia": data.bankData.agency,
-                "conta": data.bankData.account,
-                "pix": data.bankData.pixkey,
-                "tipochave": getTypeOfPixKey(data.bankData.pixkey),
-                "banco":data.bankData.bank,
-                "email":row.original.email
-                
-            }
-   
-            //@ts-ignore
-            table.options.meta?.updateData(row.index, body);
+            setTimeout(()=> {
+                window.location.reload();
+            },1000)
+        
             
 
         },
@@ -268,13 +248,13 @@ export const UserForm = ({isReadonly, row, table, data}:FormType<UserCredentials
            <Form 
            layout="vertical"
            onFinish={handleSubmit(onSubmit)}
-           disabled={row.original.cargo_id === UserRole.USER}
+           disabled={data.cargo_id === UserRole.USER}
 
            >
 
                 {contextHolder}
          
-                {row.original.cargo_id === UserRole.USER &&
+                {data.cargo_id === UserRole.USER &&
 
                     <Alert
                         className="my-3"

@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Image, Table, TableColumnType, Tooltip } from "antd";
+import { Button, Card, Flex, Image, Skeleton, Table, TableColumnType, Tooltip } from "antd";
 import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
 import Title from "../../shared/Typography/typography-title";
 import { useNavigate } from "react-router-dom";
@@ -97,14 +97,15 @@ const HomeConsultorsTable = () => {
 
 
         {isLoading ? <>
-        
-        </> : <>
+            
+            <Skeleton />
+
+        </> : <>    
         
             <Table
-        
+                scroll={{ x: 300 }}
                 columns={columns}
                 dataSource={consultor}
-         
             />
         
         </>}
