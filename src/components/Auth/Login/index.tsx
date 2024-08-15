@@ -184,22 +184,19 @@ export const Login = () => {
               <Link.Content content="Esqueci minha senha" />
             </Link.Root>
 
-            <Form.Item>
-
-
-
+    
            
                 <Button
                   loading={isLoading}
                   htmlType="submit"
+                  size="large"
+               
                 >
                   Entrar
                 </Button>
           
-
-
               
-            </Form.Item>
+          
           </Flex>
         </Form>
       </Flex>

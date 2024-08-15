@@ -1,4 +1,5 @@
-import { WithdrawalRequests } from "../../components/WithdrawalRequests"
+
+import WithdrawalTable from "../../components/WithdrawalRequests/withdrawal-table";
 import { useStateTheme } from "../../context/ThemeProvider";
 
 
@@ -10,8 +11,7 @@ export const WithdrawalRequestsTemplate = () => {
     
     return (
  
-
-                <WithdrawalRequests.Table />
+       <WithdrawalTable />
 
     );
 }

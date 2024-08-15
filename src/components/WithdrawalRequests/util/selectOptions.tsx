@@ -1,4 +1,4 @@
-import { SelectLabel } from "../../../../shared/Input/Select/SelectLabel";
+import { SelectLabel } from "../../shared/Input/Select/SelectLabel";
 
 
 export const PaymentStatus = {

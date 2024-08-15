@@ -9,12 +9,13 @@ export type InputMoneyProps  = {
 
   value: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isFlat?:boolean
 
 } & InputProps
 
 const DECIMAL_SIZE = 2;
 
-const InputMoney = ({ value, onChange, className,...rest }: InputMoneyProps) => {
+const InputMoney = ({ value, onChange, className,isFlat = true, ...rest }: InputMoneyProps) => {
     
   const [currentValue, setCurrentValue] = useState<string>(`${value}`);
 
@@ -55,7 +56,7 @@ const InputMoney = ({ value, onChange, className,...rest }: InputMoneyProps) => 
     <Input
       
       type='text'
-      className={twMerge('bg-transparent text-md placeholder-gray-neutral-600 p-0 border-b-1 border-gray-neutral-200 text-gray-neutral-600 border-l-0 border-r-0 border-t-0 w-full',className)}
+      className={twMerge(isFlat ? 'bg-transparent text-md placeholder-gray-neutral-600 p-0 border-b-1 border-gray-neutral-200 text-gray-neutral-600 border-l-0 border-r-0 border-t-0 w-full': '',className)}
       value={currentValue}
       onChange={handleOnChange}
       {...rest}

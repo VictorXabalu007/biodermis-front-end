@@ -218,6 +218,7 @@ export const ProductsTable = () => {
   ];
 
   return (
+    
     <TableWrapper>
         {contextHolder}
       <TableHeaderWrapper heading="Produtos gerais">

@@ -1,5 +1,6 @@
-import { PaymentStatus } from "../../../WithdrawalRequests/components/TableHeader/util/selectOptions";
+
 import { Tag } from "../../../shared/Tag";
+import { PaymentStatus } from "../../../WithdrawalRequests/util/selectOptions";
 import { useModalComponent } from "../../hooks/useModalComponent";
 import { Requests } from "../@types/Requests";
 

@@ -53,6 +53,10 @@ export const useConsultorData = () => {
 
     }
 
+    const getConsultorById = (id:number):UserCredentials | null => {
+      return consultor.find(c => c.id === id) || null
+    }
+
     return {
         consultor,
         setConsultor,
@@ -61,6 +65,7 @@ export const useConsultorData = () => {
         isConsultorsEmpty,
         isLoading,
         isError,
-        getConsultorImageById
+        getConsultorImageById,
+        getConsultorById
     };
 };

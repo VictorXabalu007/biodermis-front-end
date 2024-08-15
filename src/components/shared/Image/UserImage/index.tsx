@@ -29,6 +29,7 @@ export const UserImage = ({className,image, imageClassname}:UserImageProps) => {
             }}
             className={twMerge("rounded-[100%] border border-brand-purple ",imageClassname)}
             alt="user image" 
+            preview={false}
              />
 
         </div>
