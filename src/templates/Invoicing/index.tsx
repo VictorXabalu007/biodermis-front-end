@@ -1,4 +1,7 @@
-import { Invoicing } from "../../components/Invoicing"
+
+import InvoicingCardContainer from "../../components/Invoicing/invoicing-cards";
+import InvoicingChartContainer from "../../components/Invoicing/invoicing-chart";
+import InvoicingDataContainer from "../../components/Invoicing/invoicing-stats-data";
 import { useStateTheme } from "../../context/ThemeProvider";
 
 
@@ -12,11 +15,11 @@ export const InvoicingTemplate = () => {
 
         <>
         
-        <Invoicing.Cards />
+            <InvoicingCardContainer />
 
-        <Invoicing.Chart />
-
-        <Invoicing.Data />
+            <InvoicingChartContainer />
+            
+            <InvoicingDataContainer />
         
         </>
 

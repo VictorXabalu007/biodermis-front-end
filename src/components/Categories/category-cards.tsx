@@ -91,7 +91,6 @@ const CategoryCardContainer = () => {
     const handleDelete = (id:number, categoria:string) => {
 
 
-
         showConfirmModal(
           {
             handleOk:()=> handleOk(id),

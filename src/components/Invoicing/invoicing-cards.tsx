@@ -1,14 +1,14 @@
-import { useRangeDate } from "../../../../context/RangeDate/RangeDateContext";
-import { useInvoicingCardItem } from "../../hooks/useInvoicingCardItem";
-import { StatsCard } from "../../../shared/Card/StatsCard";
-import { InputRangePicker } from "../../../shared/Input/RangePicker";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
+import { useInvoicingCardItem } from "./hooks/useInvoicingCardItem";
+import { StatsCard } from "../shared/Card/StatsCard";
+import { InputRangePicker } from "../shared/Input/RangePicker";
 import { Flex, Typography } from "antd";
-import { RequestStatusChange } from "../../../Requests/hooks/useRequestsData";
+import { RequestStatusChange } from "../Requests/hooks/useRequestsData";
 
 
 const {Text} = Typography;
 
-export const CardContainer = () => {
+const InvoicingCardContainer = () => {
   const { state, getDates } = useRangeDate();
   const { items } = useInvoicingCardItem();
 
@@ -59,3 +59,5 @@ export const CardContainer = () => {
     </div>
   );
 };
+
+export default InvoicingCardContainer

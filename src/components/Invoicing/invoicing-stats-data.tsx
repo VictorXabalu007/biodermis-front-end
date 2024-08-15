@@ -1,8 +1,9 @@
 
-import { DataItem } from "./components/DataItem";
-import { useMovimentationData } from "../../../../hooks/useMovimentationData/useMovimentationData";
+import { DataItem } from "./data-item";
+import { useMovimentationData } from "../../hooks/useMovimentationData/useMovimentationData";
+import { Flex } from "antd";
 
-export const DataContainer = () => {
+const InvoicingDataContainer = () => {
 
   const {
     getInputData, 
@@ -11,14 +12,19 @@ export const DataContainer = () => {
   
 
   
-
   const allInputData = getInputData().flatMap(d => d.monthData);
   const allOutputData = getOutputData().flatMap(d => d.monthData);
 
   
   return (
 
-    <div className="flex flex-wrap gap-3 mt-10 justify-between items-center">
+    <Flex 
+    className="mt-10"
+    justify="space-between"
+    align="center"
+    gap={15}
+    
+    >
 
       <DataItem
         title={"Entradas"}
@@ -27,7 +33,6 @@ export const DataContainer = () => {
         cardType="input"
       />
 
-      
 
       <DataItem
         title={"Saídas"}
@@ -36,7 +41,9 @@ export const DataContainer = () => {
         cardType="output"
       />
 
-    </div>
+    </Flex>
 
   );
 };
+
+export default InvoicingDataContainer
