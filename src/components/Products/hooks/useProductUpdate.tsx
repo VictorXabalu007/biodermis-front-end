@@ -4,7 +4,6 @@ import { useState } from "react";
 import { updateProduct } from "../service/updateProduct";
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
 import { ProductsType } from "../service/getProducts";
-import { Row, Table } from "@tanstack/react-table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateProductSchema } from "../../../validations/updateProductValidation";
 
@@ -12,11 +11,9 @@ type Props = {
     data:ProductsType
     id:number
     isEditing:boolean
-    table?:Table<ProductsType>
-    row?:Row<ProductsType>
 }
 
-export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
+export const useProductUpdate = ({data,id,isEditing}:Props) => {
     
     const [result,setResult] = useState({success:false,finish:false})
     const {contextHolder, success, error} = useMessageAction();
@@ -31,14 +28,14 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
 
       const updateProductMutation = useMutation({
         mutationFn: async (data:ProductsType)=> updateProduct(data,id),
-        onSuccess: (res, context)=> {
+        onSuccess: (res)=> {
           
           success(res.success);
-    
-          //@ts-ignore
-          table.options.meta?.updateData(row.index, context);
+        
           setResult({success:true,finish:true})
-      
+
+          window.location.reload()
+          
           
         },
         onError:(err:any)=> {
@@ -46,7 +43,6 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
           error(err.response.data.error);
           setResult({success:false,finish:true})
      
-          
         }
 
       });
@@ -60,7 +56,7 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
         }
         
     }
-    
+
 
     return {
         result,
@@ -73,4 +69,5 @@ export const useProductUpdate = ({data,id,isEditing,table,row}:Props) => {
         updateProductMutation,
         reset
     }
+    
 }

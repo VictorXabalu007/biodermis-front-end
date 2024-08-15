@@ -23,6 +23,7 @@ export type ProductsType = {
   produto_id: number;
   valortotal:string,
   imagePath: any
+  key:React.Key
 };
 
 export const getProducts = async (id: number = 0) => {

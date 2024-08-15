@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { ProductsType } from "../service/getProducts";
-import { Controller } from "react-hook-form";
+import { TableActionsProps } from "../../@types/TableActions/TableActions";
+import { ProductsType } from "./service/getProducts";
+import { CategoryType } from "../Categories/service/getCategory";
+
+import { useProductUpdate } from "./hooks/useProductUpdate";
 import { Flex, Image, Select } from "antd";
-import { Button } from "../../shared/Button";
-import { Form } from "../../shared/Form";
-import { InputRoot } from "../../shared/Input/Input/InputRoot";
-import { Input } from "../../shared/Input/Input";
-import InputMoney from "../../shared/Input/InputNumber";
-import { CategoryType } from "../../Categories/service/getCategory";
-import { TableActionsProps } from "../../../@types/TableActions/TableActions";
-import { useProductUpdate } from "../hooks/useProductUpdate";
+import { Controller } from "react-hook-form";
+import { Button } from "../shared/Button";
+import { Form } from "../shared/Form";
+import { InputRoot } from "../shared/Input/Input/InputRoot";
+import { Input } from "../shared/Input/Input";
+
+import InputMoney from "../shared/Input/InputNumber";
+import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
 
 
-export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>) => {
+
+export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
 
   
   const [isEditable, setIsEditable] = useState<boolean>(false);
@@ -75,8 +78,6 @@ export const ProductView = ({data, row, table}: TableActionsProps<ProductsType>)
     data,
     id: data.id,
     isEditing,
-    row,
-    table
   });
 
   const categories = [

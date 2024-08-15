@@ -2,22 +2,23 @@ import {
   Col, Empty, Flex, Form,
   Image, Input, InputRef, Popconfirm, Row, Select, Skeleton, Typography, Upload
 } from "antd";
-import { useParams } from "react-router-dom";
-import { SubHeader } from "../../shared/SubHeader";
-import { useEffect, useRef, useState } from "react";
-import { ProductsType } from "../service/getProducts";
-import { useProductsData } from "../hooks/useProductsData";
-import { Controller } from "react-hook-form";
-import InputMoney from "../../shared/Input/InputNumber";
-import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { CategoryType } from "../../Categories/service/getCategory";
-import { QuillInput } from "../../shared/Input/QuillInput";
-import { Button } from "../../shared/Button";
-import { useProductUpdate } from "../hooks/useProductUpdate";
-import { API_URL } from "../../../service/url";
-import { useUpload } from "../../../hooks/useUpload";
-import { useImageUpload } from "../hooks/useImageUpload";
+
 import { UploadFile } from "antd/lib";
+import { useParams } from "react-router-dom";
+import { useProductsData } from "./hooks/useProductsData";
+import { useEffect, useRef, useState } from "react";
+import { CategoryType } from "../Categories/service/getCategory";
+import { useUpload } from "../../hooks/useUpload";
+import { ProductsType } from "./service/getProducts";
+import { useProductUpdate } from "./hooks/useProductUpdate";
+import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { SubHeader } from "../shared/SubHeader";
+import { useImageUpload } from "./hooks/useImageUpload";
+import { API_URL } from "../../service/url";
+import { Controller } from "react-hook-form";
+import InputMoney from "../shared/Input/InputNumber";
+import { QuillInput } from "../shared/Input/QuillInput";
+import { Button } from "../shared/Button";
 
 const ProductEditor = () => {
   
@@ -102,7 +103,7 @@ const ProductEditor = () => {
     
       setFileList(
         initialData.imagens.map((image) => ({
-          url: API_URL + "/" + image,
+          url:  API_URL + "/" + image,
           uid: image,
           name: image,
           status: 'done',

@@ -37,7 +37,7 @@ export const useProductsData = () => {
     
     if (data) {
 
-      const newProducts = data.map(p => {
+      const newProducts = data.map((p) => {
 
           if(p.imagens) {
 
@@ -48,11 +48,13 @@ export const useProductsData = () => {
             return {
               ...p,
               imagePath: isLink ? path : API_URL + "/" + path,
+              key:p.id
             }
 
           } else {
             return {
-              ...p
+              ...p,
+              key:p.id
             }
           }
 

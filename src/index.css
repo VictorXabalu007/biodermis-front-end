@@ -7,6 +7,10 @@
   
 }
 
+.selected-row {
+  background-color: #f5f5f5 !important; 
+}
+
 .ant-modal-confirm-body svg {
   fill: currentColor !important;
 }

@@ -1,7 +1,8 @@
 
 
-import ProductEditor from "./components/product-editor";
-import { ProductsTable } from "./components/product-table";
+
+import ProductEditor from "./product-editor";
+import { ProductsTable } from "./product-table";
 
 
 export const Products = {
