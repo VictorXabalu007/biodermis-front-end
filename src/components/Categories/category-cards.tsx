@@ -1,26 +1,26 @@
 
-import { useCategoriesData } from "../../hooks/useCategoriesData";
-import { CardsFilter } from "../CardsFilter";
-import { TableWrapper } from "../../../shared/Table/components/TableWrapper";
+import { useCategoriesData } from "./hooks/useCategoriesData";
+import { CardsFilter } from "./cards-filter";
+import { TableWrapper } from "../shared/Table/components/TableWrapper";
 import { Col, Empty, Flex, Modal, Row, Skeleton } from "antd";
-import { CategoriesCard } from "../../../shared/Card/CategoriesCard";
+import { CategoriesCard } from "../shared/Card/CategoriesCard";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
-import { getHeaders } from "../../../../service/getHeaders";
-import { api } from "../../../../service/connection";
+import { useMessageAction } from "../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../service/getHeaders";
+import { api } from "../../service/connection";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FlexWrapper, HoverShowText } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../../../../constants/paths/paths";
-import { CategoryFilterActions, useCategoryFilter } from "../../../../context/CategoryFilterContext/CategoryFilterContext";
-import { SELECTED_MENU_KEY } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { ContainerPagination } from "../../../shared/Pagination/ContainerPagination";
-import { usePagination } from "../../../../hooks/usePagination/usePagination";
+import { PRODUCTS } from "../../constants/paths/paths";
+import { CategoryFilterActions, useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
+import { SELECTED_MENU_KEY } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { ContainerPagination } from "../shared/Pagination/ContainerPagination";
+import { usePagination } from "../../hooks/usePagination/usePagination";
 
 
 const PAGE_SIZE  = 9;
 
-export const CardContainer = () => {
+const CategoryCardContainer = () => {
 
     const {
         isLoading,
@@ -104,6 +104,10 @@ export const CardContainer = () => {
 
     }
 
+    const handlePageChange = (page: number) => {
+        paginationItems.setCurrentPage(page); 
+    };
+
 
 
     const handleCategorySearch = (categoria_id:number) => {
@@ -132,7 +136,12 @@ export const CardContainer = () => {
     return (
 
 
-        <TableWrapper style={{minHeight: '100vh'}}>
+        <TableWrapper 
+            style={{
+                minHeight: '100vh',
+                width:'100%'
+            }}
+        >
 
         {contextHolder}
 
@@ -181,15 +190,12 @@ export const CardContainer = () => {
                                 <FlexWrapper>
 
                                     <CategoriesCard.Root
-                                
-                                        onClick={() => {handleCategorySearch(d.id)}}
+                            
                                         key={d.id}
                                     >
                                         <CategoriesCard.Header 
-                                            onDelete={(e)=>{
-                                                e.stopPropagation()
-                                                handleDelete(d.id, d.categoria)
-                                            }}
+                                            onDelete={()=>handleDelete(d.id, d.categoria)}
+                                            onView={()=>handleCategorySearch(d.id)}
                                             title={d.categoria}
                                         />
 
@@ -243,15 +249,23 @@ export const CardContainer = () => {
         }
 
         <ContainerPagination
-            {...paginationItems}
+           currentPage={paginationItems.currentPage}
+           totalItems={paginationItems.totalPages}
+           onPageChange={handlePageChange}
+           style={{
+                marginTop:'10px',
+                marginLeft:'0 auto'
+
+           }}
+           
         />
 
 
 
         </TableWrapper>
 
-
-        
     );
 
 }
+
+export default CategoryCardContainer;

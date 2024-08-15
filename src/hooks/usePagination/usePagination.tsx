@@ -47,7 +47,8 @@ export const usePagination = <T,>({data,pageSize=5}:UsePaginationProps<T>) => {
         handlePreviousPage,
         handleNextPage,
         currentPage,
-        totalPages
+        totalPages,
+        setCurrentPage
     }
 
 

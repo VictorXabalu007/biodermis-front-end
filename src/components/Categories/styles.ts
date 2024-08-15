@@ -8,7 +8,7 @@ transition: visibility 0s, opacity 0.3s linear;
 
 
 export const FlexWrapper = styled(Flex)`
-&:hover .hover-show-text {
-    color: #C882B7;
-}
+    &:hover .hover-show-text {
+        color: #C882B7;
+    }
 `;

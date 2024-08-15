@@ -1,23 +1,19 @@
-import { Flex, theme } from "antd";
-import { PropsWithChildren } from "react";
+import { Card, CardProps, theme } from "antd";
 import { twMerge } from "tailwind-merge";
 
-type FlexProps = React.ComponentProps<typeof Flex>;
 
-
-export const CategoriesCardRoot = ({children,className,...rest}:PropsWithChildren<FlexProps>) => {
+export const CategoriesCardRoot = ({children,className,...rest}:CardProps) => {
 
     const {token:{colorBgContainer}} =theme.useToken();
 
     return (
-        <Flex
-         vertical
-         gap={10}
+        <Card
+    
+      
          className={twMerge("hover:shadow hover:cursor-pointer",className)}
          {...rest} style={{
             background: colorBgContainer,
             borderRadius: '5px',
-            padding: '1rem',
             border: '1px solid #EFEFEF',
             minWidth: '250px',
             flex: 1
@@ -26,7 +22,7 @@ export const CategoriesCardRoot = ({children,className,...rest}:PropsWithChildre
             {children}
 
 
-        </Flex>
+        </Card>
     )
 
 }

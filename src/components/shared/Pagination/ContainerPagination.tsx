@@ -1,75 +1,30 @@
-import { Button, Flex } from "antd"
-import { WrapperPagination } from "../../Invoicing/components/DataContainer/components/styles"
-import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md"
+import { Pagination } from "antd";
+import { PaginationProps } from "antd/lib";
 
-type PaginationProps = {
-    handleFirstPage: ()=>void
-    handleNextPage: ()=>void
-    handlePreviousPage: ()=>void
-    handleLastPage: ()=>void
-    totalPages: number,
-    currentPage:number
-}
+type Props = {
+    onPageChange: (page: number) => void;
+    totalItems: number; 
+    currentPage: number; 
+    pageSize?: number; 
+} & PaginationProps
 
-export const ContainerPagination = (
-    {handleFirstPage,
-    handleNextPage,
-    handlePreviousPage,
-    handleLastPage,
-    totalPages,
-    currentPage
-
-    }:PaginationProps) => {
-
-
-
+export const ContainerPagination = ({
+    onPageChange,
+    totalItems,
+    currentPage,
+    pageSize = 10, 
+    ...rest
+}: Props) => {
 
     return (
+        <Pagination
+            current={currentPage} 
+            total={totalItems} 
+            pageSize={pageSize} 
+            onChange={onPageChange}
+            showSizeChanger={false} 
+            {...rest}
+        />
+    );
 
-
-        
-        <Flex gap={5} align="center">
-
-        <WrapperPagination>
-
-            <Button className="pagination-btn" size="small" aria-label="first-page" onClick={handleFirstPage} disabled={currentPage === 1}>
-                <MdKeyboardDoubleArrowLeft  />
-            </Button>
-
-        </WrapperPagination>
-
-            <WrapperPagination>
-
-                <Button className="pagination-btn" size="small" aria-label="prev-page" onClick={handlePreviousPage} disabled={currentPage === 1}>
-                    <MdOutlineKeyboardArrowLeft />
-                </Button>
-
-            </WrapperPagination>
-
-        
-
-            <WrapperPagination>
-
-                <Button className="pagination-btn" size="small" aria-label="next page" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                    <MdOutlineKeyboardArrowRight />
-                </Button>
-
-            </WrapperPagination>
-
-            <WrapperPagination>
-
-                <Button className="pagination-btn" size="small" aria-label="last page" onClick={handleLastPage} disabled={currentPage === totalPages}>
-                    <MdKeyboardDoubleArrowRight />
-                </Button>
-
-            </WrapperPagination>
-
-            <span>Página {currentPage} de {totalPages}</span>
-
-        </Flex>
-         
-
-    )
-
-
-}
+};

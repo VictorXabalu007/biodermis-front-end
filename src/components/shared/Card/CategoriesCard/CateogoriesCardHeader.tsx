@@ -1,18 +1,20 @@
-import { Button, Flex } from "antd"
+import {  Flex } from "antd"
 import { Heading } from "../../Heading"
 import { BiCategory } from "react-icons/bi"
-import { FaTrash } from "react-icons/fa6"
-import { ButtonWrapper } from "../../../Products/style/styles"
+
+import DeleteButton from "../../Button/delete-button"
+import EyeButton from "../../Button/edit-button"
 
 
 
 type HeaderProps = {
-    onDelete: (e:React.MouseEvent<HTMLButtonElement>) => void,
+    onDelete: () => void,
+    onView: () => void,
     title:string
 }
 
 
-export const CategoriesCardHeader = ({title,onDelete}:HeaderProps) => {
+export const CategoriesCardHeader = ({title,onDelete,onView}:HeaderProps) => {
 
 
     return (
@@ -35,21 +37,20 @@ export const CategoriesCardHeader = ({title,onDelete}:HeaderProps) => {
 
             </Flex>
 
-            <Flex>
+            <Flex align="center" gap={5}>
 
-            <ButtonWrapper>
+                
+                <EyeButton 
+                    onClick={onView}
+                />
 
-                <Button
+                <DeleteButton
 
-                    onClick={onDelete}
+                    onDelete={onDelete}
                     aria-label="Delete card"
-                    icon={<FaTrash style={{fontSize: 10}} />}
-                    className="delete-btn bg-brand-purple"
                     size="small"
-                    />
-
-
-            </ButtonWrapper>
+                />
+            
 
 
             </Flex>

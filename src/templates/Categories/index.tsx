@@ -1,4 +1,5 @@
-import { Categories } from "../../components/Categories"
+
+import CategoryCardContainer from "../../components/Categories/category-cards";
 import { useStateTheme } from "../../context/ThemeProvider"
 
 
@@ -11,8 +12,8 @@ export const CategoriesTemplate = () => {
 
     return(
 
+         <CategoryCardContainer />
 
-         <Categories.Cards />
-
-    )
+    );
+    
 }
