@@ -1,14 +1,15 @@
 import React, { Dispatch, useState } from "react"
-import { BannerType } from "../@types/BannerType"
-import { useBannerData } from "../hooks/useBannerData"
-import { TableHeaderWrapper } from "../../shared/Table/components/TableHeaderWrapper"
-import { Input } from "../../shared/Input/Input"
-import { SearchIcon } from "../../shared/Icon/SearchIcon"
-import { Button } from "../../shared/Button"
+import { BannerType } from "./@types/BannerType"
+import { useBannerData } from "./hooks/useBannerData"
+import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper"
+
+
 import { FaPlus } from "react-icons/fa6"
-import Select from "../../shared/Input/Select"
-import { SelectLabel } from "../../shared/Input/Select/SelectLabel"
-import { BannersComponents } from "."
+import Select from "../shared/Input/Select"
+import { SelectLabel } from "../shared/Input/Select/SelectLabel"
+import BannerRegisterModal from "./banner-register-modal"
+import { Button, Flex, Input } from "antd"
+import { SearchIcon } from "../shared/Icon/SearchIcon"
 
 
 type BannerFilterProps = {
@@ -35,7 +36,7 @@ const selectItems = [
     },
 ]
 
-export const BannersFilters = ({setData}:BannerFilterProps) => {
+const BannersFilters = ({setData}:BannerFilterProps) => {
 
     const {data:initialData} = useBannerData();
 
@@ -67,24 +68,26 @@ export const BannersFilters = ({setData}:BannerFilterProps) => {
     const handleOpen = ()=> setOpen(!open)
 
     return (
+
         <TableHeaderWrapper heading="Banners gerais">
 
-        <div className="flex flex-wrap justify-between items-center">
+        <Flex align="center" justify="space-between" wrap>
 
-            <div className="flex flex-wrap gap-2">
+            <Flex gap={25} align="center">
                 
-                <Input.Root className="lg:w-[400px] w-full flex-1">
-
-                    <Input.System
-                    className="py-2 flex-1"
-                    placeholder="Buscar banner"
-                    suffix= {<SearchIcon />}
-                    value={bannerName}
+           
+                <Input
                     onChange={handleBannerNameChange}
-
-                    />
-                
-                </Input.Root>
+                    value={bannerName}
+                    placeholder="bucar banner"
+                    suffix= {<SearchIcon />}
+                    size="large"
+                    style={{
+                        height:'45px'
+                    }}
+                  
+                    
+                />
 
                 <Select 
                     className="w-full md:w-[250px]"
@@ -93,23 +96,30 @@ export const BannersFilters = ({setData}:BannerFilterProps) => {
                     onChange={(e) => handleSelectChange(e.value)}
                 />
 
-            </div>
+            </Flex>
 
-            <div className="flex flex-wrap gap-2">
+            <Flex 
+                gap={5} 
+                wrap
+            >
 
-                <Button.Root
-                    onClick={handleOpen}
-                >
-                    <Button.Content content="Adicionar banner" />
-                    <Button.Icon icon={FaPlus} />
-                </Button.Root>
+                <Button size="large" onClick={handleOpen}>
 
-            </div>
+                    <Flex gap={5} align="center">
 
-            <BannersComponents.Register setOpen={setOpen} open={open} />
+                        Adicionar banner <FaPlus />
 
-        </div>
+                    </Flex>
+                </Button>
+
+            </Flex>
+
+            <BannerRegisterModal setOpen={setOpen} open={open} />
+
+        </Flex>
 
     </TableHeaderWrapper>
     )
 }
+
+export default BannersFilters

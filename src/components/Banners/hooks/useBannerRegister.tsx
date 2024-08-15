@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { BannerRegisterType, bannerSchema } from "../validations/bannerSchema"
 import { SelectLabel } from "../../shared/Input/Select/SelectLabel"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../../service/connection"
 import { getHeaders } from "../../../service/getHeaders"
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction"
+import { BannerRegisterType, bannerSchema } from "../../../validations/registerBannerValidation"
 
 
 

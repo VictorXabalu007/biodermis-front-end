@@ -1,4 +1,5 @@
-import { Banners } from "../../components/Banners"
+
+import BannersContainer from "../../components/Banners/banners";
 import { useStateTheme } from "../../context/ThemeProvider"
 
 export const BannersTemplate = () => {
@@ -9,8 +10,8 @@ export const BannersTemplate = () => {
     return (
   
 
-        <Banners.Container />
+        <BannersContainer />
 
-
-    )
+    );
+    
 }

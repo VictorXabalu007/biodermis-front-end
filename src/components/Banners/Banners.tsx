@@ -4,19 +4,26 @@ import { useBannerData } from "./hooks/useBannerData";
 import { BannerCard } from "../shared/Card/BannersCard";
 import { usePagination } from "../../hooks/usePagination/usePagination";
 import { ContainerPagination } from "../shared/Pagination/ContainerPagination";
-import { BannersComponents } from "./components";
+import BannersFilters from "./banner-filter";
+
 
 const PAGE_SIZE = 10;
 
-export const BannersContainer = () => {
+const BannersContainer = () => {
+  
   const { data, setData, isEmpty } = useBannerData();
   const paginationItems = usePagination({ data, pageSize: PAGE_SIZE });
+
+
+  const handlePageChange = (page: number) => {
+    paginationItems.setCurrentPage(page); 
+  };
 
 
   return (
     <TableWrapper style={{ minHeight: "100vh" }}>
 
-      <BannersComponents.Filters setData={setData} />
+      <BannersFilters setData={setData} />
 
       {!isEmpty ? (
         <>
@@ -38,7 +45,18 @@ export const BannersContainer = () => {
             ))}
           </Row>
 
-          <ContainerPagination {...paginationItems} />
+        
+          <ContainerPagination
+           currentPage={paginationItems.currentPage}
+           totalItems={paginationItems.totalPages}
+           onPageChange={handlePageChange}
+           style={{
+                marginTop:'10px',
+                marginLeft:'0 auto'
+
+           }}
+           
+        />
         </>
       ) : (
         <Empty description="Nenhum banner cadastrado no momento" />
@@ -46,3 +64,5 @@ export const BannersContainer = () => {
     </TableWrapper>
   );
 };
+
+export default BannersContainer;

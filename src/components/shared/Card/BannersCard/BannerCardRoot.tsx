@@ -6,12 +6,13 @@ import { MdOutlineEdit } from "react-icons/md";
 import { BannerTitle } from "../../../Banners/@types/BannerType";
 import { LuCrown } from "react-icons/lu";
 import { IconBaseProps } from "react-icons/lib";
-import { BannersComponents } from "../../../Banners/components";
+
 import { API_URL } from "../../../../service/url";
 import { api } from "../../../../service/connection";
 import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../../../service/getHeaders";
 import { isValidURL } from "../../../../functions/Validators/isLink";
+import BannerEditModal from "../../../Banners/banner-edit-modal";
 
 
 type CardBannerRootProps = {
@@ -154,14 +155,17 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
                 </Flex>}
 
             />
+
                 {children}
-                <BannersComponents.Edit 
+
+                <BannerEditModal
                     setOpen={setOpenEdit}
                     open={openEdit}
                     imagem={imagem}
                     ordem={order}
                     id={id}
                  />
+                 
             </Card>
 
 
