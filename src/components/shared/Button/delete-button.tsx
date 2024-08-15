@@ -8,12 +8,12 @@ type Props = {
     onDelete: () => void
 } & ButtonProps
 
-const DeleteButton = ({onDelete,...rest}:Props) => {
+const DeleteButton = ({onDelete,title,...rest}:Props) => {
 
     const {token} = theme.useToken();
 
     return (
-        <Tooltip title="Deletar">
+        <Tooltip title={title ?? 'Deletar'}>
 
         <Popconfirm
          onConfirm={onDelete}

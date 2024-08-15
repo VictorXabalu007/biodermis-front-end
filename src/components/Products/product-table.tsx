@@ -64,7 +64,9 @@ export const ProductsTable = () => {
     selectedKeys,
     rowClassName,
     handleCheckboxChange,
-    handleSelectAll
+    handleSelectAll,
+    setSelectedKeys
+    
  } =
     useTableActions({
       data: products,
@@ -106,6 +108,17 @@ export const ProductsTable = () => {
 
   const handleDelete = (record:ProductsType) => {
     deleteProduct.mutate(record)
+    
+  }
+
+  const handleDeleteAll = () => {
+
+    products.forEach((product) => {
+      deleteProduct.mutate(product)
+    });
+    
+    setSelectedKeys([]);
+
   }
 
   const categories = [
@@ -121,10 +134,27 @@ export const ProductsTable = () => {
 
   const columns: TableColumnType<ProductsType>[] = [
     {
-        title: () => <Checkbox
-          indeterminate={selectedKeys.length > 0}
-          onChange={handleSelectAll}
-        />,
+        title: () =>
+
+          <Flex gap={5} align="center">
+
+          
+              <Checkbox
+                indeterminate={selectedKeys.length > 0}
+                onChange={handleSelectAll}
+                />
+
+              {selectedKeys.length > 0 &&
+
+              <DeleteButton
+                title="Deletar todos os itens selecionados"
+                onDelete={handleDeleteAll}
+              />
+
+              }
+            
+          </Flex>
+        ,
         dataIndex:'selection',
         key:1,
         render: (_,record) => (
