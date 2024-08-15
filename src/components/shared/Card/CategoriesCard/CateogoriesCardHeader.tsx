@@ -16,12 +16,11 @@ type HeaderProps = {
 
 export const CategoriesCardHeader = ({title,onDelete,onView}:HeaderProps) => {
 
-
     return (
 
-        <Flex className="w-full" justify="space-between" gap={3}>
+        <Flex align="end" className="w-full" justify="space-between" gap={3}>
 
-            <Flex vertical>
+            <Flex gap={5} align="center">
 
                 <Flex >
                     <Flex className="rounded-md p-1 bg-brand-purple/25">

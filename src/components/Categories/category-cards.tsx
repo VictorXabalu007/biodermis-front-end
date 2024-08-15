@@ -2,14 +2,13 @@
 import { useCategoriesData } from "./hooks/useCategoriesData";
 import { CardsFilter } from "./cards-filter";
 import { TableWrapper } from "../shared/Table/components/TableWrapper";
-import { Col, Empty, Flex, Modal, Row, Skeleton } from "antd";
+import { Col, Empty, Modal, Row, Skeleton } from "antd";
 import { CategoriesCard } from "../shared/Card/CategoriesCard";
 import { useMutation } from "@tanstack/react-query";
 import { useMessageAction } from "../../hooks/useMessageAction/useMessageAction";
 import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { FlexWrapper, HoverShowText } from "./styles";
+import { FlexWrapper } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { PRODUCTS } from "../../constants/paths/paths";
 import { CategoryFilterActions, useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
@@ -199,26 +198,6 @@ const CategoryCardContainer = () => {
                                             title={d.categoria}
                                         />
 
-                                        <CategoriesCard.Body>
-                                            <HoverShowText 
-                                                className="hover-show-text"
-                                                type="text"
-                                                style={
-                                                    {
-                                                        padding: 0,
-                                                        border: 0,
-                                                        backgroundColor: 'transparent'
-                                                    }
-                                                } 
-                                            >   
-
-                                            <Flex align="center" gap={5}>
-                                                Ver produtos com essa categoria
-                                                <FaArrowRightLong />
-                                            </Flex>
-
-                                            </HoverShowText>
-                                        </CategoriesCard.Body>
                                     </CategoriesCard.Root>
 
 
