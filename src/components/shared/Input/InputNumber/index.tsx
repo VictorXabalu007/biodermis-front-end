@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 
-interface InputMoneyProps extends InputProps {
+export type InputMoneyProps  = {
 
   value: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
-}
+} & InputProps
 
 const DECIMAL_SIZE = 2;
 

@@ -15,7 +15,7 @@ type Props = {
 
 export const useProductUpdate = ({data,id,isEditing}:Props) => {
     
-    const [result,setResult] = useState({success:false,finish:false})
+    const [err, setErr] = useState('')
     const {contextHolder, success, error} = useMessageAction();
     const {control, handleSubmit,setValue,formState:{errors},reset} = useForm<ProductsType>({
         mode:'all',
@@ -32,17 +32,16 @@ export const useProductUpdate = ({data,id,isEditing}:Props) => {
           
           success(res.success);
         
-          setResult({success:true,finish:true})
-
-          window.location.reload()
-          
+          setTimeout(()=>{
+            window.location.reload()  
+          },1000)
           
         },
         onError:(err:any)=> {
           
-          error(err.response.data.error);
-          setResult({success:false,finish:true})
-     
+          error(err)
+          setErr(err)
+
         }
 
       });
@@ -58,8 +57,8 @@ export const useProductUpdate = ({data,id,isEditing}:Props) => {
     }
 
 
+    
     return {
-        result,
         control,
         handleSubmit,
         onSubmit,
@@ -67,7 +66,8 @@ export const useProductUpdate = ({data,id,isEditing}:Props) => {
         setValue,
         errors,
         updateProductMutation,
-        reset
+        reset,
+        err
     }
     
 }

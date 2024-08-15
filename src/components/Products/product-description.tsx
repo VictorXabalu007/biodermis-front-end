@@ -4,15 +4,12 @@ import { ProductsType } from "./service/getProducts";
 import { CategoryType } from "../Categories/service/getCategory";
 
 import { useProductUpdate } from "./hooks/useProductUpdate";
-import { Flex, Image, Select } from "antd";
+import { Button, Col, Flex, Form, Image, InputRef, Row, Select } from "antd";
 import { Controller } from "react-hook-form";
-import { Button } from "../shared/Button";
-import { Form } from "../shared/Form";
-import { InputRoot } from "../shared/Input/Input/InputRoot";
-import { Input } from "../shared/Input/Input";
 
 import InputMoney from "../shared/Input/InputNumber";
 import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import FlatInput from "../shared/Input/flat-input";
 
 
 
@@ -21,32 +18,18 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
   
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const productNameRef = useRef<HTMLInputElement>(null);
-  
+  const productNameRef = useRef<InputRef>(null);
   
   const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
 
-  
 
-  const [fields, setFields] = useState<ProductsType>({
-    ...data,
-  });
+  const [fields, setFields] = useState<ProductsType>({} as ProductsType);
 
-
-  const handleBlur = (fieldName: keyof ProductsType) => {
-
-    const isNumber = typeof fields[fieldName] === 'number';
-
-    return () => {
-      if (fields[fieldName] === "" || isNumber && isNaN(Number(fields[fieldName]))) {
-        setFields({
-           ...fields, 
-           [fieldName]: fields[fieldName] 
-        });
-      } 
-    };
-
-  };
+  useEffect(()=> {
+    if(data){
+      setFields(data)
+    }
+  },[data])
 
   const [text, setText] = useState('Editar produto');
 
@@ -73,7 +56,8 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
     onSubmit,
     contextHolder,
     control,
-    result,
+    err,
+    errors
   } = useProductUpdate({
     data,
     id: data.id,
@@ -89,13 +73,98 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
 
   useEffect(()=> {
 
-    if(result.success){
-      setIsEditable(false);
-      setIsEditing(false);
-      setText('Editar produto');
+    if(err.length > 0){
+      setIsEditable(true);
+      setIsEditing(true);
+      setText('Salvar edição');
     } 
 
-  },[result]);
+  },[err]);
+
+  const renderField = (
+    fieldName: keyof ProductsType,
+    label: string,
+    fieldType?: "text" | "number" | "select" | "money",
+  ) => {
+    return (
+      <Controller
+        control={control}
+        name={fieldName}
+        render={({ field }) => {
+          const errorMessage = errors[fieldName]?.message;
+          switch (fieldType) {
+            case "number":
+              return (
+                <Form.Item
+                 label={label} 
+                 validateStatus={errorMessage ? "error" : ""}
+                 help={errorMessage as string}
+                 >
+                  
+                  <FlatInput
+                    inputType="number"
+                    {...field}
+                    disabled={!isEditable}
+                    value={field.value || ""}
+                  />
+                </Form.Item>
+              );
+            case "select":
+              return (
+                <Form.Item 
+                label={label} 
+                validateStatus={errorMessage ? "error" : ""} 
+                help={errorMessage as string}
+                >
+                
+                  <Select
+                    {...field}
+                    options={categories}
+                    mode="multiple"
+                    disabled={!isEditable}
+                    value={field.value || []}
+                  />
+                </Form.Item>
+              );
+            case "money":
+              return (
+                <Form.Item
+                 label={label}
+                  validateStatus={errorMessage ? "error" : ""} 
+                  help={errorMessage as string}>
+                  <InputMoney
+                    {...field}
+                    prefix="R$"
+                    disabled={!isEditable}
+                    value={parseFloat(field.value) || 0}
+                  />
+                </Form.Item>
+              );
+            default:
+              return (
+                <Form.Item 
+                label={label} 
+                validateStatus={errorMessage ? "error" : ""} 
+                help={errorMessage as string}
+                >
+                  <FlatInput
+               
+                    inputType="default"
+                    {...field}
+                    disabled={!isEditable}
+                    value={field.value || ""}
+              
+                
+                    
+                  />
+                </Form.Item>
+              );
+          }
+        }}
+      />
+    );
+  };
+
 
 
   return (
@@ -104,21 +173,23 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
 
       {contextHolder}
 
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <Form 
+        onFinish={handleSubmit(onSubmit)} 
         className="flex items-center gap-5"
+        layout="vertical"
+        initialValues={fields}
       >
-
      
           <Flex vertical className="w-[180px]">
+
               <Image 
                 height={"150px"}
                 src={data.imagePath} 
                 alt={data.nome} 
-                className="rounded-md m-0"
+                className="m-0"
                 style={
                   {
-                    borderRadius: '5px 5px 0 0',
+                    borderRadius: '0',
                     maxHeight: '200px',
                     width: '70vw',
                     objectFit:'cover'
@@ -127,371 +198,38 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
 
               <Flex>
 
-                <Button.Root 
-                    onClick={handleClick}
-                    style={{borderRadius: '5px 5px 0'}} 
-                    className="flex-1 w-full m-0"
-                    htmlType="submit"
-                >
-                    <Button.Wrapper>
-                        <Button.Content content={text} />
-                    </Button.Wrapper>
-                </Button.Root>
-
-              </Flex>
-
-          </Flex>
-
-        <Flex vertical>
-
-          <Flex gap={40} align="center">
-
-            <Flex gap={8} vertical >
-
-              <Flex align="center" gap={20}>
-
-                <Controller 
-                control={control}
-                name="nome"
-                render={({field})=> (
-
-                <Form.InputWrapper>
-                  <InputRoot>
-
-                    <Input.Label
-                      content="Nome do produto"
-                      className="text-gray-neutral-400"
-                    />
-
-                    <input
-                      
-                      className="p-0 bg-transparent border focus:outline-none border-gray-neutral-200  rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                      value={fields.nome}
-                      onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-                        setFields(prev => (
-                          {...prev, 
-                          nome: e.target.value}
-                        ));
-                        field.onChange(e.target.value)
-                        
-                      }}
-                      ref={productNameRef}
-                      
-                      onBlur={handleBlur('nome')}
-                      readOnly={!isEditable}
-                    />
-
-                  </InputRoot>
-
-                </Form.InputWrapper>
-
-                )}
-
-                />
-
-                <Controller 
-                  
-                  control={control}
-                  name="valorvenda"
-                  render={({field})=> (
-
-                  <Form.InputWrapper>
-                    <InputRoot className="w-[120px]">
-                      <Input.Label
-                        content="Preço de venda"
-                        className="text-gray-neutral-400"
-                      />
-
-                      <InputMoney
-                        
-                        className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                        value={parseFloat(fields.valorvenda)}
-                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-
-
-                              setFields(prev => ({
-                                ...prev,
-                                valorvenda: e.target.value
-                              }));
-                              field.onChange(e.target.value)
-                          
-                          
-                            }
-                          }
-                        prefix={"R$"}
-                        onBlur={handleBlur('valorvenda')}
-                        readOnly={!isEditable}
-
-                      
-                      />
-                    </InputRoot>
-
-                  </Form.InputWrapper>
-
-                  )}/>
-                
-          
-
-
-              
-
-
-              </Flex>
-
-              <div>
-
-                <Controller 
-                
-                control={control}
-                name="categoria_ids"
-                render={({field:{onChange,value}})=> (
-
-                <Form.InputWrapper>
-                  <InputRoot>
-
-                    <Input.Label
-                      content="Categoria"
-                      className="text-gray-neutral-400"
-                    />
-
-
-                    <Select
-                      style={{
-                        width:'250px'
-                      }}
-                      options={categories}
-                      mode="multiple"
-                      onChange={(selectedOption) => onChange(selectedOption)}
-                      disabled={!isEditable}
-                      value={value ? value : [...fields.categoria_ids,value]}
-                    />
-
-                    
-                  </InputRoot>
-
-                </Form.InputWrapper>
-
-                )}/>
-
-              </div>
-
-            </Flex>
-
-            <Flex gap={20} vertical>
-
-              <Controller 
-              control={control}
-              name="peso"
-              render={({field})=> (
-
-                <Form.InputWrapper>
-                  <InputRoot>
-                    <Input.Label content="Peso" className="text-gray-neutral-400" />
-
-                    <Input.System
-                      className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                      value={fields.peso}
-                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                        setFields(prev => ({
-                          ...prev,
-                          peso: e.target.value
-                        }));
-                        field.onChange(e.target.value)
-                      }}
-                      onBlur={handleBlur('peso')}
-                      readOnly={!isEditable}
-
-                    />
-
-                  </InputRoot>
-                </Form.InputWrapper>
-
-                )}
-
-              />
-              
-              <Controller
-              control={control}
-              name="altura"
-              render={({field})=> (
-
-              <Form.InputWrapper>
-                <InputRoot>
-                  <Input.Label
-                    content="Altura"
-                    className="text-gray-neutral-400"
-                  />
-
-                  <Input.System
-                    className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={fields.altura}
-                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                      setFields(prev => ({
-                        ...prev,
-                        altura: e.target.value
-                      }));
-                      field.onChange(e.target.value);
-                    }}
-                    onBlur={handleBlur('altura')}
-                    readOnly={!isEditable}
-
-                  />
-                </InputRoot>
-              </Form.InputWrapper>
-
-              )}
-              />
-            </Flex>
-
-            <Flex gap={20} vertical>
-
-
-              <Controller 
-              control={control}
-              name="valormin"
-              render={({field})=> (
-
-              <Form.InputWrapper>
-                <InputRoot>
-                  <Input.Label
-                    content="Preço mínimo"
-                    className="text-gray-neutral-400"
-                  />
-
-                  <InputMoney
-                    prefix="R$"
-                    className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={parseFloat(fields.valormin)}
-                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                      setFields(prev => ({
-                        ...prev,
-                        valormin: e.target.value
-                      }));
-                      field.onChange(e.target.value);
-                    }}
-                    onBlur={handleBlur('valormin')}
-                    readOnly={!isEditable}
-
-                  />
-                </InputRoot>
-              </Form.InputWrapper>
-
-              )}
-              />
-
-              
-          <Controller 
-                name="largura"
-                control={control}
-                render={({field})=> (
-
-                <Input.Root>
-                  <Input.Label
-                    className="text-gray-neutral-400"
-                    htmlFor={"width"}
-                    content={"Largura"}
-                  />
-
-                  <Input.System
-                    placeholder={"10cm"}
-                    className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={fields.largura}
-                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                      setFields(prev => ({
-                        ...prev,
-                        largura: e.target.value
-                      }));
-                      field.onChange(e.target.value);
-                    }}
-                    onBlur={handleBlur('largura')}
-                    readOnly={!isEditable}
-
-                
-                  />
-                </Input.Root>
-
-                )}
-                />
-
-            </Flex>
-
-            <Flex gap={22} vertical>
-
-              <Flex>
-
-                <Controller
-                name="profundidade"
-                control={control}
-                render={({field})=> (
-
-                <Input.Root>
-                  <Input.Label
-                    className="text-gray-neutral-400"
-                    htmlFor={"depth"}
-                    content={"Profundidade"}
-                  />
-
-                  <Input.System
-                    placeholder={"10cm"}
-                    className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                    value={fields.profundidade}
-                    onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                      setFields(prev => ({
-                        ...prev,
-                        profundidade: e.target.value
-                      }));
-                      field.onChange(e.target.value);
-                    }}
-                    onBlur={handleBlur('profundidade')}
-                    readOnly={!isEditable}
-
-                  />
-
-                </Input.Root>
-
-
-                )}
-                />
-              </Flex>
-
-              <Controller 
-              control={control}
-              name="valormax"
-              render={({field})=> (
-
-              <Input.Root>
-                <Input.Label
-                  className="text-gray-neutral-400"
-                  htmlFor={"maxPrice"}
-                  content={"Preço máximo"}
-                />
-
-                <InputMoney
-                  className="p-0 bg-transparent rounded-none border-r-0 border-l-0 border-t-0 text-gray-neutral-600"
-                  prefix="R$"
-                  value={parseFloat(fields.valormax)}
-                  onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
-                    setFields(prev => ({
-                      ...prev,
-                      valormax: e.target.value
-                    }));
-                    field.onChange(e.target.value);
+     
+                <Button
+                  onClick={handleClick}
+                  size="large"
+                  style={{
+                    borderRadius:'0 0 5px 5px',
+                    flex:1
                   }}
-                  onBlur={handleBlur('valormax')}
-                  readOnly={!isEditable}
+                  htmlType={!isEditing ? "submit" : 'button'}
+              
+                >
+                  {text}
+                </Button>
 
-                />
-              </Input.Root>
+              </Flex>
 
-              )}
-              />
-            </Flex>
-            
           </Flex>
 
-        </Flex>
+          <Row gutter={[32, 32]}>
+            <Col lg={6}>{renderField ("nome", "Nome","text")}</Col>
+            <Col lg={6}>{renderField("valorvenda","Preço de venda", "money")}</Col>
+            <Col lg={6}>{renderField("categoria_ids", "Categorias", "select")}</Col>
+            <Col lg={6}>{renderField("peso", "Peso","number")}</Col>
+            <Col lg={6}>{renderField("altura",  "Altura", "number")}</Col>
+            <Col lg={4}>{renderField("largura","Largura", "number")}</Col>
+            <Col lg={4}>{renderField("profundidade","Profundidade", "number")}</Col>
+            <Col lg={4}>{renderField("valormin","Valor mínimo", "money")}</Col>
+            <Col lg={4}>{renderField("valormax","Valor maximo", "money")}</Col>
+        </Row>
 
-      </form>
+
+      </Form>
 
     </Flex>
 
