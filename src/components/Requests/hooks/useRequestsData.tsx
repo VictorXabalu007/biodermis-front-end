@@ -69,6 +69,7 @@ export const useRequestsData = ({
         return dateB.getTime() - dateA.getTime();
       }).map(req => ({
         ...req,
+          nomeCliente: req.nomeCliente ? req.nomeCliente : "Cliente não encontrado",
           products: req.produtos_ids
             .map((id) => products.find((p) => p.id === id))
             .map((p) => {

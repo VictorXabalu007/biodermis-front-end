@@ -88,9 +88,16 @@ const RequestsTable = () => {
     {
         dataIndex:'nomeCliente',
         title: 'Cliente',
-        ...getColumnSearchProps('nomeCliente', 'Cliente'),
-        sorter: (a, b) => a.nomeCliente.localeCompare(b.nomeCliente),
+ 
+        sorter: (a, b) => {
+          if(a.nomeCliente !== undefined && b.nomeCliente !== undefined) {
+            return a.nomeCliente.localeCompare(b.nomeCliente)
+          } else {
+            return -1
+          }
+        },
         render: (value) => value || 'Cliente não informado',
+        ...getColumnSearchProps('nomeCliente', 'Cliente'),
     },
     {
         dataIndex:'statuspag',

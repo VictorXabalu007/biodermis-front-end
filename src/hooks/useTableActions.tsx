@@ -98,10 +98,13 @@ export const useTableActions = <T extends { id: React.Key }>({
                     {
                         
                         setSelectedKeys(e.target.value ? [e.target.value] : [])
+
                         if(e.target.value === ''){
                             setFilteredData(data)
                             handleSearch([] as string[], confirm, dataIndex)
                         }
+
+                      
                     }
                       
                     }
@@ -158,12 +161,16 @@ export const useTableActions = <T extends { id: React.Key }>({
                 style={{ color: filtered ? colors.primaryPurple : undefined }}
             />
         ),
-        onFilter: (value, record) =>
-            record[dataIndex]
+        onFilter: (value, record) =>{
+            if(value && value !== undefined){
+                return record[dataIndex]
                 //@ts-ignore
                 .toString()
                 .toLowerCase()
-                .includes((value as string).toLowerCase()),
+                .includes((value as string).toLowerCase())
+            }
+        }
+            ,
         onFilterDropdownOpenChange: (visible) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);

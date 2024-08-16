@@ -19,7 +19,9 @@ export const components:ComponentsToken = {
         colorPrimary:  colors.primaryPurple,
       },
       DatePicker: {
-        colorPrimary:  colors.primaryPurple
+        colorPrimary:  colors.primaryPurple,
+        
+        
       },
       Button: {
         colorBgContainer: colors.primaryPurple,
@@ -28,7 +30,8 @@ export const components:ComponentsToken = {
       },
       Input: {
         colorPrimaryBorderHover:  colors.primaryPurple,
-        activeBorderColor:  colors.primaryPurple
+        activeBorderColor:  colors.primaryPurple,
+        
       },
       Table: {
         cellFontSize:12,
@@ -36,6 +39,7 @@ export const components:ComponentsToken = {
         colorTextHeading:colors.colorHeaderTable,
         cellPaddingBlock:12
       },
+      
 
    
 }

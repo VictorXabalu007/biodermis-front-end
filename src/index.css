@@ -42,3 +42,8 @@
   min-height:100px;
   
 }
+
+.ant-picker-range .ant-picker-range-separator .ant-picker-separator {
+  color:#FFF !important;
+}
+
