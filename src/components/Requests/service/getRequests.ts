@@ -1,6 +1,7 @@
 
-import { api } from "../../../../service/connection"
-import { getHeaders } from "../../../../service/getHeaders";
+
+import { api } from "../../../service/connection";
+import { getHeaders } from "../../../service/getHeaders";
 import { Requests } from "../@types/Requests";
 
 
