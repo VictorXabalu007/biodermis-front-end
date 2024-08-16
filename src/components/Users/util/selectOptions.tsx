@@ -1,5 +1,5 @@
 import { UserRole } from "../../../util/userRole";
-import { SelectLabel } from "../../shared/Input/Select/SelectLabel";
+import { SelectLabel } from "../../shared/Input/select-label";
 
 
 

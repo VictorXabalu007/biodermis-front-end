@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { WITHDRAWAL } from "../../../constants/paths/paths";
 import { WithDrawal } from "../../WithdrawalRequests/util/withdrawalData";
 import { userImageFallback } from "../../../util/projectImage";
-import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../../shared/Formatter/numeric-formatter";
 import { useEffect, useState } from "react";
 
 

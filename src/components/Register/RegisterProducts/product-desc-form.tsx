@@ -6,7 +6,7 @@ import { CategoryType } from "../../Categories/service/getCategory";
 import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Flex, Form } from "antd";
 import { ProductsData } from "../../../validations/registerProductValidation";
-import { SubHeader } from "../../shared/SubHeader";
+import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";
 import { renderFormField, renderSelectField } from "../../../functions/render-form-field";
 import { Controller } from "react-hook-form";

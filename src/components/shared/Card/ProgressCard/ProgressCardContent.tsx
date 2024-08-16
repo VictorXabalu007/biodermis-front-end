@@ -1,4 +1,4 @@
-import { NumericFormatter } from "../../Formatter/NumericFormatter"
+import { NumericFormatter } from "../../Formatter/numeric-formatter"
 import { Heading } from "../../Heading"
 import { Text } from "../../Text"
 

@@ -2,7 +2,7 @@
 import { RegisterFieldProps } from "../@types/RegisterFieldsProps";
 import { ProductsData } from "../../../validations/registerProductValidation";
 import { Flex } from "antd";
-import { SubHeader } from "../../shared/SubHeader";
+import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";
 import { renderFormField } from "../../../functions/render-form-field";
 

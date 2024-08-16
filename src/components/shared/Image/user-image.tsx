@@ -1,6 +1,7 @@
 import { Image } from "antd";
 import { twMerge } from "tailwind-merge"
-import noImage from '../../../../assets/no-image.png'
+import { userImageFallback } from "../../../util/projectImage";
+
 
 type UserImageProps = {
     image:string | null;
@@ -22,7 +23,7 @@ export const UserImage = ({className,image, imageClassname}:UserImageProps) => {
         }} className="shadow-sm shadow-purple-solid-500 rounded-[100%]">
            
             <Image 
-            src={image ? image : noImage}
+            src={image ? image : userImageFallback}
             style={{
                 maxWidth: '200px',
                 maxHeight: '200px'

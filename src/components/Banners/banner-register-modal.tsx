@@ -11,7 +11,7 @@ import {
 import { FaX } from "react-icons/fa6";
 import { useBannerRegister } from "./hooks/useBannerRegister";
 import { Controller } from "react-hook-form";
-import Select from "../shared/Input/Select";
+import Select from "../shared/Input/select";
 import { UploadProps } from "antd/lib";
 import { BannerModalProps } from "./@types/BannerType";
 import { RcFile } from "antd/es/upload";

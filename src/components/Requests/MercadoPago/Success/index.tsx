@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../../../service/connection";
 import { getHeaders } from "../../../../service/getHeaders";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { LoginType } from "../../../Auth/Login";
+import { LoginType } from "../../../Auth/login";
 import { AUTH_USER } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 
 

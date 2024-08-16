@@ -1,11 +1,11 @@
 import { FaPlus } from "react-icons/fa6";
-import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper";
+import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import {  Button, Flex, Form, Input, Modal } from "antd";
 import { CategoryType } from "./service/getCategory";
 import { Dispatch, useEffect, useState } from "react";
 import { FormModal } from "./register-category-modal";
 import { useCategoryRegister } from "./hooks/useCategoryRegister";
-import { SearchIcon } from "../shared/Icon/SearchIcon";
+import { SearchIcon } from "../shared/Icon/search";
 
 type CardFilterProps = {
     data:CategoryType[] | undefined,

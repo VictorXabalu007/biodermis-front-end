@@ -1,4 +1,4 @@
-import { NumericFormatter } from "../../Formatter/NumericFormatter"
+import { NumericFormatter } from "../../Formatter/numeric-formatter"
 import { Text } from "../../Text"
 import { MoneyCardType } from "./@types/MoneyCardType"
 

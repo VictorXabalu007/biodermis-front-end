@@ -14,7 +14,7 @@ import { WithdrawalRequestsTemplate } from "./templates/WithdrawalRequests";
 import { InvoicingTemplate } from "./templates/Invoicing";
 import { RegisterConsultorTemplate } from "./templates/Register/RegisterConsultor";
 import { RegisterProductsTemplate } from "./templates/Register/RegisterProducts";
-import { Login } from "./components/Auth/Login";
+import { Login } from "./components/Auth/login";
 import { ForgotPassStep1 } from "./components/Auth/ForgotPass/Step1";
 import { ForgotPassStep2 } from "./components/Auth/ForgotPass/Step2";
 import { CategoriesTemplate } from "./templates/Categories";

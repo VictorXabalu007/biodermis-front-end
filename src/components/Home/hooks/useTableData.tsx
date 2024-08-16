@@ -4,13 +4,13 @@ import { WithDrawal } from "../../WithdrawalRequests/util/withdrawalData";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { Text } from "../../shared/Text";
 import { IoIosArrowUp } from "react-icons/io";
-import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../../shared/Formatter/numeric-formatter";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import { TableSorterTitle } from "../../shared/Table/components/TableSorterTitle";
 import { useWithdrawData } from "../../WithdrawalRequests/hooks/useWithdrawData";
 import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
 import { Flex } from "antd";
-import { MiniImage } from "../../shared/Image/UserImage/miniImage";
+import { MiniImage } from "../../shared/Image/mini-image";
 
 
 const columnsHelperConsultors = createColumnHelper<UserCredentials>();

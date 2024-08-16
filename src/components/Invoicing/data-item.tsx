@@ -5,7 +5,7 @@ import { MoneyCardType } from "../shared/Card/MoneyDataCard/@types/MoneyCardType
 import { MoneyDataCard } from "../shared/Card/MoneyDataCard";
 import { Card, Empty, Flex } from "antd";
 import { MovimentationType, useMovimentationData } from "../../hooks/useMovimentationData/useMovimentationData";
-import { ContainerPagination } from "../shared/Pagination/ContainerPagination";
+import { ContainerPagination } from "../shared/Pagination/container-pagination";
 import { usePagination } from "../../hooks/usePagination/usePagination";
 
 

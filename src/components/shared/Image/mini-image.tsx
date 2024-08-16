@@ -1,5 +1,6 @@
 import { Image, ImageProps } from "antd"
-import noImage from '../../../../assets/no-image.png'
+import { userImageFallback } from "../../../util/projectImage";
+
 
 export const MiniImage = ({src, ...rest}:ImageProps) => {
 
@@ -7,7 +8,7 @@ export const MiniImage = ({src, ...rest}:ImageProps) => {
     
     return (
         <Image
-            src={src === null ? noImage : src}
+            src={src === null ? userImageFallback : src}
             {...rest}
         />
     );

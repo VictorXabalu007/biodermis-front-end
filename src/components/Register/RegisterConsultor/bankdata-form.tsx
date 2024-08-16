@@ -5,7 +5,7 @@ import { Flex, Row, Col } from "antd";
 import { BANK_OPS } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Options } from "../../../@types/Options/Options";
 import { UserData } from "../../../validations/registerUserValidation";
-import { SubHeader } from "../../shared/SubHeader";
+import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";
 import { renderFormField, renderMaskFormField, renderSelectField } from "../../../functions/render-form-field";
 

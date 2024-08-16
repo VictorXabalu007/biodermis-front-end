@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, Flex, Form, Input } from "antd";
+import { Alert, Button, Flex, Form, Input, Typography } from "antd";
 import { useMutation } from "@tanstack/react-query";
 
 import { z } from "zod";
@@ -9,12 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import forgotBg from "../../../../assets/purple-frame-forgotpass.png";
 import biodermisLogo from "../../../../assets/small-logo.png";
 import { api } from "../../../../service/connection";
-import { Heading } from "../../../shared/Heading";
-import { Text } from "../../../shared/Text";
-import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
 import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { DEFAULT_PATH } from "../../../../constants/paths/paths";
+import { Text } from "../../../shared/Typography/typography-text";
+
 
 
 export const ForgotPassStep2 = () => {
@@ -138,17 +137,17 @@ export const ForgotPassStep2 = () => {
             className="w-1/3 mb-3"
           />
 
-          <Heading.Root className="font-[500]">
-            <Heading.Content content="Quase la..." />
-          </Heading.Root>
+          <Typography.Title level={3}>
+            Quase la...
+          </Typography.Title>
 
-          <Text.Root className="mb-3 font-[300] text-gray-neutral-300">
-            <Text.Content content="Insira os dados para recuperar sua senha" />
-          </Text.Root>
+          <Text className="my-3">
+            Insira os dados para recuperar sua senha
+          </Text>
 
-          <Text.Root className="font-[300] text-gray-neutral-300">
-            <Text.Content content="Introduza sua nova senha e confirme em seguida" />
-          </Text.Root>
+          <Text>
+            Introduza sua nova senha e confirme em seguida
+          </Text>
         </div>
 
         <Form
@@ -186,10 +185,10 @@ export const ForgotPassStep2 = () => {
 
                 >
 
-                    <InputWrapper>
+           
                     
                         <Input.Password 
-                        className="ant-input"
+                    
                         onChange={(e)=> {
                           onChange(e.target.value)
                           handleInputChange();
@@ -197,7 +196,7 @@ export const ForgotPassStep2 = () => {
                         value={value}
                         />
                     
-                    </InputWrapper>
+           
 
                 </Form.Item>
 
@@ -231,7 +230,7 @@ export const ForgotPassStep2 = () => {
                 ]}
                 >
 
-                <InputWrapper>
+         
                 
                     <Input.Password 
                         onChange={(e)=> {
@@ -239,11 +238,10 @@ export const ForgotPassStep2 = () => {
                           handleInputChange()
                         }}
                         value={value}
-                        className="ant-input"
+             
                     />
 
-                </InputWrapper>
-
+       
                 </Form.Item>
 
 
@@ -255,19 +253,20 @@ export const ForgotPassStep2 = () => {
 
                 <>
                 
-                <Heading.Root className="my-3">
-                  <Heading.Content content={"Código de verificação"} />
-                </Heading.Root>
+      
+                <Typography.Title level={4}>
+                 Código de verificação
+                </Typography.Title>
 
-                <Text.Root className="font-[300] text-gray-neutral-300 my-3">
-                  <Text.Content content={`Insira o código de verificação enviado para ${emailData.email}`} />
-                </Text.Root>
+                <Text className="my-5">
+                  Insira o código de verificação enviado para {emailData.email}
+                </Text>
                 
                 
                 <Controller 
                     control={control}
                     name="token"
-                    render={({field:{onChange,value}})=> (
+                    render={({field})=> (
 
                         <Form.Item
                         name="token"
@@ -275,21 +274,16 @@ export const ForgotPassStep2 = () => {
                         help={errors.token && errors.token.message}
                         >
 
-                        <InputWrapper>
+                  
                         
                             <Input 
                         
                                 placeholder="token de verificação"
-                                onChange={(e)=> {
-                                  onChange(e.target.value)
-                                  handleInputChange()
-                                  
-                                }}
-                                value={value}
-                                className="ant-input ant-input my-4 rounded-md py-1 border-gray-neutral-200"
+                                {...field}
+                               
                             />
 
-                        </InputWrapper>
+                      
 
                         </Form.Item>
 
@@ -304,26 +298,20 @@ export const ForgotPassStep2 = () => {
               }
 
 
-            <Form.Item>
 
-              {isLoading ? <>
-
-                Alterando sua senha....
-              
-              </> : (
-
-              <BtnWrapper>
+          
                 <Button
-                  className="my-3 auth-btn bg-brand-purple text-white w-full text-center"
+                  loading={isLoading}
                   htmlType="submit"
+                  className="mt-3"
                 >
                   Continuar
                 </Button>
-              </BtnWrapper>
+           
 
 
-              )}
-            </Form.Item>
+            
+          
           </Flex>
         </Form>
       </Flex>

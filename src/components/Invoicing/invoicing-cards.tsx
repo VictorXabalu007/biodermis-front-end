@@ -1,7 +1,7 @@
 import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 import { useInvoicingCardItem } from "./hooks/useInvoicingCardItem";
 import { StatsCard } from "../shared/Card/StatsCard";
-import { InputRangePicker } from "../shared/Input/RangePicker";
+import { InputRangePicker } from "../shared/Input/range-picker";
 import { Flex, Typography } from "antd";
 import { RequestStatusChange } from "../Requests/hooks/useRequestsData";
 

@@ -1,6 +1,6 @@
 import Sider from "antd/es/layout/Sider"
 import { Menu } from "../Menu"
-import { Logo } from "../../../shared/Logo"
+import { Logo } from "../../../shared/Logo/logo"
 import { useState } from "react";
 import { theme } from "antd";
 

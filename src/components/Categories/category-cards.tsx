@@ -1,7 +1,7 @@
 
 import { useCategoriesData } from "./hooks/useCategoriesData";
 import { CardsFilter } from "./cards-filter";
-import { TableWrapper } from "../shared/Table/components/TableWrapper";
+import { TableWrapper } from "../shared/Table/table-wrapper";
 import { Col, Empty, Modal, Row, Skeleton } from "antd";
 import { CategoriesCard } from "../shared/Card/CategoriesCard";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { PRODUCTS } from "../../constants/paths/paths";
 import { CategoryFilterActions, useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
 import { SELECTED_MENU_KEY } from "../../constants/SessionStorageKeys/sessionStorageKeys";
-import { ContainerPagination } from "../shared/Pagination/ContainerPagination";
+import { ContainerPagination } from "../shared/Pagination/container-pagination";
 import { usePagination } from "../../hooks/usePagination/usePagination";
 
 

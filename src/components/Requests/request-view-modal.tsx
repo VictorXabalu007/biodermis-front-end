@@ -1,6 +1,6 @@
 import { Empty, Flex, Image, Skeleton, Typography } from "antd";
 import { capitalizeFirstLetter } from "../../functions/Capitalizer/capitalizeFirstLetter";
-import { NumericFormatter } from "../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { Heading } from "../shared/Heading";
 import { Requests } from "./@types/Requests";
 import { IoCopyOutline } from "react-icons/io5";

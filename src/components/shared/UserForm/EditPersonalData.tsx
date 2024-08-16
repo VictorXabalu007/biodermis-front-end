@@ -5,8 +5,7 @@ import { FormItem } from "../Form/FormItem";
 import { Input } from "../Input/Input";
 import { PatternFormat } from "react-number-format";
 import { Form } from "../Form";
-import { InputWrapper } from "../../Auth/Login/styles";
-import { InputPassword } from "../Input/Password";
+import { InputPassword } from "../Input/input-password";
 
 const EditPersonalData = () => {
 
@@ -234,14 +233,14 @@ const EditPersonalData = () => {
                       
                       <label>Senha</label>
 
-                      <InputWrapper>
+                     
                         <InputPassword 
                         
                           className="ant-input py-2"
                           {...field}
                         />
                       
-                      </InputWrapper>
+                 
 
                    </Form.InputWrapper>
                   </FormItem>

@@ -3,7 +3,7 @@ import { LuNewspaper } from "react-icons/lu";
 import { MdOutlinePix } from "react-icons/md";
 import { FiCreditCard } from "react-icons/fi";
 import { ElementType } from "react";
-import { NumericFormatter } from "../../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../../shared/Formatter/numeric-formatter";
 
 
 

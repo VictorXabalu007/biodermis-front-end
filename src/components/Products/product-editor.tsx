@@ -13,11 +13,11 @@ import { useUpload } from "../../hooks/useUpload";
 import { ProductsType } from "./service/getProducts";
 import { useProductUpdate } from "./hooks/useProductUpdate";
 import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
-import { SubHeader } from "../shared/SubHeader";
+import { SubHeader } from "../shared/SubHeader/sub-header";
 import { useImageUpload } from "./hooks/useImageUpload";
 import { API_URL } from "../../service/url";
 import { Controller } from "react-hook-form";
-import InputMoney from "../shared/Input/InputNumber";
+import InputMoney from "../shared/Input/input-money";
 import { QuillInput } from "../shared/Input/QuillInput";
 
 

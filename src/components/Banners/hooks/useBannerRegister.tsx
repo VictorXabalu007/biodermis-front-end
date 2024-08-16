@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { SelectLabel } from "../../shared/Input/Select/SelectLabel"
+import { SelectLabel } from "../../shared/Input/select-label"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../../service/connection"
 import { getHeaders } from "../../../service/getHeaders"

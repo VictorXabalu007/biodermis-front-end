@@ -1,7 +1,7 @@
 import { Empty } from "antd"
-import { UserCredentials } from "../../../../@types/UserData/UserData"
-import { useRequestsData } from "../../../Requests/hooks/useRequestsData"
-import { MoneyDataCard } from "../../Card/MoneyDataCard"
+import { UserCredentials } from "../../../@types/UserData/UserData"
+import { useRequestsData } from "../../Requests/hooks/useRequestsData"
+import { MoneyDataCard } from "../Card/MoneyDataCard"
 import { buildInvoicingIcon } from "./functions/buildInvoicingIcon"
 
 
@@ -13,7 +13,6 @@ export const InovicingModal = ({data}:{data:UserCredentials}) => {
     
     const consultorData = getRequestDataOfConsultorId(data.id);
  
-
     return (
 
         consultorData.length > 0 ? (

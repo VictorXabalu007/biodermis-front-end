@@ -1,19 +1,16 @@
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, Flex, Form, Input, Alert } from 'antd';
+import { Button, Flex, Form, Alert, Input, Typography } from 'antd';
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../service/connection";
+import { api } from "../../service/connection";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Heading } from "../../shared/Heading";
-import welcomeBg from '../../../assets/purple-frame-welcome.png';
-import biodermisLogo from '../../../assets/small-logo.png';
-import { Text } from "../../shared/Text";
-import { Link } from "../../shared/Link";
-import { InputWrapper } from "./styles";
-import { FORGOT_PASS_1, HOME } from "../../../constants/paths/paths";
+import { Link } from "../shared/Link";
+import { FORGOT_PASS_1, HOME } from "../../constants/paths/paths";
 import { useState } from "react";
-import { AUTH_USER } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { AUTH_USER } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { Text } from "../shared/Typography/typography-text";
+import { biodermisSMLogo, welcomeBg } from "../../util/projectImage";
 
 
 export type LoginType = {
@@ -61,8 +58,6 @@ export const Login = () => {
     },
     onError: (err: any) => {
 
-
-      
       setAuthError(err.response?.data?.error || 'Erro ao fazer login');
       setIsLoading(false)
 
@@ -99,16 +94,16 @@ export const Login = () => {
       <Flex justify="center" className="flex-col mx-auto w-full px-4 md:w-1/3">
         <div className="flex flex-col gap-4 mb-3">
           <img
-            src={biodermisLogo}
+            src={biodermisSMLogo}
             alt="Logo da biodermis"
-            className="w-1/3 mb-3"
+            className="w-1/3"
           />
-          <Heading.Root className="font-[500]">
-            <Heading.Content content="Bem vindo" />
-          </Heading.Root>
-          <Text.Root className="font-[300]">
-            <Text.Content content="Insira os dados para acessar sua conta" />
-          </Text.Root>
+          <Typography.Title style={{margin:0}} level={4}>
+            Bem vindo!
+          </Typography.Title>
+          <Text>
+            Insira os dados para acessar sua conta
+          </Text>
         </div>
 
         {authError && (
@@ -131,24 +126,16 @@ export const Login = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field: {onChange, value } }) => (
+              render={({ field }) => (
                 <Form.Item
                   name="email"
                   validateStatus={errors.email ? 'error' : 'success'}
                   help={errors.email && errors.email.message}
                 >
-                  <InputWrapper>
-                    <Input
-                      className="ant-input rounded-md py-1 border-gray-neutral-200"
-                      onChange={(e) => {
-                        onChange(e);
-                        handleInputChange();
-                      }}
-                      value={value}
-                      placeholder="E-mail"
-                      type="email"
-                    />
-                  </InputWrapper>
+                  <Input
+                    placeholder="seuemail@email.com"
+                    {...field}
+                  />
                 </Form.Item>
               )}
             />
@@ -162,7 +149,7 @@ export const Login = () => {
                   help={errors.password && errors.password.message}
                   name="password"
                 >
-                  <InputWrapper>
+             
                     <Input.Password
                       className="ant-input ant-input-pass"
                       value={value}
@@ -172,7 +159,7 @@ export const Login = () => {
                       }}
                       placeholder="Senha"
                     />
-                  </InputWrapper>
+             
                 </Form.Item>
               )}
             />

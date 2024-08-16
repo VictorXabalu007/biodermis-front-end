@@ -1,4 +1,4 @@
-import { SelectLabel } from "../../shared/Input/Select/SelectLabel";
+import { SelectLabel } from "../../shared/Input/select-label";
 
 const DeliveryStatus = {
 

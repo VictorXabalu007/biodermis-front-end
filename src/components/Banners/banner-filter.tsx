@@ -1,15 +1,15 @@
 import React, { Dispatch, useState } from "react"
 import { BannerType } from "./@types/BannerType"
 import { useBannerData } from "./hooks/useBannerData"
-import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper"
+import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper"
 
 
 import { FaPlus } from "react-icons/fa6"
-import Select from "../shared/Input/Select"
-import { SelectLabel } from "../shared/Input/Select/SelectLabel"
+import Select from "../shared/Input/select"
+import { SelectLabel } from "../shared/Input/select-label"
 import BannerRegisterModal from "./banner-register-modal"
 import { Button, Flex, Input } from "antd"
-import { SearchIcon } from "../shared/Icon/SearchIcon"
+import { SearchIcon } from "../shared/Icon/search"
 
 
 type BannerFilterProps = {

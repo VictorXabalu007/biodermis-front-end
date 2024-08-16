@@ -1,6 +1,6 @@
 import { Flex, Form, Typography } from "antd"
 import { UserCredentials } from "../../@types/UserData/UserData"
-import { SelectLabel } from "../shared/Input/Select/SelectLabel"
+import { SelectLabel } from "../shared/Input/select-label"
 import Select from "react-select"
 import { Button } from "../shared/Button"
 import { Controller, useForm } from "react-hook-form"

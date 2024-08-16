@@ -7,8 +7,7 @@ import { z } from "zod";
 const updateProductSchema = z.object({
     nome: z
       .string({ required_error: 'O nome é obrigatório' })
-      .min(3, { message: "O nome deve ter pelo menos 3 caracteres" })
-      .max(50, { message: "O nome deve ter no máximo 50 caracteres" }),
+      .min(3, { message: "O nome deve ter pelo menos 3 caracteres" }),
     descricao: z
       .string({ required_error: 'A descrição é obrigatória' })
       .min(3, { message: "A descrição deve ter pelo menos 3 caracteres" }),

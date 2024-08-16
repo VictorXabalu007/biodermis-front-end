@@ -1,7 +1,7 @@
 import { Input, InputProps, InputRef } from 'antd';
 import { twMerge } from 'tailwind-merge';
 import React from 'react';
-import InputMoney, { InputMoneyProps } from './InputNumber';
+import InputMoney, { InputMoneyProps } from './input-money';
 
 type InputMode = 'money' | 'default' | 'number';
 

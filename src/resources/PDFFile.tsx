@@ -2,7 +2,7 @@
 import { Page, Text, View, Document, Image, StyleSheet  } from '@react-pdf/renderer';
 import biodermisLogo from '../assets/small-logo.png'
 import { Requests } from '../components/Requests/@types/Requests';
-import { NumericFormatter } from '../components/shared/Formatter/NumericFormatter';
+import { NumericFormatter } from '../components/shared/Formatter/numeric-formatter';
 
 
 type PDFFileProps = {

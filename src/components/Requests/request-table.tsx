@@ -8,12 +8,12 @@ import {
   TableColumnType,
 } from "antd";
 import { useTableActions } from "../../hooks/useTableActions";
-import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper";
-import { TableWrapper } from "../shared/Table/components/TableWrapper";
+import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
+import { TableWrapper } from "../shared/Table/table-wrapper";
 import { useRequestTable } from "./hooks/useRequestTable";
 import { Requests } from "./@types/Requests";
-import { InputRangePicker } from "../shared/Input/RangePicker";
-import Select from "../shared/Input/Select";
+import { InputRangePicker } from "../shared/Input/range-picker";
+import Select from "../shared/Input/select";
 import {
   daysOptions,
   deliveryOptions,
@@ -27,7 +27,7 @@ import EyeButton from "../shared/Button/edit-button";
 
 import { buildPaymentStatus } from "./functions/buildPaymentStatus";
 import { buildDeliveryStatus } from "./functions/buildDeliveryStatus";
-import { NumericFormatter } from "../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { buildTotalValue } from "./functions/buildTotalValue";
 import DeleteButton from "../shared/Button/delete-button";
 import DowloadButton from "../shared/Button/download-button";

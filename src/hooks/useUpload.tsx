@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { API_URL } from "../service/url";
 import { FaPlus } from "react-icons/fa6";
 import { colors } from "../theme/colors";
+import { isValidURL } from "../functions/Validators/isLink";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -33,7 +34,7 @@ export const useUpload = ({initialImage}:Props) => {
         if (initialImage && initialImage.length > 0) {
           setFileList(
             initialImage.map((image) => ({
-              url: API_URL + "/" + image,
+              url: isValidURL(image) ? image : API_URL + "/" + image,
               uid: image,
               name: image,
               status: 'done',

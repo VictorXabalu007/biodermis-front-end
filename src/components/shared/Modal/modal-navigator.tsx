@@ -1,19 +1,19 @@
 import { ReactNode, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Button } from "../../Button";
-import { buttonItems } from "./util/buttomItems";
+import { Button } from "../Button";
+import { buttonItems } from "./buttomItems";
 
-import { UserImage } from "../../Image/UserImage";
-import { FormType } from "../../../../@types/FormType/FormType";
+import { UserImage } from "../Image/user-image";
+import { FormType } from "../../../@types/FormType/FormType";
 
-import { InovicingModal } from "../Invoicing";
+import { InovicingModal } from "./invoicing-modal";
 
-import { UserCredentials } from "../../../../@types/UserData/UserData";
+import { UserCredentials } from "../../../@types/UserData/UserData";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "../../../../service/queryClient";
-import { UserRole } from "../../../../util/userRole";
-import { RangeDateProvider } from "../../../../context/RangeDate/RangeDateContext";
-import { UserForm } from "../../UserForm";
+import { queryClient } from "../../../service/queryClient";
+import { UserRole } from "../../../util/userRole";
+import { RangeDateProvider } from "../../../context/RangeDate/RangeDateContext";
+import { UserForm } from "../UserForm";
 
 export const ModalNavigator = ({data, isReadonly}:FormType<UserCredentials>) => {
     

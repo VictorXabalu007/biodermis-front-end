@@ -2,12 +2,12 @@
 
 
 
-import { InputDatePicker } from "../shared/Input/DatePicker";
+import { InputDatePicker } from "../shared/Input/date-picker";
 import { ConfigProvider, Flex, Input, Skeleton, Typography } from "antd";
 import { Form } from "antd/lib";
 import { Control, Controller, FieldErrors, } from "react-hook-form";
 
-import { NumericFormatter } from "../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { Text } from "../shared/Typography/typography-text";
 import { colors } from "../../theme/colors";
 import { useRequestsData } from "./hooks/useRequestsData";

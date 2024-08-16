@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { TableWrapper } from "../shared/Table/components/TableWrapper";
+import { TableWrapper } from "../shared/Table/table-wrapper";
 import { UserCredentials } from "../../@types/UserData/UserData";
 import {
   Button,
@@ -17,14 +17,14 @@ import { userImageFallback } from "../../util/projectImage";
 import { buildStatus } from "../../functions/buildStatus";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { colors } from "../../theme/colors";
-import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper";
-import Select from "../shared/Input/Select";
+import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
+import Select from "../shared/Input/select";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { userStatusOptions } from "./util/selectOptions";
 import { REGISTER_CONSULTOR } from "../../constants/paths/paths";
 import { IoMdClose } from "react-icons/io";
-import { ModalNavigator } from "../shared/Modal/Navigator";
+import { ModalNavigator } from "../shared/Modal/modal-navigator";
 import { useConsultorData } from "./hooks/useConsultorData";
 
 const ConsultorsTable = () => {

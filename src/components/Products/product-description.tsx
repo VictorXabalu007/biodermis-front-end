@@ -7,7 +7,7 @@ import { useProductUpdate } from "./hooks/useProductUpdate";
 import { Button, Col, Flex, Form, Image, InputRef, Row, Select } from "antd";
 import { Controller } from "react-hook-form";
 
-import InputMoney from "../shared/Input/InputNumber";
+import InputMoney from "../shared/Input/input-money";
 import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
 import FlatInput from "../shared/Input/flat-input";
 
@@ -46,7 +46,7 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
 
     if(!isEditable){
       setText('Editar produto');
-      setIsEditing(false)
+      setIsEditing(false);
     }
 
   },[text, isEditable])

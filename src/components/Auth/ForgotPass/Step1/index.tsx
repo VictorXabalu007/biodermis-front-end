@@ -1,7 +1,7 @@
 
 import { Controller, useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, Flex, Form, Input } from 'antd';
+import { Alert, Button, Flex, Form, Input, Typography } from 'antd';
 import { useMutation } from "@tanstack/react-query";
 
 import { z } from "zod";
@@ -10,13 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import forgotBg from '../../../../assets/purple-frame-forgotpass.png'
 import biodermisLogo from '../../../../assets/small-logo.png';
 import { api } from "../../../../service/connection";
-import { Heading } from "../../../shared/Heading";
-import { Text } from "../../../shared/Text";
-import { BtnWrapper, InputWrapper } from "../../Login/styles";
 import { useState } from "react";
 import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
 import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { Text } from "../../../shared/Typography/typography-text";
 
 
 
@@ -25,21 +23,20 @@ type ForgotPassType = {
     password: string;
 };
 
-
 export const ForgotPassStep1 = () => {
 
     const [authError, setAuthError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    
 
-
-    const loginSchema = z.object({
+    const step1ForgotPassSchema = z.object({
         email: z.string({required_error: 'O e-mail é necessário para recuperar sua senha'})
         .min(1,'E-mail é necessário para recuperar sua senha')
         .email('Isto não é um email!'),
     })
 
     const {handleSubmit, control, formState:{errors}} = useForm<ForgotPassType>({
-        resolver: zodResolver(loginSchema),
+        resolver: zodResolver(step1ForgotPassSchema),
         mode: 'all',
         criteriaMode: 'all'
     });
@@ -85,11 +82,6 @@ export const ForgotPassStep1 = () => {
       
     }
 
-    const handleInputChange = () => {
-  
-        if (authError) setAuthError(null); 
-    };
-
 
     const [form] = Form.useForm();
     
@@ -131,22 +123,23 @@ export const ForgotPassStep1 = () => {
                         className="w-1/3 mb-3"
                     />
 
-                    <Heading.Root className="font-[500]"> 
-                        <Heading.Content content="Esqueceu sua senha?" />
-                    </Heading.Root>
 
-                    <Text.Root className="mb-3 font-[300] text-gray-neutral-300">
-                        <Text.Content 
-                            content="Insira os dados para recuperar sua senha"
-                        />
+                    <Typography.Title level={4}>
+                    Esqueceu sua senha?
+                    </Typography.Title>
 
-                    </Text.Root>
+                    <Text>
+                 
+                     Insira os dados para recuperar sua senha
+                        
 
-                    <Text.Root className="font-[300] text-gray-neutral-300">
-                        <Text.Content 
-                            content="Introduza o endereço de e-mail que utilizou quando aderiu e iremos enviar as instruções para repor a sua palavra-passe."
-                        />
-                    </Text.Root>
+                    </Text>
+
+                    <Text>
+                   
+                        Introduza o endereço de e-mail que utilizou quando aderiu e iremos enviar as instruções para repor a sua palavra-passe.
+                   
+                    </Text>
 
                 </div>
 
@@ -168,14 +161,14 @@ export const ForgotPassStep1 = () => {
                     />
                 )}
 
-                <Flex className="flex-col">
+                <Flex vertical gap={10}>
 
 
                     <Controller
                     
                     control={control}
                     name="email"
-                    render={({field:{onChange, value}})=> (
+                    render={({field})=> (
 
                         <Form.Item
                         name="email"
@@ -183,20 +176,16 @@ export const ForgotPassStep1 = () => {
                         help={errors.email && errors.email.message}
                         >
 
-                            <InputWrapper>
+              
                             
                                 <Input
-                                className="ant-input my-4 rounded-md py-1 border-gray-neutral-200"
-                                onChange={(e)=> {
-                                    handleInputChange()
-                                    onChange(e.target.value)
-                                }}
-                                value={value}
+                               
+                                {...field}
                                 type="email"
                                 placeholder="email"
                                 /> 
                             
-                            </InputWrapper>
+                 
 
                                 
                         </Form.Item>
@@ -206,34 +195,22 @@ export const ForgotPassStep1 = () => {
                     />
                     
                 
-                <Form.Item>
-                        
+        
 
-                        {isLoading ? 
-                        <>
-                      
-                                Enviando...
-               
-                        </> : (
-
-
-                        <BtnWrapper>
+                     
 
                             <Button 
-                            className="my-3 auth-btn bg-brand-purple text-white w-full text-center" 
+                            loading={isLoading}
+                            size="large"
+                            className="w-full " 
                             htmlType="submit">
 
                                 Continuar
 
                             </Button>
 
-                        </BtnWrapper>
+               
 
-
-                        )} 
-
-
-                </Form.Item>
 
                 
 

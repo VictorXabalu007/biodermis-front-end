@@ -1,5 +1,5 @@
-import { UserImage } from "../shared/Image/UserImage";
-import InputMoney from "../shared/Input/InputNumber";
+import { UserImage } from "../shared/Image/user-image";
+import InputMoney from "../shared/Input/input-money";
 import {
   Form,
   Col,

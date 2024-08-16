@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProductsType } from "./service/getProducts";
 import { useTableData } from "./hooks/useTableData";
-import { TableWrapper } from "../shared/Table/components/TableWrapper";
+import { TableWrapper } from "../shared/Table/table-wrapper";
 import {
   Avatar,
   Button,
@@ -11,19 +11,19 @@ import {
   Table,
   TableColumnType,
 } from "antd";
-import { TableHeaderWrapper } from "../shared/Table/components/TableHeaderWrapper";
+import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import { REGISTER_PRODUCTS } from "../../constants/paths/paths";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import Select from "../shared/Input/Select";
-import { SelectLabel } from "../shared/Input/Select/SelectLabel";
+import Select from "../shared/Input/select";
+import { SelectLabel } from "../shared/Input/select-label";
 import { CategoryType } from "../Categories/service/getCategory";
 import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
 import { useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
 import { useProductsData } from "./hooks/useProductsData";
 import { useCategoriesData } from "../Categories/hooks/useCategoriesData";
 import { useTableActions } from "../../hooks/useTableActions";
-import { NumericFormatter } from "../shared/Formatter/NumericFormatter";
+import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import ExpandButton from "../shared/Button/expand-button";
 import EyeButton from "../shared/Button/edit-button";
 import { ProductView } from "./product-description";
