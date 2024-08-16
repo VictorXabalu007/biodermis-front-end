@@ -19,7 +19,6 @@ import { useEffect } from "react"
 import { HiOutlinePencilAlt } from "react-icons/hi"
 import { getUserRole } from "../../util/userRole.ts"
 
-
 const UsersTable = () => {
 
     const {
@@ -41,10 +40,8 @@ const UsersTable = () => {
 
   const { 
     getColumnSearchProps,
-
     filteredData,
     setFilteredData,
-
     } = useTableActions({
     data:users,
     setData:setUsers,
@@ -82,9 +79,7 @@ const UsersTable = () => {
 
   const handleEditClick = (data:UserCredentials) => {
 
-
       showFormModal({readOnly: false,data});
-     
      
   }
 
@@ -157,16 +152,25 @@ const UsersTable = () => {
       dataIndex: "actions",
       key: "actions",
       render: (_,record) => (
-        <Tooltip title="Editar">
-          <Button 
-          style={{ color: colors.primaryPurple }}
-          type="text"
-          onClick={()=>handleEditClick(record)}
-          >
-            <HiOutlinePencilAlt size={20} />
-          </Button>
-        </Tooltip>
+        <Flex gap={10} align="center">
+          
+          <Tooltip title="Editar">
+            <Button 
+            style={{ color: colors.primaryPurple }}
+            type="text"
+            onClick={()=>handleEditClick(record)}
+            >
+              <HiOutlinePencilAlt size={20} />
+            </Button>
+      
+          </Tooltip>
+  
+          
+
+        </Flex>
       ),
+   
+ 
     },
   ];
 
@@ -175,6 +179,8 @@ const UsersTable = () => {
     return (
 
         <TableWrapper>
+
+          
         <TableHeaderWrapper heading="Lista de usuários">
           <Flex wrap justify="space-between" align="center">
             <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">

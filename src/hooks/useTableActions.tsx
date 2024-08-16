@@ -4,7 +4,7 @@ import { Button, Form, Input, InputRef, Space, TableColumnType } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import { useEffect, useRef, useState } from "react";
-
+import { colors } from "../theme/colors";
 type UseTableActionsProps<T extends { id: React.Key }> = {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
@@ -77,6 +77,7 @@ export const useTableActions = <T extends { id: React.Key }>({
         }
     };
 
+
     const getColumnSearchProps = (
         dataIndex: DataIndex,
         label: string
@@ -94,7 +95,15 @@ export const useTableActions = <T extends { id: React.Key }>({
                     placeholder={`Pesquise por: ${label}`}
                     value={selectedKeys[0]}
                     onChange={(e) =>
+                    {
+                        
                         setSelectedKeys(e.target.value ? [e.target.value] : [])
+                        if(e.target.value === ''){
+                            setFilteredData(data)
+                            handleSearch([] as string[], confirm, dataIndex)
+                        }
+                    }
+                      
                     }
                     onPressEnter={() =>
                         handleSearch(selectedKeys as string[], confirm, dataIndex)
@@ -121,7 +130,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                         Apagar
                     </Button>
                     <Button
-                        type="link"
+                        type="text"
                         size="small"
                         onClick={() => {
                             confirm({ closeDropdown: false });
@@ -132,7 +141,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                         Filtrar
                     </Button>
                     <Button
-                        type="link"
+                        type="text"
                         size="small"
                         onClick={() => {
                             close();
@@ -146,7 +155,7 @@ export const useTableActions = <T extends { id: React.Key }>({
         filterIcon: (filtered: boolean) => (
             <SearchOutlined
                 size={20}
-                style={{ color: filtered ? "#1677ff" : undefined }}
+                style={{ color: filtered ? colors.primaryPurple : undefined }}
             />
         ),
         onFilter: (value, record) =>
@@ -170,6 +179,7 @@ export const useTableActions = <T extends { id: React.Key }>({
             setSelectedKeys([]);
         }
     };
+
 
     const handleCheckboxChange = (recordId: React.Key) => {
         setSelectedKeys((prevSelected) => {
@@ -199,6 +209,7 @@ export const useTableActions = <T extends { id: React.Key }>({
         rowClassName,
         setSelectedKeys,
         filteredData,
-        setFilteredData
+        setFilteredData,
+  
     };
 };

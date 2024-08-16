@@ -154,7 +154,7 @@ export const UploadComprovantModal = ({
                 />
 
              
-                    <Row gutter={[32, 32]}>
+                    <Row gutter={[12, 12]}>
                     <Col lg={12}>{renderField("nome", "Nome", "text")}</Col>
                     <Col lg={12}>
                         <Flex vertical>

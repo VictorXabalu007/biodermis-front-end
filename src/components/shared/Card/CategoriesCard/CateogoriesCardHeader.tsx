@@ -3,18 +3,16 @@ import { Heading } from "../../Heading"
 import { BiCategory } from "react-icons/bi"
 
 import DeleteButton from "../../Button/delete-button"
-import EyeButton from "../../Button/edit-button"
 
 
 
 type HeaderProps = {
     onDelete: () => void,
-    onView: () => void,
     title:string
 }
 
 
-export const CategoriesCardHeader = ({title,onDelete,onView}:HeaderProps) => {
+export const CategoriesCardHeader = ({title,onDelete}:HeaderProps) => {
 
     return (
 
@@ -38,10 +36,7 @@ export const CategoriesCardHeader = ({title,onDelete,onView}:HeaderProps) => {
 
             <Flex align="center" gap={5}>
 
-                
-                <EyeButton 
-                    onClick={onView}
-                />
+            
 
                 <DeleteButton
 

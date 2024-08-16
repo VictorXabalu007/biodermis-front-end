@@ -25,7 +25,6 @@ const CategoryCardContainer = () => {
         isLoading,
         data,
         setData,
-        showConfirmModal,
         getCategoryOptions
 
     }  = useCategoriesData();
@@ -88,19 +87,6 @@ const CategoryCardContainer = () => {
         deleteCategory.mutate(id);
     }
 
-    const handleDelete = (id:number, categoria:string) => {
-
-
-        showConfirmModal(
-          {
-            handleOk:()=> handleOk(id),
-            handleCancel:()=>  handleClose(),
-            content: `Tem certeza que deseja deletar a categoria "${categoria}" ?`,
-          }
-            
-        )
-
-    }
 
     const handlePageChange = (page: number) => {
         paginationItems.setCurrentPage(page); 
@@ -188,12 +174,11 @@ const CategoryCardContainer = () => {
                                 <FlexWrapper>
 
                                     <CategoriesCard.Root
-                            
+                                        onClick={()=>handleCategorySearch(d.id)}
                                         key={d.id}
                                     >
                                         <CategoriesCard.Header 
-                                            onDelete={()=>handleDelete(d.id, d.categoria)}
-                                            onView={()=>handleCategorySearch(d.id)}
+                                            onDelete={()=>handleOk(d.id)}
                                             title={d.categoria}
                                         />
 
