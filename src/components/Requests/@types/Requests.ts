@@ -1,5 +1,5 @@
-import { UserCredentials } from "../../../../@types/UserData/UserData";
-import { ProductsType } from "../../../Products/service/getProducts";
+import { UserCredentials } from "../../../@types/UserData/UserData";
+import { ProductsType } from "../../Products/service/getProducts";
 
 
 

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Requests } from "../components/@types/Requests";
+import { Requests } from "../@types/Requests";
 import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
 import { useEffect, useState } from "react";
 import {

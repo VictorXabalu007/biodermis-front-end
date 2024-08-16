@@ -6,7 +6,7 @@ export const components:ComponentsToken = {
     
     Typography: {
         titleMarginBottom: 0,
-     
+        titleMarginTop: 0,
     },
     Flex: {
         padding: 16,
@@ -30,6 +30,13 @@ export const components:ComponentsToken = {
         colorPrimaryBorderHover:  colors.primaryPurple,
         activeBorderColor:  colors.primaryPurple
       },
+      Table: {
+        cellFontSize:12,
+        colorText:colors.colorHeaderTable,
+        colorTextHeading:colors.colorHeaderTable,
+        cellPaddingBlock:12
+      },
 
    
 }
+

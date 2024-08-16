@@ -1,5 +1,5 @@
+import { GREEN_700, PURPLE_600, YEALLOW_700 } from "../../../constants/classnames/classnames";
 
-import { GREEN_700, PURPLE_600, YEALLOW_700 } from "../../../../../constants/classnames/classnames";
 
 
 export const getColorStylesByKey  = (key:string) => {

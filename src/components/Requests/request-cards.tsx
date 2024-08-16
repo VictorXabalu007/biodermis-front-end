@@ -1,10 +1,11 @@
 import { Flex, Skeleton } from "antd";
-import { ProgressCard } from "../../../shared/Card/ProgressCard";
-import { useRequestCardItem } from "../../hooks/useRequestCardItems";
+
 import { getColorStylesByKey } from "./functions/getColorStylesByKey";
+import { useRequestCardItem } from "./hooks/useRequestCardItems";
+import { ProgressCard } from "../shared/Card/ProgressCard";
 
 
-export const CardContainer = () => {
+const RequestCardContainer = () => {
 
     const {items ,isLoading} = useRequestCardItem();
 
@@ -55,3 +56,5 @@ export const CardContainer = () => {
     );
 
 }
+
+export default RequestCardContainer

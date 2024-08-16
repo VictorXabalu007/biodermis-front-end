@@ -1,4 +1,6 @@
-import { Requests } from "../../components/Requests";
+
+import RequestCardContainer from "../../components/Requests/request-cards";
+import RequestsTable from "../../components/Requests/request-table";
 import { useStateTheme } from "../../context/ThemeProvider";
 
 export const RequestsTemplate = () => {
@@ -7,9 +9,9 @@ export const RequestsTemplate = () => {
   return (
 
     <>
-      <Requests.Cards />
+      <RequestCardContainer />
 
-      <Requests.Table />
+      <RequestsTable />
     </>
     
   );

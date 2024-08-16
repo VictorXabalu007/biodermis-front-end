@@ -1,12 +1,12 @@
 import { twMerge } from "tailwind-merge";
-import { Heading } from "../../Heading";
+import { FlexProps, Typography } from "antd";
 
 
 type TableHeaderProps = {
     className?:string;
     children:React.ReactNode,
     heading: string;
-}
+} & FlexProps
 
 export const TableHeaderWrapper = ({children, className, heading}:TableHeaderProps) => {
 
@@ -15,9 +15,9 @@ export const TableHeaderWrapper = ({children, className, heading}:TableHeaderPro
         <div className={twMerge(className, 'mb-5 gap-5 flex flex-col flex-wrap')}>
 
             
-            <Heading.Root>
-                <Heading.Content content={heading} />
-            </Heading.Root>
+            <Typography.Title level={4}>
+                {heading}
+            </Typography.Title>
 
 
             {children}

@@ -1,8 +1,10 @@
-import { Tag } from "../../../shared/Tag"
+import { Tag } from "../../shared/Tag"
+
 
 
 export const buildPaymentStatus = (status:string) => {
 
+    
     switch(status) {
 
         case 'aguardando':

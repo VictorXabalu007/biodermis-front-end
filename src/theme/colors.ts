@@ -8,7 +8,8 @@ export type ColorsType = {
     red: string,
     green: string,
     yellow: string,
-    brandGreen: string
+    brandGreen: string,
+    colorHeaderTable:string
 }
 
 
@@ -20,5 +21,6 @@ export const colors: ColorsType = {
     red: '#FF0000',
     green: '#00FF00',
     yellow: '#FFFF00',
-    brandGreen: '#00FF00'
+    brandGreen: '#00FF00',
+    colorHeaderTable:'#656565'
 }

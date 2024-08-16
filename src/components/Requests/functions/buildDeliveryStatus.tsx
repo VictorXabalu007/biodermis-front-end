@@ -1,25 +1,31 @@
 
-import { Tag } from "../../../shared/Tag";
-import { PaymentStatus } from "../../../WithdrawalRequests/util/selectOptions";
-import { useModalComponent } from "../../hooks/useModalComponent";
+import { Tag } from "../../shared/Tag";
+import { PaymentStatus } from "../../WithdrawalRequests/util/selectOptions";
 import { Requests } from "../@types/Requests";
 
 
+type Props = {
+    handleEditorOpen?: () => void    
+    status:string
+    request:Requests
+
+}
+
+export const buildDeliveryStatus = ({
+    handleEditorOpen,
+    request,
+    status
+}:Props) => {
 
 
-export const buildDeliveryStatus = (status:string,data:Requests) => {
-
-    const {showRequestEditor} = useModalComponent({id: data.id, data});
-
-    
     switch(status) {
 
         case "pendente":
             return (
                 <Tag
                 onClick={()=> {
-                    data.statuspag === PaymentStatus.PAID ?
-                    showRequestEditor() : null
+                    request.statuspag === PaymentStatus.PAID ?
+                    handleEditorOpen ? handleEditorOpen() : null : null
                 }}
                 content={status}
                 className="cursor-pointer text-yeallow-solid-900 fill-yeallow-solid-900 bg-yeallow-solid-400 hover:bg-yeallow-solid-400/75"
