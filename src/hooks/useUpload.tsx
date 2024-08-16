@@ -1,7 +1,9 @@
-import { UploadFile, UploadProps } from "antd"
+import { Flex, UploadFile, UploadProps } from "antd"
 import { GetProp } from "antd/lib";
 import { useEffect, useState } from "react"
 import { API_URL } from "../service/url";
+import { FaPlus } from "react-icons/fa6";
+import { colors } from "../theme/colors";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -62,8 +64,17 @@ export const useUpload = ({initialImage}:Props) => {
 
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
-    
+          
+          <Flex 
+            vertical
+            align="center"
+            gap={5}
+
+          >
+            <FaPlus color={colors.primaryPurple} size={15} />
           <div style={{ marginTop: 8 }}>Adicionar imagem</div>
+          </Flex> 
+        
         </button>
       );
 

@@ -1,4 +1,5 @@
 import {
+  Button,
   Col, Empty, Flex, Form,
   Image, Input, InputRef, Popconfirm, Row, Select, Skeleton, Typography, Upload
 } from "antd";
@@ -18,7 +19,7 @@ import { API_URL } from "../../service/url";
 import { Controller } from "react-hook-form";
 import InputMoney from "../shared/Input/InputNumber";
 import { QuillInput } from "../shared/Input/QuillInput";
-import { Button } from "../shared/Button";
+
 
 const ProductEditor = () => {
   
@@ -439,33 +440,32 @@ const ProductEditor = () => {
 
                   <Col lg={24}>
                     <Flex gap={15}>
-                      <Button.Root
+                      <Button
                         className="w-1/3"
                         htmlType="submit"
                         aria-label="submit fields"
+                        size="large"
                       >
-                        <Button.Wrapper>
-                          <Button.Content content="Enviar" />
-                        </Button.Wrapper>
-                      </Button.Root>
+                        Enviar
+                      </Button>
                       
 
                       <Popconfirm
                         title="Deseja mesmo cancelar?"
                         onConfirm={handleCancel}
                         
+                        
                       >
 
-                        <Button.Root
+                        <Button
                           className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
                           htmlType="reset"
                           aria-label="reset fields"
                           disabled={initialData === currentProduct}
+                          size="large"
                         >
-                          <Button.Wrapper>
-                            <Button.Content content="Cancelar" />
-                          </Button.Wrapper>
-                        </Button.Root>
+                          Cancelar
+                        </Button>
 
 
                       </Popconfirm>
@@ -480,10 +480,11 @@ const ProductEditor = () => {
                 <Col lg={24}>
                   <Flex>
                     <Flex gap={4}>
-                      <Typography.Title>
+                      <Typography.Title className="mb-5" level={3}>
                         {currentProduct?.nome}
                       </Typography.Title>
                     </Flex>
+                      
                   </Flex>
                 </Col>
 
@@ -497,7 +498,7 @@ const ProductEditor = () => {
                         render={({ field }) => (
                           <>
                             <Upload
-                              action={API_URL + '/upload'}
+                            
                               listType="picture-card"
                               fileList={fileList}
                               onPreview={handlePreview}

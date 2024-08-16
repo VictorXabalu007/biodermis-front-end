@@ -1,14 +1,11 @@
 import type { UploadProps } from 'antd';
-import { Upload } from 'antd';
+import { Form, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
-import { RegisterFieldProps } from '../../../../../@types/RegisterFieldsProps';
-import { Form } from '../../../../../../shared/Form';
-
-import { FormItem } from '../../../../../../shared/Form/FormItem';
-import { DraggerWrapper } from './styles/styles';
-import { UserData } from '../../../../../../../validations/registerUserValidation';
-
+import { RegisterFieldProps } from '../@types/RegisterFieldsProps';
+import { UserData } from '../../../validations/registerUserValidation';
+import { SubHeader } from '../../shared/SubHeader';
+import { colors } from '../../../theme/colors';
 
 const { Dragger } = Upload;
 
@@ -26,32 +23,32 @@ const props: UploadProps = {
 
 };
 
-
 export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
-    
-
-
-
-
-
-
 
     return (
       <div className="mt-10">
-        <Form.SubHeader heading="Upload de certificado" subtext="Faça o upload do certificado do novo consultor" />
-  
+
+        <SubHeader 
+          heading='Upload de certificado'
+          hasLink={false}
+          style={{
+            color:colors.primaryPurple
+          }}
+          subtext='Fazer o upload do certificado do novo consultor'
+        />
+
         <div className="mt-10">
           <Controller
             name="certificado"
             control={control}
             render={({ field }) => (
-              <FormItem
+              <Form.Item
                 name="certificado"
                 validateStatus={errors.certificado ? 'error' : 'success'}
                 help={errors.certificado && errors.certificado.message}
                 hasFeedback
               >
-                <DraggerWrapper>
+         
                   <Dragger
                     style={{
                       background: '#FAF3F8',
@@ -64,15 +61,15 @@ export const Uploader = ({control,errors}:RegisterFieldProps<UserData>) => {
                     {...props}
                   >
                     <p className="uploader-icon flex justify-center items-center">
-                      <BsDownload />
+                      <BsDownload color={colors.primaryPurple} size={25} />
                     </p>
                     <p className="py-4 font-[400]">
                       Clique ou arraste o arquivo nesta área para{' '}
                       <span className="mx-1 font-bold">realizar upload</span>
                     </p>
                   </Dragger>
-                </DraggerWrapper>
-              </FormItem>
+            
+              </Form.Item>
             )}
           />
         </div>

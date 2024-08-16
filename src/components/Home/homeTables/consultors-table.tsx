@@ -106,6 +106,9 @@ const HomeConsultorsTable = () => {
                 scroll={{ x: 300 }}
                 columns={columns}
                 dataSource={consultor}
+                pagination={{
+                    pageSize:3
+                }}
             />
         
         </>}

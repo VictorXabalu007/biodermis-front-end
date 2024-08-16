@@ -1,17 +1,25 @@
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { Text } from "../Text";
-import { Heading } from "../Heading";
-import { Button } from "antd";
+import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { Text } from "../Typography/typography-text";
+import { TitleProps } from "antd/es/typography/Title";
+
 
 type SubHeaderProps = {
-    linkText:string,
+    linkText?:string,
     heading:string,
-}
+    hasLink?:boolean
+    subtext?:string
+} & TitleProps
 
-export const SubHeader = ({linkText,heading}:SubHeaderProps) => {
+export const SubHeader = ({
+    linkText,
+    heading,
+    hasLink = true,
+    subtext,
+    ...rest
+}:SubHeaderProps) => {
 
-    
     const navigate = useNavigate();
 
     const handleGoBack = () => {
@@ -23,23 +31,33 @@ export const SubHeader = ({linkText,heading}:SubHeaderProps) => {
 
         <div className="flex items-center gap-10">
 
-            <Button onClick={handleGoBack} type="text">
+            {hasLink && (
 
-                <FaArrowLeftLong className="text-brand-purple hover:text-brand-purple/75" />
-            
-            </Button>
+                <Button onClick={handleGoBack} type="text">
+
+                    <FaArrowLeftLong className="text-brand-purple hover:text-brand-purple/75" />
+                
+                </Button>
+
+            )}
 
             <div>
 
-                <Text.Root className="text-[12px] font-[300]">
-                    <Text.Content content={linkText} />
-                </Text.Root>
+                <Text className="text-[12px] font-[300]">
+                    {linkText}
+                </Text>
 
-                <Heading.Root>
-                    <Heading.Content 
-                    content={heading}
-                    />
-                </Heading.Root>
+                <Typography.Title  
+                    {...rest}
+                    level={4}
+                >
+                    {heading}
+                </Typography.Title>
+
+                <Text size="sm">
+                    {subtext}
+                </Text>
+          
 
             </div>
 

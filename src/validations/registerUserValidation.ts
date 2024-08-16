@@ -106,7 +106,7 @@ const userSchema = z.object({
   }, {
     message: 'Certificado é obrigatório para consultores',
     path: ['certificado'],
-  });
+});
 
 
 export type UserData = z.infer<typeof userSchema>

@@ -2,14 +2,13 @@ import type { UploadFile, UploadProps } from 'antd';
 import {  message, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
-import { Form } from '../../../../shared/Form';
-import { RegisterFieldProps } from '../../../@types/RegisterFieldsProps';
+import { Form } from '../../shared/Form';
+import { RegisterFieldProps } from '../@types/RegisterFieldsProps';
 import { GetProp } from 'antd/lib';
 import { Ref, forwardRef, useImperativeHandle, useState } from 'react';
-import { FormItem } from '../../../../shared/Form/FormItem';
-import { UploaderWrapper } from './styles';
+import { FormItem } from '../../shared/Form/FormItem';
 import { RcFile } from 'antd/es/upload';
-import { ProductsData } from '../../../../../validations/registerProductValidation';
+import { ProductsData } from '../../../validations/registerProductValidation';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -84,12 +83,12 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
             rules={{required: true}}
             control={control}
             render={({ field }) => (
-              <UploaderWrapper>
+   
                 <FormItem
                   name="files"
                   validateStatus={errors.files ? 'error' : 'success'}
                   help={errors.files && errors.files.message}
-                  hasFeedback
+                  
                 >
                   <Dragger
                     fileList={fileList}
@@ -97,11 +96,13 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
                       background: '#FAF3F8',
                       borderColor: '#B475A5',
                       padding: '1rem',
+                      marginBottom:'15px'
                     }}
                     onChange={(info) => {
                       onChange(info);
                       field.onChange(info.fileList);
                     }}
+                  
                     onPreview={onPreview}
                     listType="picture-card"
                     {...props}
@@ -115,7 +116,7 @@ const UploaderComponent = ({ control, errors }: RegisterFieldProps<ProductsData>
                     </p>
                   </Dragger>
                 </FormItem>
-              </UploaderWrapper>
+     
             )}
 
           />

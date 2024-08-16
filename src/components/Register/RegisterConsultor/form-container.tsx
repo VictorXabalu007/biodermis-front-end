@@ -1,30 +1,27 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
-import { Button } from "../../../../shared/Button";
-import { AddressDataForm } from "./components/AddressDataForm";
-import { BankDataForm } from "./components/BankDataForm";
-import { Uploader } from "./components/Uploader";
-import { Checkboxes } from "./components/Checkboxes";
+import { AddressDataForm } from "./addressdata-form";
+import { BankDataForm } from "./bankdata-form";
+import { Uploader } from "./upload-certified";
+import { Checkboxes } from "./checkbox-role";
 import { useEffect, useState } from "react";
-import { UserRole } from "../../../../../util/userRole";
-import { Form  } from "antd";
-import { PessoalDataForm } from "./components/PessoalDataForm";
+import { UserRole } from "../../../util/userRole";
+import { Button, Form  } from "antd";
+import { PessoalDataForm } from "./pessoal-data";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../../../service/connection";
-import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
-import { getHeaders } from "../../../../../service/getHeaders";
-import { getTypeOfPixKey } from "../../../../../functions/Getters/getTypeOfPixKey";
-import { UserData, userSchema } from "../../../../../validations/registerUserValidation";
+import { api } from "../../../service/connection";
+import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../service/getHeaders";
+import { getTypeOfPixKey } from "../../../functions/Getters/getTypeOfPixKey";
+import { UserData, userSchema } from "../../../validations/registerUserValidation";
 
 export const FormContainer = () => {
 
     const {success,error, contextHolder} = useMessageAction();
-
     const [isConsultor, setIsConsultor] = useState(false);
 
     const {
-        register,
         handleSubmit,
         formState:{errors},
         reset, 
@@ -38,12 +35,9 @@ export const FormContainer = () => {
             cargo_id: UserRole.ADMIN,
             certificado: undefined
         }
-
     });
 
-
     const userRole = watch('cargo_id');
-
 
     useEffect(()=> {
 
@@ -156,11 +150,13 @@ export const FormContainer = () => {
     return (
 
         <div className="max-w-2xl">
+
             {contextHolder}
 
             <Form
                 form={form}
                 onFinish={handleSubmit(onSubmit)}
+                layout="vertical"
             >
                 
                 <PessoalDataForm 
@@ -170,7 +166,7 @@ export const FormContainer = () => {
 
                 <AddressDataForm 
                  errors={errors}
-                 register={register}
+  
                  control={control}
 
                 />
@@ -178,7 +174,7 @@ export const FormContainer = () => {
         
                    <BankDataForm 
                    errors={errors}
-                   register={register}
+
                    control={control}
                   />
      
@@ -187,7 +183,7 @@ export const FormContainer = () => {
           
                 <Checkboxes
                 errors={errors}
-                register={register}
+             
                 control={control}
                 />
                 
@@ -197,45 +193,43 @@ export const FormContainer = () => {
                     <Uploader 
                     control={control}
                     errors={errors}
-                    register={register}
+              
                     />
                 }    
 
 
                 <div className="flex gap-2 mt-10">
 
-                    <Button.Root htmlType="submit" aria-label="submit fields" className="w-1/3">
 
-                        <Button.Wrapper>
-                            <Button.Content 
-                                content="Enviar"
-                                />
-                        </Button.Wrapper>
+                    <Button
+                        htmlType="submit"
+                        size="large"
+                        onClick={handleSubmit(onSubmit)}
+                        aria-label="submit"
+                        className="w-1/3"
+                    >
 
-                    </Button.Root>
+                        Enviar
+                    </Button>
 
-                    <Button.Root 
-                    aria-label="reset fields"
-                    className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
-                    htmlType="reset"
-                    onClick={onReset}
+       
+                    <Button
+                        htmlType="reset"
+                        className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
+                        onClick={onReset}
+                        aria-label="reset"
+                        size="large"
                     >
                         
-                        <Button.Wrapper>
+                        Cancelar
 
-                            <Button.Content 
-                                content="cancelar"
-                                />
-
-                        </Button.Wrapper>
-                        
-                    </Button.Root>
+                    </Button>
 
                 </div>
 
             </Form>
 
-            </div>
+        </div>
 
 
     );

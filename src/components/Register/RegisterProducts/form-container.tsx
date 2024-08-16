@@ -1,19 +1,19 @@
 
 import { useForm } from "react-hook-form"
-import { ProductsDescForm } from "../ProductsDescForm"
+import { ProductsDescForm } from "./product-desc-form"
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ProductsDimensionForm } from "../ProductsDimensionForm";
-import { Uploader } from "../Uploader";
-import { ProductsPricesForm } from "../ProductPricesForm";
+import { ProductsDimensionForm } from "./product-dimension-form";
+import { Uploader } from "./images-uploader";
+import { ProductsPricesForm } from "./product-price-form";
 import { Form } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "../../../../shared/Button";
+import { Button } from "../../shared/Button";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../../../service/connection";
-import { useMessageAction } from "../../../../../hooks/useMessageAction/useMessageAction";
-import { getHeaders } from "../../../../../service/getHeaders";
-import { ProductsData, productsSchema } from "../../../../../validations/registerProductValidation";
+import { api } from "../../../service/connection";
+import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { getHeaders } from "../../../service/getHeaders";
+import { ProductsData, productsSchema } from "../../../validations/registerProductValidation";
 
 
 
@@ -146,6 +146,7 @@ export const FormContainer = () => {
         form={form}
         onFinish={handleSubmit(onSubmit)}
         className="w-full"
+        layout="vertical"
         >   
 
         {contextHolder}

@@ -1,6 +1,6 @@
 
 import { SubHeader } from "../../shared/SubHeader";
-import { FormContainer } from "./components/FormContainer";
+import { FormContainer } from "./form-container";
 
 
 export const RegisterProducts = {

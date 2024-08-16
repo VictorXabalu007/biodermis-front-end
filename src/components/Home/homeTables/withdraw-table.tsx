@@ -115,6 +115,9 @@ const HomeWithdrawTable = () => {
                 scroll={{ x: 300 }}
                 columns={columns}
                 dataSource={withDrawData}
+                pagination={{
+                    pageSize:3
+                }}
         
             />
         
