@@ -1,6 +1,6 @@
 
 import { SearchOutlined } from "@ant-design/icons";
-import { Button, Form, Input, InputRef, Space, TableColumnType } from "antd";
+import { Button, Form, Input, InputRef, notification, Space, TableColumnType } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import { useEffect, useRef, useState } from "react";
@@ -35,6 +35,14 @@ export const useTableActions = <T extends { id: React.Key }>({
         confirm();
         setSearchText(selectedKeys[0]);
         setSearchedColumn(dataIndex);
+
+    
+        if(selectedKeys.length > 0){
+
+            notification.info({
+                message: `Filtrando por: ${selectedKeys[0]}`,
+            })
+        }
     };
 
     const handleReset = (clearFilters: () => void) => {
@@ -80,7 +88,7 @@ export const useTableActions = <T extends { id: React.Key }>({
 
     const getColumnSearchProps = (
         dataIndex: DataIndex,
-        label: string
+        label: string,
     ): TableColumnType<T> => ({
         filterDropdown: ({
             setSelectedKeys,
@@ -126,7 +134,10 @@ export const useTableActions = <T extends { id: React.Key }>({
                         Pesquisar
                     </Button>
                     <Button
-                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        onClick={() => {
+                            clearFilters && handleReset(clearFilters);
+                            handleSearch([] as string[], confirm, dataIndex)
+                        }}
                         size="small"
                         style={{ width: 90 }}
                     >
@@ -202,6 +213,23 @@ export const useTableActions = <T extends { id: React.Key }>({
       return selectedKeys.includes(record.id) ? "selected-row" : "";
     };
 
+    const clearAllFilters = (dataIndexes: DataIndex[]) => {
+        dataIndexes.forEach((dataIndex) => {
+            const clearFilterFunc = (clearFilters: () => void, confirm: FilterDropdownProps["confirm"]) => {
+                clearFilters && handleReset(clearFilters);
+                handleSearch([], confirm, dataIndex);
+            };
+            clearFilterFunc(() => {}, () => {});
+        });
+    
+        setFilteredData(data);
+        setSearchText('');
+        setSearchedColumn('');
+        setSelectedKeys([]);
+        notification.success({
+            message: "Filtros apagados!",
+        });
+    };
     return {
         cancel,
         editingKey,
@@ -217,6 +245,7 @@ export const useTableActions = <T extends { id: React.Key }>({
         setSelectedKeys,
         filteredData,
         setFilteredData,
+        clearAllFilters
   
     };
 };

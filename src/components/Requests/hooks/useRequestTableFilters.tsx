@@ -36,7 +36,9 @@ export const useRequestTableFilters = ({
       const [showFilters, setShowFilters] = useState(false);
     
       const handleOpenFilters = () => {
+        
         setShowFilters(!showFilters);
+        
       };
     
       const [dateRange, setDateRange] = useState<[string, string]>(["", ""]);

@@ -190,6 +190,7 @@ const UsersTable = () => {
                 onChange={handleUserRoleChange}
                 defaultValue={userSelectOptions[0]}
               />
+
             </Flex>
   
             <Flex wrap gap={10} className="mt-3 xl:mt-0">
@@ -201,6 +202,7 @@ const UsersTable = () => {
                   <FaPlus />
                   Cadastrar um usuário
                 </Flex>
+
               </Button>
             </Flex>
           </Flex>

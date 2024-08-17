@@ -20,7 +20,7 @@ import {
   sellChannelOptions,
   statusOptions,
 } from "./util/selectOptions";
-import {useState } from "react";
+import { useState } from "react";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import { IoFilter } from "react-icons/io5";
 import EyeButton from "../shared/Button/edit-button";
@@ -51,6 +51,7 @@ const RequestsTable = () => {
       data,
       setData,
     });
+
 
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
   const [openView, setViewOpen] = useState(false)
@@ -189,6 +190,7 @@ const RequestsTable = () => {
     setFilteredData
   })
 
+
   return (
 
     <>
@@ -219,6 +221,7 @@ const RequestsTable = () => {
               <div className="flex w-full items-center flex-wrap gap-4">
                 {showFilters && (
                   <Flex gap={5}>
+
                     <Select
                       className="w-full md:w-auto"
                       options={daysOptions}
