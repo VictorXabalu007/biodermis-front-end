@@ -18,6 +18,7 @@ import { useTableActions } from "../../hooks/useTableActions.tsx"
 import { useEffect } from "react"
 import { HiOutlinePencilAlt } from "react-icons/hi"
 import { getUserRole } from "../../util/userRole.ts"
+import FilterButton from "../shared/Button/filter-button.tsx"
 
 const UsersTable = () => {
 
@@ -42,6 +43,8 @@ const UsersTable = () => {
     getColumnSearchProps,
     filteredData,
     setFilteredData,
+    clearAllFilters,
+    isFiltered
     } = useTableActions({
     data:users,
     setData:setUsers,
@@ -189,6 +192,11 @@ const UsersTable = () => {
                 options={userSelectOptions}
                 onChange={handleUserRoleChange}
                 defaultValue={userSelectOptions[0]}
+              />
+   
+              <FilterButton 
+                isFiltered={isFiltered}
+                onFilterCancel={clearAllFilters}
               />
 
             </Flex>

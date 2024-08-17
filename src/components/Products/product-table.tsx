@@ -28,6 +28,7 @@ import ExpandButton from "../shared/Button/expand-button";
 import EyeButton from "../shared/Button/edit-button";
 import { ProductView } from "./product-description";
 import DeleteButton from "../shared/Button/delete-button";
+import FilterButton from "../shared/Button/filter-button";
 
 export const ProductsTable = () => {
 
@@ -65,7 +66,9 @@ export const ProductsTable = () => {
     rowClassName,
     handleCheckboxChange,
     handleSelectAll,
-    setSelectedKeys
+    setSelectedKeys,
+    isFiltered,
+    clearAllFilters
     
  } =
     useTableActions({
@@ -231,6 +234,10 @@ export const ProductsTable = () => {
                 handleCategoriesChange(e);
               }}
               className="w-full md:w-[250px]"
+            />
+            <FilterButton 
+              onFilterCancel={clearAllFilters}
+              isFiltered={isFiltered}
             />
           </Flex>
 

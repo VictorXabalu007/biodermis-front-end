@@ -4,13 +4,12 @@ import { UserEditRole, userEditSchema, UserEditSteps, UserEditType } from "../..
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormType } from "../../../@types/FormType/FormType";
 import { Stepper } from "./Stepper";
-import { Alert, Form } from "antd";
+import { Alert, Button, Form } from "antd";
 import { UserRole } from "../../../util/userRole";
 import { UserCredentials } from "../../../@types/UserData/UserData";
 import EditPersonalData from "./EditPersonalData";
 import EditAddressData from "./EditAddressData";
 import EditBankData from "./EditBankData";
-import { Button } from "../Button";
 import { useMutation } from "@tanstack/react-query";
 import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
@@ -279,11 +278,11 @@ export const UserForm = ({isReadonly, data}:FormType<UserCredentials>) => {
 
                 {!isReadonly &&
 
-                    <Button.Root htmlType="submit" className="mt-4 w-full">
-                        <Button.Wrapper>
-                            <Button.Content content="Confirmar" />
-                        </Button.Wrapper>
-                    </Button.Root>
+        
+                    <Button htmlType={"submit"}>
+
+Confirmar
+                    </Button>
 
                 }
 

@@ -2,7 +2,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Form, Input, InputRef, notification, Space, TableColumnType } from "antd";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { FilterDropdownProps } from "antd/es/table/interface";
 import { useEffect, useRef, useState } from "react";
 import { colors } from "../theme/colors";
 type UseTableActionsProps<T extends { id: React.Key }> = {
@@ -20,6 +19,7 @@ export const useTableActions = <T extends { id: React.Key }>({
     const [__, setSearchedColumn] = useState<DataIndex | "">("");
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
     const [filteredData, setFilteredData] = useState<T[]>([]);
+    const [isFiltered, setIsFiltered] = useState(false)
 
     useEffect(()=> {
         if(data){
@@ -29,19 +29,23 @@ export const useTableActions = <T extends { id: React.Key }>({
 
     const handleSearch = (
         selectedKeys: string[],
-        confirm: FilterDropdownProps["confirm"],
         dataIndex: DataIndex
     ) => {
-        confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
-
-    
+        
+        
         if(selectedKeys.length > 0){
 
             notification.info({
                 message: `Filtrando por: ${selectedKeys[0]}`,
             })
+
+
+            setFilteredData(
+                data.filter((item) =>
+                    //@ts-ignore
+                    item[dataIndex].toString().toLowerCase().includes(selectedKeys[0].toLowerCase())
+                )
+            );
         }
     };
 
@@ -57,6 +61,21 @@ export const useTableActions = <T extends { id: React.Key }>({
     const cancel = () => {
         setEditingKey("");
     };
+
+    useEffect(() => {
+       
+        if (filteredData.length !== data.length) {
+            setIsFiltered(true);
+        } else {
+    
+            const isDifferent = filteredData.some((filteredItem, index) => {
+                return filteredItem.id !== data[index].id;
+            });
+    
+            setIsFiltered(isDifferent);
+        }
+        
+    }, [filteredData, data]);
 
     const searchInput = useRef<InputRef>(null);
 
@@ -109,7 +128,7 @@ export const useTableActions = <T extends { id: React.Key }>({
 
                         if(e.target.value === ''){
                             setFilteredData(data)
-                            handleSearch([] as string[], confirm, dataIndex)
+                            handleSearch([] as string[], dataIndex)
                         }
 
                       
@@ -117,7 +136,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                       
                     }
                     onPressEnter={() =>
-                        handleSearch(selectedKeys as string[], confirm, dataIndex)
+                        handleSearch(selectedKeys as string[], dataIndex)
                     }
                     style={{ marginBottom: 8, display: "block" }}
                 />
@@ -125,7 +144,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                     <Button
                         type="primary"
                         onClick={() =>
-                            handleSearch(selectedKeys as string[], confirm, dataIndex)
+                            handleSearch(selectedKeys as string[], dataIndex)
                         }
                         icon={<SearchOutlined />}
                         size="small"
@@ -136,7 +155,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                     <Button
                         onClick={() => {
                             clearFilters && handleReset(clearFilters);
-                            handleSearch([] as string[], confirm, dataIndex)
+                            handleSearch([] as string[],dataIndex)
                         }}
                         size="small"
                         style={{ width: 90 }}
@@ -213,23 +232,15 @@ export const useTableActions = <T extends { id: React.Key }>({
       return selectedKeys.includes(record.id) ? "selected-row" : "";
     };
 
-    const clearAllFilters = (dataIndexes: DataIndex[]) => {
-        dataIndexes.forEach((dataIndex) => {
-            const clearFilterFunc = (clearFilters: () => void, confirm: FilterDropdownProps["confirm"]) => {
-                clearFilters && handleReset(clearFilters);
-                handleSearch([], confirm, dataIndex);
-            };
-            clearFilterFunc(() => {}, () => {});
-        });
+    const clearAllFilters = () => {
     
         setFilteredData(data);
-        setSearchText('');
-        setSearchedColumn('');
-        setSelectedKeys([]);
+  
         notification.success({
             message: "Filtros apagados!",
-        });
-    };
+        })
+    }
+
     return {
         cancel,
         editingKey,
@@ -245,7 +256,9 @@ export const useTableActions = <T extends { id: React.Key }>({
         setSelectedKeys,
         filteredData,
         setFilteredData,
-        clearAllFilters
+        clearAllFilters,
+        isFiltered
+        
   
     };
 };

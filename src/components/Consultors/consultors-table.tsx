@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TableWrapper } from "../shared/Table/table-wrapper";
 import { UserCredentials } from "../../@types/UserData/UserData";
 import {
@@ -23,9 +23,9 @@ import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { userStatusOptions } from "./util/selectOptions";
 import { REGISTER_CONSULTOR } from "../../constants/paths/paths";
-import { IoMdClose } from "react-icons/io";
 import { ModalNavigator } from "../shared/Modal/modal-navigator";
 import { useConsultorData } from "./hooks/useConsultorData";
+import FilterButton from "../shared/Button/filter-button";
 
 const ConsultorsTable = () => {
 
@@ -41,10 +41,10 @@ const ConsultorsTable = () => {
 
   const { 
     getColumnSearchProps,
-
+    clearAllFilters,
     filteredData,
     setFilteredData,
-
+    isFiltered
     } = useTableActions({
     data:consultor,
     setData:setConsultor,
@@ -52,42 +52,22 @@ const ConsultorsTable = () => {
 
   const navigate = useNavigate();
 
-  const {confirm} = Modal;
+  const [open, setOpen] = useState(false)
+  const [currentConsultor, setCurrentConsultor] = useState<UserCredentials>({} as UserCredentials)
 
 
-  const showFormModal = ({readOnly,data}:{readOnly:boolean,data:UserCredentials}) => {
+  const showFormModal = ({data}:{data:UserCredentials}) => {
 
-      confirm({
-
-          content: <ModalNavigator 
-      
-              data={data} 
-              isReadonly={readOnly} 
-             
-          />,
-          
-          okButtonProps: {className: 'hidden'}, 
-          cancelButtonProps: {className: 'hidden'},
-          maskClosable: true,
-          closable: true,
-          centered: true,
-          closeIcon: <IoMdClose color={colors.primaryPurple} />,
-          width: 500,
-          icon:null
-          
-      });
+    setCurrentConsultor(data)
+    setOpen(true)
 
   }
-
 
   const handleEditClick = (data:UserCredentials) => {
 
-
-      showFormModal({readOnly: false,data});
-     
+      showFormModal({data});
      
   }
-
 
   const handleStatusChange = (selectedOption: any) => {
     if (selectedOption.value === "") {
@@ -171,46 +151,69 @@ const ConsultorsTable = () => {
   ];
 
   return (
-    <TableWrapper>
-      <TableHeaderWrapper heading="Lista de consultores">
-        <Flex wrap justify="space-between" align="center">
-          <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
-            <Select
-              isSearchable
-              options={userStatusOptions}
-              onChange={handleStatusChange}
-              defaultValue={userStatusOptions[0]}
+
+    <>
+      <TableWrapper>
+        <TableHeaderWrapper heading="Lista de consultores">
+          <Flex wrap justify="space-between" align="center">
+            <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
+              <Select
+                isSearchable
+                options={userStatusOptions}
+                onChange={handleStatusChange}
+                defaultValue={userStatusOptions[0]}
+              />
+                <FilterButton 
+                onFilterCancel={clearAllFilters}
+                isFiltered={isFiltered}
+              />
+            </Flex>
+
+            <Flex wrap gap={10} className="mt-3 xl:mt-0">
+              <Button
+                size="large"
+                onClick={() => navigate(REGISTER_CONSULTOR)}
+              >
+                <Flex gap={5} align="center">
+                  <FaPlus />
+                  Cadastrar um consultor
+                </Flex>
+              </Button>
+            </Flex>
+          </Flex>
+        </TableHeaderWrapper>
+
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+      
+
+            <Table 
+              dataSource={filteredData} 
+              columns={columns} 
+              scroll={{x: 300}}
             />
-          </Flex>
 
-          <Flex wrap gap={10} className="mt-3 xl:mt-0">
-            <Button
-              size="large"
-              onClick={() => navigate(REGISTER_CONSULTOR)}
-            >
-              <Flex gap={5} align="center">
-                <FaPlus />
-                Cadastrar um consultor
-              </Flex>
-            </Button>
-          </Flex>
-        </Flex>
-      </TableHeaderWrapper>
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
     
+        )}
+      </TableWrapper>
 
-          <Table 
-            dataSource={filteredData} 
-            columns={columns} 
-            scroll={{x: 300}}
-          />
-
-   
-      )}
-    </TableWrapper>
+      <Modal
+        open={open}
+        onCancel={()=>setOpen(false)}
+        centered
+        closable
+        maskClosable
+        footer={null}
+      >
+        <ModalNavigator 
+          data={currentConsultor}
+          isReadonly={false}
+        />
+      </Modal>
+    
+    
+    </>
 
     
   );

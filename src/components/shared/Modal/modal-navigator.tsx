@@ -1,6 +1,5 @@
 import { ReactNode, useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Button } from "../Button";
 import { buttonItems } from "./buttomItems";
 
 import { UserImage } from "../Image/user-image";
@@ -14,6 +13,7 @@ import { queryClient } from "../../../service/queryClient";
 import { UserRole } from "../../../util/userRole";
 import { RangeDateProvider } from "../../../context/RangeDate/RangeDateContext";
 import { UserForm } from "../UserForm";
+import { Button } from "antd";
 
 export const ModalNavigator = ({data, isReadonly}:FormType<UserCredentials>) => {
     
@@ -72,16 +72,16 @@ export const ModalNavigator = ({data, isReadonly}:FormType<UserCredentials>) => 
 
                                 return (
 
-                                    <Button.Root 
+                                    <Button
                                     className={twMerge(item.className,selected === item.key ? SELECTED_CLASSNAME : '')}
                                     onClick={() => handleSelect(item.key)}
                                     key={item.key}
                                     >
 
-                                    <Button.Wrapper>
-                                        <Button.Content content={item.content} />
-                                    </Button.Wrapper>
-                                </Button.Root>
+                             
+                                      {item.content}
+                               
+                                </Button>
 
                                     );
 

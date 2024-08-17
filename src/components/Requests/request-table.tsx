@@ -37,6 +37,7 @@ import { RequestEditor } from "./update-delivery-request-modal";
 import { useRequestTableFilters } from "./hooks/useRequestTableFilters";
 import { useRequestUpdate } from "./hooks/useRequestUpdate";
 
+
 const RequestsTable = () => {
 
   const { 
@@ -46,11 +47,12 @@ const RequestsTable = () => {
     dowloadPdf
   } = useRequestTable();
 
-  const { filteredData, setFilteredData, rowClassName, getColumnSearchProps } =
+  const { filteredData, setFilteredData, rowClassName, getColumnSearchProps,clearAllFilters } =
     useTableActions({
       data,
       setData,
     });
+
 
 
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
@@ -183,11 +185,13 @@ const RequestsTable = () => {
     showFilters,
     handleOpenFilters,
     handlePaymentStatusChange,
-    handleSellChannelChange
+    handleSellChannelChange,
+    setShowFilters
     
   } = useRequestTableFilters({
     data,
-    setFilteredData
+    setFilteredData,
+    filteredData
   })
 
 
@@ -205,16 +209,35 @@ const RequestsTable = () => {
           >
             <Flex className="w-full" wrap gap={10}>
               <Flex className="w-full" justify="space-between" align="center">
+
+                {!showFilters &&
                 <Button size="large" onClick={handleOpenFilters}>
                   <Flex gap={5} align="center">
-                    {showFilters ? "Ocultar filtros" : "Filtros avançados"}
-                    {!showFilters ? (
+
+                    Filtros avançados
+               
                       <IoFilter />
-                    ) : (
-                      <MdOutlineCancelPresentation />
-                    )}
+                 
                   </Flex>
                 </Button>
+      
+                }
+
+                {showFilters &&
+                <Button size="large" onClick={()=> {
+                  clearAllFilters()
+                  setShowFilters(false)
+                }}>
+                  <Flex gap={5} align="center">
+                    Ocultar filtros
+               
+               <MdOutlineCancelPresentation/>
+                 
+                  </Flex>
+                </Button>
+      
+                }
+
                 <InputRangePicker />
               </Flex>
 

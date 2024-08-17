@@ -1,8 +1,7 @@
-import { Flex, Form, Typography } from "antd"
+import { Button, Flex, Form, Typography } from "antd"
 import { UserCredentials } from "../../@types/UserData/UserData"
 import { SelectLabel } from "../shared/Input/select-label"
 import Select from "react-select"
-import { Button } from "../shared/Button"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -142,17 +141,15 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
                 
                 <Flex className="mt-5" gap={10} justify="end">
 
-                    <Button.Root onClick={handleClose}  className="bg-white border border-brand-purple text-brand-purple">
 
-                        <Button.Content content="Cancelar" />
+                    <Button onClick={handleClose}>
+                        Cancelar
+                    </Button>
+                    <Button htmlType="submit">
 
-                    </Button.Root>
-
-                    <Button.Root htmlType="submit">
-
-                        <Button.Content content="Atualizar" />
-
-                    </Button.Root>
+                        Atualizar
+                    </Button>
+                    
 
                 </Flex>
     

@@ -8,18 +8,20 @@ import { format } from "date-fns";
 type Props = {
     data:Requests[],
     setFilteredData:React.Dispatch<React.SetStateAction<Requests[]>>
+    filteredData:Requests[]
 }
 
 export const useRequestTableFilters = ({
     data,
-    setFilteredData
+    setFilteredData,
+    filteredData
 }:Props) => {
 
     const handlePaymentStatusChange = (status: { value: string } | null) => {
         if (status?.value === "") {
           setFilteredData(data);
         } else {
-          setFilteredData(data.filter((d) => d.statuspag === status?.value));
+          setFilteredData(filteredData.filter((d) => d.statuspag === status?.value));
         }
       };
     
@@ -27,7 +29,7 @@ export const useRequestTableFilters = ({
         if (status?.value === "") {
           setFilteredData(data);
         } else {
-          setFilteredData(data.filter((d) => d.statusentrega === status?.value));
+          setFilteredData(filteredData.filter((d) => d.statusentrega === status?.value));
         }
       };
     
@@ -65,7 +67,7 @@ export const useRequestTableFilters = ({
           setFilteredData(data);
         } else {
           setFilteredData(
-            data.filter((d) => d.formapag_id === parseInt(channel!.value))
+            filteredData.filter((d) => d.formapag_id === parseInt(channel!.value))
           );
         }
       };
@@ -77,6 +79,7 @@ export const useRequestTableFilters = ({
             payload: { rangeDate: dateRange },
           });
         }
+
       }, [dateRange]);
 
       return {
@@ -85,7 +88,8 @@ export const useRequestTableFilters = ({
         handleOpenFilters,
         showFilters,
         handleDaysChange,
-        handleSellChannelChange
+        handleSellChannelChange,
+        setShowFilters
       }
  
 }

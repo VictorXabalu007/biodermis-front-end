@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsDimensionForm } from "./product-dimension-form";
 import { Uploader } from "./images-uploader";
 import { ProductsPricesForm } from "./product-price-form";
-import { Form } from "antd";
+import { Button, Form } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "../../shared/Button";
+
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../service/connection";
 import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
@@ -186,36 +186,33 @@ export const FormContainer = () => {
 
                     <div className="flex gap-2 mt-10">
 
-                    <Button.Root 
+                    <Button
                     className="w-1/3" 
                     htmlType="submit"
                     aria-label="submit fields"
                     >
 
-                        <Button.Wrapper>
-                            <Button.Content 
-                                content="Enviar"
-                                />
-                        </Button.Wrapper>
+                   
+                         Enviar
+                                
+        
 
-                    </Button.Root>
+                    </Button>
 
-                    <Button.Root 
+                    <Button 
                         className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
                         htmlType="reset"
                         onClick={onReset}
                         aria-label="reset fields"
                     >
                         
-                        <Button.Wrapper>
+             
 
-                            <Button.Content 
-                                content="cancelar"
-                                />
+                           cancelar
+                                
 
-                        </Button.Wrapper>
                         
-                    </Button.Root>
+                    </Button>
 
                     </div>
 
