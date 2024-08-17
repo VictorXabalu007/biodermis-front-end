@@ -34,18 +34,27 @@ export const uploadImage = async (images:any[],id:number) => {
     }
 }
 
-export const removeImage = async (id:number) => {
+export const removeImage = async (product_id:number,images_id:number[]) => {
+
+    const body = {
+        imagens: [...images_id]
+    }
+
 
     try {
 
         const headers = getHeaders();
     
-        const req = await api.delete(`/produtos/fotos/${id}`, {
-            headers
-        });
+        const req = await api.delete(`/produtos/fotos/${product_id}`, {
+            headers,
+            data: body
+          });
+
         return req.data
         
     } catch (e:any) {
+        console.log(e);
+        
         return e.message || e.data?.message
     }
 }

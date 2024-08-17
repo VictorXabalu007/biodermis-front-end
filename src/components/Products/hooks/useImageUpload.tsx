@@ -23,7 +23,7 @@ export const useImageUpload = ({id}:Props) => {
     })
 
     const deleteImageMutation = useMutation({
-        mutationFn: (id:number)=>removeImage(id),
+        mutationFn: (images_id:number[])=>removeImage(id,images_id),
         onSuccess: (res) => {
  
             success(res.success)

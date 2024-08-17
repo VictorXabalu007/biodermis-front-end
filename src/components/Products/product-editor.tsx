@@ -1,7 +1,9 @@
 import {
   Button,
+  Card,
+  Checkbox,
   Col, Empty, Flex, Form,
-  Image, Input, InputRef, Popconfirm, Row, Select, Skeleton, Typography, Upload
+  Image, Input, InputRef, notification, Popconfirm, Row, Select, Skeleton, Typography, Upload
 } from "antd";
 
 import { UploadFile } from "antd/lib";
@@ -19,6 +21,7 @@ import { API_URL } from "../../service/url";
 import { Controller } from "react-hook-form";
 import InputMoney from "../shared/Input/input-money";
 import { QuillInput } from "../shared/Input/QuillInput";
+import DeleteButton from "../shared/Button/delete-button";
 
 
 const ProductEditor = () => {
@@ -32,13 +35,9 @@ const ProductEditor = () => {
   const {
     fileList,
     handlePreview,
-    previewImage,
-    previewOpen,
     uploadButton,
     setFileList,
     handleUpload,
-    setPreviewOpen,
-    setPreviewImage
   } = useUpload({ initialImage: currentProduct.imagens });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -89,10 +88,16 @@ const ProductEditor = () => {
     deleteImageMutation
   } = useImageUpload({ id: currentProduct.id });
 
+  
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
+
   const handleRemove = async (file: UploadFile) => {
+
     setFileList(prevFileList => prevFileList.filter(item => item.uid !== file.uid));
-    deleteImageMutation.mutate(currentProduct.id);
+
+    deleteImageMutation.mutate(selectedIndexes);
   };
+
 
   const onSubmit = (data: ProductsType) => {
     updateProductMutation.mutate(data);
@@ -115,6 +120,8 @@ const ProductEditor = () => {
 
   };
 
+
+
   useEffect(() => {
     if (currentProduct) {
       setValue("nome", currentProduct.nome);
@@ -136,6 +143,15 @@ const ProductEditor = () => {
       productNameRef.current?.focus();
     }
   }, [currentProduct]);
+
+
+  const toggleSelection = (fileIndex: number) => {
+    setSelectedIndexes(prev => 
+      prev.includes(fileIndex)
+        ? prev.filter(index => index !== fileIndex)
+        : [...prev, fileIndex]
+    );
+  };
 
   return (
     <Row gutter={[32, 32]}>
@@ -479,10 +495,20 @@ const ProductEditor = () => {
               <Row>
                 <Col lg={24}>
                   <Flex>
-                    <Flex gap={4}>
+                    <Flex className="w-full" justify="space-between" gap={4}>
                       <Typography.Title className="mb-5" level={3}>
                         {currentProduct?.nome}
                       </Typography.Title>
+                      {selectedIndexes.length > 0 &&
+                      
+                        <DeleteButton 
+                          onDelete={()=>{
+                            deleteImageMutation.mutate(selectedIndexes)
+                            setFileList(prev => prev.filter((_, index) => !selectedIndexes.includes(index)))
+                          }}
+                        />
+                      
+                      }
                     </Flex>
                       
                   </Flex>
@@ -499,32 +525,78 @@ const ProductEditor = () => {
                           <>
                             <Upload
                             
-                              listType="picture-card"
+                              listType={'picture-card'}
                               fileList={fileList}
                               onPreview={handlePreview}
                               onChange={(file) => {
                                 handleUpload(file);
                                 field.onChange(file.fileList);
+                                notification.info({
+                                  message: 'Imagem adicionada',
+                                  description: 'Não esqueça de salvar o cadastro para que ela apareça aqui',
+                                })
                               }}
                               onRemove={(file) => {
                                 handleRemove(file);
                                 field.onChange(file);
                               }}
+                         
                               beforeUpload={() => false}
+                     
+                              itemRender={(_, file) => {
+                                const thumbUrl = file.thumbUrl || file.url; 
+                                const fileIndex = fileList.findIndex(f => f.url === file.url);
+                                return (
+                                  
+                           
+                                    <Card bodyStyle={{
+                                      padding: 5
+                                    }}>
+                                          <Flex>
+
+                                              <Flex gap={5} vertical>
+
+                                                <Checkbox
+                                                        onChange={() => toggleSelection(fileIndex)}
+                                                        checked={selectedIndexes.includes(fileIndex)}
+                                               
+                                                />
+
+                                                <DeleteButton
+                                                  onDelete={() => {
+                                                    handleRemove(file);
+                                                    field.onChange(file);
+                                                    setSelectedIndexes(prev => [...prev, fileIndex]);
+                                                  }}
+                                                />
+                                            
+
+                                              </Flex>
+                                              <Image
+                                                style={{
+                                                  width:'150px',
+                                                  height:'90px',
+                                                  objectFit: 'cover'
+                                                }}
+                                                src={thumbUrl}
+                                                alt={file.name}
+                                                
+                                              />
+                                          
+                                           
+
+                                            </Flex>
+                         
+                                    </Card>
+                                  
+                                  
+                          
+                                );
+                              }}
                             >
                               {fileList.length >= 8 ? null : uploadButton}
                             </Upload>
-                            {previewImage && (
-                              <Image
-                                wrapperStyle={{ display: 'none' }}
-                                preview={{
-                                  visible: previewOpen,
-                                  onVisibleChange: (visible) => setPreviewOpen(visible),
-                                  afterOpenChange: (visible) => !visible && setPreviewImage(''),
-                                }}
-                                src={previewImage}
-                              />
-                            )}
+                         
                           </>
                         )}
                       />

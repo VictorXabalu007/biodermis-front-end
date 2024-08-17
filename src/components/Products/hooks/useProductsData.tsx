@@ -39,7 +39,7 @@ export const useProductsData = () => {
 
       const newProducts = data.map((p) => {
 
-          if(p.imagens) {
+          if(p.imagens && p.imagens.length > 0) {
 
             const path = p.imagens[0].replace(/\\/g, '\\');
             
