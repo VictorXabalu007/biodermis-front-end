@@ -84,24 +84,42 @@ const ProductEditor = () => {
 
   const {
     uploadImageMutation,
-    imageContextHolder,
     deleteImageMutation
   } = useImageUpload({ id: currentProduct.id });
 
   
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
+  const [initialName, setInitialName] = useState('');
+  
+  useEffect(() => {
+    
+    if(initialData.nome){
+      setInitialName(initialData.nome)
+    }
 
+  }, [initialData])
+
+  
   const handleRemove = async (file: UploadFile) => {
 
     setFileList(prevFileList => prevFileList.filter(item => item.uid !== file.uid));
+    notification.info({
+      message: "Imagem removida",
+      description: `Salve para atualizar a imagem`,
+ 
+    })
 
-    deleteImageMutation.mutate(selectedIndexes);
+
   };
 
 
   const onSubmit = (data: ProductsType) => {
     updateProductMutation.mutate(data);
     uploadImageMutation.mutate(fileList);
+    if(selectedIndexes.length > 0){
+      deleteImageMutation.mutate(selectedIndexes);
+    }
+
   };
 
   const handleCancel = () => {
@@ -144,7 +162,6 @@ const ProductEditor = () => {
     }
   }, [currentProduct]);
 
-
   const toggleSelection = (fileIndex: number) => {
     setSelectedIndexes(prev => 
       prev.includes(fileIndex)
@@ -156,7 +173,7 @@ const ProductEditor = () => {
   return (
     <Row gutter={[32, 32]}>
       {contextHolder}
-      {imageContextHolder}
+  
 
       <Col lg={24}>
         <SubHeader heading="Editar produto" linkText="Voltar para produtos" />
@@ -496,19 +513,11 @@ const ProductEditor = () => {
                 <Col lg={24}>
                   <Flex>
                     <Flex className="w-full" justify="space-between" gap={4}>
+
                       <Typography.Title className="mb-5" level={3}>
-                        {currentProduct?.nome}
+                        {initialName}
                       </Typography.Title>
-                      {selectedIndexes.length > 0 &&
-                      
-                        <DeleteButton 
-                          onDelete={()=>{
-                            deleteImageMutation.mutate(selectedIndexes)
-                            setFileList(prev => prev.filter((_, index) => !selectedIndexes.includes(index)))
-                          }}
-                        />
-                      
-                      }
+                 
                     </Flex>
                       
                   </Flex>
@@ -523,79 +532,93 @@ const ProductEditor = () => {
                         defaultValue={currentProduct.imagens}
                         render={({ field }) => (
                           <>
-                            <Upload
+
+                          <Form.Item
+                          
+                            validateStatus={errors.imagens ? "error" : undefined} 
+                            help={errors.imagens?.message}
+                          >
+
+                              <Upload
+                              
+                                listType={'picture-card'}
+                                fileList={fileList}
+                                onPreview={handlePreview}
+                                onChange={(file) => {
+                                  handleUpload(file);
+                                  field.onChange(file.fileList);
+                                  notification.info({
+                                    message: 'Imagem adicionada',
+                                    description: 'Não esqueça de salvar o cadastro para que ela apareça aqui',
+                                  })
+                                }}
+                                onRemove={(file) => {
+                                  handleRemove(file);
+                                  field.onChange(file);
+                                }}
+                          
+                                beforeUpload={() => false}
+                      
+                                itemRender={(_, file) => {
+                                  const thumbUrl = file.thumbUrl || file.url; 
                             
-                              listType={'picture-card'}
-                              fileList={fileList}
-                              onPreview={handlePreview}
-                              onChange={(file) => {
-                                handleUpload(file);
-                                field.onChange(file.fileList);
-                                notification.info({
-                                  message: 'Imagem adicionada',
-                                  description: 'Não esqueça de salvar o cadastro para que ela apareça aqui',
-                                })
-                              }}
-                              onRemove={(file) => {
-                                handleRemove(file);
-                                field.onChange(file);
-                              }}
-                         
-                              beforeUpload={() => false}
-                     
-                              itemRender={(_, file) => {
-                                const thumbUrl = file.thumbUrl || file.url; 
-                                const fileIndex = fileList.findIndex(f => f.url === file.url);
-                                return (
-                                  
-                           
-                                    <Card bodyStyle={{
-                                      padding: 5
-                                    }}>
-                                          <Flex>
+                                  const fileIndex = fileList.findIndex(f => f.name === file.name);
+                                  return (
+                                    
+                            
+                                      <Card bodyStyle={{
+                                        padding: 5
+                                      }}>
+                                            <Flex>
 
-                                              <Flex gap={5} vertical>
+                                                <Flex gap={5} vertical>
 
-                                                <Checkbox
-                                                        onChange={() => toggleSelection(fileIndex)}
-                                                        checked={selectedIndexes.includes(fileIndex)}
-                                               
-                                                />
+                                                  <Checkbox
+                                                          onChange={() => toggleSelection(fileIndex)}
+                                                          checked={selectedIndexes.includes(fileIndex)}
+                                                  />
 
-                                                <DeleteButton
-                                                  onDelete={() => {
-                                                    handleRemove(file);
-                                                    field.onChange(file);
-                                                    setSelectedIndexes(prev => [...prev, fileIndex]);
+                                                  <DeleteButton
+                                                    onDelete={() => {
+                                                  
+                                            
+
+                                                      toggleSelection(fileIndex);
+                                                      handleRemove(file);
+                                                      
+
+                                                    }}
+                                                  />
+                                              
+
+                                                </Flex>
+                                                <Image
+                                                  style={{
+                                                    width:'150px',
+                                                    height:'90px',
+                                                    objectFit: 'cover'
                                                   }}
+                                                  src={thumbUrl}
+                                                  alt={file.name}
+                                                  
                                                 />
+                                            
                                             
 
                                               </Flex>
-                                              <Image
-                                                style={{
-                                                  width:'150px',
-                                                  height:'90px',
-                                                  objectFit: 'cover'
-                                                }}
-                                                src={thumbUrl}
-                                                alt={file.name}
-                                                
-                                              />
-                                          
-                                           
-
-                                            </Flex>
-                         
-                                    </Card>
-                                  
-                                  
                           
-                                );
-                              }}
-                            >
-                              {fileList.length >= 8 ? null : uploadButton}
-                            </Upload>
+                                      </Card>
+                                    
+                                    
+                            
+                                  );
+                                }}
+                              >
+                                {fileList.length >= 8 ? null : uploadButton}
+                              </Upload>
+
+
+                          </Form.Item>
                          
                           </>
                         )}
