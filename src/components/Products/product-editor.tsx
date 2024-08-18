@@ -156,11 +156,6 @@ const ProductEditor = () => {
     }
   }, [currentProduct, setValue]);
 
-  useEffect(() => {
-    if (currentProduct) {
-      productNameRef.current?.focus();
-    }
-  }, [currentProduct]);
 
   const toggleSelection = (fileIndex: number) => {
     setSelectedIndexes(prev => 
@@ -345,6 +340,10 @@ const ProductEditor = () => {
                             prefix="R$"
                             value={parseFloat(currentProduct.valormin)}
                             onChange={(e) => {
+                              setCurrentProduct((prev) => ({
+                                ...prev,
+                                valormin: e.target.value,
+                              }));
                               field.onChange(e.target.value);
                             }}
                           />
@@ -390,7 +389,7 @@ const ProductEditor = () => {
                       defaultValue={currentProduct?.peso}
                       render={({ field }) => (
                         <Form.Item
-                          label="Peso"
+                          label="Peso (em gramas)"
                           validateStatus={errors.peso ? "error" : undefined}
                           help={errors.peso?.message}
                         >
@@ -554,7 +553,8 @@ const ProductEditor = () => {
                                 }}
                                 onRemove={(file) => {
                                   handleRemove(file);
-                                  field.onChange(file);
+                                  
+                                  field.onChange(fileList);
                                 }}
                           
                                 beforeUpload={() => false}
