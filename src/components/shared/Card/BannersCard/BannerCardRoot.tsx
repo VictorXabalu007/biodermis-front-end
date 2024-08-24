@@ -20,7 +20,6 @@ type CardBannerRootProps = {
     titulo:BannerTitle
     order:string
     id:number
-    
 }
 
 const { Meta } = Card;
