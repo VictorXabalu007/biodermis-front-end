@@ -1,5 +1,4 @@
-import { Button, Card, Flex, Image, Popconfirm, Tooltip, Typography } from "antd"
-import { CardProps } from "flowbite-react"
+import { Button, Card, CardProps, Flex, Image, Popconfirm, Tooltip, Typography } from "antd"
 import {  useState } from "react";
 import { FaEye, FaStar, FaTag, FaTrash } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
