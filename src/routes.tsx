@@ -21,7 +21,7 @@ import { CategoriesTemplate } from "./templates/Categories";
 import { MercardoPagoSuccess } from "./components/Requests/MercadoPago/Success";
 import { NotFoundPage } from "./components/NotFound";
 import { MercardoPagoFailure } from "./components/Requests/MercadoPago/Failure";
-import { BannersTemplate } from "./templates/Banners";
+import { BannersTemplate } from "./templates/Banners/BannerTemplate";
 import EditProduct from "./templates/Products/edit-product";
 import { ProductsTemplate } from "./templates/Products/product-view";
 import { Layout } from "./components/Layout/Layout";
