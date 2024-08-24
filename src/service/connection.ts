@@ -1,11 +1,12 @@
 
 import axios, { AxiosInstance } from 'axios';
+import { API_URL } from './url';
 
 const createHttp = (): AxiosInstance => {
 
 
     const http = axios.create({
-        baseURL: 'http://85.31.61.50:3000',
+        baseURL: API_URL,
     });
     
 

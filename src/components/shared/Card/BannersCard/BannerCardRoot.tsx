@@ -104,6 +104,7 @@ export const BannerCardRoot = ({imagem,titulo,order,id, children,...rest}:CardPr
                         maxHeight:'250px',
                         objectFit:'cover'
                     }}
+                    fallback="https://via.placeholder.com/150"
                     
                     />
                 }
