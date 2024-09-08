@@ -6,11 +6,11 @@ WORKDIR /app
 
 # Copia os arquivos de configuração e o código fonte
 COPY package*.json ./
-COPY vite.config.ts ./
-COPY ./ ./
 
 # Instala as dependências
 RUN npm install
+
+COPY ./ ./
 
 # Executa o build da aplicação
 RUN npm run build
