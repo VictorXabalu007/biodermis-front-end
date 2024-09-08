@@ -13,8 +13,8 @@ RUN npm install
 # Copie o restante do código da aplicação
 COPY . .
 
-# Build da aplicação
-RUN npm run build
+# Aumente o limite de memória heap e faça o build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # Etapa para servir o build com http-server
 FROM node:18-alpine AS production
