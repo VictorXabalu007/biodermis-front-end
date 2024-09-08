@@ -1,5 +1,5 @@
 # Etapa de build
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 # Diretório de trabalho dentro do contêiner
 WORKDIR /app
@@ -13,23 +13,10 @@ RUN npm install
 # Copie o restante do código da aplicação
 COPY . .
 
-# Aumente o limite de memória heap e faça o build
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
+# Execute o build da aplicação
+RUN npm run build
 
-# Etapa para servir o build com http-server
-FROM node:18-alpine AS production
+EXPOSE 4173
 
-# Instale o servidor HTTP
-RUN npm install -g http-server
-
-# Diretório de trabalho
-WORKDIR /app
-
-# Copie o build da etapa anterior
-COPY --from=builder /app/dist /app
-
-# Exponha a porta que o servidor irá escutar
-EXPOSE 8080
-
-# Comando para iniciar o servidor
-CMD ["http-server", "-p", "8080"]
+# Comando para iniciar o NGINX
+CMD ["npm", "run", "preview"]
