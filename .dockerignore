@@ -1,0 +1,8 @@
+/node_modules
+/dist
+.env.development
+.env.example
+.eslintrc.cjs
+.gitignore
+README.md
+vercel.json
