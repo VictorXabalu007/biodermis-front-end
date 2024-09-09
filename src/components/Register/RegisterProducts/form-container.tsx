@@ -42,15 +42,16 @@ export const FormContainer = () => {
             formData.append('files', image.originFileObj as File || image); 
         });
 
-        const body = {
-            files: data.files.map((image:any) =>  image.originFileObj as File || image)
-        }
-        const headers = getHeaders();
 
-    
+        const headers = {
+            ...getHeaders(),
+            'Content-Type': 'multipart/form-data' 
+          };
+        
+
             try {
     
-                await api.post(`/produtos/fotos/${id}`, body, {
+                await api.post(`/produtos/fotos/${id}`, formData, {
                     headers
                 });
     

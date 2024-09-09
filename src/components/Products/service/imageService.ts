@@ -20,7 +20,10 @@ export const uploadImage = async (images:any[],id:number) => {
         
 
         
-        const headers = getHeaders();
+        const headers = {
+            ...getHeaders(),
+            'Content-Type': 'multipart/form-data' 
+          };
     
 
             try {
