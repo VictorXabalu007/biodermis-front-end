@@ -21,13 +21,18 @@ export const useBannerRegister = () => {
     const registerBanner = useMutation({
         mutationFn: async (data:BannerRegisterType)=> {
             
-            const headers = getHeaders();
+            const headers = {
+                ...getHeaders(),
+                'Content-Type': 'multipart/form-data' 
+              };
+            
             const formData = new FormData();
-
-        
+            
             formData.append('order',data.ordem)
             //@ts-ignore
             formData.append('file',data.imagem!.originFileObj as File)
+
+            
             
 
             const req = await api.post(`/carrossel/${data.titulo}`, formData, {
@@ -44,7 +49,8 @@ export const useBannerRegister = () => {
             
         },
         onError:(err:any) => {
-    
+            console.log(err);
+            
             error(err.data.response.error)
             
         }
