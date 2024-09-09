@@ -34,37 +34,35 @@ export const useProductsData = () => {
   const [products, setProducts] = useState<ProductsType[]>([]);
 
   useEffect(() => {
+
     
     if (data) {
-
       const newProducts = data.map((p) => {
 
-          if(p.imagens && p.imagens.length > 0) {
-
-            const path = p.imagens[0].replace(/\\/g, '\\');
-            
-            const isLink = isValidURL(path)
-            
-            return {
-              ...p,
-              imagePath: isLink ? path : API_URL + "/" + path,
-              key:p.id
-            }
-
-          } else {
-            return {
-              ...p,
-              key:p.id
-            }
-          }
-
-      })
-      
-      setProducts(newProducts)
-
+        const hasImages = p?.imagens && p.imagens.length > 0;
+  
+        if (hasImages) {
+   
+          const firstImage = p.imagens[0];
+          const path = firstImage ? firstImage.replace(/\\/g, '\\') : '';
+          
+          const isLink = isValidURL(path);
+          
+          return {
+            ...p,
+            imagePath: isLink ? path : `${API_URL}/${path}`,
+            key: p.id
+          };
+        } else {
+          return {
+            ...p,
+            key: p.id
+          };
+        }
+      });
+  
+      setProducts(newProducts);
     }
-
-
   }, [data]);
 
   

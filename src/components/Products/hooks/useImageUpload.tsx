@@ -14,7 +14,7 @@ export const useImageUpload = ({id}:Props) => {
     const uploadImageMutation = useMutation({
         mutationFn: (image: any[]) => uploadImage(image,id),
         onSuccess: (res) => {
- 
+            
             success(res.success)
         },
         onError: (err:any) => {

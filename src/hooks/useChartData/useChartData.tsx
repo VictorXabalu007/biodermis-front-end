@@ -14,6 +14,7 @@ export const useChartSeries = () => {
             height: 350,
             type: 'bar',
             events: {
+
                 mounted: (chart: any) => {
                     chart.windowResizeHandler();
                 }
@@ -64,6 +65,9 @@ export const useChartSeries = () => {
                 height: 8,
             }
         },
+        grid: {
+            strokeDashArray: 10
+        }
        
     };
 

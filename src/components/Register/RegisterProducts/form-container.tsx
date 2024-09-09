@@ -38,18 +38,19 @@ export const FormContainer = () => {
 
         const formData = new FormData();
         
-        console.log(data);
-        
         data.files.map((image:any) => {
-            formData.append('files', image.originFileObj as File); 
+            formData.append('files', image.originFileObj as File || image); 
         });
 
+        const body = {
+            files: data.files.map((image:any) =>  image.originFileObj as File || image)
+        }
         const headers = getHeaders();
 
     
             try {
     
-                await api.post(`/produtos/fotos/${id}`, formData, {
+                await api.post(`/produtos/fotos/${id}`, body, {
                     headers
                 });
     
