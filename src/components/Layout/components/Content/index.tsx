@@ -10,7 +10,7 @@ export const Content = ({children}:{children: ReactNode}) => {
 
     return (
 
-        <C style={{ margin: '2.3em 16px 0',padding: '1rem 0' }}>
+        <C style={{ margin: '2.3em 16px 0',marginLeft: '230px',padding:'1rem' }}>
 
         <div
           className="p-[0 24px]"

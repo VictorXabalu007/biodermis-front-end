@@ -41,7 +41,12 @@ export const Header = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '2rem',
-            lineHeight: 1.3
+            lineHeight: 1.3,
+            marginLeft:'200px',
+            position:"sticky",
+            top:0,
+            zIndex:100
+
         }}>
 
             <div>

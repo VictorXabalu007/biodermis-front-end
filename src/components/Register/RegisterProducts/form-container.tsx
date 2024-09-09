@@ -37,16 +37,16 @@ export const FormContainer = () => {
     const registerImage = useCallback(async () => {
 
         const formData = new FormData();
-                
+        
+        console.log(data);
+        
         data.files.map((image:any) => {
             formData.append('files', image.originFileObj as File); 
         });
 
-
         const headers = getHeaders();
 
     
-
             try {
     
                 await api.post(`/produtos/fotos/${id}`, formData, {
@@ -54,6 +54,7 @@ export const FormContainer = () => {
                 });
     
             } catch (error) {
+               console.log(error);
                
             }
 
@@ -64,7 +65,7 @@ export const FormContainer = () => {
 
     useEffect(()=> {
 
-        if(finish) {
+        if(finish && data) {
 
             registerImage();
 

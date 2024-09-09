@@ -12,6 +12,9 @@ export const uploadImage = async (images:any[],id:number) => {
         formData.append('files', image.originFileObj as File); 
     });
 
+    console.log(images);
+    
+
     
     try {
         
