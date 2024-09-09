@@ -22,7 +22,10 @@ export const useBannerUpdate = ({id}:{id:number}) => {
 
             const formData = new FormData();
 
-            const headers = getHeaders()
+            const headers = {
+                ...getHeaders(),
+                'Content-Type': 'multipart/form-data' 
+              };
 
             formData.append('order',data.ordem)
             //@ts-ignore
