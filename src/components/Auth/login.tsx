@@ -57,7 +57,11 @@ export const Login = () => {
     onSuccess: (res) => {
       sessionStorage.setItem(AUTH_USER, JSON.stringify(res));
       sessionStorage.setItem('token', JSON.stringify(res.token))
+      sessionStorage.setItem('email', JSON.stringify(res.usuario.email))
       navigate(HOME);
+
+
+      
       setIsLoading(false)
   
     },
