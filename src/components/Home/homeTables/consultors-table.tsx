@@ -109,6 +109,7 @@ const HomeConsultorsTable = () => {
                 pagination={{
                     pageSize:3
                 }}
+           
             />
         
         </>}

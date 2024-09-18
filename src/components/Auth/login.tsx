@@ -11,8 +11,6 @@ import { useState } from "react";
 import { AUTH_USER } from "../../constants/SessionStorageKeys/sessionStorageKeys";
 import { Text } from "../shared/Typography/typography-text";
 import { biodermisSMLogo, welcomeBg } from "../../util/projectImage";
-import { API_URL } from "../../service/url";
-
 
 export type LoginType = {
   email: string;
@@ -47,9 +45,14 @@ export const Login = () => {
         senha: data.password
       };
 
-      console.log(API_URL, '/login')
-      const request = await api.post('/login', body);
+      const request = await api.post('/login', body,{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
       return request.data;
+
     },
     onSuccess: (res) => {
       sessionStorage.setItem(AUTH_USER, JSON.stringify(res));

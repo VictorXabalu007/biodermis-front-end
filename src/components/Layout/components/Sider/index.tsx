@@ -5,40 +5,31 @@ import { useState } from "react";
 import { theme } from "antd";
 
 
+
 export const S = () => {
-
-    const [_,setCollapsed] = useState(false);
-
+    const [_, setCollapsed] = useState(false);
+  
     const {
-
-        token: { colorBgContainer, boxShadow },
-    
+      token: { colorBgContainer, boxShadow },
     } = theme.useToken();
-
+  
     return (
-
-        <Sider
+      <Sider
         width={220}
         className="fixed lg:z-auto z-[999]"
-        style={{ 
-            background: colorBgContainer , 
-            boxShadow: boxShadow, 
-            minHeight:'100vh',
-            overflowY:'scroll'
+        style={{
+          background: colorBgContainer,
+          boxShadow: boxShadow,
+          minHeight: "100vh",
+          overflowY: "scroll",
         }}
         breakpoint="lg"
         collapsedWidth="0"
-        onCollapse={setCollapsed}
-        
-        
-        >
-
+        collapsible
+        onCollapse={setCollapsed} 
+      >
         <Logo />
-
         <Menu />
-
       </Sider>
-
-    )
-
-}
+    );
+  };

@@ -40,6 +40,9 @@ export const AppRoutes = () => {
                 <Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
                 <Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
                 
+                <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
+                <Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
+                
 
                 <Route
                     element={
@@ -73,8 +76,6 @@ export const AppRoutes = () => {
                 <Route path={WITHDRAWAL} element={<WithdrawalRequestsTemplate />} />
                 <Route path={INVOICING} element={<InvoicingTemplate />} />
 
-                <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
-                <Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
                 <Route path={BANNERS} element={<BannersTemplate />} />
                 
                 </Route>

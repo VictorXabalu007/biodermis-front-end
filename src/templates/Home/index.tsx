@@ -23,7 +23,7 @@ export const HomeTemplate = () => {
               <HomeChart />
             </Col>
 
-            <Col lg={8}>
+            <Col xs={24} sm={24} lg={8}>
               <HomeTables />
             </Col>
       

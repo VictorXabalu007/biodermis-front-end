@@ -29,8 +29,7 @@ export const ExitButton = () => {
             type="text"
             style={{
                 position:'relative',
-                marginTop:'2rem',
-                marginLeft:'1rem',
+                marginLeft:'.5rem',
                 width:'80px'
             }}
             >

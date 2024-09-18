@@ -12,6 +12,23 @@ export const Header = () => {
     const [username, setUsername] = useState<string>('Username');
     const {title} = useStateTheme();
 
+    const [innerWidth, setInnerWidth] = useState<number>(window.innerWidth);
+
+    useEffect(()=> {
+
+      const handleResize = () => {
+        setInnerWidth(window.innerWidth)
+      }
+
+      window.addEventListener('resize',handleResize)
+
+      console.log(innerWidth);
+      
+
+      return () => window.removeEventListener('resize', handleResize)
+
+    },[innerWidth])
+
     const {
 
         token: { colorBgContainer },
@@ -42,7 +59,7 @@ export const Header = () => {
             justifyContent: 'space-between',
             padding: '2rem',
             lineHeight: 1.3,
-            marginLeft:'200px',
+            marginLeft:innerWidth < 762 ? 0 : '200px',
             position:"sticky",
             top:0,
             zIndex:100
