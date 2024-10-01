@@ -86,9 +86,36 @@ export const FormContainer = () => {
         }
     })
 
+    const postCertified = useMutation({
+        mutationFn:async  (certified:any) => {
+
+            const formData = new FormData();
+
+            formData.append('file',certified.originFileObj as File)
+
+            console.log('Certificado: ', certified);
+            
+
+            const headers = {
+                ...getHeaders(),
+            'Content-Type': 'multipart/form-data'
+            }
+
+            await api.post('/perfil/certificado',formData,{
+                headers
+            })
+
+        },
+        onSuccess: ()=>console.log('Sucesso ao registrar certificado!'),
+        onError: () => console.log('Erro ao registrar certificado!')
+        
+        
+    });
+
     const postUser = useMutation({
 
         mutationFn: async (data: UserData) => {
+            
 
             const headers = getHeaders();
           
@@ -118,14 +145,17 @@ export const FormContainer = () => {
 
           onSuccess: (res,context) => {
 
-            console.log(res);
             postAddress.mutate({data:context,id:res.id});
+
+            if(context.certificado) {
+                postCertified.mutate(context.certificado)
+            }
 
           },
 
         onError: (err: any) => {
             
-            error(err.response.data.error);
+            error(err.response.data.error || "Erro ao registrar usuário!");
 
         }
 

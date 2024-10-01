@@ -52,8 +52,6 @@ export const useRequestsData = ({
 
   const {products,isLoading:productsLoading} = useProductsData();
 
-  console.log(requests);
-  
 
 
   const isLoading = productsLoading || requestsLoading

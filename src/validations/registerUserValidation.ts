@@ -94,6 +94,7 @@ const userSchema = z.object({
     ]),
     certificado: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos um certificado'),
     {required_error: 'Pelo menos um certificado deve ser cadastrado!'}).refine(arr => arr.length !== 0, 'Pelo menos um certificado é necessário!')
+    .transform((file) => (file ? file[0] : []))
     .optional()
   }).refine(schema => {
     const { cargo_id, certificado } = schema;
