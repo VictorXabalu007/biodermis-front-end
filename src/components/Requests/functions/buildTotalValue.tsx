@@ -1,4 +1,4 @@
-import { LuNewspaper } from "react-icons/lu";
+
 
 import { MdOutlinePix } from "react-icons/md";
 import { FiCreditCard } from "react-icons/fi";
@@ -48,7 +48,9 @@ export const buildTotalValue = (value: string, paymentType: number | null) => {
             
         default: 
             return (
-                <TotalValueComponent icon={LuNewspaper} value={value} />
+         
+             'não definida'
+              
             );
     }
 

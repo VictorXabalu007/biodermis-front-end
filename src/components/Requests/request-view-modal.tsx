@@ -20,6 +20,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
   const {isLoading,products} = useProductsData();
 
+
   useEffect(()=> {
 
     if(products){
@@ -38,6 +39,9 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
   const { getUserNameById } = useUserData();
 
+  console.log(requests);
+  
+  
   const data = [
     {
       title: "Data de pagamento",
@@ -106,7 +110,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
     },
     {
       title: "Preço total do pedido:",
-      label: requests.valor,
+      label: isNaN(parseInt(requests.valor)) ? "Valor total não definido" : requests.valor,
     },
     {
       title: "Forma de pagamento:",

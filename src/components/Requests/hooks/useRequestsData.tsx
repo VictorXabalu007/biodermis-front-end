@@ -52,6 +52,9 @@ export const useRequestsData = ({
 
   const {products,isLoading:productsLoading} = useProductsData();
 
+  console.log(requests);
+  
+
 
   const isLoading = productsLoading || requestsLoading
 
@@ -67,29 +70,31 @@ export const useRequestsData = ({
         const dateA = parseDate(a.datapedido);
         const dateB = parseDate(b.datapedido);
         return dateB.getTime() - dateA.getTime();
-      }).map(req => ({
+      }).map(req => {
+        
+        
+        const reqProducts = req.produtos_ids
+        .map((id) => products.find((p) => p.id === id))
+        .map((p) => {
+          if(p?.imagens) {
+            const path = p?.imagens[0].replace(/\\/g, "\\") 
+            return {
+              ...p,
+              imagePath: (URL + "/" + path) ,
+            };
+          } 
+   
+        }) 
+
+        const notEmptyProducts = reqProducts.every(val => val===undefined) ? [] : reqProducts as ProductsType[]
+        
+        
+        return {
         ...req,
           nomeCliente: req.nomeCliente ? req.nomeCliente : "Cliente não encontrado",
-          products: req.produtos_ids
-            .map((id) => products.find((p) => p.id === id))
-            .map((p) => {
-             
-              if(p?.imagens) {
-                const path = p?.imagens[0].replace(/\\/g, "\\") 
-                return {
-                  ...p,
-                  imagePath: (URL + "/" + path) ,
-                };
-              } else {
-                return {
-                  ...p,
-                  imagePath:'' ,
-                }
-              }
-          
-            }) as ProductsType[],
+          products: notEmptyProducts,
    
-      }))
+      }})
 
 
       setData(newData);

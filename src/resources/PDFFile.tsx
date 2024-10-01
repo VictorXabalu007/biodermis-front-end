@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
   
 
   
-
 export const PDFFile = ({data}:PDFFileProps) => {
 
     
@@ -222,6 +221,8 @@ export const PDFFile = ({data}:PDFFileProps) => {
         return acc;
     }, {} as { [key: number]: number });
 
+    console.log(data);
+    
     
     return (
 
@@ -237,22 +238,22 @@ export const PDFFile = ({data}:PDFFileProps) => {
          <View style={styles.subheaderSection}>
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Dados do cliente</Text>
-                <Text style={styles.subtitleText}>{data.user_data.nome}</Text>
-                <Text style={styles.subtitleText}>{data.user_data.telefone}</Text>
-                <Text style={styles.subtitleText}>{data.user_data.email}</Text>
+                <Text style={styles.subtitleText}>Nome: {data.user_data.nome}</Text>
+                <Text style={styles.subtitleText}>Telefone: {data.user_data.telefone}</Text>
+                <Text style={styles.subtitleText}>Email: {data.user_data.email}</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Informações adicionais</Text>
-                <Text style={styles.subtitleText}>CPF {data.user_data.cpf}</Text>
+                <Text style={styles.subtitleText}>CPF: {data.user_data.cpf}</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.subTitleSection}>
                 <Text style={styles.subtitle}>Endereço de Entrega</Text>
-                <Text style={styles.subtitleText}>{data.user_data.rua}</Text>
-                <Text style={styles.subtitleText}>{data.user_data.bairro}</Text>
-                <Text style={styles.subtitleText}>{data.user_data.estado}l</Text>
-                <Text style={styles.subtitleText}>{data.user_data.cidade}</Text>
+                <Text style={styles.subtitleText}>CEP: {data.cep}</Text>
+                <Text style={styles.subtitleText}>Cidade: {data.cidade}</Text>
+                <Text style={styles.subtitleText}>Complemento: {data.complemento}l</Text>
+                <Text style={styles.subtitleText}>Estado: {data.estado}</Text>
             </View>
            
          </View>
@@ -277,7 +278,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                     <View>
 
-                        {data.products.length> 0 ? data.products.map(p => {
+                        {data.products.length > 0 ? data.products.map(p => {
 
                             return (
 
@@ -312,7 +313,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                                 Produtos foram apagados ou não encontrados
                             </Text>
                         </View>
-                            }
+                        }
 
 
                     </View>
@@ -333,7 +334,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                 <View style={cardStyles.totalCard}>
                     <View style={cardStyles.subtotalCard}>
                         <Text style={cardStyles.cardText}>Subtotal (1)</Text>
-                        <Text style={cardStyles.cardText}>R$ {data.valor}</Text>
+                        <Text style={cardStyles.cardText}>R$ {isNaN(parseInt(data.valor)) ? 'Valor não definido' : data.valor}</Text>
                     </View>
 
                     <View style={cardStyles.separator} />
@@ -349,7 +350,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                     <View style={cardStyles.subtotalCard}>
                         <Text style={cardStyles.cardTitle}>Total do Pedido</Text>
-                        <Text style={cardStyles.totalContent}>R$ {(parseFloat(data.valor) + parseFloat(data.valorfrete)).toFixed(2)}</Text>
+                        <Text style={cardStyles.totalContent}>R$  {isNaN(parseInt(data.valor)) ? 'Valor não definido' :(parseFloat(data.valor) + parseFloat(data.valorfrete)).toFixed(2)}</Text>
                     </View>
 
                 </View>
@@ -370,7 +371,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                     <View style={footerCardStyles.subcardContent}>
                         
                         <Text style={footerCardStyles.subcardTitle}>{data.formaPag}</Text>
-                        <Text style={footerCardStyles.subcardText}>R$ {data.valor} {data.datapedido}</Text>
+                        <Text style={footerCardStyles.subcardText}>R$ {isNaN(parseInt(data.valor)) ? 'valor não definido' : data.valor} {data.datapedido}</Text>
                         <Text style={footerCardStyles.subcardText}>Número do comprovante</Text>
                         <Text style={footerCardStyles.subcardText}>{data.mercadopago_id}</Text>
                     </View>

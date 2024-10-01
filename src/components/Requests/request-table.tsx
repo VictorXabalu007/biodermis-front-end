@@ -139,6 +139,7 @@ const RequestsTable = () => {
         key:'formapag_id',
         title:'Forma de Pagamento',
         render:(value,record)=>buildTotalValue(record.valor, value),
+        align:'center'
     },
 
     
