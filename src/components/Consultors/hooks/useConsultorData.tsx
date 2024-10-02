@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { getConsultors } from "../service/getConsultors";
 import { UserRole } from "../../../util/userRole";
 import { UserStatus } from "../../../@types/UserStatus/StatusType";
+import { API_URL } from "../../../service/url";
+import { isValidURL } from "../../../functions/Validators/isLink";
 
 
 export const useConsultorData = () => {
@@ -19,11 +21,19 @@ export const useConsultorData = () => {
         if (data) {
           const sortedData = [...data].sort((a, b) => parseFloat(b.totalfat) - parseFloat(a.totalfat))
           .filter(c => c.cargo_id === UserRole.CONSULTOR);
-          const rankedData = sortedData.map((d, index) => ({
-            ...d,
-            rank: String(index + 1),
-            status: d.status.toLocaleLowerCase() as UserStatus,
-          }));
+          const rankedData = sortedData.map((d, index) => {
+            
+            const {srcperfil} = d;
+            const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
+
+            return {
+              ...d,
+              rank: String(index + 1),
+              status: d.status.toLocaleLowerCase() as UserStatus,
+              srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`
+            }
+
+          });
           setConsultor(rankedData);
         }
       }, 

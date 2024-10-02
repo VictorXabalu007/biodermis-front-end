@@ -2,17 +2,20 @@ import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 import { useInvoicingCardItem } from "./hooks/useInvoicingCardItem";
 import { StatsCard } from "../shared/Card/StatsCard";
 import { InputRangePicker } from "../shared/Input/range-picker";
-import { Flex, Typography } from "antd";
+import { Flex, Skeleton, Typography } from "antd";
 import { RequestStatusChange } from "../Requests/hooks/useRequestsData";
 
 
 const {Text} = Typography;
 
 const InvoicingCardContainer = () => {
-  const { state, getDates } = useRangeDate();
-  const { items } = useInvoicingCardItem();
-
   
+  const { state, getDates } = useRangeDate();
+  const { items,isLoading } = useInvoicingCardItem();
+
+  if(isLoading) {
+    return <Skeleton />
+  }
 
   return (
     <div className="flex gap-6 flex-col">

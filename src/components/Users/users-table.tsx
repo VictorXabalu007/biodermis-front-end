@@ -19,6 +19,8 @@ import { useEffect } from "react"
 import { HiOutlinePencilAlt } from "react-icons/hi"
 import { getUserRole } from "../../util/userRole.ts"
 import FilterButton from "../shared/Button/filter-button.tsx"
+import DowloadButton from "../shared/Button/download-button.tsx"
+import { downloadCertified } from "../../functions/download-certified.ts"
 
 const UsersTable = () => {
 
@@ -167,7 +169,18 @@ const UsersTable = () => {
             </Button>
       
           </Tooltip>
-  
+
+
+            {record.cargo_id === 4 && <>
+            
+              <DowloadButton 
+                title="Baixar certificado"
+                onClick={()=>downloadCertified(record.srccert)}
+                outlined={false}
+              /> 
+            
+            </>}
+
           
 
         </Flex>

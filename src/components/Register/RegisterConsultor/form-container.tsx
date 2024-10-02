@@ -80,8 +80,7 @@ export const FormContainer = () => {
             onReset();
         },
         onError: (err:any)=> {
-            console.log(err);
-            
+
             error(err.response.data.error)
         }
     })
@@ -92,9 +91,6 @@ export const FormContainer = () => {
             const formData = new FormData();
 
             formData.append('file',certified.originFileObj as File)
-
-            console.log('Certificado: ', certified);
-            
 
             const headers = {
                 ...getHeaders(),
@@ -107,7 +103,7 @@ export const FormContainer = () => {
 
         },
         onSuccess: ()=>console.log('Sucesso ao registrar certificado!'),
-        onError: () => console.log('Erro ao registrar certificado!')
+        onError: (err) => console.log('Erro ao registrar certificado: ',err)
         
         
     });

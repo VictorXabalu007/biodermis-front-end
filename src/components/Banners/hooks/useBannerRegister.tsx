@@ -49,7 +49,6 @@ export const useBannerRegister = () => {
             
         },
         onError:(err:any) => {
-            console.log(err);
             
             error(err.data.response.error)
             

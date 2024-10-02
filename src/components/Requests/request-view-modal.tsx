@@ -24,24 +24,16 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
   useEffect(()=> {
 
     if(products){
-      const currents = products.filter(p => requests.produtos_ids.includes(p.id));
+      const currents = products.filter(p => requests.produtos_ids.find(r => r.id === p.id));
       setCurrentProducts(currents)
     }
 
   },[products]);
 
-    const productCounts = currentProducts?.reduce((acc, product) => {
-      if (product) {
-          acc[product.id] = (acc[product.id] || 0) + 1;
-      }
-      return acc;
-  }, {} as { [key: number]: number }) || 0
 
   const { getUserNameById } = useUserData();
 
-  console.log(requests);
-  
-  
+
   const data = [
     {
       title: "Data de pagamento",
@@ -140,29 +132,31 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
       {currentProducts && currentProducts.length > 0 ? (
         currentProducts.map((p) => (
-          <div key={p.id} className="my-2">
-            <Flex className="flex justify-between gap-2">
-              <div className="flex gap-2">
-                <Image
-                  width={185}
-                  src={p.imagePath}
-                  alt={p.nome}
-                  style={{
-                    borderRadius: "4px",
-                    objectFit: "cover",
-                  }}
-                />
 
-                <div className="flex flex-col text-start gap-3">
+            <Flex key={p.id} className="flex mt-2 w-full justify-between gap-2">
+              <Flex>
+                <Image
+                    width={185}
+                    src={p.imagePath}
+                    fallback="https://via.placeholder.com/200x200"
+                    alt={p.nome}
+                    style={{
+                      borderRadius: "4px",
+                      objectFit: "cover",
+                    }}
+                />
+                                <div className="flex flex-col text-start gap-3">
                   <Heading.Root className="text-[16px] font-semibold">
                     <Heading.Content
                       content={`#${p.id < 10 ? "0" + p.id : p.id}Pedido`}
                     />
                   </Heading.Root>
-                  <Text className="mt-1">{p.nome}</Text>
-                  <Text>Quant: {productCounts[p.id]}</Text>
+                  <Text ellipsis={{tooltip:p.nome}} className="w-[200px] mt-1">{p.nome}</Text>
+                  <Text>Quant: {requests.produtos_ids.find(r => r.id === p.id)?.quantidade}</Text>
                 </div>
-              </div>
+
+                </Flex>
+
 
               <div>
                 <Text className="mt-1 font-medium text-purple-solid-500">
@@ -170,7 +164,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
                 </Text>
               </div>
             </Flex>
-          </div>
+    
         ))
       ) : (
         <Flex gap={10}>

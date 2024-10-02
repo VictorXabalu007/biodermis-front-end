@@ -301,6 +301,7 @@ const RequestsTable = () => {
       closable
       maskClosable
       footer={null}
+      width={650}
     >
       <RequestViewModal
         requests={currentRequest} 

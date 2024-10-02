@@ -63,9 +63,6 @@ export const useComprovantRegister = ({id}:Props) => {
 
     const onSubmit = (data:RegisterPixProofType) => {
 
-        
-        console.log(data);
-        
         uploadComprovant.mutate(data);
            
     }

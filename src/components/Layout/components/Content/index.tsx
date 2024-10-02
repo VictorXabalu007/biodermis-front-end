@@ -16,9 +16,6 @@ export const Content = ({children}:{children: ReactNode}) => {
 
       window.addEventListener('resize',handleResize)
 
-      console.log(innerWidth);
-      
-
       return () => window.removeEventListener('resize', handleResize)
 
     },[innerWidth])

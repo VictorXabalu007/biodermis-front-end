@@ -24,7 +24,7 @@ export type Requests = {
     mercadopago_id: string;
     modelo: string;
     numero: string;
-    produtos_ids: number[];
+    produtos_ids: {id:number,quantidade:number}[];
     resto: string;
     rua: string;
     saldodisp: boolean;

@@ -17,6 +17,7 @@ import {
   getYear,
 } from "date-fns";
 import { useProductsData } from "../../Products/hooks/useProductsData";
+import { normalizeText } from "../../../functions/normalize-text";
 
 
 export type RequestStatusChange = "no change" | "increase" | "decrease";
@@ -24,6 +25,7 @@ export type RequestStatusChange = "no change" | "increase" | "decrease";
 export const useRequestsData = ({
   enableFilterDate = true,
 }: FilterDateConstraints = {}) => {
+
   const { getConsultorName } = useConsultorData();
 
   const now = new Date();
@@ -53,7 +55,6 @@ export const useRequestsData = ({
   const {products,isLoading:productsLoading} = useProductsData();
 
 
-
   const isLoading = productsLoading || requestsLoading
 
   const { state, getDates } = useRangeDate();
@@ -72,7 +73,7 @@ export const useRequestsData = ({
         
         
         const reqProducts = req.produtos_ids
-        .map((id) => products.find((p) => p.id === id))
+        .map((orderProduct) => products.find((p) => p.id === orderProduct.id))
         .map((p) => {
           if(p?.imagens) {
             const path = p?.imagens[0].replace(/\\/g, "\\") 
@@ -103,19 +104,24 @@ export const useRequestsData = ({
     
   }, [requests,products]);
 
-  
+
 
   const getRequestDataOfConsultorId = (id: number) => {
+
     return data.filter((d) => d.consultor_id === id);
+
   };
 
   useEffect(() => {
+
     const { endDate, startDate } = getDates(state);
 
     setDates({ endDate, startDate });
+
   }, [state.rangeDate]);
 
   useEffect(() => {
+
     if (enableFilterDate && dates && dates.startDate && dates.endDate) {
       const start = new Date(dates.startDate.split("/").reverse().join("-"));
       const end = new Date(dates.endDate.split("/").reverse().join("-"));
@@ -132,6 +138,7 @@ export const useRequestsData = ({
     } else if (requests) {
       setData(prev => prev);
     }
+
   }, [dates, requests]);
 
   const getSellPercentualChange = () => {
@@ -258,13 +265,13 @@ export const useRequestsData = ({
 
   const getTotalSells = () => {
 
+
     const currentMonthSales = data.filter((d) => {
-      const datapedido = new Date(d.datapedido.split("/").reverse().join("-"));
+
       return (
-        datapedido.getMonth() === currentMonth &&
-        datapedido.getFullYear() === currentYear &&
-        d.modelo === "venda"
+        normalizeText(d.modelo) === "venda"
       );
+      
     });
 
     return currentMonthSales.length;
@@ -327,17 +334,10 @@ export const useRequestsData = ({
     };
   };
 
-  const getTotalSalesThisMonth = () => {
+  const getTotalOrders = () => {
 
 
-    const currentMonthSales = data.filter((d) => {
-      const datapedido = parse(d.datapedido, "dd/MM/yyyy", new Date());
-      
-      return (
-        getMonth(datapedido) === currentMonth &&
-        getYear(datapedido) === currentYear 
-      );
-    });
+    const currentMonthSales = data.filter((d) => parse(d.datapedido, "dd/MM/yyyy", new Date()));
 
     return currentMonthSales.length;
 
@@ -360,6 +360,6 @@ export const useRequestsData = ({
     getRequestDataOfConsultorId,
     getSellStatusChange,
     getRequestOrderStatusChange,
-    getTotalSalesThisMonth,
+    getTotalOrders,
   };
 };

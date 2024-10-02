@@ -26,6 +26,8 @@ import { REGISTER_CONSULTOR } from "../../constants/paths/paths";
 import { ModalNavigator } from "../shared/Modal/modal-navigator";
 import { useConsultorData } from "./hooks/useConsultorData";
 import FilterButton from "../shared/Button/filter-button";
+import DowloadButton from "../shared/Button/download-button";
+import { downloadCertified } from "../../functions/download-certified";
 
 const ConsultorsTable = () => {
 
@@ -137,15 +139,28 @@ const ConsultorsTable = () => {
       dataIndex: "actions",
       key: "actions",
       render: (_,record) => (
-        <Tooltip title="Editar">
-          <Button 
-          style={{ color: colors.primaryPurple }}
-          type="text"
-          onClick={()=>handleEditClick(record)}
-          >
-            <HiOutlinePencilAlt size={20} />
-          </Button>
-        </Tooltip>
+        <Flex align="center">
+            <Tooltip title="Editar">
+              <Button 
+              style={{ color: colors.primaryPurple }}
+              type="text"
+              onClick={()=>handleEditClick(record)}
+              >
+                <HiOutlinePencilAlt size={20} />
+              </Button>
+            </Tooltip>
+            
+            {record.cargo_id === 4 && <>
+            
+            <DowloadButton 
+              title="Baixar certificado"
+              onClick={()=>downloadCertified(record.srccert)}
+              outlined={false}
+            /> 
+          
+          </>}
+
+        </Flex>
       ),
     },
   ];

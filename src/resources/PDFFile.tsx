@@ -212,18 +212,6 @@ const styles = StyleSheet.create({
   
 export const PDFFile = ({data}:PDFFileProps) => {
 
-    
-
-    const productCounts = data.products!.reduce((acc, product) => {
-        if (product) {
-            acc[product.id] = (acc[product.id] || 0) + 1;
-        }
-        return acc;
-    }, {} as { [key: number]: number });
-
-    console.log(data);
-    
-    
     return (
 
         <Document>
@@ -289,7 +277,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                                     <Text style={tableStyles.tableCell}>{p.nome}</Text>
                                 </View>
                                 <View style={tableStyles.tableCol}>
-                                    <Text style={tableStyles.tableCell}>{productCounts[p.id]}</Text>
+                                    <Text style={tableStyles.tableCell}>{data.produtos_ids.find(r => r.id === p.id)?.quantidade}</Text>
                                 </View>
                                 <View style={tableStyles.tableCol}>
                                     <Text style={tableStyles.tableCell}>

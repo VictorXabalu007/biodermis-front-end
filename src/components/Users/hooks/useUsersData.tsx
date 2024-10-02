@@ -7,8 +7,11 @@ import {
 } from "../../../@types/UserData/UserData";
 import { getAddress } from "../service/getAddress";
 import { UserStatus } from "../../../@types/UserStatus/StatusType";
+import { isValidURL } from "../../../functions/Validators/isLink";
+import { API_URL } from "../../../service/url";
 
 export const useUsersData = () => {
+
   const { data, isLoading } = useQuery<UserCredentials[]>({
     queryKey: ["users"],
     queryFn: getUsers,
@@ -33,23 +36,32 @@ export const useUsersData = () => {
         data.map((d) => {
           const hasAddress = userAddress.find((add) => add.usuario_id === d.id);
 
+          const {srcperfil} = d;
+          const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
+
+
           if (hasAddress) {
             return {
               ...d,
               ...hasAddress,
               addressId: hasAddress.id,
               status: d.status.toLocaleLowerCase() as UserStatus,
+              srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
             };
           } else {
             return {
               ...d,
               status: d.status.toLocaleLowerCase() as UserStatus,
+              srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
             };
           }
         })
       );
     }
   }, [data, userAddress, address]);
+
+  console.log('Usuários: ', users);
+  
 
   return {
     users,

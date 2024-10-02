@@ -18,6 +18,9 @@ export const useProductsData = () => {
     queryKey: ['allProducts'],
     queryFn: ()=> getAllProducts()
   });
+
+  console.log('Produtos vindos da API: ',data);
+  
   
 
   const [allProducts, setAllProducts] = useState<ProductsType[]>([]);
@@ -37,6 +40,7 @@ export const useProductsData = () => {
 
     
     if (data) {
+
       const newProducts = data.map((p) => {
 
         const hasImages = p?.imagens && p.imagens.length > 0;
@@ -65,8 +69,6 @@ export const useProductsData = () => {
     }
   }, [data]);
 
-  
-  
   const getProductsById = useCallback((id: number | number[]): ProductsType[] => {
 
     if (Array.isArray(id)) {

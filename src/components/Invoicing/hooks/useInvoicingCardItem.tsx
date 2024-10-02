@@ -10,16 +10,17 @@ import { FilterDateConstraints } from "../../../context/RangeDate/RangeDateConte
 export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
 
     const {getGreatherSoldProduct, isLoading, getGreatherProductPercentualChange} = useProductsData();
-   
+    
+    
     const {
         getTotalSells,
         getSellPercentualChange,
         getRequestOrderPercentChange,
         getSellStatusChange,
         getRequestOrderStatusChange,
-        getTotalSalesThisMonth
+        getTotalOrders
     } = useRequestsData({enableFilterDate});
-    
+
 
     const items = useMemo(()=> [
 
@@ -38,7 +39,7 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
     
             icon:GoPackage,
             title: 'Número de pedidos',
-            footerHeding: getTotalSalesThisMonth(),
+            footerHeding: getTotalOrders(),
             footerText: '(pedidos)',
             percentual: getRequestOrderPercentChange() + "%",
             status: getRequestOrderStatusChange()
