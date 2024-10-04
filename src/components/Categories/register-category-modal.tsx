@@ -1,7 +1,7 @@
 
 import { Form, Input } from "antd"
 import { Control, Controller, FieldErrors, } from "react-hook-form";
-import { CategoryRegisterType } from "./hooks/useCategoryRegister";
+import { CategoryRegisterType } from "../../hooks/categories/useCategoryRegister";
 
 
 

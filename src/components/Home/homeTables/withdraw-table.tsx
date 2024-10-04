@@ -1,12 +1,11 @@
 import { Button, Card, Flex, Image, Skeleton, Table, TableColumnType, Tooltip } from "antd";
-import { useWithdrawData } from "../../WithdrawalRequests/hooks/useWithdrawData";
 import Title from "../../shared/Typography/typography-title";
 import { useNavigate } from "react-router-dom";
-import { WITHDRAWAL } from "../../../constants/paths/paths";
-import { WithDrawal } from "../../WithdrawalRequests/util/withdrawalData";
+import { WITHDRAWAL } from "../../../constants/paths";
 import { userImageFallback } from "../../../util/projectImage";
 import { NumericFormatter } from "../../shared/Formatter/numeric-formatter";
 import { useEffect, useState } from "react";
+import { useWithdrawData } from "../../../hooks/withdraw/useWithdrawData";
 
 
 

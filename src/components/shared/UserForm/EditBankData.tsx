@@ -5,8 +5,7 @@ import { Form } from "../Form"
 import { Input } from "../Input/Input"
 import { FormItem } from "../Form/FormItem"
 import Select from "../Input/select"
-import { BANK_OPS } from "../../../constants/SessionStorageKeys/sessionStorageKeys"
-import { Options } from "../../../@types/Options/Options"
+import { BANK_OPS } from "../../../constants/sessionStorageKeys"
 
 const EditBankData = () => {
 

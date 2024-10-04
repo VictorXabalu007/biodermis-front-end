@@ -8,15 +8,13 @@ import {
 
 import { UploadFile } from "antd/lib";
 import { useParams } from "react-router-dom";
-import { useProductsData } from "./hooks/useProductsData";
+import { useProductsData } from "../../hooks/products/useProductsData";
 import { useEffect, useRef, useState } from "react";
-import { CategoryType } from "../Categories/service/getCategory";
 import { useUpload } from "../../hooks/useUpload";
-import { ProductsType } from "./service/getProducts";
-import { useProductUpdate } from "./hooks/useProductUpdate";
-import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { useProductUpdate } from "../../hooks/products/useProductUpdate";
+import { CATEGORIES } from "../../constants/sessionStorageKeys";
 import { SubHeader } from "../shared/SubHeader/sub-header";
-import { useImageUpload } from "./hooks/useImageUpload";
+import { useImageUpload } from "../../hooks/products/useImageUpload";
 import { API_URL } from "../../service/url";
 import { Controller } from "react-hook-form";
 import InputMoney from "../shared/Input/input-money";
@@ -28,9 +26,9 @@ const ProductEditor = () => {
   
   const { id } = useParams();
   const { products } = useProductsData();
-  const [currentProduct, setCurrentProduct] = useState<ProductsType>({} as ProductsType);
+  const [currentProduct, setCurrentProduct] = useState<Product>({} as Product);
 
-  const [initialData,setInitialData] = useState({} as ProductsType)
+  const [initialData,setInitialData] = useState({} as Product)
   
   const {
     fileList,
@@ -42,7 +40,7 @@ const ProductEditor = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const dataCategories: CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? "{}") || [];
+  const dataCategories: Category[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? "{}") || [];
 
   const categories = [
     ...dataCategories.map((d) => ({
@@ -61,7 +59,7 @@ const ProductEditor = () => {
         setInitialData(product)
       } else {
         setIsLoading(false);
-        setCurrentProduct({} as ProductsType);
+        setCurrentProduct({} as Product);
       }
     }
   }, [id, products]);
@@ -113,7 +111,7 @@ const ProductEditor = () => {
   };
 
 
-  const onSubmit = (data: ProductsType) => {
+  const onSubmit = (data: Product) => {
     updateProductMutation.mutate(data);
     uploadImageMutation.mutate(fileList);
     if(selectedIndexes.length > 0){

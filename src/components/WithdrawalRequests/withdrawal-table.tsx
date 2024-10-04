@@ -1,4 +1,4 @@
-import { useTableData } from "./hooks/useTableData";
+import { useTableData } from "../../hooks/withdraw/useTableData";
 import { TableWrapper } from "../shared/Table/table-wrapper";
 import {
   Avatar,
@@ -11,20 +11,21 @@ import {
   TableColumnProps,
   Tooltip,
 } from "antd";
-import { WithDrawal } from "./util/withdrawalData";
+
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import { withdrawalSelectOptions } from "./util/selectOptions";
 import { InputRangePicker } from "../shared/Input/range-picker";
 import { useTableActions } from "../../hooks/useTableActions";
-import { useConsultorData } from "../Consultors/hooks/useConsultorData";
+
 import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { UploadComprovantModal } from "./upload-comprovant-modal";
 import { useState } from "react";
 import { Text } from "../shared/Typography/typography-text";
 import { IoIosArrowForward, IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { useComprovantRegister } from "./hooks/useComprovantRegister";
+import { useComprovantRegister } from "../../hooks/withdraw/useComprovantRegister";
 import FilterButton from "../shared/Button/filter-button";
 import Select from "../shared/Input/select";
+import { useConsultorData } from "../../hooks/users/useConsultorData";
 
 const WithdrawalTable = () => {
   const { withDrawData, setWithdrawData, isLoading } = useTableData();

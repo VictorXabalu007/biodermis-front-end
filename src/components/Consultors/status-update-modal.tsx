@@ -1,5 +1,4 @@
 import { Button, Flex, Form, Typography } from "antd"
-import { UserCredentials } from "../../@types/UserData/UserData"
 import { SelectLabel } from "../shared/Input/select-label"
 import Select from "react-select"
 import { Controller, useForm } from "react-hook-form"
@@ -9,7 +8,7 @@ import { buildStatus } from "../../functions/buildStatus"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../service/connection"
 import { getHeaders } from "../../service/getHeaders"
-import { useMessageAction } from "../../hooks/useMessageAction/useMessageAction"
+import { useMessageAction } from "../../hooks/useMessageAction"
 
 const {Title} = Typography
 

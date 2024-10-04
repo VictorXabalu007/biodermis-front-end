@@ -2,7 +2,6 @@ import type { UploadProps } from 'antd';
 import { Form, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
-import { RegisterFieldProps } from '../@types/RegisterFieldsProps';
 import { UserData } from '../../../validations/registerUserValidation';
 import { SubHeader } from '../../shared/SubHeader/sub-header';
 import { colors } from '../../../theme/colors';

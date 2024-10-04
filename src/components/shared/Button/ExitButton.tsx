@@ -2,7 +2,7 @@ import { FaArrowRightFromBracket } from "react-icons/fa6"
 
 import { useNavigate } from "react-router-dom";
 import { Button, Flex, Popconfirm } from "antd";
-import { DEFAULT_PATH } from "../../../constants/paths/paths";
+import { DEFAULT_PATH } from "../../../constants/paths";
 import { colors } from "../../../theme/colors";
 
 

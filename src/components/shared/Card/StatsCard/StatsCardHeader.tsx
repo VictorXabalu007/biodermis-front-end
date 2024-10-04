@@ -1,5 +1,5 @@
 import { ElementType } from "react"
-import { Heading } from "../../Heading"
+import Title from "../../Typography/typography-title"
 
 
 type HeaderProps = {
@@ -18,9 +18,9 @@ export const StatsCardHeader = ({icon:Icon, title}:HeaderProps) => {
                         <Icon className="text-brand-purple text-2xl fw-bold" />
                     </div>
                     
-                    <Heading.Root>
-                        <Heading.Content content={title} />
-                    </Heading.Root>
+                    <Title>
+                        {title} 
+                    </Title>
 
                 </div>
 

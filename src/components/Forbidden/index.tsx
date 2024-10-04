@@ -1,6 +1,6 @@
 import { Button, Result } from "antd"
 import { useNavigate } from "react-router-dom"
-import { DEFAULT_PATH } from "../../constants/paths/paths";
+import { DEFAULT_PATH } from "../../constants/paths";
 
 
 

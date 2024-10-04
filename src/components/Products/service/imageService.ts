@@ -12,18 +12,13 @@ export const uploadImage = async (images:any[],id:number) => {
         formData.append('files', image.originFileObj as File); 
     });
 
-    console.log(images);
-    
 
-    
     try {
-        
-
-        
+           
         const headers = {
             ...getHeaders(),
             'Content-Type': 'multipart/form-data' 
-          };
+        };
     
 
             try {
@@ -38,6 +33,7 @@ export const uploadImage = async (images:any[],id:number) => {
     } catch (e:any) {
         return e.message || e.data?.message
     }
+
 }
 
 export const removeImage = async (product_id:number,images_id:number[]) => {

@@ -1,6 +1,7 @@
 import { Flex } from "antd";
-import { Heading } from "../../Heading"
+
 import { Text } from "../../Text"
+import Title from "../../Typography/typography-title";
 
 type FooterContentProps = {
     headingContent: string | number;
@@ -12,9 +13,9 @@ type FooterContentProps = {
 export const StatsCardFooterContent = ({headingContent,textContent}:FooterContentProps) => {
     return (
         <div className="flex items-center gap-2">
-            <Heading.Root className="text-black text-[32px] fw-bold">
-                <Heading.Content content={headingContent} />
-            </Heading.Root>
+            <Title className="text-black text-[32px] fw-bold">
+                {headingContent} 
+            </Title>
             <Flex vertical>
                 <Text.Root>
                     <Text.Content content={textContent}/>

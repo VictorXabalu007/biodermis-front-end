@@ -1,11 +1,9 @@
 
-import { RegisterFieldProps } from "../@types/RegisterFieldsProps";
 import { ProductsData } from "../../../validations/registerProductValidation";
 import { Col, Flex, Row } from "antd";
 import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";
 import { renderFormField } from "../../../functions/render-form-field";
-
 
 
 export const ProductsDimensionForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {

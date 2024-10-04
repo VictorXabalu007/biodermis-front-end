@@ -1,9 +1,8 @@
 import { Flex, Form, Modal, ModalProps, Upload } from "antd";
 import { FaX } from "react-icons/fa6";
-import { useBannerUpdate } from "./hooks/useBannerUpdate";
+import { useBannerUpdate } from "../../hooks/banners/useBannerUpdate";
 import { Controller } from "react-hook-form";
 import { Input } from "../shared/Input/Input";
-import { BannerModalProps } from "./@types/BannerType";
 import { UploadProps } from "antd/lib";
 import { useState } from "react";
 import { colors } from "../../theme/colors";

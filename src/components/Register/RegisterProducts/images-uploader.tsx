@@ -3,7 +3,6 @@ import {  message, Upload } from 'antd';
 import { BsDownload } from 'react-icons/bs';
 import { Controller } from 'react-hook-form';
 import { Form } from '../../shared/Form';
-import { RegisterFieldProps } from '../@types/RegisterFieldsProps';
 import { GetProp } from 'antd/lib';
 import { Ref, forwardRef, useImperativeHandle, useState } from 'react';
 import { FormItem } from '../../shared/Form/FormItem';

@@ -1,8 +1,7 @@
 
 import { Flex, Skeleton } from "antd";
 import { StatsCard } from "../shared/Card/StatsCard";
-import { useInvoicingCardItem } from "../Invoicing/hooks/useInvoicingCardItem";
-import { RequestStatusChange } from "../Requests/hooks/useRequestsData";
+import { useInvoicingCardItem } from "../../hooks/invoicing/useInvoicingCardItem";
 
 
 export const HomeCardContainer = () => {

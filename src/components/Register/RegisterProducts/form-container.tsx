@@ -11,7 +11,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../service/connection";
-import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { useMessageAction } from "../../../hooks/useMessageAction";
 import { getHeaders } from "../../../service/getHeaders";
 import { ProductsData, productsSchema } from "../../../validations/registerProductValidation";
 

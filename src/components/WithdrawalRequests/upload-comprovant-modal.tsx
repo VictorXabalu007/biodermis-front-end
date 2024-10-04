@@ -18,12 +18,13 @@ import { IoCopyOutline } from "react-icons/io5";
 import { UploadProps } from "antd/lib";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import { WithDrawal } from "./util/withdrawalData";
-import { useConsultorData } from "../Consultors/hooks/useConsultorData";
-import { RegisterPixProofType } from "./hooks/useComprovantRegister";
-import { UserCredentials } from "../../@types/UserData/UserData";
+
+
+import { RegisterPixProofType } from "../../hooks/withdraw/useComprovantRegister";
+
 import { colors } from "../../theme/colors";
 import { FiUpload } from "react-icons/fi";
+import { useConsultorData } from "../../hooks/users/useConsultorData";
 
 const { Paragraph } = Typography;
 const { Dragger } = Upload;

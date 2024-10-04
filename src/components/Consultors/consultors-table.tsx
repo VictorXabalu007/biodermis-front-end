@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { TableWrapper } from "../shared/Table/table-wrapper";
-import { UserCredentials } from "../../@types/UserData/UserData";
 import {
   Button,
   Flex,
@@ -22,12 +21,14 @@ import Select from "../shared/Input/select";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { userStatusOptions } from "./util/selectOptions";
-import { REGISTER_CONSULTOR } from "../../constants/paths/paths";
+import { REGISTER_CONSULTOR } from "../../constants/paths";
 import { ModalNavigator } from "../shared/Modal/modal-navigator";
-import { useConsultorData } from "./hooks/useConsultorData";
+
 import FilterButton from "../shared/Button/filter-button";
 import DowloadButton from "../shared/Button/download-button";
 import { downloadCertified } from "../../functions/download-certified";
+import { useConsultorData } from "../../hooks/users/useConsultorData";
+
 
 const ConsultorsTable = () => {
 

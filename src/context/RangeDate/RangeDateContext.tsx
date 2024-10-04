@@ -1,5 +1,4 @@
-import {  createContext, useContext, useReducer } from "react";
-import { ProviderProps } from "../../@types/Provider/ProviderProps";
+import {  createContext, PropsWithChildren, useContext, useReducer } from "react";
 
 
 export type RangeDateState = {
@@ -51,7 +50,7 @@ const rangeDateReducer = (state:RangeDateState,action:Action)=> {
 
 }
 
-const RangeDateProvider = ({children}:ProviderProps) => {
+const RangeDateProvider = ({children}:PropsWithChildren) => {
 
     const [state,dispatch] = useReducer(rangeDateReducer,initialData);
 

@@ -1,7 +1,6 @@
 
 import { Tag } from "../../shared/Tag";
 import { PaymentStatus } from "../../WithdrawalRequests/util/selectOptions";
-import { Requests } from "../@types/Requests";
 
 
 type Props = {

@@ -1,6 +1,5 @@
 import { user } from "./getUser"
 
-
 export const getUserId = () => {
 
 

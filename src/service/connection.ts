@@ -1,20 +1,56 @@
 
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import { API_URL } from './url';
+import { getHeaders } from './getHeaders';
 
-const createHttp = (): AxiosInstance => {
+const http = axios.create({
+    baseURL: API_URL,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
+export const api = http;
 
-    const http = axios.create({
-        baseURL: API_URL,
-        headers: {
-            'Content-Type': 'application/json'
-        }
+const headers = getHeaders();
+
+export const get = async (url: string) => {
+
+    const res = await api.get(url,{
+        headers
     });
-    
 
-    return http;
-    
-};
+    return res.data
 
-export const api = createHttp();
+}
+
+export const post = async (url:string,payload:any) => {
+
+    const req = await api.post(url,payload,{
+        headers
+    });
+
+    return req.data
+
+}
+
+export const put = async (url:string,payload:any) => {
+
+    const req = await api.put(url,payload,{
+        headers
+    });
+
+    return req.data
+
+}
+
+export const del = async (url:string) => {
+
+    const req = await api.delete(url,{
+        headers
+    });
+
+    return req.data
+
+
+}

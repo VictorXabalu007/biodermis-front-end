@@ -1,19 +1,16 @@
 import React, { Dispatch, useState } from "react"
-import { BannerType } from "./@types/BannerType"
-import { useBannerData } from "./hooks/useBannerData"
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper"
-
-
 import { FaPlus } from "react-icons/fa6"
 import Select from "../shared/Input/select"
 import { SelectLabel } from "../shared/Input/select-label"
 import BannerRegisterModal from "./banner-register-modal"
 import { Button, Flex, Input } from "antd"
 import { SearchIcon } from "../shared/Icon/search"
+import { useBannerData } from "../../hooks/banners/useBannerData"
 
 
-type BannerFilterProps = {
-    setData:Dispatch<React.SetStateAction<BannerType[]>>
+type Props = {
+    setData:Dispatch<React.SetStateAction<Banner[]>>
  
 }
 
@@ -36,7 +33,7 @@ const selectItems = [
     },
 ]
 
-const BannersFilters = ({setData}:BannerFilterProps) => {
+const BannersFilters = ({setData}:Props) => {
 
     const {data:initialData} = useBannerData();
 

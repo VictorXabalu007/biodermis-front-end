@@ -11,8 +11,8 @@ import forgotBg from '../../../../assets/purple-frame-forgotpass.png'
 import biodermisLogo from '../../../../assets/small-logo.png';
 import { api } from "../../../../service/connection";
 import { useState } from "react";
-import { FORGOT_PASS_2 } from "../../../../constants/paths/paths";
-import { MAIN_FORGOT_PASS } from "../../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { FORGOT_PASS_2 } from "../../../../constants/paths";
+import { MAIN_FORGOT_PASS } from "../../../../constants/sessionStorageKeys";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Text } from "../../../shared/Typography/typography-text";
 

@@ -1,18 +1,10 @@
-import { api } from "../../../service/connection"
-import { getHeaders } from "../../../service/getHeaders"
-
+import { get } from "../../../service/connection";
 
 
 export const getTotalBalance = async () => {
 
+    const req = await get('/saldodisp')
 
-    const headers = getHeaders();
-
-    const req = await api.get('/saldodisp',{
-        headers
-    })
-    
-
-    return req.data;
+    return req;
 
 }

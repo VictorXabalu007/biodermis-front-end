@@ -1,10 +1,10 @@
 import { Col, Empty, Row } from "antd";
 import { TableWrapper } from "../shared/Table/table-wrapper";
-import { useBannerData } from "./hooks/useBannerData";
 import { BannerCard } from "../shared/Card/BannersCard";
-import { usePagination } from "../../hooks/usePagination/usePagination";
+import { usePagination } from "../../hooks/usePagination";
 import { ContainerPagination } from "../shared/Pagination/container-pagination";
 import BannersFilters from "./banner-filter";
+import { useBannerData } from "../../hooks/banners/useBannerData";
 
 
 const PAGE_SIZE = 10;

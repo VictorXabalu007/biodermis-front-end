@@ -1,8 +1,9 @@
 import { Flex, Skeleton } from "antd";
 
 import { getColorStylesByKey } from "./functions/getColorStylesByKey";
-import { useRequestCardItem } from "./hooks/useRequestCardItems";
+
 import { ProgressCard } from "../shared/Card/ProgressCard";
+import { useRequestCardItem } from "../../hooks/orders/useRequestCardItems";
 
 
 const RequestCardContainer = () => {

@@ -4,6 +4,7 @@ import { Button, Form, Input, InputRef, notification, Space, TableColumnType } f
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useRef, useState } from "react";
 import { colors } from "../theme/colors";
+
 type UseTableActionsProps<T extends { id: React.Key }> = {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>

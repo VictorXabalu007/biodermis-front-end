@@ -1,5 +1,4 @@
 import { Radio, Col, Row } from "antd";
-import { RegisterFieldProps } from "../@types/RegisterFieldsProps";
 import { Controller } from "react-hook-form";
 import {  UserRole } from "../../../util/userRole";
 import { Form } from "../../shared/Form";

@@ -1,21 +1,14 @@
-import { api } from "../../../service/connection"
-import { getHeaders } from "../../../service/getHeaders"
-
-
+import { get } from "../../../service/connection";
 
 export const getAddress = async () => {
 
-    const headers = getHeaders()
     try {
 
-        const req = await api.get(`/endereco/0`,{
-            headers
-        })
-
-        return req.data
+        const req = await get(`/endereco/0`)
+        return req
 
     } catch (e:any) {
-
+        console.log('Erro ao pegar endereço do usuário: ', e); 
     }
 
 }

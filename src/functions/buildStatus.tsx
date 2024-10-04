@@ -1,8 +1,7 @@
-import { UserCredentials } from "../@types/UserData/UserData";
-import { UserStatus } from "../@types/UserStatus/StatusType";
+
 import { Tag } from "../components/shared/Tag";
-import { useStatusModal } from "../components/Consultors/hooks/useStatusModal";
 import { Tooltip } from "antd";
+import { useStatusModal } from "../hooks/users/useStatusModal";
 
 
 export const buildStatus = (status: UserStatus, data:UserCredentials, enableClick:boolean = true) => {

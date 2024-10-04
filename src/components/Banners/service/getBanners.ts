@@ -1,17 +1,16 @@
-import { api } from "../../../service/connection"
+import { get } from "../../../service/connection"
 
 
 export const getBanners = async () => {
 
-    
     try {
 
-        const req = await api.get('/carrossel/0')
+        const res:Banner[] = await get('/carrossel/0')
 
-        return req.data
+        return res
 
     } catch(e){
-
+        console.log('Erro ao pegar banners ', e);
     }
 
 }

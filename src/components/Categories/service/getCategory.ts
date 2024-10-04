@@ -1,24 +1,12 @@
 
+import { get } from "../../../service/connection";
 
-import { api } from "../../../service/connection"
-import { getHeaders } from "../../../service/getHeaders";
-
-
-
-export type CategoryType = {
-    categoria: string,
-    id: number
-}
 
 export const getCategory = async () => {
 
-    const headers = getHeaders();
-    
-    const req = await api.get<CategoryType[]>('/categorias',{
-        headers,
-    })
+    const req:Category[] = await get('/categorias')
 
-    return req.data
+    return req
 
 
 }

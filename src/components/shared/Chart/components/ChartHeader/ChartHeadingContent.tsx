@@ -1,4 +1,5 @@
-import { Heading } from "../../../Heading";
+
+import Title from "../../../Typography/typography-title";
 
 
 
@@ -6,9 +7,9 @@ export const ChartHeadingContent = ({content}:{content:string}) => {
     
     return (
 
-        <Heading.Root className="text-[18px]">
-            <Heading.Content content={content} />
-        </Heading.Root>
+        <Title className="text-[18px]">
+            {content}
+        </Title>
 
     );
 }

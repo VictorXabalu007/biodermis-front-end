@@ -1,9 +1,7 @@
 
-import { RegisterFieldProps } from "../@types/RegisterFieldsProps";
-import { usePixkey } from "../../../hooks/usePixkey";
+import { usePixkey } from "../../../hooks/usePixKey";
 import { Flex, Row, Col } from "antd";
-import { BANK_OPS } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
-import { Options } from "../../../@types/Options/Options";
+import { BANK_OPS } from "../../../constants/sessionStorageKeys";
 import { UserData } from "../../../validations/registerUserValidation";
 import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";

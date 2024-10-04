@@ -1,13 +1,12 @@
 import { Button, Card, Flex, Image, Skeleton, Table, TableColumnType, Tooltip } from "antd";
-import { useConsultorData } from "../../Consultors/hooks/useConsultorData";
 import Title from "../../shared/Typography/typography-title";
 import { useNavigate } from "react-router-dom";
-import { CONSULTORS } from "../../../constants/paths/paths";
-import { UserCredentials } from "../../../@types/UserData/UserData";
+import { CONSULTORS } from "../../../constants/paths";
 import { buildPodium } from "../../shared/Table/functions/buildPodium";
 import { Text } from "../../shared/Typography/typography-text";
 import { IoIosArrowUp } from "react-icons/io";
 import { userImageFallback } from "../../../util/projectImage";
+import { useConsultorData } from "../../../hooks/users/useConsultorData";
 
 
 

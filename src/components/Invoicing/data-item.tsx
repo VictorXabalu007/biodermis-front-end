@@ -1,12 +1,13 @@
 import { TfiWallet } from "react-icons/tfi";
-import { Heading } from "../shared/Heading";
 import { Text } from "../shared/Text";
 import { MoneyCardType } from "../shared/Card/MoneyDataCard/@types/MoneyCardType";
 import { MoneyDataCard } from "../shared/Card/MoneyDataCard";
 import { Card, Empty, Flex } from "antd";
-import { MovimentationType, useMovimentationData } from "../../hooks/useMovimentationData/useMovimentationData";
+
 import { ContainerPagination } from "../shared/Pagination/container-pagination";
-import { usePagination } from "../../hooks/usePagination/usePagination";
+import { usePagination } from "../../hooks/usePagination";
+import { useMovimentationData } from "../../hooks/useMovimentationData";
+import Title from "../shared/Typography/typography-title";
 
 
 type DataItemProps = {
@@ -50,15 +51,15 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
                 
             <Flex align="center" gap={15} className = "mb-10">
 
-                <Heading.Root className="font-semibold text-[20px] text-black">
+                <Title className="font-semibold text-[20px] text-black">
                     
                     <div className="bg-brand-purple/25 rounded-md p-3">
-                        <Heading.Icon className="text-brand-purple" icon={TfiWallet} />
+                        <TfiWallet className="text-brand-purple" />
                     </div>
 
-                    <Heading.Content content={title} />
+                    {title} 
 
-                </Heading.Root>
+                </Title>
 
                 <Text.Root className="font-light">
                     <Text.Content content={subtitle} />

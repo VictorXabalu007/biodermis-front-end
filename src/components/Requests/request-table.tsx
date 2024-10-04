@@ -10,8 +10,7 @@ import {
 import { useTableActions } from "../../hooks/useTableActions";
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import { TableWrapper } from "../shared/Table/table-wrapper";
-import { useRequestTable } from "./hooks/useRequestTable";
-import { Requests } from "./@types/Requests";
+import { useRequestTable } from "../../hooks/orders/useRequestTable";
 import { InputRangePicker } from "../shared/Input/range-picker";
 import Select from "../shared/Input/select";
 import {
@@ -34,8 +33,9 @@ import DowloadButton from "../shared/Button/download-button";
 import WhatzapButton from "../shared/Button/whatzap-button";
 import { RequestViewModal } from "./request-view-modal";
 import { RequestEditor } from "./update-delivery-request-modal";
-import { useRequestTableFilters } from "./hooks/useRequestTableFilters";
-import { useRequestUpdate } from "./hooks/useRequestUpdate";
+
+import { useRequestUpdate } from "../../hooks/orders/useRequestUpdate";
+import { useRequestTableFilters } from "../../hooks/orders/useRequestTableFilters";
 
 
 const RequestsTable = () => {
@@ -188,7 +188,6 @@ const RequestsTable = () => {
     handlePaymentStatusChange,
     handleSellChannelChange,
     setShowFilters
-    
   } = useRequestTableFilters({
     data,
     setFilteredData,

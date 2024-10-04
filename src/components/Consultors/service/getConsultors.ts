@@ -1,19 +1,10 @@
-
-import { api } from "../../../service/connection"
-import { getHeaders } from "../../../service/getHeaders";
-
-
+import { get } from "../../../service/connection";
 
 
 export const getConsultors = async () => {
 
-        const headers = getHeaders();
+        const req = await get('/consultores/0')
 
-        const req = await api.get('/consultores/0',{
-            headers,
-        })
-       
-
-        return req.data;
+        return req;
 
 }

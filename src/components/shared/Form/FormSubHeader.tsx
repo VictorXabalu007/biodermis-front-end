@@ -1,5 +1,5 @@
-import { Heading } from "../Heading"
-import { Text } from "../Text"
+
+import Title from "../Typography/typography-title"
 
 
 
@@ -14,13 +14,13 @@ export const FormSubHeader = ({heading,subtext}:FormSubHeaderProps) => {
 
 
       <div>
-        <Heading.Root className="text-purple-solid-500 text-[18px]">
-          <Heading.Content content={heading} />
-        </Heading.Root>
+        <Title className="text-purple-solid-500 text-[18px]">
+          {heading} 
+        </Title>
 
-        <Text.Root className="font-[300] text-[14px]">
-          <Text.Content content={subtext} />
-        </Text.Root>
+        <p className="font-[300] text-[14px]">
+          {subtext}
+        </p>
       </div>
 
     )

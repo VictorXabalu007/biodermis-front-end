@@ -2,8 +2,6 @@
 import { z } from "zod";
 
 
-
-
 export const bannerSchema = z.object({
     imagem: z.array(z.custom().refine(file => file !== null, 'Insira pelo menos um banner!'),
     {required_error: 'Pelo menos um banner deve ser cadastrado!'}).refine(arr => arr.length !== 0, 'Pelo menos um banner é necessário!')

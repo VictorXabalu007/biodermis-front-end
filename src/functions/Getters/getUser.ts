@@ -1,8 +1,8 @@
-import { UserData } from "../../@types/UserData/UserData";
-import { AUTH_USER } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+
+import { AUTH_USER } from "../../constants/sessionStorageKeys";
 
 
-export const user:UserData = JSON.parse(sessionStorage.getItem(AUTH_USER)?? '{}');
+export const user:User = JSON.parse(sessionStorage.getItem(AUTH_USER)?? '{}');
 
 export const getUserData = () => {
 

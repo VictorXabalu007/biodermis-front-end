@@ -1,8 +1,6 @@
 import { Progress } from "antd"
 import { ProgressProps } from "antd/lib";
 
-
-
 type ProgressCardPercentualProps = {
 
 

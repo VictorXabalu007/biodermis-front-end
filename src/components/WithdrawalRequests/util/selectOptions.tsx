@@ -1,6 +1,5 @@
 import { SelectLabel } from "../../shared/Input/select-label";
 
-
 export const PaymentStatus = {
     PAID: 'realizado',
     PENDING: 'pendente',

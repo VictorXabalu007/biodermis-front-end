@@ -1,6 +1,7 @@
 
+import { useMovimentationData } from "../../hooks/useMovimentationData";
 import { DataItem } from "./data-item";
-import { useMovimentationData } from "../../hooks/useMovimentationData/useMovimentationData";
+
 import { Flex } from "antd";
 
 const InvoicingDataContainer = () => {

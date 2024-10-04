@@ -11,7 +11,7 @@ import { Button, Form  } from "antd";
 import { PessoalDataForm } from "./pessoal-data";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "../../../service/connection";
-import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { useMessageAction } from "../../../hooks/useMessageAction";
 import { getHeaders } from "../../../service/getHeaders";
 import { getTypeOfPixKey } from "../../../functions/Getters/getTypeOfPixKey";
 import { UserData, userSchema } from "../../../validations/registerUserValidation";

@@ -1,11 +1,9 @@
 import { ReactNode, useEffect, useState } from "react";
-import { useCategoriesData } from "../Categories/hooks/useCategoriesData";
-import { BANK_OPS, CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
-import { BankOptions } from "../../@types/BankOpts/BankOpts";
-import { Options } from "../../@types/Options/Options";
+import { BANK_OPS, CATEGORIES } from "../../constants/sessionStorageKeys";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Row } from "antd";
+import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
 
 
 
@@ -30,7 +28,6 @@ const HomeWrapper = ({children}:{children:ReactNode}) => {
         return req.data
   
       }
-  
   
 
     const {data} = useQuery<BankOptions[]>({

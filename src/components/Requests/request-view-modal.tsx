@@ -1,22 +1,21 @@
 import { Empty, Flex, Image, Skeleton, Typography } from "antd";
 import { capitalizeFirstLetter } from "../../functions/Capitalizer/capitalizeFirstLetter";
 import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
-import { Heading } from "../shared/Heading";
-import { Requests } from "./@types/Requests";
 import { IoCopyOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 import Paragraph from "antd/es/typography/Paragraph";
 import { Text } from "../shared/Typography/typography-text";
 import { buildDeliveryStatus } from "./functions/buildDeliveryStatus";
 import { buildPaymentStatus } from "./functions/buildPaymentStatus";
-import { useUserData } from "../../hooks/useUserData/useUserData";
+import { useUserData } from "../../hooks/useUserData";
 import { useEffect, useState } from "react";
-import { useProductsData } from "../Products/hooks/useProductsData";
-import { ProductsType } from "../Products/service/getProducts";
+import { useProductsData } from "../../hooks/products/useProductsData";
+import Title from "../shared/Typography/typography-title";
+
 
 export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
-  const [currentProducts, setCurrentProducts] = useState<ProductsType[]>([])
+  const [currentProducts, setCurrentProducts] = useState<Product[]>([])
 
   const {isLoading,products} = useProductsData();
 
@@ -146,11 +145,11 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
                     }}
                 />
                                 <div className="flex flex-col text-start gap-3">
-                  <Heading.Root className="text-[16px] font-semibold">
-                    <Heading.Content
-                      content={`#${p.id < 10 ? "0" + p.id : p.id}Pedido`}
-                    />
-                  </Heading.Root>
+                  <Title className="text-[16px] font-semibold">
+                  
+                    {`#${p.id < 10 ? "0" + p.id : p.id}Pedido`}
+                    
+                  </Title>
                   <Text ellipsis={{tooltip:p.nome}} className="w-[200px] mt-1">{p.nome}</Text>
                   <Text>Quant: {requests.produtos_ids.find(r => r.id === p.id)?.quantidade}</Text>
                 </div>

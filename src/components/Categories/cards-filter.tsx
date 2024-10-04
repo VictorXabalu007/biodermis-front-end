@@ -1,20 +1,20 @@
 import { FaPlus } from "react-icons/fa6";
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import {  Button, Flex, Form, Input, Modal } from "antd";
-import { CategoryType } from "./service/getCategory";
+
 import { Dispatch, useEffect, useState } from "react";
 import { FormModal } from "./register-category-modal";
-import { useCategoryRegister } from "./hooks/useCategoryRegister";
+import { useCategoryRegister } from "../../hooks/categories/useCategoryRegister";
 import { SearchIcon } from "../shared/Icon/search";
 
 type CardFilterProps = {
-    data:CategoryType[] | undefined,
-    setData:Dispatch<React.SetStateAction<CategoryType[]>>
+    data:Category[] | undefined,
+    setData:Dispatch<React.SetStateAction<Category[]>>
 }
 
 export const CardsFilter = ({data,setData}:CardFilterProps) => {
 
-    const [initialData, setInitialData] = useState<CategoryType[]>([]);
+    const [initialData, setInitialData] = useState<Category[]>([]);
     const [categoryName, setCategoryName] = useState<string>('');
     const [open, setOpen] = useState(false);
 

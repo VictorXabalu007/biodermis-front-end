@@ -6,9 +6,9 @@ import { api } from "../../service/connection";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "../shared/Link";
-import { FORGOT_PASS_1, HOME } from "../../constants/paths/paths";
+import { FORGOT_PASS_1, HOME } from "../../constants/paths";
 import { useState } from "react";
-import { AUTH_USER } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { AUTH_USER } from "../../constants/sessionStorageKeys";
 import { Text } from "../shared/Typography/typography-text";
 import { biodermisSMLogo, welcomeBg } from "../../util/projectImage";
 

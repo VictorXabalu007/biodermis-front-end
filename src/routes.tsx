@@ -4,7 +4,7 @@ import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS,
     FORGOT_PASS_1, FORGOT_PASS_2, HOME, 
     INVOICING, PRODUCTS, REGISTER_CONSULTOR, 
     REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, 
-    MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths/paths";
+    MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -24,7 +24,7 @@ import { MercardoPagoFailure } from "./components/Requests/MercadoPago/Failure";
 import { BannersTemplate } from "./templates/Banners/BannerTemplate";
 import EditProduct from "./templates/Products/edit-product";
 import { ProductsTemplate } from "./templates/Products/product-view";
-import { Layout } from "./components/Layout/Layout";
+import { Layout } from "./components/Layout";
 
 export const AppRoutes = () => {
 

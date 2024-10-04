@@ -1,22 +1,14 @@
 
 
-import { api } from "../../../service/connection";
-import { getHeaders } from "../../../service/getHeaders";
-import { Requests } from "../@types/Requests";
-
-
+import { get } from "../../../service/connection";
 
 
 export const getRequests = async () => {
 
-      const headers = getHeaders();
+      const req:Request[] = await get('/pedidos/0');
+    
 
-      const req = await api.get<Requests[]>('/pedidos/0', {
-        headers
-      });
-      
-
-      return req.data;
+      return req;
     
 
 

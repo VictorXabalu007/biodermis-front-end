@@ -2,11 +2,9 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { UserEditRole, userEditSchema, UserEditSteps, UserEditType } from "../../../validations/updateUserValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormType } from "../../../@types/FormType/FormType";
 import { Stepper } from "./Stepper";
 import { Alert, Button, Form } from "antd";
 import { UserRole } from "../../../util/userRole";
-import { UserCredentials } from "../../../@types/UserData/UserData";
 import EditPersonalData from "./EditPersonalData";
 import EditAddressData from "./EditAddressData";
 import EditBankData from "./EditBankData";
@@ -14,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getHeaders } from "../../../service/getHeaders";
 import { api } from "../../../service/connection";
 import { getTypeOfPixKey } from "../../../functions/Getters/getTypeOfPixKey";
-import { useMessageAction } from "../../../hooks/useMessageAction/useMessageAction";
+import { useMessageAction } from "../../../hooks/useMessageAction";
 
 export const UserForm = ({isReadonly, data}:FormType<UserCredentials>) => {
 

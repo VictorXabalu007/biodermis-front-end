@@ -1,8 +1,6 @@
 import { getProducts } from "../../Products/service/getProducts";
 
 
-
-
 export const getRequestProducts = async (productsId: number[]) => {
 
 

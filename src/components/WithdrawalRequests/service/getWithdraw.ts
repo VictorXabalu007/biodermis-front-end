@@ -1,21 +1,14 @@
-
-import { api } from "../../../service/connection"
-import { getHeaders } from "../../../service/getHeaders";
-import { WithDrawal } from "../util/withdrawalData";
-
+import { get } from "../../../service/connection";
 
 
 
 export const getWithdraw = async () => {
 
-    const headers = getHeaders();
 
-    const req = await api.get<WithDrawal[]>('/saques/0',{
-        headers,
-    });
+    const req:WithDrawal[] = await get('/saques/0');
 
 
-    return req.data;
+    return req;
 
 
 }

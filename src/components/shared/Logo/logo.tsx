@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import biodermisLogo from '../../../assets/logo-biodermis.png';
-import { HOME } from '../../../constants/paths/paths';
+import { HOME } from '../../../constants/paths';
 
 
 export const Logo = () => {

@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 
-
-
 export const MoneyDataCardRoot = ({children}:{children:ReactNode}) => {
 
     return (

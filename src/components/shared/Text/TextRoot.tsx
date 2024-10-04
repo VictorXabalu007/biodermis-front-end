@@ -1,6 +1,4 @@
 import { twMerge } from "tailwind-merge"
-import { TextRootProps } from "../@types/TextRootProps"
-
 
 
 export const TextRoot = ({className,children}:TextRootProps) => {

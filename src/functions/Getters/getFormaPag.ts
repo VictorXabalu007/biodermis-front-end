@@ -1,6 +1,5 @@
 
 
-
 export const getFormaPag = (id:number) => {
     
 

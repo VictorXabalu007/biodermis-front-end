@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { ProductsType } from "./service/getProducts";
-import { useTableData } from "./hooks/useTableData";
+import { useTableData } from "../../hooks/products/useTableData";
 import { TableWrapper } from "../shared/Table/table-wrapper";
 import {
   Avatar,
@@ -12,16 +11,14 @@ import {
   TableColumnType,
 } from "antd";
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
-import { REGISTER_PRODUCTS } from "../../constants/paths/paths";
+import { REGISTER_PRODUCTS } from "../../constants/paths";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import Select from "../shared/Input/select";
 import { SelectLabel } from "../shared/Input/select-label";
-import { CategoryType } from "../Categories/service/getCategory";
-import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { CATEGORIES } from "../../constants/sessionStorageKeys";
 import { useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
-import { useProductsData } from "./hooks/useProductsData";
-import { useCategoriesData } from "../Categories/hooks/useCategoriesData";
+import { useProductsData } from "../../hooks/products/useProductsData";
 import { useTableActions } from "../../hooks/useTableActions";
 import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import ExpandButton from "../shared/Button/expand-button";
@@ -29,6 +26,7 @@ import EyeButton from "../shared/Button/edit-button";
 import { ProductView } from "./product-description";
 import DeleteButton from "../shared/Button/delete-button";
 import FilterButton from "../shared/Button/filter-button";
+import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
 
 export const ProductsTable = () => {
 
@@ -42,7 +40,7 @@ export const ProductsTable = () => {
 
   const { state } = useCategoryFilter();
 
-  const handleExpand = (record: ProductsType) => {
+  const handleExpand = (record: Product) => {
     const key = record.id;
     setExpandedRowKeys((prev) => {
       if (prev.includes(key)) {
@@ -55,7 +53,7 @@ export const ProductsTable = () => {
 
   const navigate = useNavigate();
 
-  const dataCategories: CategoryType[] =
+  const dataCategories: Category[] =
     JSON.parse(sessionStorage.getItem(CATEGORIES) ?? "[]") || [];
 
   const { 
@@ -109,7 +107,7 @@ export const ProductsTable = () => {
     navigate(`edit/${id}`);
   };
 
-  const handleDelete = (record:ProductsType) => {
+  const handleDelete = (record:Product) => {
     deleteProduct.mutate(record)
     
   }
@@ -135,7 +133,7 @@ export const ProductsTable = () => {
     })),
   ];
 
-  const columns: TableColumnType<ProductsType>[] = [
+  const columns: TableColumnType<Product>[] = [
     {
         title: () =>
 

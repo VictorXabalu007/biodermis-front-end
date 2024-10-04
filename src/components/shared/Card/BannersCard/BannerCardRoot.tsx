@@ -2,13 +2,11 @@ import { Button, Card, CardProps, Flex, Image, Popconfirm, Tooltip, Typography }
 import {  useState } from "react";
 import { FaEye, FaStar, FaTag, FaTrash } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
-import { BannerTitle } from "../../../Banners/@types/BannerType";
 import { LuCrown } from "react-icons/lu";
 import { IconBaseProps } from "react-icons/lib";
-
 import { API_URL } from "../../../../service/url";
 import { api } from "../../../../service/connection";
-import { useMessageAction } from "../../../../hooks/useMessageAction/useMessageAction";
+import { useMessageAction } from "../../../../hooks/useMessageAction";
 import { getHeaders } from "../../../../service/getHeaders";
 import { isValidURL } from "../../../../functions/Validators/isLink";
 import BannerEditModal from "../../../Banners/banner-edit-modal";

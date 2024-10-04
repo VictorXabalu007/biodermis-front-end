@@ -1,20 +1,21 @@
 
-import { useCategoriesData } from "./hooks/useCategoriesData";
+
 import { CardsFilter } from "./cards-filter";
 import { TableWrapper } from "../shared/Table/table-wrapper";
 import { Col, Empty, Modal, Row, Skeleton } from "antd";
 import { CategoriesCard } from "../shared/Card/CategoriesCard";
 import { useMutation } from "@tanstack/react-query";
-import { useMessageAction } from "../../hooks/useMessageAction/useMessageAction";
+import { useMessageAction } from "../../hooks/useMessageAction";
 import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
 import { FlexWrapper } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { PRODUCTS } from "../../constants/paths/paths";
+import { PRODUCTS } from "../../constants/paths";
 import { CategoryFilterActions, useCategoryFilter } from "../../context/CategoryFilterContext/CategoryFilterContext";
-import { SELECTED_MENU_KEY } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { SELECTED_MENU_KEY } from "../../constants/sessionStorageKeys";
 import { ContainerPagination } from "../shared/Pagination/container-pagination";
-import { usePagination } from "../../hooks/usePagination/usePagination";
+import { usePagination } from "../../hooks/usePagination";
+import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
 
 
 const PAGE_SIZE  = 9;

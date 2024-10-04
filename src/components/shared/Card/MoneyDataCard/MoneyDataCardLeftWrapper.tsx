@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
 
-
 export const MoneyDataCardLeftWrapper = ({children}:{children:ReactNode}) => {
 
     return (

@@ -2,8 +2,6 @@
 import { Flex } from "antd";
 import { Text } from "../../Text";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
-import { RequestStatusChange } from "../../../Requests/hooks/useRequestsData";
-
 
 type PercentualProps = {
     percentual: string;

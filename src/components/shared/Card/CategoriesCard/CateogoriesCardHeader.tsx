@@ -1,8 +1,8 @@
 import {  Flex } from "antd"
-import { Heading } from "../../Heading"
 import { BiCategory } from "react-icons/bi"
 
 import DeleteButton from "../../Button/delete-button"
+import Title from "../../Typography/typography-title"
 
 
 
@@ -27,9 +27,9 @@ export const CategoriesCardHeader = ({title,onDelete}:HeaderProps) => {
                 </Flex>
 
 
-                <Heading.Root>
-                    <Heading.Content content={title} />
-                </Heading.Root>
+                <Title>
+                    {title}
+                </Title>
 
 
             </Flex>

@@ -1,8 +1,5 @@
 
 
-
-
-
 export const formatInCep = (cep: string) => {
 
     const formattedCep = cep.replace(/\D/g, '');

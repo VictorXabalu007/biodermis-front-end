@@ -1,11 +1,7 @@
-import { api } from "../../../service/connection";
-import { getHeaders } from "../../../service/getHeaders";
-import { ProductsType } from "./getProducts";
+import { put } from "../../../service/connection";
 
 
-
-
-export const updateProduct = async (data:ProductsType,id:number,) => {
+export const updateProduct = async (data:Product,id:number,) => {
 
     
     const body = {
@@ -22,14 +18,11 @@ export const updateProduct = async (data:ProductsType,id:number,) => {
       }
     
     
-    const headers = getHeaders();
 
     try {
         
-        const req = await api.patch(`/produtos/${id}`,body,{
-            headers
-        })
-        return req.data
+        const req = await put(`/produtos/${id}`,body)
+        return req
 
     } catch (e:any) {
         

@@ -1,29 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import { TableActionsProps } from "../../@types/TableActions/TableActions";
-import { ProductsType } from "./service/getProducts";
-import { CategoryType } from "../Categories/service/getCategory";
 
-import { useProductUpdate } from "./hooks/useProductUpdate";
+
+import { useProductUpdate } from "../../hooks/products/useProductUpdate";
 import { Button, Col, Flex, Form, Image, InputRef, Row, Select } from "antd";
 import { Controller } from "react-hook-form";
 
 import InputMoney from "../shared/Input/input-money";
-import { CATEGORIES } from "../../constants/SessionStorageKeys/sessionStorageKeys";
+import { CATEGORIES } from "../../constants/sessionStorageKeys";
 import FlatInput from "../shared/Input/flat-input";
 
 
-
-export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
+export const ProductView = ({data}: {data:Product}) => {
 
   
   const [isEditable, setIsEditable] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const productNameRef = useRef<InputRef>(null);
   
-  const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
+  const dataCategories:Category[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
 
 
-  const [fields, setFields] = useState<ProductsType>({} as ProductsType);
+  const [fields, setFields] = useState<Product>({} as Product);
 
   useEffect(()=> {
     if(data){
@@ -82,7 +79,7 @@ export const ProductView = ({data}: TableActionsProps<ProductsType>) => {
   },[err]);
 
   const renderField = (
-    fieldName: keyof ProductsType,
+    fieldName: keyof Product,
     label: string,
     fieldType?: "text" | "number" | "select" | "money",
   ) => {

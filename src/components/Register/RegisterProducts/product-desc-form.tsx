@@ -1,9 +1,5 @@
 
-import { RegisterFieldProps } from "../@types/RegisterFieldsProps";
-
-
-import { CategoryType } from "../../Categories/service/getCategory";
-import { CATEGORIES } from "../../../constants/SessionStorageKeys/sessionStorageKeys";
+import { CATEGORIES } from "../../../constants/sessionStorageKeys";
 import { Flex, Form } from "antd";
 import { ProductsData } from "../../../validations/registerProductValidation";
 import { SubHeader } from "../../shared/SubHeader/sub-header";
@@ -13,11 +9,9 @@ import { Controller } from "react-hook-form";
 import { QuillInput } from "../../shared/Input/QuillInput";
 
 
-
-
 export const ProductsDescForm = ({control,errors}:RegisterFieldProps<ProductsData>) => {
 
-    const dataCategories:CategoryType[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
+    const dataCategories:Category[] = JSON.parse(sessionStorage.getItem(CATEGORIES) ?? '{}') || []
     
     const categories = [
         ...dataCategories.map(d => ({

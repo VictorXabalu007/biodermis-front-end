@@ -1,9 +1,8 @@
-import { Heading } from "../../Heading"
-import { Text } from "../../Text"
+
+
+import Title from "../../Typography/typography-title"
 
 type MoneyCardTextProps = {
-
-
 
     title: string,
     subtitle: string,
@@ -16,17 +15,17 @@ export const MoneyDataCardText = ({title, subtitle}:MoneyCardTextProps) => {
 
         <div>
 
-        <Heading.Root className="text-md">
+        <Title className="text-md">
 
-            <Heading.Content content={title} />
+          {title}
 
-        </Heading.Root>
+        </Title>
 
-            <Text.Root className="font-medium text-gray-neutral-600">
+            <p className="font-medium text-gray-neutral-600">
                 
-                <Text.Content content={subtitle}/>
+              {subtitle}
 
-            </Text.Root>
+            </p>
 
 
         </div>
