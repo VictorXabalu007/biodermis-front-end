@@ -58,7 +58,7 @@ const WithdrawalTable = () => {
     if (status === "") {
       setFilteredData(initialData);
     } else {
-      setFilteredData((prev) => prev.filter((d) => d.status === status));
+      setFilteredData(initialData.filter((d) => d.status === status));
     }
   };
 
@@ -133,9 +133,9 @@ const WithdrawalTable = () => {
       title: "Status",
       render: (value, record) => {
         switch (value) {
-          case "aprovado":
+          case "realizado":
             return (
-              <div className="px-3 py-2 bg-green-solid-300/75 rounded-md flex items-center gap-2">
+              <div className="px-3 py-2 bg-green-solid-300/75 rounded-md max-w-[120px] flex items-center gap-2">
                 <Text className="text-green-solid-900">Pago</Text>
 
                 <IoMdCheckmarkCircleOutline className="text-green-solid-900 text-xl" />
@@ -156,6 +156,8 @@ const WithdrawalTable = () => {
     },
   ];
 
+  console.log(withDrawData);
+  
   const onFilter = (value:string) => {
 
     

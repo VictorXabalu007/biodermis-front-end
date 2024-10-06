@@ -15,7 +15,7 @@ export const MoneyDataCardText = ({title, subtitle}:MoneyCardTextProps) => {
 
         <div>
 
-        <Title className="text-md">
+        <Title level={5}>
 
           {title}
 

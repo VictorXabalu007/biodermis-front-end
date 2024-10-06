@@ -54,10 +54,9 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
                 <div className="bg-brand-purple/25 rounded-md p-3">
                         <TfiWallet className="text-brand-purple" />
                     </div>
-                <Title className="font-semibold text-[20px] text-black">
+                <Title level={4} className="font-semibold text-black">
                     
-                 
-
+                
                     {title} 
 
                 </Title>

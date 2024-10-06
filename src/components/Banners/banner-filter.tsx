@@ -7,7 +7,6 @@ import BannerRegisterModal from "./banner-register-modal"
 import { Button, Flex, Input } from "antd"
 import { SearchIcon } from "../shared/Icon/search"
 import { useBannerData } from "../../hooks/banners/useBannerData"
-import { normalizeText } from "../../functions/normalize-text"
 
 
 type Props = {
@@ -17,19 +16,19 @@ type Props = {
 
 const selectItems = [
     {
-        value: "",
+        value: 0,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Todos" />
     },
     {
-        value: "promocao",
+        value: 2,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Promoção" />
     },
     {
-        value: "mais vendidos",
+        value: 3,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Mais vendidos" />
     },
     {
-        value: "principal",
+        value: 1,
         label: <SelectLabel onBold="Filtrar por: " afterBold="Principal" />
     },
 ]
@@ -52,14 +51,12 @@ const BannersFilters = ({setData}:Props) => {
     }
 
 
-    const handleSelectChange = (value:string) => {
+    const handleSelectChange = (value:number) => {
 
-
-        const normalizedValue = normalizeText(value)
-        if(normalizedValue === "") {
+        if(value === 0) {
             setData(initialData)
         } else {
-            setData(initialData.filter(p => normalizeText(p.titulo).includes(normalizedValue)))
+            setData(initialData.filter(p => p.id === value))
         }
 
     }
