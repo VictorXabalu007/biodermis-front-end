@@ -19,7 +19,7 @@ import {
   sellChannelOptions,
   statusOptions,
 } from "./util/selectOptions";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import { IoFilter } from "react-icons/io5";
 import EyeButton from "../shared/Button/edit-button";
@@ -36,6 +36,8 @@ import { RequestEditor } from "./update-delivery-request-modal";
 
 import { useRequestUpdate } from "../../hooks/orders/useRequestUpdate";
 import { useRequestTableFilters } from "../../hooks/orders/useRequestTableFilters";
+import SearchInput from "../shared/Input/search-input";
+import { normalizeText } from "../../functions/normalize-text";
 
 
 const RequestsTable = () => {
@@ -47,12 +49,11 @@ const RequestsTable = () => {
     dowloadPdf
   } = useRequestTable();
 
-  const { filteredData, setFilteredData, rowClassName, getColumnSearchProps,clearAllFilters } =
+  const { filteredData, setFilteredData, rowClassName,clearAllFilters } =
     useTableActions({
       data,
       setData,
     });
-
 
 
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
@@ -80,12 +81,10 @@ const RequestsTable = () => {
         render: (value) => value < 10 ? '0' + value : value,
         sorter: (a, b) => a.id - b.id,
         align: 'center',
-        ...getColumnSearchProps('id', 'Pedidos'),
     },
     {
         dataIndex:'nome_consultor',
         title: 'Consultor',
-        ...getColumnSearchProps('nome_consultor', 'Consultor'),
         sorter: (a, b) => a.nome_consultor.localeCompare(b.nome_consultor),
     },
     {
@@ -100,7 +99,6 @@ const RequestsTable = () => {
           }
         },
         render: (value) => value || 'Cliente não informado',
-        ...getColumnSearchProps('nomeCliente', 'Cliente'),
     },
     {
         dataIndex:'statuspag',
@@ -194,6 +192,28 @@ const RequestsTable = () => {
     filteredData
   })
 
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    const value = e.target.value;
+
+    const filtered = data.filter((item) => {
+     
+      const id = normalizeText(String(item.id));
+      const consultor = normalizeText(item.nome_consultor);
+      const cliente = normalizeText(item.nomeCliente);
+
+      return (
+        id.includes(value) ||
+        consultor.includes(value) ||
+        cliente.includes(value)
+      )
+
+
+    });
+
+
+    setFilteredData(filtered)
+  }
+
 
   return (
 
@@ -206,42 +226,51 @@ const RequestsTable = () => {
             align="center"
             gap={10}
             className="w-full md:flex-nowrap flex-wrap"
+            wrap
           >
-            <Flex className="w-full" wrap gap={10}>
-              <Flex className="w-full" justify="space-between" align="center">
+            <Flex align="start" justify="space-between" className="w-full" gap={10}>
+
+              <Flex gap={15} vertical >
+
+              <Flex gap={15}>
+
+              <SearchInput onChange={handleSearch} placeholder="Pesquisar por pedido, consultor, cliente etc" />
 
                 {!showFilters &&
-                <Button size="large" onClick={handleOpenFilters}>
-                  <Flex gap={5} align="center">
 
-                    Filtros avançados
-               
-                      <IoFilter />
-                 
-                  </Flex>
-                </Button>
+                  <Button size="large" onClick={handleOpenFilters}>
+                    <Flex gap={5} align="center">
+
+                      Filtros avançados
+                
+                        <IoFilter />
+                  
+                    </Flex>
+                  </Button>
       
                 }
 
                 {showFilters &&
-                <Button size="large" onClick={()=> {
-                  clearAllFilters()
-                  setShowFilters(false)
-                }}>
-                  <Flex gap={5} align="center">
-                    Ocultar filtros
-               
-               <MdOutlineCancelPresentation/>
-                 
-                  </Flex>
-                </Button>
+                  <Button size="large" onClick={()=> {
+                    clearAllFilters()
+                    setShowFilters(false)
+                  }}>
+                    <Flex gap={5} align="center">
+                      Ocultar filtros
+                
+                <MdOutlineCancelPresentation/>
+                  
+                    </Flex>
+                  </Button>
       
                 }
 
-                <InputRangePicker />
+
+
               </Flex>
 
-              <div className="flex w-full items-center flex-wrap gap-4">
+              <div className="flex items-center flex-wrap gap-4">
+
                 {showFilters && (
                   <Flex gap={5}>
 
@@ -249,7 +278,7 @@ const RequestsTable = () => {
                       className="w-full md:w-auto"
                       options={daysOptions}
                       defaultValue={daysOptions[0]}
-                     
+                    
                       onChange={handleDaysChange}
                     />
 
@@ -263,7 +292,7 @@ const RequestsTable = () => {
                     <Select
                       className="w-full md:w-[200px]"
                       options={deliveryOptions}
-                   
+                  
                       onChange={handleOrderStatusChange}
                       defaultValue={deliveryOptions[0]}
                     />
@@ -276,7 +305,11 @@ const RequestsTable = () => {
                     />
                   </Flex>
                 )}
-              </div>
+                </div>
+
+              </Flex>
+
+              <InputRangePicker />
             </Flex>
           </Flex>
         </Flex>

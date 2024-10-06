@@ -5,7 +5,7 @@ import { SelectLabel } from "../../shared/Input/select-label";
 
 export const userSelectOptions = [
     {
-        value: '',
+        value: 0,
         label: <SelectLabel onBold="Tipo: " afterBold="Todos" />
     },
     {

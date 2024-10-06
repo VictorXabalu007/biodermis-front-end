@@ -6,15 +6,15 @@ import { Dispatch, useEffect, useState } from "react";
 import { FormModal } from "./register-category-modal";
 import { useCategoryRegister } from "../../hooks/categories/useCategoryRegister";
 import { SearchIcon } from "../shared/Icon/search";
+import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
 
 type CardFilterProps = {
-    data:Category[] | undefined,
     setData:Dispatch<React.SetStateAction<Category[]>>
 }
 
-export const CardsFilter = ({data,setData}:CardFilterProps) => {
+export const CardsFilter = ({setData}:CardFilterProps) => {
 
-    const [initialData, setInitialData] = useState<Category[]>([]);
+    const {data:initialData} = useCategoriesData();
     const [categoryName, setCategoryName] = useState<string>('');
     const [open, setOpen] = useState(false);
 
@@ -29,22 +29,19 @@ export const CardsFilter = ({data,setData}:CardFilterProps) => {
       onSubmit
     } = useCategoryRegister();
   
-    useEffect(() => {
-
-      if (data && data?.length > 0 && initialData.length === 0) {
-        setInitialData(data);
-      }
-    
-    }, []);
   
     useEffect(() => {
+
       if (categoryName.trim() === '') {
         setData(initialData);
       } else {
+
         const filteredData = initialData.filter(p =>
           p.categoria.toLowerCase().includes(categoryName.toLowerCase())
         );
+
         setData(filteredData);
+
       }
     }, [categoryName, initialData, setData]);
   

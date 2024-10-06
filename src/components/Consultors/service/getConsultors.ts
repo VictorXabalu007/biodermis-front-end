@@ -1,10 +1,21 @@
-import { get } from "../../../service/connection";
+import { api } from "../../../service/connection";
+import { getHeaders } from "../../../service/getHeaders";
 
 
 export const getConsultors = async () => {
 
-        const req = await get('/consultores/0')
+        try {
+                const headers = getHeaders();
+        
+                const req = await api.get('/consultores/0',{
+                        headers
+                })
+        
+                return req.data;
 
-        return req;
+        } catch (e:any) {
+                console.log('Erro ao pegar consultores: ', e);
+                
+        }
 
 }

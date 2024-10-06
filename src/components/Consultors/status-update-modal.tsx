@@ -1,14 +1,13 @@
-import { Button, Flex, Form, Typography } from "antd"
+import { Button, Flex, Form, Select, Typography } from "antd"
 import { SelectLabel } from "../shared/Input/select-label"
-import Select from "react-select"
 import { Controller, useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { buildStatus } from "../../functions/buildStatus"
 import { useMutation } from "@tanstack/react-query"
 import { api } from "../../service/connection"
-import { getHeaders } from "../../service/getHeaders"
 import { useMessageAction } from "../../hooks/useMessageAction"
+import { getHeaders } from "../../service/getHeaders"
 
 const {Title} = Typography
 
@@ -54,12 +53,11 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
     const updateStatus = useMutation({
         mutationFn: async (statusData:StatusData)=> {
 
-            const headers = getHeaders();
-
             const body = {
                 opt: statusData.status
             }
 
+            const headers = getHeaders();
             const req = await api.patch(`/consultores/${data.id}`,body,{
                 headers
             })
@@ -77,7 +75,9 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
         },
         onError:(err:any)=> {
             
-            error(err.response.data.error)
+            console.log(err);
+            
+            error(err.response.data.error || "Ops, um erro ocorreu!")
             
         },
     })
@@ -117,20 +117,13 @@ export const StatusModal = ({data,handleClose}:StatusModalProps) => {
                         >
 
                             <Select
-                                theme={theme => ({
-                                    ...theme,
-                                    borderRadius: 5,
-                                    colors: {
-                                    ...theme.colors,
-                                    text: 'orangered',
-                                    primary25: '#dedede',
-                                    primary: '#F7ECF4',
-                                    },
-                                
-                                })}
                                 placeholder={"selecione"}
                                 options={selectOps}
-                                onChange={(op)=>field.onChange(op?.value)}
+                                onChange={(e)=>{
+                                    console.log(e);
+                                    
+                                    field.onChange(e)
+                                }}
                                 
                             />
 

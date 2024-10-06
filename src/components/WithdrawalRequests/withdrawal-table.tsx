@@ -19,22 +19,28 @@ import { useTableActions } from "../../hooks/useTableActions";
 
 import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { UploadComprovantModal } from "./upload-comprovant-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "../shared/Typography/typography-text";
 import { IoIosArrowForward, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useComprovantRegister } from "../../hooks/withdraw/useComprovantRegister";
 import FilterButton from "../shared/Button/filter-button";
 import Select from "../shared/Input/select";
 import { useConsultorData } from "../../hooks/users/useConsultorData";
+import SearchInput from "../shared/Input/search-input";
+import { urlParams } from "../../util/urlParams";
+import { normalizeText } from "../../functions/normalize-text";
+import { useNavigate } from "react-router-dom";
 
 const WithdrawalTable = () => {
-  const { withDrawData, setWithdrawData, isLoading } = useTableData();
 
+  const { withDrawData, setWithdrawData, isLoading } = useTableData();
+  const [searchValue, setSearchValue] = useState("");
   const { withDrawData: initialData } = useTableData();
   const [currentWithdraw, setCurrentWithdraw] = useState<WithDrawal>(
     {} as WithDrawal
   );
 
+  const navigate = useNavigate();
   const {
     getColumnSearchProps,
     filteredData,
@@ -48,11 +54,11 @@ const WithdrawalTable = () => {
 
   const { getConsultorImageById } = useConsultorData();
 
-  const handleStatusChange = (status: { value: string } | null) => {
-    if (status?.value === "") {
+  const handleStatusChange = (status:string) => {
+    if (status === "") {
       setFilteredData(initialData);
     } else {
-      setFilteredData((prev) => prev.filter((d) => d.status === status?.value));
+      setFilteredData((prev) => prev.filter((d) => d.status === status));
     }
   };
 
@@ -150,6 +156,59 @@ const WithdrawalTable = () => {
     },
   ];
 
+  const onFilter = (value:string) => {
+
+    
+    const filtered = withDrawData.filter((item) => {
+     
+      const name = normalizeText(item.nome_consultor);
+      const price = normalizeText(item.valorsaque);
+      const date = normalizeText(item.datasaque);
+
+
+      return (
+        name.includes(value) || 
+        price.includes(value) || 
+        date.includes(value) ||
+        date.replace('/','').replace('/', '').includes(value)
+      )
+
+
+    });
+
+
+    setFilteredData(filtered)
+
+  }
+
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    
+    const value = normalizeText(e.target.value)
+
+    setSearchValue(e.target.value)
+    urlParams.set("search", value);
+    navigate({
+      pathname: window.location.pathname,
+      search: `${urlParams.toString()}`
+    });
+
+    onFilter(value)
+
+  }
+
+
+
+  useEffect(() => {
+
+    const search = urlParams.get("search");
+    
+
+    if (search) {
+      setSearchValue(search)
+      onFilter(search)
+    } 
+  }, [withDrawData]); 
+
   return (
     <>
       <TableWrapper>
@@ -158,6 +217,7 @@ const WithdrawalTable = () => {
         <TableHeaderWrapper heading="Pedidos de saque">
           <Flex wrap justify="space-between" align="center">
             <Flex gap={15}>
+            <SearchInput value={searchValue} placeholder="Pesquisar por preço ou nome" onChange={handleSearch} />
               <Select
                 className="w-full md:w-auto"
                 options={withdrawalSelectOptions}

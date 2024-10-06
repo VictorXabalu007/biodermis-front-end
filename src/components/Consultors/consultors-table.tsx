@@ -28,13 +28,16 @@ import FilterButton from "../shared/Button/filter-button";
 import DowloadButton from "../shared/Button/download-button";
 import { downloadCertified } from "../../functions/download-certified";
 import { useConsultorData } from "../../hooks/users/useConsultorData";
+import { normalizeText } from "../../functions/normalize-text";
+import SearchInput from "../shared/Input/search-input";
+import { urlParams } from "../../util/urlParams";
 
 
 const ConsultorsTable = () => {
 
   const { consultor, setConsultor, isLoading } = useConsultorData();
   const {consultor:initialData} = useConsultorData();
-
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(()=> {
     if(consultor){
@@ -43,7 +46,6 @@ const ConsultorsTable = () => {
   },[consultor,initialData])
 
   const { 
-    getColumnSearchProps,
     clearAllFilters,
     filteredData,
     setFilteredData,
@@ -72,12 +74,12 @@ const ConsultorsTable = () => {
      
   }
 
-  const handleStatusChange = (selectedOption: any) => {
-    if (selectedOption.value === "") {
+  const handleStatusChange = (selectedOption: string) => {
+    if (selectedOption === "") {
       setFilteredData(initialData); 
     } else {
       const filtered = consultor.filter(
-        (item) => item.status === selectedOption.value
+        (item) => item.status === selectedOption
       );
       setFilteredData(filtered);
     }
@@ -113,20 +115,17 @@ const ConsultorsTable = () => {
       title: "Nomes",
       dataIndex: "nome",
       key: "nome",
-      ...getColumnSearchProps("nome", "Nome"),
       sorter: (a, b) => a.nome.localeCompare(b.nome),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      ...getColumnSearchProps("email", "Email"),
     },
     {
       title: "Telefone",
       dataIndex: "telefone",
       key: "telefone",
-      ...getColumnSearchProps("telefone", "Telefone"),
       sorter: (a, b) => a.nome.localeCompare(b.nome),
     },
     {
@@ -166,6 +165,59 @@ const ConsultorsTable = () => {
     },
   ];
 
+  const onFilter = (value:string) => {
+
+    
+    const filtered = consultor.filter((item) => {
+     
+      const name = normalizeText(item.nome);
+      const email = normalizeText(item.email);
+      const phone = normalizeText(item.telefone);
+
+
+      return (
+        name.includes(value) || 
+        email.includes(value) ||
+        phone.includes(value)
+      )
+
+
+    });
+
+
+    setFilteredData(filtered)
+
+  }
+
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    
+    const value = normalizeText(e.target.value)
+
+    setSearchValue(e.target.value)
+    urlParams.set("search", value);
+    navigate({
+      pathname: window.location.pathname,
+      search: `${urlParams.toString()}`
+    });
+
+    onFilter(value)
+
+  }
+
+
+
+  useEffect(() => {
+
+    const search = urlParams.get("search");
+    
+
+    if (search) {
+      setSearchValue(search)
+      onFilter(search)
+    } 
+  }, [consultor]); 
+
+
   return (
 
     <>
@@ -173,8 +225,8 @@ const ConsultorsTable = () => {
         <TableHeaderWrapper heading="Lista de consultores">
           <Flex wrap justify="space-between" align="center">
             <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
+              <SearchInput value={searchValue} placeholder="Pesquisar por nome, email, telefone" onChange={handleSearch} />
               <Select
-                isSearchable
                 options={userStatusOptions}
                 onChange={handleStatusChange}
                 defaultValue={userStatusOptions[0]}

@@ -1,7 +1,10 @@
 import { CiSearch } from "react-icons/ci"
+import { IconBaseProps } from "react-icons/lib"
 
-export const SearchIcon = () => {
+export const SearchIcon = ({...rest}:IconBaseProps) => {
+
     return (
-        <CiSearch className="fill-gray-neutral-400 text-xl" />
+        <CiSearch {...rest} className="fill-gray-neutral-400 text-xl" />
     )
+    
 }

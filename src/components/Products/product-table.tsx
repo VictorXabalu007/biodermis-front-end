@@ -27,10 +27,14 @@ import { ProductView } from "./product-description";
 import DeleteButton from "../shared/Button/delete-button";
 import FilterButton from "../shared/Button/filter-button";
 import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
+import SearchInput from "../shared/Input/search-input";
+import { urlParams } from "../../util/urlParams";
+import { normalizeText } from "../../functions/normalize-text";
 
 export const ProductsTable = () => {
 
   const { products, setProducts, isLoading, deleteProduct,contextHolder } = useTableData();
+  const [searchValue, setSearchValue] = useState("");
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
@@ -74,11 +78,9 @@ export const ProductsTable = () => {
       setData: setProducts,
     });
 
-  const handleCategoriesChange = (selectedOption: {
-    value: string | number;
-    label: string;
-  }) => {
-    const categoryId = selectedOption.value;
+  const handleCategoriesChange = (selectedOption:string) => {
+
+    const categoryId = selectedOption;
 
     if (categoryId !== "") {
       setFilteredData((prev) =>
@@ -87,6 +89,7 @@ export const ProductsTable = () => {
     } else {
       setFilteredData(initialData);
     }
+    
   };
 
   useEffect(() => {
@@ -218,6 +221,58 @@ export const ProductsTable = () => {
     },
   ];
 
+  const onFilter = (value:string) => {
+
+    
+    const filtered = products.filter((item) => {
+     
+      const name = normalizeText(item.nome);
+      const price = normalizeText(item.valorvenda);
+
+
+      return (
+        name.includes(value) || 
+        price.includes(value) 
+
+      )
+
+
+    });
+
+
+    setFilteredData(filtered)
+
+  }
+
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    
+    const value = normalizeText(e.target.value)
+
+    setSearchValue(e.target.value)
+    urlParams.set("search", value);
+    navigate({
+      pathname: window.location.pathname,
+      search: `${urlParams.toString()}`
+    });
+
+    onFilter(value)
+
+  }
+
+
+
+  useEffect(() => {
+
+    const search = urlParams.get("search");
+    
+
+    if (search) {
+      setSearchValue(search)
+      onFilter(search)
+    } 
+  }, [products]); 
+
+
   return (
     
     <TableWrapper>
@@ -225,6 +280,7 @@ export const ProductsTable = () => {
       <TableHeaderWrapper heading="Produtos gerais">
         <Flex wrap justify="space-between" align="center">
           <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
+            <SearchInput value={searchValue} placeholder="Pesquisar por preço ou nome" onChange={handleSearch} />
             <Select
               options={categories}
               defaultValue={categories[state.default_index ?? 0]}

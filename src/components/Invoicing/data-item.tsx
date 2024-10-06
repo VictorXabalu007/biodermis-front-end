@@ -51,11 +51,12 @@ export const DataItem = ({title, subtitle, cardData, cardType}:DataItemProps) =>
                 
             <Flex align="center" gap={15} className = "mb-10">
 
-                <Title className="font-semibold text-[20px] text-black">
-                    
-                    <div className="bg-brand-purple/25 rounded-md p-3">
+                <div className="bg-brand-purple/25 rounded-md p-3">
                         <TfiWallet className="text-brand-purple" />
                     </div>
+                <Title className="font-semibold text-[20px] text-black">
+                    
+                 
 
                     {title} 
 

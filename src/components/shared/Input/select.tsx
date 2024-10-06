@@ -1,36 +1,15 @@
 
-import ReactSelect, { Props } from 'react-select';
+import {Select as AntdSelect} from 'antd'
+import { SelectProps } from 'antd/lib';
 
-const Select = (props: Props<any>) => (
+const Select = ({...rest}:SelectProps) => (
   
-  <ReactSelect
-    {...props}
+  <AntdSelect
+    {...rest}
     placeholder="selecione"
-    styles={{
-      control: provided => ({
-        ...provided,
-        padding: '2px 0',
-        minWidth: '200px',
-        width: 'auto',
-     
-      }),
-      menu: provided => ({
-        ...provided,
-        zIndex: 999
-      }),
-      ...props.styles,
-    }}
-    theme={theme => ({
-      ...theme,
-      borderRadius: 5,
-      colors: {
-        ...theme.colors,
-        text: 'orangered',
-        primary25: '#B475A5',
-        primary: '#C882B7',
-      },
-      ...props.theme,
-    })}
+    size='large'
+    className='min-w-[250px]'
+    showSearch
   />
 );
 

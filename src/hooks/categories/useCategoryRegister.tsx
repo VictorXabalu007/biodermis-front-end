@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { getHeaders } from "../../service/getHeaders";
-import { api } from "../../service/connection";
+import {  post } from "../../service/connection";
 import { useMessageAction } from "../useMessageAction";
+import { useMutation } from "@tanstack/react-query";
 
 
 const categoryRegisterSchema = z.object({
@@ -17,26 +17,28 @@ export const useCategoryRegister = () => {
 
     const {contextHolder,success,error} = useMessageAction()
 
+    const categoryRegisterMutation = useMutation({
+        mutationFn: async (data:CategoryRegisterType) => {
 
-    const onSubmit = async (data:CategoryRegisterType) => {
-
-        const headers = getHeaders();
-
-        const req = await api.post('/categorias',{...data}, {
-            headers
-        })
-
-        if(req.status === 201){
+            const req = await post('/categorias',{...data})
+            return req
+        },
+        onSuccess: () => {
             success("Categoria cadastrada com sucesso")
             setTimeout(()=> {
                 window.location.reload()
             },1000);
-      
-        } else {
+        },
+        onError: (err) => {
+            console.log(err)
             error('Algum erro ocorreu')
-        }
-        
-        
+        },
+    })
+
+    const onSubmit = async (data:CategoryRegisterType) => {
+
+        categoryRegisterMutation.mutate(data)
+          
     }
 
 

@@ -7,6 +7,7 @@ import BannerRegisterModal from "./banner-register-modal"
 import { Button, Flex, Input } from "antd"
 import { SearchIcon } from "../shared/Icon/search"
 import { useBannerData } from "../../hooks/banners/useBannerData"
+import { normalizeText } from "../../functions/normalize-text"
 
 
 type Props = {
@@ -16,19 +17,19 @@ type Props = {
 
 const selectItems = [
     {
-        value: '',
+        value: "",
         label: <SelectLabel onBold="Filtrar por: " afterBold="Todos" />
     },
     {
-        value: 2,
+        value: "promocao",
         label: <SelectLabel onBold="Filtrar por: " afterBold="Promoção" />
     },
     {
-        value: 3,
+        value: "mais vendidos",
         label: <SelectLabel onBold="Filtrar por: " afterBold="Mais vendidos" />
     },
     {
-        value: 1,
+        value: "principal",
         label: <SelectLabel onBold="Filtrar por: " afterBold="Principal" />
     },
 ]
@@ -42,8 +43,9 @@ const BannersFilters = ({setData}:Props) => {
     const handleBannerNameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
         setBannerName(value)
+
         if(value!==''){
-            setData(prev => prev.filter(p => p.titulo.toLowerCase().includes(value.toLowerCase())))
+            setData(initialData.filter(p => p.titulo.toLowerCase().includes(value.toLowerCase())))
         } else {
             setData(initialData)
         }
@@ -52,10 +54,12 @@ const BannersFilters = ({setData}:Props) => {
 
     const handleSelectChange = (value:string) => {
 
-        if(value === '') {
+
+        const normalizedValue = normalizeText(value)
+        if(normalizedValue === "") {
             setData(initialData)
         } else {
-            setData(prev => prev.filter(p => p.id === parseFloat(value)))
+            setData(initialData.filter(p => normalizeText(p.titulo).includes(normalizedValue)))
         }
 
     }
@@ -79,9 +83,7 @@ const BannersFilters = ({setData}:Props) => {
                     placeholder="bucar banner"
                     suffix= {<SearchIcon />}
                     size="large"
-                    style={{
-                        height:'45px'
-                    }}
+
                   
                     
                 />
@@ -90,7 +92,7 @@ const BannersFilters = ({setData}:Props) => {
                     className="w-full md:w-[250px]"
                     defaultValue={selectItems[0]}
                     options={selectItems}
-                    onChange={(e) => handleSelectChange(e.value)}
+                    onChange={handleSelectChange}
                 />
 
             </Flex>

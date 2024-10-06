@@ -1,9 +1,16 @@
-import { get } from "../../../service/connection";
+
+import { api } from "../../../service/connection";
+import { getHeaders } from "../../../service/getHeaders";
 
 export const getUsers = async () => {
 
-    const req = await get('/usuarios/0');
+    const headers = getHeaders();
 
+    const req = await api.get('/usuarios/0',{
+        headers
+    });
+
+    
     return req.data
 
 }

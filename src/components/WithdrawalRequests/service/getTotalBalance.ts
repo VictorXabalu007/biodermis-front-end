@@ -1,10 +1,22 @@
-import { get } from "../../../service/connection";
+import { api } from "../../../service/connection";
+import { getHeaders } from "../../../service/getHeaders";
 
 
 export const getTotalBalance = async () => {
 
-    const req = await get('/saldodisp')
+    const headers = getHeaders();
+    try {
 
-    return req;
+        const req = await api.get('/saldodisp',{
+            headers
+        })
+
+        return req.data;
+
+    } catch(e:any) {
+        console.log('Erro ao pegar saldo disponível: ', e);
+        
+    }
+
 
 }

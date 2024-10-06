@@ -195,8 +195,8 @@ const EditBankData = () => {
                         onChange(bank);
                       }
                     }}
-                    isDisabled={isUser}
-                    isSearchable
+                    disabled={isUser}
+                    
                   />
                 </Input.Root>
               </Form.InputWrapper>

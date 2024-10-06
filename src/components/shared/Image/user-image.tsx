@@ -28,6 +28,7 @@ export const UserImage = ({className,image, imageClassname}:UserImageProps) => {
                 maxWidth: '200px',
                 maxHeight: '200px'
             }}
+            fallback={userImageFallback}
             className={twMerge("rounded-[100%] border border-brand-purple ",imageClassname)}
             alt="user image" 
             preview={false}

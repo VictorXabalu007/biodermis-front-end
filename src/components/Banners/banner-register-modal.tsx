@@ -92,7 +92,7 @@ const BannerRegisterModal = ({
             >
               <Select
                 options={bannerCategoryOptions}
-                onChange={(e) => onChange(e.value)}
+                onChange={(e) => onChange(e)}
                 id="title"
               />
             </Form.Item>

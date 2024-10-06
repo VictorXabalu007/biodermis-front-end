@@ -26,7 +26,6 @@ export const FormModal = ({control,errors}:Props) => {
                         name="categoria"
                         validateStatus={errors.categoria ? 'error' : 'success'}
                         help={errors.categoria && errors.categoria.message}
-                        hasFeedback
                         label="Nome da categoria"
                     >
 

@@ -14,15 +14,19 @@ import { IoMdClose } from "react-icons/io"
 import { colors } from "../../theme/colors.ts"
 import { ModalNavigator } from "../shared/Modal/modal-navigator.tsx"
 import { useTableActions } from "../../hooks/useTableActions.tsx"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { HiOutlinePencilAlt } from "react-icons/hi"
 import { getUserRole } from "../../util/userRole.ts"
 import FilterButton from "../shared/Button/filter-button.tsx"
 import DowloadButton from "../shared/Button/download-button.tsx"
 import { downloadCertified } from "../../functions/download-certified.ts"
+import SearchInput from "../shared/Input/search-input.tsx"
+import { urlParams } from "../../util/urlParams.ts"
+import { normalizeText } from "../../functions/normalize-text.ts"
 
 const UsersTable = () => {
 
+    const [searchValue, setSearchValue] = useState("");
     const {
          users,
          setUsers,
@@ -88,13 +92,14 @@ const UsersTable = () => {
   }
 
 
-  const handleUserRoleChange = (userRole: {value:number | string,label:string}) => {
+  const handleUserRoleChange = (userRole: number) => {
 
-    if(userRole?.value === '') {
+    if(userRole === 0) {
         setFilteredData(initialData)
+
     } else {
-        setFilteredData(prev => prev.filter(p => 
-            p.cargo_id === userRole.value
+        setFilteredData(initialData.filter(p => 
+            p.cargo_id === userRole
         ));
     }
      
@@ -189,6 +194,59 @@ const UsersTable = () => {
     },
   ];
 
+  const onFilter = (value:string) => {
+
+    
+    const filtered = users.filter((item) => {
+     
+      const name = normalizeText(item.nome);
+      const email = normalizeText(item.email);
+      const phone = normalizeText(item.telefone);
+
+
+      return (
+        name.includes(value) || 
+        email.includes(value) ||
+        phone.includes(value)
+      )
+
+
+    });
+
+
+    setFilteredData(filtered)
+
+  }
+
+  const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+    
+    const value = normalizeText(e.target.value)
+
+    setSearchValue(e.target.value)
+    urlParams.set("search", value);
+    navigate({
+      pathname: window.location.pathname,
+      search: `${urlParams.toString()}`
+    });
+
+    onFilter(value)
+
+  }
+
+
+
+  useEffect(() => {
+
+    const search = urlParams.get("search");
+    
+
+    if (search) {
+      setSearchValue(search)
+      onFilter(search)
+    } 
+  }, [users]); 
+
+
     
 
     return (
@@ -199,8 +257,10 @@ const UsersTable = () => {
         <TableHeaderWrapper heading="Lista de usuários">
           <Flex wrap justify="space-between" align="center">
             <Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
+            <SearchInput value={searchValue} placeholder="Pesquisar por nome, email, telefone" onChange={handleSearch} />
+
               <Select
-                isSearchable
+                
                 options={userSelectOptions}
                 onChange={handleUserRoleChange}
                 defaultValue={userSelectOptions[0]}

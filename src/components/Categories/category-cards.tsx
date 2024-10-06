@@ -145,7 +145,6 @@ const CategoryCardContainer = () => {
                     <>
 
                         <CardsFilter 
-                            data={data ?? []}
                             setData={setData}
                         />
 
@@ -160,9 +159,7 @@ const CategoryCardContainer = () => {
 
                         <>
 
-
                         <CardsFilter 
-                            data={data}
                             setData={setData}
                         />
 

@@ -1,23 +1,25 @@
 
 import axios from 'axios';
 import { API_URL } from './url';
-import { getHeaders } from './getHeaders';
 
-const http = axios.create({
+
+export const api = axios.create({
     baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json'
-    }
 });
 
-export const api = http;
 
-const headers = getHeaders();
+const token = JSON.parse(sessionStorage.getItem('token') ?? '{}');
 
 export const get = async (url: string) => {
 
+    if(!token) {
+        throw new Error('Token não encontrado');
+    }
+
     const res = await api.get(url,{
-        headers
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
     return res.data
@@ -26,8 +28,15 @@ export const get = async (url: string) => {
 
 export const post = async (url:string,payload:any) => {
 
+    
+    if(!token) {
+        throw new Error('Token não encontrado');
+    }
+
     const req = await api.post(url,payload,{
-        headers
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
     return req.data
@@ -36,8 +45,15 @@ export const post = async (url:string,payload:any) => {
 
 export const put = async (url:string,payload:any) => {
 
+    
+    if(!token) {
+        throw new Error('Token não encontrado');
+    }
+
     const req = await api.put(url,payload,{
-        headers
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
     return req.data
@@ -46,11 +62,17 @@ export const put = async (url:string,payload:any) => {
 
 export const del = async (url:string) => {
 
+    
+    if(!token) {
+        throw new Error('Token não encontrado');
+    }
+
     const req = await api.delete(url,{
-        headers
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
     return req.data
-
 
 }
