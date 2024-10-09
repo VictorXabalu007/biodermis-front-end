@@ -142,7 +142,7 @@ declare global {
         nome_consultor:string
         user_data: UserCredentials
         formaPag: string
-        nomeCliente: string
+        nomecliente: string
     
     }
 

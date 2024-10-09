@@ -2,10 +2,11 @@ import { Flex } from "antd";
 
 import { Text } from "../../Text"
 import Title from "../../Typography/typography-title";
+import React from "react";
 
 type FooterContentProps = {
-    headingContent: string | number;
-    textContent: string;
+    headingContent: React.ReactNode;
+    textContent: React.ReactNode;
  
 }
 

@@ -7,7 +7,6 @@ import Paragraph from "antd/es/typography/Paragraph";
 import { Text } from "../shared/Typography/typography-text";
 import { buildDeliveryStatus } from "./functions/buildDeliveryStatus";
 import { buildPaymentStatus } from "./functions/buildPaymentStatus";
-import { useUserData } from "../../hooks/useUserData";
 import { useEffect, useState } from "react";
 import { useProductsData } from "../../hooks/products/useProductsData";
 import Title from "../shared/Typography/typography-title";
@@ -30,8 +29,6 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
   },[products]);
 
 
-  const { getUserNameById } = useUserData();
-
 
   const data = [
     {
@@ -40,7 +37,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
     },
     {
       title: "Nome comprador:",
-      label: getUserNameById(requests.cliente_id),
+      label: requests.nomecliente,
     },
     {
       title: "Status do pagamento:",

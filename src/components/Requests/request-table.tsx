@@ -95,8 +95,8 @@ const RequestsTable = () => {
         title: 'Cliente',
  
         sorter: (a, b) => {
-          if(a.nomeCliente !== undefined && b.nomeCliente !== undefined) {
-            return a.nomeCliente.localeCompare(b.nomeCliente)
+          if(a.nomecliente !== undefined && b.nomecliente !== undefined) {
+            return a.nomecliente.localeCompare(b.nomecliente)
           } else {
             return -1
           }
@@ -202,7 +202,7 @@ const RequestsTable = () => {
      
       const id = normalizeText(String(item.id));
       const consultor = normalizeText(item.nome_consultor);
-      const cliente = normalizeText(item.nomeCliente);
+      const cliente = normalizeText(item.nomecliente);
 
       return (
         id.includes(value) ||

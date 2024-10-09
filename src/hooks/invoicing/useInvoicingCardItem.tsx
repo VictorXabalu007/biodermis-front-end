@@ -4,6 +4,8 @@ import { useProductsData } from "../products/useProductsData"
 import { useMemo } from "react";
 import { FilterDateConstraints } from "../../context/RangeDate/RangeDateContext";
 import { useRequestsData } from "../orders/useRequestsData";
+import { BiMedal } from "react-icons/bi";
+import Title from "../../components/shared/Typography/typography-title";
 
 
 
@@ -50,8 +52,8 @@ export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateCons
     
             icon:BsGraphUpArrow ,
             title: 'Item mais vendido',
-            footerHeding: getGreatherSoldProduct().mediaavs,
-            footerText: getGreatherSoldProduct().nome || 'Não há nenhum item no momento',
+            footerHeding: <BiMedal size={45} />,
+            footerText: <Title>{getGreatherSoldProduct().nome || 'Não há nenhum item no momento'}</Title>,
             percentual: getGreatherProductPercentualChange() + "%",
             status: null
         },
