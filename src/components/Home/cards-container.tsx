@@ -32,10 +32,6 @@ export const HomeCardContainer = () => {
                             textContent={item.footerText} 
                             />
         
-                            <StatsCard.Percentual 
-                                status={item.status as RequestStatusChange} 
-                                percentual={item.percentual}
-                             />
         
                         </StatsCard.Footer>
                     </StatsCard.Root>

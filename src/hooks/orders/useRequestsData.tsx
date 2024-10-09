@@ -87,7 +87,6 @@ export const useRequestsData = ({
         
         return {
         ...req,
-          nomeCliente: req.nomeCliente ? req.nomeCliente : "Cliente não encontrado",
           products: notEmptyProducts,
    
       }})

@@ -14,10 +14,12 @@ import { PDFFile } from "../../resources/PDFFile";
 import { saveAs } from "file-saver";
 import { useUserData } from "../useUserData";
 import { getFormaPag } from "../../functions/Getters/getFormaPag";
+import { useConsultorData } from "../users/useConsultorData";
 
 export const useRequestTable = () => {
 
-    const {getConsultorName, data,setData, isLoading} = useRequestsData();
+    const {consultor} = useConsultorData();
+    const {data,setData, isLoading} = useRequestsData();
 
     const {
       contextHolder, 
@@ -32,12 +34,12 @@ export const useRequestTable = () => {
       if(data) {
         setRequestsData(data.map(d => ({
           ...d,
-          nome_consultor:getConsultorName(d.consultor_id)
+          nome_consultor:consultor.find(c => c.id === d.consultor_id)?.nome || 'Sem Consultor',
         })))
         
       }
 
-    },[data])
+    },[data,consultor])
 
 
     const deleteOrder = useMutation({

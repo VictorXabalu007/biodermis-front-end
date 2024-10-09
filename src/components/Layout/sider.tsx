@@ -21,7 +21,7 @@ export const S = () => {
           background: colorBgContainer,
           boxShadow: boxShadow,
           minHeight: "100vh",
-          overflowY: "scroll",
+          overflow: "auto",
         }}
         breakpoint="lg"
         collapsedWidth="0"

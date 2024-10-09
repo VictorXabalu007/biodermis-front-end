@@ -55,25 +55,30 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
             request: requests
           })}</div>
 
-          <div className="flex text-start w-full justfy-start items-center gap-2">
-            <Paragraph
-              className="flex text-[12px] items-center text-brand-purple"
-              copyable={{
-                icon: [
-                  <IoCopyOutline
-                    className="text-brand-purple"
-                    key={"copy-icon"}
-                  />,
+          {requests.codigorastreio && (
 
-                  <FaCheck key="copied-icon" />,
-                ],
-                tooltips: ["Copiar", "Código copiada"],
-                text: requests.codigorastreio || "sem código no momento",
-              }}
-            >
-              Copiar Código de rastreio
-            </Paragraph>
-          </div>
+            <div className="flex text-start w-full justfy-start items-center gap-2">
+              <Paragraph
+                className="flex text-[12px] items-center text-brand-purple"
+                copyable={{
+                  icon: [
+                    <IoCopyOutline
+                      className="text-brand-purple"
+                      key={"copy-icon"}
+                    />,
+
+                    <FaCheck key="copied-icon" />,
+                  ],
+                  tooltips: ["Copiar", "Código copiada"],
+                  text: requests.codigorastreio || "sem código no momento",
+                }}
+              >
+                Copiar Código de rastreio
+              </Paragraph>
+            </div>
+
+
+          )}
         </Flex>
       ),
     },
@@ -105,20 +110,21 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
     },
     {
       title: "Forma de pagamento:",
-      label: requests.formapag_id,
+      label: requests.formapag_id || "Não definida no momento",
     },
     {
       title: "Forma de envio: ",
-      label: requests.formaenvio || "Forma de envio indisponível no momento",
+      label: requests.formaenvio || " indisponível no momento",
     },
   ];
 
+  if(isLoading) {
+    return <Skeleton />
+  }
+
   return (
 
-    isLoading ? <>
-      <Skeleton />
-    <Empty />
-    </> : (
+
     <Flex align="center" justify="center" vertical>
       <Flex justify="flex-start" className="my-5 w-full" gap={15} align="center">
    
@@ -133,9 +139,9 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
         currentProducts.map((p) => (
 
             <Flex key={p.id} className="flex mt-2 w-full justify-between gap-2">
-              <Flex>
+              <Flex gap={15}>
                 <Image
-                    width={185}
+                    width={145}
                     src={p.imagePath}
                     fallback="https://via.placeholder.com/200x200"
                     alt={p.nome}
@@ -143,6 +149,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
                       borderRadius: "4px",
                       objectFit: "cover",
                     }}
+                    preview={false}
                 />
                                 <div className="flex flex-col text-start gap-3">
                   <Title className="text-[16px] font-semibold">
@@ -150,8 +157,8 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
                     {`#${p.id < 10 ? "0" + p.id : p.id}Pedido`}
                     
                   </Title>
-                  <Text ellipsis={{tooltip:p.nome}} className="w-[200px] mt-1">{p.nome}</Text>
-                  <Text>Quant: {requests.produtos_ids.find(r => r.id === p.id)?.quantidade}</Text>
+                  <Text ellipsis={{tooltip:p.nome}} className="w-[200px] mt-1">Produto: <span className="font-semibold">{p.nome}</span></Text>
+                  <Text>Quant: <span className="font-semibold">{requests.produtos_ids.find(r => r.id === p.id)?.quantidade}</span></Text>
                 </div>
 
                 </Flex>
@@ -171,7 +178,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
         </Flex>
       )}
 
-      <Flex className="my-5" gap={15} vertical>
+      <Flex className="my-5 w-full" gap={15} vertical>
         {data.map((item) => {
           return (
             <Flex vertical key={item.title} gap={50}>
@@ -199,8 +206,6 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
     </Flex>
 
 
-
-    )
 
   );
 };

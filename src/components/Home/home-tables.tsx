@@ -13,6 +13,7 @@ const HomeTables = () => {
         <Flex 
             gap={15}
             vertical
+            className="max-h-[550px] overflow-auto"
         >
 
             <HomeConsultorsTable

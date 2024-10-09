@@ -55,6 +55,9 @@ const RequestsTable = () => {
       setData,
     });
 
+  console.log(data);
+  
+
 
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
   const [openView, setViewOpen] = useState(false)
@@ -88,7 +91,7 @@ const RequestsTable = () => {
         sorter: (a, b) => a.nome_consultor.localeCompare(b.nome_consultor),
     },
     {
-        dataIndex:'nomeCliente',
+        dataIndex:'nomecliente',
         title: 'Cliente',
  
         sorter: (a, b) => {
@@ -333,7 +336,7 @@ const RequestsTable = () => {
       closable
       maskClosable
       footer={null}
-      width={650}
+      width={570}
     >
       <RequestViewModal
         requests={currentRequest} 
