@@ -10,6 +10,7 @@ import { buildPaymentStatus } from "./functions/buildPaymentStatus";
 import { useEffect, useState } from "react";
 import { useProductsData } from "../../hooks/products/useProductsData";
 import Title from "../shared/Typography/typography-title";
+import { productFallback } from "../../util/projectImage";
 
 
 export const RequestViewModal = ({ requests }: { requests: Requests }) => {
@@ -37,7 +38,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
     },
     {
       title: "Nome comprador:",
-      label: requests.nomecliente,
+      label: requests.nomecliente || "Sem nome do comprador",
     },
     {
       title: "Status do pagamento:",
@@ -52,12 +53,18 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
             request: requests
           })}</div>
 
-          {requests.codigorastreio && (
-
+     
+            {!requests.codigorastreio ? (
+              <Text className="text-[12px] text-brand-purple">
+                Sem código de rastreio até o momento
+              </Text>
+            ) : (
             <div className="flex text-start w-full justfy-start items-center gap-2">
               <Paragraph
+                disabled={!requests.codigorastreio}
                 className="flex text-[12px] items-center text-brand-purple"
                 copyable={{
+                  
                   icon: [
                     <IoCopyOutline
                       className="text-brand-purple"
@@ -74,8 +81,9 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
               </Paragraph>
             </div>
 
+            )}
 
-          )}
+
         </Flex>
       ),
     },
@@ -140,7 +148,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
                 <Image
                     width={145}
                     src={p.imagePath}
-                    fallback="https://via.placeholder.com/200x200"
+                    fallback={productFallback}
                     alt={p.nome}
                     style={{
                       borderRadius: "4px",

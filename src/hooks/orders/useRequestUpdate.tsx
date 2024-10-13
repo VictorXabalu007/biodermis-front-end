@@ -38,11 +38,13 @@ export const useRequestUpdate = ({
 
       const body = {
         statusentrega: "realizada",
-        formaenvio: request.formaenvio,
+        formaEnvio: request.formaenvio,
         dataenvio: sendData.sendDate,
         codigorastreio: sendData.sendCode,
       };
 
+      console.log(body);
+      
       const req = await api.patch(`/pedidos/${request.id}`, body, {
         headers,
       });
@@ -57,6 +59,8 @@ export const useRequestUpdate = ({
       }, 2000);
     },
     onError: (err: any) => {
+      console.log('Erro ao atualizar pedido: ', err);
+      
       error(err.response.data.error);
     },
   });

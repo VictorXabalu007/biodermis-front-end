@@ -22,7 +22,6 @@ export const RequestEditor = ({
     errors
 }:RequestEditorProps) => {
 
-
     const {
         isLoading,
         data:requests} = useRequestsData();
@@ -38,6 +37,9 @@ export const RequestEditor = ({
         }
     },[requests,currentRequest])
 
+    if(isLoading){
+        return <Skeleton/>
+    }
 
     return (
 
@@ -49,11 +51,7 @@ export const RequestEditor = ({
             }
         }}>
 
-            {isLoading ? <>
-                
-                <Skeleton />
-            
-            </> : <>
+ 
             
 
 
@@ -191,7 +189,6 @@ export const RequestEditor = ({
 
             
             
-            </>}
 
 
 

@@ -55,8 +55,6 @@ const RequestsTable = () => {
       setData,
     });
 
-  console.log(data);
-  
 
 
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
@@ -181,6 +179,9 @@ const RequestsTable = () => {
     request:currentRequest,
   })
 
+
+  console.log('Pedidos: ', data);
+  
   const {
     handleDaysChange,
     handleOrderStatusChange,
