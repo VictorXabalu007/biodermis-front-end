@@ -203,9 +203,11 @@ const RequestsTable = () => {
       const id = normalizeText(String(item.id));
       const consultor = normalizeText(item.nome_consultor);
       const cliente = normalizeText(item.nomecliente);
+      const lowId = parseInt(id) < 10 ? '0' + id : id
 
       return (
         id.includes(value) ||
+        lowId.includes(value) ||
         consultor.includes(value) ||
         cliente.includes(value)
       )
