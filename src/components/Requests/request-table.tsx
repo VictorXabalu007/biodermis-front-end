@@ -180,7 +180,6 @@ const RequestsTable = () => {
   })
 
 
-  console.log('Pedidos: ', data);
   
   const {
     handleDaysChange,
@@ -197,7 +196,7 @@ const RequestsTable = () => {
   })
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
-    const value = e.target.value;
+    const value = normalizeText(e.target.value);
 
     const filtered = data.filter((item) => {
      
