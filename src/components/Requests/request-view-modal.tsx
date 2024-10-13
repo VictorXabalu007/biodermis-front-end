@@ -137,7 +137,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
         {capitalizeFirstLetter(requests.modelo)}
         </Typography.Title>
 
-        <Text strong>{requests.id} Pedido</Text>
+        <Text strong>{requests.id}º Pedido</Text>
       </Flex>
 
       {currentProducts && currentProducts.length > 0 ? (
@@ -170,7 +170,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
 
               <div>
-                <Text className="mt-1 font-medium text-purple-solid-500">
+                <Text className="mt-1 text-xl font-medium text-purple-solid-500">
                   <NumericFormatter value={parseFloat(p.valorvenda)} />
                 </Text>
               </div>
