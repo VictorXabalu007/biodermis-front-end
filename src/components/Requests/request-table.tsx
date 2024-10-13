@@ -28,7 +28,6 @@ import { buildPaymentStatus } from "./functions/buildPaymentStatus";
 import { buildDeliveryStatus } from "./functions/buildDeliveryStatus";
 import { NumericFormatter } from "../shared/Formatter/numeric-formatter";
 import { buildTotalValue } from "./functions/buildTotalValue";
-import DeleteButton from "../shared/Button/delete-button";
 import DowloadButton from "../shared/Button/download-button";
 import WhatzapButton from "../shared/Button/whatzap-button";
 import { RequestViewModal } from "./request-view-modal";
@@ -158,9 +157,6 @@ const RequestsTable = () => {
   
             <WhatzapButton />
                       
-            <DeleteButton
-                  onDelete={()=>{}}
-            />
 
           </Flex>
         ),
@@ -196,6 +192,7 @@ const RequestsTable = () => {
   })
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
+
     const value = normalizeText(e.target.value);
 
     const filtered = data.filter((item) => {
