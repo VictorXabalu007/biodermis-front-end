@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
   
 export const PDFFile = ({data}:PDFFileProps) => {
-
+    
     return (
 
         <Document>
@@ -256,7 +256,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                             <Text style={tableStyles.tableCellHeader}>Quantidade</Text>
                         </View>
                         <View style={tableStyles.tableCol}>
-                            <Text style={tableStyles.tableCellHeader}>Valor</Text>
+                            <Text style={tableStyles.tableCellHeader}>Valor unitário</Text>
                         </View>
                         <View style={tableStyles.tableCol}>
                             <Text style={tableStyles.tableCellHeader}>Total</Text>
@@ -267,6 +267,8 @@ export const PDFFile = ({data}:PDFFileProps) => {
 
                         {data.products.length > 0 ? data.products.map(p => {
 
+                            const quantity = data.produtos_ids.find(r => r.id === p.id)?.quantidade ?? 1
+
                             return (
 
                             <View 
@@ -276,7 +278,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                                     <Text style={tableStyles.tableCell}>{p.nome}</Text>
                                 </View>
                                 <View style={tableStyles.tableCol}>
-                                    <Text style={tableStyles.tableCell}>{data.produtos_ids.find(r => r.id === p.id)?.quantidade}</Text>
+                                    <Text style={tableStyles.tableCell}>{quantity}</Text>
                                 </View>
                                 <View style={tableStyles.tableCol}>
                                     <Text style={tableStyles.tableCell}>
@@ -287,7 +289,7 @@ export const PDFFile = ({data}:PDFFileProps) => {
                                 <View style={tableStyles.tableCol}>
                                     <Text style={tableStyles.tableCell}>
                                         
-                                        <NumericFormatter value={parseFloat(p.valorvenda)} />
+                                        <NumericFormatter value={parseFloat(p.valorvenda) * quantity} />
                                     </Text>
                                 </View>
                             </View>

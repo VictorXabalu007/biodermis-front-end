@@ -15,6 +15,7 @@ import { saveAs } from "file-saver";
 import { useUserData } from "../useUserData";
 import { getFormaPag } from "../../functions/Getters/getFormaPag";
 import { useConsultorData } from "../users/useConsultorData";
+import { useProductsData } from "../products/useProductsData";
 
 export const useRequestTable = () => {
 
@@ -75,7 +76,22 @@ export const useRequestTable = () => {
 
       const {getUserById} = useUserData();
 
+      
+    const {products} = useProductsData();
+
+    
+
+
+
       const dowloadPdf = async (record: Requests) => {
+
+  
+
+        const currentProducts = products?.filter(p => record.produtos_ids.find(r => r.id === p.id));
+ 
+        console.log(record);
+        
+        
         const name = `#${
           record.id < 10 ? "0" + record.id : record.id
         }Pedido`;
@@ -84,6 +100,7 @@ export const useRequestTable = () => {
           ...record,
           user_data: getUserById(record.cliente_id),
           formaPag: getFormaPag(record.formapag_id),
+          products: currentProducts
         };
     
         const blob = await ReactPDF.pdf(<PDFFile data={data} />).toBlob();
