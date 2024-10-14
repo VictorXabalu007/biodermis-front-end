@@ -40,10 +40,9 @@ export const useRequestUpdate = ({
         statusentrega: "realizada",
         formaEnvio: request.formaenvio,
         dataenvio: sendData.sendDate,
-        codigorastreio: sendData.sendCode,
+        codigoRastreio: sendData.sendCode,
       };
 
-      console.log(body);
       
       const req = await api.patch(`/pedidos/${request.id}`, body, {
         headers,
