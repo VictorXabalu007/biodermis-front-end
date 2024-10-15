@@ -55,8 +55,6 @@ export const useUsersData = () => {
     }
   }, [data, userAddress, address]);
 
-  console.log('Usuários: ', users);
-  
 
   return {
     users,

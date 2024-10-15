@@ -85,13 +85,10 @@ export const useRequestTable = () => {
 
       const dowloadPdf = async (record: Requests) => {
 
-  
+
 
         const currentProducts = products?.filter(p => record.produtos_ids.find(r => r.id === p.id));
  
-        console.log(record);
-        
-        
         const name = `#${
           record.id < 10 ? "0" + record.id : record.id
         }Pedido`;
