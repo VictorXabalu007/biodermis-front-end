@@ -57,6 +57,7 @@ export const UploadComprovantModal = ({
   const [currentConsultor, setCurrentConsultor] =
     useState<UserCredentials | null>(null);
 
+  
   const renderField = (
     fieldName: keyof UserCredentials,
     label: React.ReactNode,
@@ -69,7 +70,7 @@ export const UploadComprovantModal = ({
             <Input
               type="number"
               value={
-                currentConsultor?.[fieldName as keyof UserCredentials] || ""
+                currentConsultor?.[fieldName as keyof UserCredentials] || "Não encontrado"
               }
               readOnly
             />
@@ -80,7 +81,9 @@ export const UploadComprovantModal = ({
           <Form.Item label={label}>
             <Select
               value={
-                currentConsultor?.[fieldName as keyof UserCredentials] || []
+                currentConsultor?.[fieldName as keyof UserCredentials] || [{
+                  label: "Não encontrado",
+                }]
               }
               mode="multiple"
               disabled
@@ -111,7 +114,7 @@ export const UploadComprovantModal = ({
             <Input
               type="text"
               value={
-                currentConsultor?.[fieldName as keyof UserCredentials] || ""
+                currentConsultor?.[fieldName as keyof UserCredentials] || "----"
               }
               readOnly
             />
@@ -141,12 +144,15 @@ export const UploadComprovantModal = ({
     >
 
         <Flex vertical className="w-full">
+
         {isLoading ? (
             <>
             <Skeleton />
             </>
         ) : (
+
             <>
+
             {currentConsultor !== null ? (
                 <Flex vertical>
                 <UserImage

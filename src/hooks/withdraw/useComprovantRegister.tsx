@@ -37,13 +37,21 @@ export const useComprovantRegister = ({id}:Props) => {
     const uploadComprovant = useMutation({
         mutationFn:async (data:RegisterPixProofType)=> {
 
-            const headers = getHeaders();
+            const headers = {
+                ...getHeaders(),
+                'Contety-Type': 'multipart/form-data',
+            }
 
+            
+            const {pixProof} = data
+
+     
             const formData = new FormData();
             
-            formData.append('file',data.pixProof as File)
+            //@ts-ignore
+            formData.append('file',pixProof.originFileObj as File)
 
-            const req = await api.post(`/saques/comprovante/${id}`,{...data},{
+            const req = await api.post(`/saques/comprovante/${id}`,formData,{
                 headers
             })
 
@@ -55,7 +63,8 @@ export const useComprovantRegister = ({id}:Props) => {
             
         },
         onError: (err:any) => {
-
+            console.log('Erro ao realizar upload do comprovante: ', err);
+            
             error(err.response.data.error)
             
         }

@@ -42,7 +42,6 @@ const WithdrawalTable = () => {
 
   const navigate = useNavigate();
   const {
-    getColumnSearchProps,
     filteredData,
     setFilteredData,
     clearAllFilters,
@@ -102,7 +101,7 @@ const WithdrawalTable = () => {
       dataIndex: "nome_consultor",
       title: "Nome Consultor",
       key: "nome_consultor",
-      ...getColumnSearchProps("nome_consultor", "Nome Consultor"),
+    
       align: "center",
     },
     {
@@ -110,7 +109,6 @@ const WithdrawalTable = () => {
       key: "datasaque",
       sorter: (a, b) =>
         new Date(a.datasaque).getTime() - new Date(b.datasaque).getTime(),
-      ...getColumnSearchProps("datasaque", "Data do saque"),
       title: "Data saque",
     },
     {
@@ -156,7 +154,6 @@ const WithdrawalTable = () => {
     },
   ];
 
-  console.log(withDrawData);
   
   const onFilter = (value:string) => {
 
