@@ -60,20 +60,20 @@ const addressDataSchema = z.object({
 
 const bankDataSchema = z.object({
 
-    agencia: z.string({required_error: 'Número da Agencia é obrigatório para o cadastro'})
+    agencia: z.string()
     .min(1,'Número da Agencia não pode ser vazio')
     .optional(),
     
-    pix: z.string({required_error: 'Chave pix é obrigatória para o cadastro'})
+    pix: z.string()
     .min(1,'Chave píx não pode ser vazia')
     .refine(pixkey=> isPixKey(pixkey),{message: 'Chave pix inválida inserida'})
     .optional(),
     
-    conta: z.string({required_error:'conta é obrigatório para cadastro'})
+    conta: z.string()
     .min(1,'conta é obrigatório para o cadastro')
     .optional(),
 
-    banco: z.string({required_error: 'Banco é obrigatório para cadastro'})
+    banco: z.string()
     .optional()
 
 })

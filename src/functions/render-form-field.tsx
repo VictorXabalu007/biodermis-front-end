@@ -158,7 +158,7 @@ export const renderSelectField = <T extends FieldValues>(
           validateStatus={errorMessage ? "error" : ""}
           help={errorMessage as string}
         >
-          <Select {...rest} {...field} options={options} />
+          <Select {...rest} {...field} onChange={(e)=>field.onChange(e)} options={options} />
         </Form.Item>
       );
     }}

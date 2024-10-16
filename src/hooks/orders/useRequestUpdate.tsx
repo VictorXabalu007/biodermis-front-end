@@ -38,9 +38,9 @@ export const useRequestUpdate = ({
 
       const body = {
         statusentrega: "realizada",
-        formaEnvio: request.formaenvio,
+        formaenvio : request.formaenvio,
         dataenvio: sendData.sendDate,
-        codigoRastreio: sendData.sendCode,
+        codigorastreio : sendData.sendCode,
       };
 
       

@@ -32,7 +32,7 @@ export const BankDataForm = ({ errors, control }: RegisterFieldProps<UserData>) 
       fieldName: "bankData.banco",
       label: "Banco",
       options: bankOps,
-      mode:'multiple'
+
     }),
   ];
 

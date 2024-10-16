@@ -7,11 +7,18 @@ import { LinkContent } from "../shared/Link/LinkContent";
 
 import './styles.css'
 import { BRAND_PURPLE } from "../../constants/classnames";
-import { SELECTED_MENU_KEY } from "../../constants/sessionStorageKeys";
+import { AUTH_USER, SELECTED_MENU_KEY } from "../../constants/sessionStorageKeys";
 import { useLocation } from "react-router-dom";
 import { ExitButton } from "../shared/Button/ExitButton";
-import { items } from "./items";
+import { GoPackage, GoHome, GoPeople } from "react-icons/go";
+import { RiTruckLine } from "react-icons/ri";
+import { BiCategory, BiUser } from "react-icons/bi";
+import { FaHandHoldingDollar } from "react-icons/fa6";
+import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 
+import { PiFlagBannerFill } from "react-icons/pi";
+import { BANNERS, CATEGORIES, CONSULTORS, HOME, INVOICING, PRODUCTS, REQUESTS, USERS, WITHDRAWAL } from "../../constants/paths";
+import { UserRole } from "../../util/userRole";
 
 
 export const Menu = () => {
@@ -20,6 +27,10 @@ export const Menu = () => {
 
     const initialKey = JSON.parse(sessionStorage.getItem(SELECTED_MENU_KEY) ?? '0' ) || '0';
 
+    
+    const user = JSON.parse(sessionStorage.getItem(AUTH_USER) ?? '{}');
+
+  
     const [selectedKey, setSelectedKey] = useState(initialKey);
 
     const handleMenuSelect = ({ key }: { key: string }) => {
@@ -27,13 +38,90 @@ export const Menu = () => {
         sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(key));
     };
 
+    const generateMenu = () => {
+
+
+        switch(user.usuario.cargo_id){
+           
+            // Usuarios gerente possuem acesso a todos os menus menos o de pedidos de saque
+            case UserRole.MANAGER:
+                return (
+                    [
+
+                        { icon: GoHome, label: 'Home', path: HOME },
+                        { icon: RiTruckLine , label: 'Pedidos', path: REQUESTS },
+                        { icon: GoPeople, label: 'Consultores', path: CONSULTORS},
+                        { icon: BiUser, label: 'Usuários', path: USERS },
+                        { icon: GoPackage, label: 'Produtos', path: PRODUCTS },
+                        { icon: BiCategory , label: 'Categorias', path: CATEGORIES },
+                        { icon: PiFlagBannerFill, label: 'Banners',  path: BANNERS },
+                        { icon: LiaMoneyBillWaveSolid, label: 'Faturamento',  path: INVOICING },
+                      
+                      
+                      ].map((item,index) => ({
+                      
+                        key: String(index),
+                        icon: item.icon,
+                        label: item.label,
+                        path: item.path,
+                      
+                      }))
+                )
+            case  UserRole.STOCK:
+                //USUARIOS estoque possuem acesso somente a área de pedidos
+                return (
+                      [
+
+                        { icon: RiTruckLine , label: 'Pedidos', path: REQUESTS },
+                      
+                      
+                      ].map((item,index) => ({
+                      
+                        key: String(index),
+                        icon: item.icon,
+                        label: item.label,
+                        path: item.path,
+                      
+                      }))
+                )
+                //USUARIOs admin possuem acesso a toda a aplicação
+            default: 
+                return (
+                    [
+
+                        { icon: GoHome, label: 'Home', path: HOME },
+                        { icon: RiTruckLine , label: 'Pedidos', path: REQUESTS },
+                        { icon: GoPeople, label: 'Consultores', path: CONSULTORS},
+                        { icon: BiUser, label: 'Usuários', path: USERS },
+                        { icon: GoPackage, label: 'Produtos', path: PRODUCTS },
+                        { icon: BiCategory , label: 'Categorias', path: CATEGORIES },
+                        { icon: PiFlagBannerFill, label: 'Banners',  path: BANNERS },
+                        { icon: FaHandHoldingDollar, label: 'Pedidos de saque', path: WITHDRAWAL },
+                        { icon: LiaMoneyBillWaveSolid, label: 'Faturamento',  path: INVOICING },
+                    
+                    
+                    ].map((item,index) => ({
+                    
+                        key: String(index),
+                        icon: item.icon,
+                        label: item.label,
+                        path: item.path,
+                    
+                    }))
+                )
+                
+        }
+
+    }
+    
+
     useEffect(() => {
         setSelectedKey(initialKey);
     }, [initialKey]);
 
     useEffect(() => {
         const currentPath = location.pathname;
-        const currentItem = items.find(item => item.path === currentPath);
+        const currentItem = generateMenu().find(item => item.path === currentPath);
         if (currentItem) {
             setSelectedKey(currentItem.key);
             sessionStorage.setItem(SELECTED_MENU_KEY, JSON.stringify(currentItem.key));
@@ -57,6 +145,7 @@ export const Menu = () => {
     }
 
 
+
     return (
 
         <M
@@ -75,7 +164,7 @@ export const Menu = () => {
             onSelect={handleMenuSelect}
             >       
 
-                {items.map((item) => (
+                {generateMenu().map((item) => (
 
                         <M.Item
                             className="menu-item"
