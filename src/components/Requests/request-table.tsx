@@ -92,7 +92,7 @@ const RequestsTable = () => {
         title: 'Cliente',
  
         sorter: (a, b) => {
-          if(a.nomecliente !== undefined && b.nomecliente !== undefined) {
+          if(a.nomecliente !== null && b.nomecliente !== null) {
             return a.nomecliente.localeCompare(b.nomecliente)
           } else {
             return -1

@@ -3,7 +3,7 @@ import { SelectLabel } from "../../shared/Input/select-label";
 const DeliveryStatus = {
 
     DELIVERY_STATUS_ALL : '',
-    DELIVERY_STATUS_IN_PROGRESS : 'em andamento',
+    DELIVERY_STATUS_IN_PROGRESS : 'pendente',
     DELIVERY_STATUS_RECEIVED : 'realizada',
 
 } as const;
