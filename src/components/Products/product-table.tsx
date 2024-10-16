@@ -83,8 +83,7 @@ export const ProductsTable = () => {
     const categoryId = selectedOption;
 
     if (categoryId !== "") {
-      setFilteredData((prev) =>
-        prev.filter((f) => f.categoria_ids.includes(Number(categoryId)))
+      setFilteredData(initialData.filter((f) => f.categoria_ids.includes(Number(categoryId)))
       );
     } else {
       setFilteredData(initialData);

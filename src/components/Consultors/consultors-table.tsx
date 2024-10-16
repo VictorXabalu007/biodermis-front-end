@@ -85,6 +85,8 @@ const ConsultorsTable = () => {
     }
   };
 
+  console.log(consultor);
+  
   const columns: TableColumnsType<UserCredentials> = [
     {
       title: "Rank",
