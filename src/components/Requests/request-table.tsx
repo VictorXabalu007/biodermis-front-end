@@ -186,9 +186,7 @@ const RequestsTable = () => {
     handleSellChannelChange,
     setShowFilters
   } = useRequestTableFilters({
-    data,
     setFilteredData,
-    filteredData
   })
 
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=> {
@@ -198,8 +196,8 @@ const RequestsTable = () => {
     const filtered = data.filter((item) => {
      
       const id = normalizeText(String(item.id));
-      const consultor = normalizeText(item.nome_consultor);
-      const cliente = normalizeText(item.nomecliente);
+      const consultor = normalizeText(item.nome_consultor.toString());
+      const cliente = item.nomecliente ? normalizeText(item.nomecliente ?? "") : "";
       const lowId = parseInt(id) < 10 ? '0' + id : id
 
       return (

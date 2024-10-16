@@ -1,35 +1,41 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { RangeDateActions, useRangeDate } from "../../context/RangeDate/RangeDateContext";
+import { useRequestsData } from "./useRequestsData";
 
 
 
 type Props = {
-    data:Requests[],
+  
     setFilteredData:React.Dispatch<React.SetStateAction<Requests[]>>
-    filteredData:Requests[]
+
 }
 
 export const useRequestTableFilters = ({
-    data,
     setFilteredData,
-    filteredData
 }:Props) => {
 
-    const handlePaymentStatusChange = (status: { value: string } | null) => {
-        if (status?.value === "") {
-          setFilteredData(data);
+    const {data:inititalData} = useRequestsData();
+
+    const handlePaymentStatusChange = (status: string) => {
+
+        if(status === "") {
+          setFilteredData(inititalData);
         } else {
-          setFilteredData(filteredData.filter((d) => d.statuspag === status?.value));
+          const filtered = inititalData.filter((d) => d.statuspag === status);
+          setFilteredData(filtered);
         }
+
       };
     
-      const handleOrderStatusChange = (status: { value: string } | null) => {
-        if (status?.value === "") {
-          setFilteredData(data);
+      const handleOrderStatusChange = (status: string) => {
+        if(status === "") {
+          setFilteredData(inititalData);
         } else {
-          setFilteredData(filteredData.filter((d) => d.statusentrega === status?.value));
+          const filtered = inititalData.filter((d) => d.statusentrega === status);
+          setFilteredData(filtered);
         }
+
       };
     
       const { dispatch } = useRangeDate();
@@ -44,9 +50,9 @@ export const useRequestTableFilters = ({
     
       const [dateRange, setDateRange] = useState<[string, string]>(["", ""]);
     
-      const handleDaysChange = (days: { value: string; label: string } | null) => {
+      const handleDaysChange = (days: string) => {
         if (days) {
-          const daysCount = parseInt(days.value);
+          const daysCount = parseInt(days);
     
           const endDate = new Date();
           const startDate = new Date();
@@ -60,14 +66,13 @@ export const useRequestTableFilters = ({
       };
     
       const handleSellChannelChange = (
-        channel: { value: string; label: string } | null
+        channel: number
       ) => {
-        if (channel?.value === "") {
-          setFilteredData(data);
+        if(channel === 0) {
+          setFilteredData(inititalData);
         } else {
-          setFilteredData(
-            filteredData.filter((d) => d.formapag_id === parseInt(channel!.value))
-          );
+          const filtered = inititalData.filter((d) => d.formapag_id === channel);
+          setFilteredData(filtered);
         }
       };
     
