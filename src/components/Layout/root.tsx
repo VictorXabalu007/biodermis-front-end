@@ -36,6 +36,13 @@ export const Root = ({children,className, ...rest}:LayoutProps) => {
                     message:'Consultores não possuem acesso ao dashboard!!'
                 })
             }
+            const isUser = user.usuario.cargo_id === UserRole.USER
+            if(isUser) {
+                navigate(DEFAULT_PATH)
+                notification.error({
+                    message:'Clientes não possuem acesso ao dashboard!!'
+                })
+            }
             
         }
 
