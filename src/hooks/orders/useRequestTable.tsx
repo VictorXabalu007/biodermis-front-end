@@ -33,11 +33,7 @@ export const useRequestTable = () => {
     useEffect(()=> {
 
       if(data) {
-        setRequestsData(data.map(d => ({
-          ...d,
-          nome_consultor:consultor.find(c => c.id === d.consultor_id)?.nome || 'Sem Consultor',
-        })))
-        
+        setRequestsData(data)
       }
 
     },[data,consultor])

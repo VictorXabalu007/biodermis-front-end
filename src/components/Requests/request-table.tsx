@@ -54,8 +54,9 @@ const RequestsTable = () => {
       setData,
     });
 
-
-
+    console.log(data);
+    
+  
   const [currentRequest, setCurrentRequest] = useState({} as Requests)
   const [openView, setViewOpen] = useState(false)
   const [openEditor, setEditorOpen] = useState(false);
@@ -83,9 +84,18 @@ const RequestsTable = () => {
         align: 'center',
     },
     {
-        dataIndex:'nome_consultor',
+        dataIndex:'nomeconsultor',
         title: 'Consultor',
-        sorter: (a, b) => a.nome_consultor.localeCompare(b.nome_consultor),
+        sorter: (a, b) => {
+
+          if(a.nomeconsultor !== null && b.nomeconsultor !== null) {
+            return a.nomeconsultor.localeCompare(b.nomeconsultor)
+          } else {
+            return -1
+          }
+ 
+        },
+        render: (value) => value || 'Consultor nao informado',
     },
     {
         dataIndex:'nomecliente',
@@ -196,7 +206,7 @@ const RequestsTable = () => {
     const filtered = data.filter((item) => {
      
       const id = normalizeText(String(item.id));
-      const consultor = normalizeText(item.nome_consultor.toString());
+      const consultor = item.nomeconsultor ? normalizeText(item.nomeconsultor.toString()) : "";
       const cliente = item.nomecliente ? normalizeText(item.nomecliente ?? "") : "";
       const lowId = parseInt(id) < 10 ? '0' + id : id
 

@@ -139,7 +139,7 @@ declare global {
         valorconsult: string;
         valorfrete: string;
         products: Product[]
-        nome_consultor:string
+        nomeconsultor:string
         user_data: UserCredentials
         formaPag: string
         nomecliente: string
