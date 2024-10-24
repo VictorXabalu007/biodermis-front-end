@@ -82,7 +82,6 @@ export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstrain
         queryKey: ['withdraw'],
         queryFn: getWithdraw
     })
-
     
     const [data, setData] = useState<WithDrawal[]>([]);
 

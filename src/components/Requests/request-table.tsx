@@ -54,7 +54,6 @@ const RequestsTable = () => {
       setData,
     });
 
-    console.log(data);
     
   
   const [currentRequest, setCurrentRequest] = useState({} as Requests)

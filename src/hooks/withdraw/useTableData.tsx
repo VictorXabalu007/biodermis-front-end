@@ -7,7 +7,6 @@ export const useTableData = () => {
 
     const {data, isLoading, getConsultorName,accessBalance} = useWithdrawData();
 
-
     const [withDrawData, setWithdrawData] = useState<WithDrawal[]>([]);
 
     useEffect(()=> {
