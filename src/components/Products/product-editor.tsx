@@ -112,8 +112,10 @@ const ProductEditor = () => {
 
 
   const onSubmit = (data: Product) => {
+    
     updateProductMutation.mutate(data);
     uploadImageMutation.mutate(fileList);
+
     if(selectedIndexes.length > 0){
       deleteImageMutation.mutate(selectedIndexes);
     }

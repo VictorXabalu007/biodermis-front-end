@@ -5,7 +5,6 @@ import { getHeaders } from "../../../service/getHeaders";
 
 export const uploadImage = async (images:any[],id:number) => {
 
-    
     const formData = new FormData();
                 
     images.map((image:any) => {
@@ -21,15 +20,13 @@ export const uploadImage = async (images:any[],id:number) => {
         };
     
 
-            try {
+
+        await api.post(`/produtos/fotos/${id}`, formData, {
+            headers
+         });
     
-                await api.post(`/produtos/fotos/${id}`, formData, {
-                    headers
-                });
-    
-            } catch (error) {
-               
-            }
+           
+
     } catch (e:any) {
         return e.message || e.data?.message
     }

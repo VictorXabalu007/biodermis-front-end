@@ -70,7 +70,8 @@ export const ProductView = ({data}: {data:Product}) => {
 
   useEffect(()=> {
 
-    if(err.length > 0){
+    
+    if(err && err.length > 0){
       setIsEditable(true);
       setIsEditing(true);
       setText('Salvar edição');

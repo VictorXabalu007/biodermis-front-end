@@ -5,6 +5,7 @@ import { getHeaders } from "../../../service/getHeaders";
 export const getConsultors = async () => {
 
         try {
+                
                 const headers = getHeaders();
         
                 const req = await api.get('/consultores/0',{

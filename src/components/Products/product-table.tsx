@@ -33,7 +33,7 @@ import { normalizeText } from "../../functions/normalize-text";
 
 export const ProductsTable = () => {
 
-  const { products, setProducts, isLoading, deleteProduct,contextHolder } = useTableData();
+  const {products, setProducts, isLoading, deleteProduct,contextHolder } = useTableData();
   const [searchValue, setSearchValue] = useState("");
 
   const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);

@@ -1,4 +1,5 @@
-import { put } from "../../../service/connection";
+import { api } from "../../../service/connection";
+import { getHeaders } from "../../../service/getHeaders";
 
 
 export const updateProduct = async (data:Product,id:number,) => {
@@ -17,11 +18,13 @@ export const updateProduct = async (data:Product,id:number,) => {
         profundidade:data.profundidade,
       }
     
-    
+    const headers = getHeaders();
 
     try {
         
-        const req = await put(`/produtos/${id}`,body)
+        const req = await api.patch(`/produtos/${id}`,body,{
+            headers
+        })
         return req
 
     } catch (e:any) {

@@ -27,7 +27,7 @@ export const useProductUpdate = ({data,id,isEditing}:Props) => {
 
       const updateProductMutation = useMutation({
         mutationFn: async (data:Product)=> updateProduct(data,id),
-        onSuccess: (res)=> {
+        onSuccess: (res:any)=> {
           
           success(res.success);
         
