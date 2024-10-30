@@ -2,6 +2,7 @@ import {
   Button,
   Flex,
   Form,
+  message,
   Modal,
   Skeleton,
   Table,
@@ -164,7 +165,17 @@ const RequestsTable = () => {
                 onClick={()=>dowloadPdf(record)}
             />
   
-            <WhatzapButton />
+            <WhatzapButton className={`${!record.telefone ? 'opacity-50' : ''} `} disabled={!record.telefone} onClick={()=> {
+
+              const phone = record.telefone
+              navigator.clipboard.writeText(phone)
+              .then(() => {
+                message.success('Telefone copiado com sucesso!');
+              })
+              .catch(err => {
+                console.error('Falha ao copiar: ', err);
+              });
+            }} />
                       
 
           </Flex>

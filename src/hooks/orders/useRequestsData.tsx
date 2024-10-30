@@ -49,6 +49,8 @@ export const useRequestsData = ({
 
   });
 
+  console.log('Pedidos: ', requests);
+  
   
   const {products,isLoading:productsLoading} = useProductsData();
 

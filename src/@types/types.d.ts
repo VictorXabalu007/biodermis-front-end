@@ -143,6 +143,7 @@ declare global {
         user_data: UserCredentials
         formaPag: string
         nomecliente: string
+        telefone:string
     
     }
 
