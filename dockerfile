@@ -10,6 +10,7 @@ COPY package*.json ./
 # Instala as dependências
 RUN npm install
 
+# Copia todo o código fonte
 COPY ./ ./
 
 # Executa o build da aplicação
@@ -19,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copia os arquivos estáticos gerados para o diretório do NGINX
-COPY --from=build /app/dist /usr/share/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copia a configuração personalizada do NGINX
 COPY nginx.conf /etc/nginx/nginx.conf
