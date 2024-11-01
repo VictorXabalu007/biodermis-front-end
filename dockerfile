@@ -21,11 +21,14 @@ FROM nginx:alpine
 # Copia os arquivos estáticos gerados para o diretório do NGINX
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copia a configuração personalizada do NGINX, se houver
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copia a configuração personalizada do NGINX
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY fullchain.pem /etc/ssl/certs/fullchain.pem
+COPY privkey.pem /etc/ssl/private/privkey.pem
 
-# Exponha a porta 80
+# Exponha as portas
 EXPOSE 80
+EXPOSE 443
 
 # Comando para iniciar o NGINX
 CMD ["nginx", "-g", "daemon off;"]
