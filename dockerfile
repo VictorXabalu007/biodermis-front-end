@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copia os arquivos estáticos gerados para o diretório do NGINX
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/html
 
 # Copia a configuração personalizada do NGINX
 COPY nginx.conf /etc/nginx/nginx.conf
