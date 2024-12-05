@@ -5,66 +5,47 @@ import { useQuery } from "@tanstack/react-query";
 import { Row } from "antd";
 import { useCategoriesData } from "../../hooks/categories/useCategoriesData";
 
+const HomeWrapper = ({ children }: { children: ReactNode }) => {
+	const { data: categories } = useCategoriesData();
 
+	useEffect(() => {
+		if (categories) {
+			sessionStorage.setItem(CATEGORIES, JSON.stringify(categories));
+		}
+	}, [categories]);
 
-const HomeWrapper = ({children}:{children:ReactNode}) => {
+	const [bankOptions, setBankOptions] = useState<Options[]>([]);
 
-    const {data:categories} = useCategoriesData();
+	const getBankOptions = async () => {
+		const req = await axios.get("https://brasilapi.com.br/api/banks/v1");
 
-    useEffect(()=> {
-        if(categories) {
-            sessionStorage.setItem(CATEGORIES, JSON.stringify(categories))
-        }
-    },[categories]);
+		return req.data;
+	};
 
-    const [bankOptions, setBankOptions] = useState<Options[]>([]);
+	const { data } = useQuery<BankOptions[]>({
+		queryKey: ["bankOptions"],
+		queryFn: getBankOptions,
+	});
 
-    
-    const getBankOptions = async () => {
+	useEffect(() => {
+		if (data) {
+			setBankOptions(
+				data.map((d) => ({
+					value: d.name,
+					label: `${d.code} - ${d.name}`,
+					key: d.code,
+				})),
+			);
+		}
+	}, [data, setBankOptions]);
 
+	useEffect(() => {
+		if (bankOptions) {
+			sessionStorage.setItem(BANK_OPS, JSON.stringify(bankOptions));
+		}
+	}, [bankOptions]);
 
-        const req = await axios.get('https://brasilapi.com.br/api/banks/v1');
-     
-        return req.data
-  
-      }
-  
+	return <Row gutter={[20, 16]}>{children}</Row>;
+};
 
-    const {data} = useQuery<BankOptions[]>({
-        queryKey: ['bankOptions'],
-        queryFn: getBankOptions
-      })
-  
-      useEffect(()=> {
-  
-        if(data) {
-  
-          setBankOptions(data.map(d => ({
-            value: d.name,
-            label: `${d.code} - ${d.name}`,
-            key: d.code
-          })))
-  
-    
-  
-        }
-  
-      },[data,setBankOptions])
-
-      useEffect(()=> {
-        if(bankOptions){
-              
-            sessionStorage.setItem(BANK_OPS,JSON.stringify(bankOptions));
-        }
-      },[bankOptions]);
-
-    return (
-
-        <Row gutter={[20,16]}>
-            {children}
-        </Row>
-        
-    )
-}
-
-export default HomeWrapper
+export default HomeWrapper;

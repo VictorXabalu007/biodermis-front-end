@@ -1,69 +1,67 @@
-import { BsGraphUpArrow } from "react-icons/bs"
-import { GoPackage } from "react-icons/go"
-import { useProductsData } from "../products/useProductsData"
+import { BsGraphUpArrow } from "react-icons/bs";
+import { GoPackage } from "react-icons/go";
+import { useProductsData } from "../products/useProductsData";
 import { useMemo } from "react";
-import { FilterDateConstraints } from "../../context/RangeDate/RangeDateContext";
+import type { FilterDateConstraints } from "../../context/RangeDate/RangeDateContext";
 import { useRequestsData } from "../orders/useRequestsData";
-import { BiMedal } from "react-icons/bi";
-import Title from "../../components/shared/Typography/typography-title";
+import { useMovimentationData } from "../useMovimentationData";
 
+export const useInvoicingCardItem = ({
+	enableFilterDate = true,
+}: FilterDateConstraints = {}) => {
+	const { isLoading } = useProductsData();
 
+	const {
+		getSellPercentualChange,
+		getRequestOrderPercentChange,
+		getSellStatusChange,
+		getRequestOrderStatusChange,
+		getTotalOrders,
+	} = useRequestsData({ enableFilterDate });
 
-export const useInvoicingCardItem = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
+	const { getInputDataTotal, getOutputDataTotal } = useMovimentationData();
 
-    const {getGreatherSoldProduct, isLoading, getGreatherProductPercentualChange} = useProductsData();
-    
-    
-    const {
-        getTotalSells,
-        getSellPercentualChange,
-        getRequestOrderPercentChange,
-        getSellStatusChange,
-        getRequestOrderStatusChange,
-        getTotalOrders
-    } = useRequestsData({enableFilterDate});
+	const items = useMemo(
+		() => [
+			{
+				icon: GoPackage,
+				title: "Número de pedidos",
+				footerHeding: getTotalOrders(),
+				footerText: "(pedidos)",
+				percentual: `${getRequestOrderPercentChange()}%`,
+				status: getRequestOrderStatusChange(),
+			},
+			{
+				icon: GoPackage,
+				title: "Faturamento Total",
+				footerHeding: `R$ ${getInputDataTotal()}`,
+				footerText: "(entradas)",
+				percentual: `${getSellPercentualChange()}%`,
+				status: getSellStatusChange(),
+			},
 
+			{
+				icon: BsGraphUpArrow,
+				title: "Saídas Total",
+				footerHeding: `R$ ${getOutputDataTotal()}`,
+				footerText: "(saídas)",
+				percentual: ` ${getSellPercentualChange()}%`,
+				status: getSellStatusChange(),
+			},
+		],
+		[
+			getTotalOrders,
+			getInputDataTotal,
+			getOutputDataTotal,
+			getRequestOrderPercentChange,
+			getSellStatusChange,
+			getRequestOrderStatusChange,
+			getSellPercentualChange,
+		],
+	);
 
-    const items = useMemo(()=> [
-
-        {
-        
-            icon:GoPackage,
-            title: 'Vendas Totais',
-            footerHeding: getTotalSells(),
-            footerText: '(vendas)',
-            percentual: getSellPercentualChange() + "%",
-            status: getSellStatusChange()
-    
-        },
-    
-        {
-    
-            icon:GoPackage,
-            title: 'Número de pedidos',
-            footerHeding: getTotalOrders(),
-            footerText: '(pedidos)',
-            percentual: getRequestOrderPercentChange() + "%",
-            status: getRequestOrderStatusChange()
-    
-        },
-    
-        {
-    
-            icon:BsGraphUpArrow ,
-            title: 'Item mais vendido',
-            footerHeding: <BiMedal size={45} />,
-            footerText: <Title>{getGreatherSoldProduct().nome || 'Não há nenhum item no momento'}</Title>,
-            percentual: getGreatherProductPercentualChange() + "%",
-            status: null
-        },
-
-    ],[getGreatherSoldProduct, getTotalSells]);
-
-    return {
-        items,
-        isLoading
-    }
-
-
-}
+	return {
+		items,
+		isLoading,
+	};
+};
