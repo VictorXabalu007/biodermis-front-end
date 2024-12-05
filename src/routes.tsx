@@ -1,10 +1,24 @@
-
-import {  Outlet, Route, Routes } from "react-router-dom";
-import { CATEGORIES, CONSULTORS, DEFAULT_PATH, MERCADO_PAGO_SUCCESS, 
-    FORGOT_PASS_1, FORGOT_PASS_2, HOME, 
-    INVOICING, PRODUCTS, REGISTER_CONSULTOR, 
-    REGISTER_PRODUCTS, REQUESTS, USERS, WITHDRAWAL, 
-    MERCADO_PAGO_FAILURE, BANNERS, EDIT_PRODUCT } from "./constants/paths";
+import { Outlet, Route, Routes } from "react-router-dom";
+import {
+	CATEGORIES,
+	CONSULTORS,
+	DEFAULT_PATH,
+	MERCADO_PAGO_SUCCESS,
+	FORGOT_PASS_1,
+	FORGOT_PASS_2,
+	HOME,
+	INVOICING,
+	PRODUCTS,
+	REGISTER_CONSULTOR,
+	REGISTER_PRODUCTS,
+	REQUESTS,
+	USERS,
+	WITHDRAWAL,
+	MERCADO_PAGO_FAILURE,
+	BANNERS,
+	EDIT_PRODUCT,
+	USERDATASELL,
+} from "./constants/paths";
 import { HomeTemplate } from "./templates/Home";
 import { RequestsTemplate } from "./templates/Requests";
 import { ConsultorsTemplate } from "./templates/Consultors";
@@ -25,64 +39,56 @@ import { BannersTemplate } from "./templates/Banners/BannerTemplate";
 import EditProduct from "./templates/Products/edit-product";
 import { ProductsTemplate } from "./templates/Products/product-view";
 import { Layout } from "./components/Layout";
+import AppUserProductsTemplate from "./templates/AppUserProduct";
 
 export const AppRoutes = () => {
+	return (
+		<Routes>
+			<Route path={DEFAULT_PATH} element={<Login />} />
+			<Route path={"*"} element={<NotFoundPage />} />
+			<Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
+			<Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
 
+			<Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
+			<Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
 
+			<Route path={USERDATASELL} element={<AppUserProductsTemplate />} />
 
-    return (
+			<Route
+				element={
+					<Layout>
+						<Outlet />
+					</Layout>
+				}
+			>
+				<Route path={HOME} element={<HomeTemplate />} />
 
-  
-            <Routes>
+				<Route path={REQUESTS} element={<RequestsTemplate />} />
 
-                <Route path={DEFAULT_PATH} element={<Login />} />
-                <Route path={"*"} element={<NotFoundPage />} />
-                <Route path={FORGOT_PASS_1} element={<ForgotPassStep1 />} />
-                <Route path={FORGOT_PASS_2} element={<ForgotPassStep2 />} />
-                
-                <Route path={MERCADO_PAGO_SUCCESS} element={<MercardoPagoSuccess />} />
-                <Route path={MERCADO_PAGO_FAILURE} element={<MercardoPagoFailure />} />
-                
+				<Route path={CONSULTORS} element={<ConsultorsTemplate />} />
+				<Route
+					path={REGISTER_CONSULTOR}
+					element={<RegisterConsultorTemplate />}
+				/>
 
-                <Route
-                    element={
-                        <Layout>
-                            <Outlet>
+				<Route path={USERS} element={<UsersTemplate />} />
 
+				<Route path={PRODUCTS}>
+					<Route index element={<ProductsTemplate />} />
+					<Route path={EDIT_PRODUCT} element={<EditProduct />} />
+				</Route>
+				<Route
+					path={REGISTER_PRODUCTS}
+					element={<RegisterProductsTemplate />}
+				/>
 
-                            </Outlet>
-                        </Layout>
-                    }
-                    >
+				<Route path={CATEGORIES} element={<CategoriesTemplate />} />
 
-                <Route path={HOME} element={<HomeTemplate />} />
+				<Route path={WITHDRAWAL} element={<WithdrawalRequestsTemplate />} />
+				<Route path={INVOICING} element={<InvoicingTemplate />} />
 
-                
-                <Route path={REQUESTS} element={<RequestsTemplate />} />
-
-                <Route path={CONSULTORS} element={<ConsultorsTemplate />} />
-                <Route path={REGISTER_CONSULTOR} element={<RegisterConsultorTemplate />} />
-
-                <Route path={USERS} element={<UsersTemplate />} />
-
-                <Route path={PRODUCTS} >
-                    <Route index element={<ProductsTemplate />} />
-                    <Route path={EDIT_PRODUCT} element={<EditProduct />} />
-                </Route>
-                <Route path={REGISTER_PRODUCTS} element={<RegisterProductsTemplate />} />
-
-                <Route path={CATEGORIES} element={<CategoriesTemplate />} />
-
-                <Route path={WITHDRAWAL} element={<WithdrawalRequestsTemplate />} />
-                <Route path={INVOICING} element={<InvoicingTemplate />} />
-
-                <Route path={BANNERS} element={<BannersTemplate />} />
-                
-                </Route>
-
-            </Routes>
-
-    );
-
-
-}
+				<Route path={BANNERS} element={<BannersTemplate />} />
+			</Route>
+		</Routes>
+	);
+};

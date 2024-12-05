@@ -4,61 +4,56 @@ import { StatsCard } from "../shared/Card/StatsCard";
 import { InputRangePicker } from "../shared/Input/range-picker";
 import { Flex, Skeleton, Typography } from "antd";
 
-
-const {Text} = Typography;
+const { Text } = Typography;
 
 const InvoicingCardContainer = () => {
-  
-  const { state, getDates } = useRangeDate();
-  const { items,isLoading } = useInvoicingCardItem();
+	const { state, getDates } = useRangeDate();
+	const { items, isLoading } = useInvoicingCardItem();
 
-  if(isLoading) {
-    return <Skeleton />
-  }
+	if (isLoading) {
+		return <Skeleton />;
+	}
 
-  return (
-    <div className="flex gap-6 flex-col">
+	return (
+		<div className="flex gap-6 flex-col">
+			<Flex wrap>
+				<Flex gap={10}>
+					<Text strong>
+						{state.rangeDate[0].length > 0
+							? "Dados dos dias: "
+							: "Dados do dia: "}
+					</Text>
 
-      <Flex wrap >
-        <Flex gap={10}>
-        
-        <Text strong>
-          {state.rangeDate[0].length > 0 ? 'Dados dos dias: ' : 'Dados do dia: '}
-        </Text>
-
-        <Text>
-        {state.rangeDate[0].length > 0
-            ? `${getDates(state).startDate} 
+					<Text>
+						{state.rangeDate[0].length > 0
+							? `${getDates(state).startDate} 
              até ${getDates(state).endDate}`
-            : new Date().toLocaleDateString()}
+							: new Date().toLocaleDateString()}
+					</Text>
+				</Flex>
 
-        </Text>
+				<div className="lg:ms-auto">
+					<InputRangePicker />
+				</div>
+			</Flex>
 
-        </Flex>
-
-        <div className="lg:ms-auto">
-          <InputRangePicker />
-        </div>
-      </Flex>
-
-      <article className="flex gap-3 items-center flex-wrap">
-        {items.map((item, index) => {
-          return (
-            <StatsCard.Root key={index}>
-              <StatsCard.Header icon={item.icon} title={item.title} />
-              <StatsCard.Footer>
-                <StatsCard.FooterContent
-                  headingContent={item.footerHeding}
-                  textContent={item.footerText}
-                />
-
-              </StatsCard.Footer>
-            </StatsCard.Root>
-          );
-        })}
-      </article>
-    </div>
-  );
+			<article className="flex gap-3 items-center flex-wrap">
+				{items.map((item, index) => {
+					return (
+						<StatsCard.Root key={index}>
+							<StatsCard.Header icon={item.icon} title={item.title} />
+							<StatsCard.Footer>
+								<StatsCard.FooterContent
+									headingContent={item.footerHeding}
+									textContent={item.footerText}
+								/>
+							</StatsCard.Footer>
+						</StatsCard.Root>
+					);
+				})}
+			</article>
+		</div>
+	);
 };
 
-export default InvoicingCardContainer
+export default InvoicingCardContainer;
