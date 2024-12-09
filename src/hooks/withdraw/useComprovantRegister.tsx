@@ -55,6 +55,8 @@ export const useComprovantRegister = ({ id }: Props) => {
 				headers,
 			});
 
+			console.log("req", req);
+
 			return req.data;
 		},
 		onSuccess: (res) => {

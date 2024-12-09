@@ -8,13 +8,14 @@ import {
 } from "../context/RangeDate/RangeDateContext";
 import { useWithdrawData } from "./withdraw/useWithdrawData";
 import { useRequestsData } from "./orders/useRequestsData";
-import { normalizeText } from "../functions/normalize-text";
 
 export const useMovimentationData = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ["movimentations"],
 		queryFn: getMovimentations,
 	});
+
+	console.log("data", data);
 
 	const [movimentations, setMovimentations] = useState<MovimentationType[]>([]);
 	const { data: requests, getRequestDateById } = useRequestsData();
@@ -103,11 +104,14 @@ export const useMovimentationData = () => {
 	};
 
 	const getOutputData = () => {
+		console.log("movimentations", movimentations);
 		const outputData = movimentations
 			.filter((m) => m.tipo === "saída")
 			.map((d) => {
 				const mes_saida = getRequestDateById(d.pedido_id);
 				const parsedDate = parseDate(mes_saida);
+
+				console.log("mes", mes_saida);
 
 				return {
 					...d,
@@ -117,7 +121,10 @@ export const useMovimentationData = () => {
 				};
 			});
 
-		if (dates && dates.startDate && dates.endDate) {
+		console.log("movimentations2", movimentations);
+		console.log("outputdata", outputData);
+
+		if (dates?.startDate && dates.endDate) {
 			const start = new Date(dates.startDate.split("/").reverse().join("-"));
 			const end = new Date(dates.endDate.split("/").reverse().join("-"));
 
@@ -129,6 +136,8 @@ export const useMovimentationData = () => {
 					return dataSaida >= start && dataSaida <= end;
 				}) || [];
 
+			console.log("filtro de data", filteredData);
+
 			return calculateMonthlyTotals(filteredData, "mes_saida");
 		}
 
@@ -139,6 +148,8 @@ export const useMovimentationData = () => {
 		const OutputData = getOutputData();
 
 		const total = OutputData.reduce((sum, item) => sum + (item.total || 0), 0);
+
+		console.log("total output", total);
 
 		return total;
 	};

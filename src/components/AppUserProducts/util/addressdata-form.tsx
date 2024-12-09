@@ -1,5 +1,4 @@
 import { Flex, Form, Input } from "antd";
-import type { UserData } from "../../../validations/registerUserValidation";
 import { SubHeader } from "../../shared/SubHeader/sub-header";
 import { colors } from "../../../theme/colors";
 import {
@@ -15,7 +14,15 @@ import {
 } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useCalculateShipping from "../../../hooks/useCalculateShipping";
-import type { ProductResponseFromApi } from "../../../@types/product";
+import type {
+	KartProduct,
+	ProductResponseFromApi,
+} from "../../../@types/product";
+
+type ProductWithQuantity = {
+	product: KartProduct;
+	quantity: number;
+};
 
 type AddressFieldProps<T extends FieldValues> = {
 	errors: FieldErrors<T>;
@@ -24,9 +31,23 @@ type AddressFieldProps<T extends FieldValues> = {
 	getValues: UseFormGetValues<T>;
 	reset: UseFormReset<T>;
 	setValue: UseFormSetValue<T>;
-	product: ProductResponseFromApi[];
+	product: ProductWithQuantity[];
 	handleSubmit: UseFormHandleSubmit<T>;
 	onSubmit: (data: T) => void;
+};
+
+type UserData = {
+	cep: string;
+	rua: string;
+	cidade: string;
+	numero: string;
+	complemento: string;
+	bairro: string;
+	estado: string;
+	telefone: string;
+	nomecliente: string;
+	emailcliente: string;
+	cpfcliente: string;
 };
 
 export const AddressDataForm = ({
@@ -48,12 +69,16 @@ export const AddressDataForm = ({
 	const { freteCalculate, calculateShipping } = useCalculateShipping(
 		(() => {
 			const arr = [] as ProductResponseFromApi[];
+
 			// biome-ignore lint/complexity/noForEach: <explanation>
-			product.forEach(({ nome, quantity }) => {
+			product.forEach(({ product, quantity }) => {
 				for (let i = 0; i < quantity; i++) arr.push(product);
+				console.log("product", product, "quantidade", quantity);
 			});
+
+			console.log("arr", arr);
+
 			return arr;
-			//@ts-ignore
 		})(),
 		cep,
 	);
@@ -99,6 +124,8 @@ export const AddressDataForm = ({
 
 	const [form] = Form.useForm();
 
+	console.log("freteCalculate", freteCalculate);
+
 	return (
 		<Flex vertical className="w-full">
 			<SubHeader
@@ -114,7 +141,7 @@ export const AddressDataForm = ({
 				form={form}
 				onFinish={handleSubmit(onSubmit)}
 				layout="vertical"
-				className="grid grid-cols-2 gap-4 w-full"
+				className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full"
 			>
 				<Form.Item
 					label="CEP"

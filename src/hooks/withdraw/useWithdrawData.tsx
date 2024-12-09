@@ -107,9 +107,12 @@ export const useWithdrawData = ({
 	};
 
 	const getWithdrawDateById = (id: number) => {
-		return (
-			data?.find((r) => r.id === id)?.datasaque || "sem data para este saque"
-		);
+		console.log("datadata", data);
+
+		const dataSaque =
+			data?.find((r) => r.id === id)?.datasaque || "sem data para este saque";
+		console.log("Data saque original:", dataSaque);
+		return dataSaque;
 	};
 
 	return {

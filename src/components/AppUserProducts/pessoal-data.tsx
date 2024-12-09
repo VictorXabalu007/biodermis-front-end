@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { UserData } from "../../validations/registerUserValidation";
 import { formatFieldValueInCpf } from "../../functions/Formatters/FormatCPF/formatValueInCpf";
-import { formatInPhoneNumber } from "../../functions/Formatters/FormatPhoneNumber/formatValueInPhoneNumber";
+import { formatPhoneNumber } from "../../functions/Formatters/FormatPhoneNumber/formatValueInPhoneNumber";
 import {
 	renderFormField,
 	renderMaskFormField,
@@ -23,21 +23,21 @@ export const PessoalDataFormApp = ({
 	};
 
 	const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const formattedPhone = formatInPhoneNumber(e.target.value);
+		const formattedPhone = formatPhoneNumber(e.target.value);
 		setPhoneNumber(formattedPhone);
 	};
 
 	const fields = [
-		renderFormField("nome", "Nome", control, errors, "text"),
+		renderFormField("nomecliente", "Nome", control, errors, "text"),
 		renderMaskFormField({
-			fieldName: "cpf",
+			fieldName: "cpfcliente",
 			label: "CPF",
 			control: control,
 			errors: errors,
 			onChange: handleCpfChange,
 			value: cpf,
 		}),
-		renderFormField("email", "E-mail", control, errors, "text"),
+		renderFormField("emailcliente", "E-mail", control, errors, "text"),
 		renderMaskFormField({
 			fieldName: "telefone",
 			label: "Telefone",

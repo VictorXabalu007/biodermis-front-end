@@ -34,4 +34,4 @@ export const FORBIDDEN = "/403";
 
 export const BANNERS = "/banners";
 
-export const USERDATASELL = "/teste";
+export const USERDATASELL = "/pedidoweb";

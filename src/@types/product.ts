@@ -19,6 +19,5 @@ export type ProductResponseFromApi = {
 
 export type KartProduct = {
   product: ProductResponseFromApi;
-
   quantity: number;
 };

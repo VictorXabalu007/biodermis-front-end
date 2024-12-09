@@ -3,40 +3,68 @@ import { AddressDataForm } from "./util/addressdata-form";
 import { useMessageAction } from "../../hooks/useMessageAction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	type UserData,
-	userSchema,
-} from "../../validations/registerUserValidation";
 import { UserRole } from "../../util/userRole";
 import { useMutation } from "@tanstack/react-query";
-import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
-import { getTypeOfPixKey } from "../../functions/Getters/getTypeOfPixKey";
 import { PessoalDataFormApp } from "./pessoal-data";
 import { useProductsData } from "../../hooks/products/useProductsData";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProductsList from "./util/products-list";
-import type { ProductResponseFromApi } from "../../@types/product";
+import type { KartProduct, ProductResponseFromApi } from "../../@types/product";
+import { z } from "zod";
+
+type UserData = {
+	cep: string;
+	rua: string;
+	cidade: string;
+	numero: string;
+	complemento: string;
+	bairro: string;
+	estado: string;
+	telefone: string;
+	nomecliente: string;
+	emailcliente: string;
+	cpfcliente: string;
+};
 
 const UserProductsForm = () => {
 	const { success, error, contextHolder } = useMessageAction();
 	const [productsWithQuantities, setProductsWithQuantities] = useState<
 		ProductResponseFromApi[]
 	>([]);
+	const [productsWithQuantitiesAddress, setProductsWithQuantitiesAddress] =
+		useState<KartProduct[]>([]);
 	const [searchParams] = useSearchParams();
 	const [isPickupInStore, setIsPickupInStore] = useState(false);
+	const [link, setLink] = useState("");
 
 	const { getProductsById } = useProductsData();
 
 	const produtos = searchParams.get("produtos");
-	const total = searchParams.get("total");
+	const total = searchParams.get("total") ?? "";
 	const quantidades = searchParams.get("quantidades");
+	const valores = searchParams.get("valores");
 
 	const produtosArray = produtos ? produtos.split(",").map(Number) : [];
+	const valoresArray = valores ? valores.split(",").map(Number) : [];
 	const quantidadesArray = quantidades
 		? quantidades.split(",").map(Number)
 		: [];
+
+	const userSchema = z.object({
+		cep: z.string(),
+		rua: z.string(),
+		cidade: z.string(),
+		numero: z.string(),
+		complemento: z.string(),
+		bairro: z.string(),
+		estado: z.string(),
+		telefone: z.string(),
+		nomecliente: z.string(),
+		emailcliente: z.string(),
+		cpfcliente: z.string(),
+	});
 
 	const {
 		handleSubmit,
@@ -51,8 +79,6 @@ const UserProductsForm = () => {
 		criteriaMode: "all",
 		mode: "onChange",
 		defaultValues: {
-			cargo_id: UserRole.ADMIN,
-			certificado: undefined,
 			cep: "",
 			rua: "",
 			cidade: "",
@@ -60,16 +86,23 @@ const UserProductsForm = () => {
 			complemento: "",
 			bairro: "",
 			estado: "",
+			telefone: "",
+			nomecliente: "",
+			emailcliente: "",
+			cpfcliente: "",
 		},
 	});
 
-	// http://localhost:5173/teste?produtos=293,202,180&quantidades=1,5,3&total=1355,00&totalProdutos=9&User=11
+	// http://localhost:5173/pedidoweb?produtos=293,202,180&quantidades=1,5,3&total=1355,00&totalProdutos=9&User=11
 
 	useEffect(() => {
 		const fetchData = async () => {
 			if (produtosArray.length > 0) {
 				try {
 					const productsData = await getProductsById(produtosArray);
+
+					console.log("produtos", productsData);
+
 					const productsWithQty = productsData.map(
 						(product: any, index: number) => ({
 							...product,
@@ -77,6 +110,7 @@ const UserProductsForm = () => {
 						}),
 					);
 					setProductsWithQuantities(productsWithQty);
+					setProductsWithQuantitiesAddress(productsWithQty);
 				} catch (error) {
 					console.error("Erro ao buscar dados dos produtos:", error);
 				}
@@ -86,29 +120,48 @@ const UserProductsForm = () => {
 		fetchData();
 	}, []);
 
-	const postAddress = useMutation({
-		mutationFn: async ({ data, id }: { data: UserData; id: number }) => {
-			const body = {
+	const submitOrder = useMutation({
+		mutationFn: async (data: any) => {
+			console.log("DATATATATA", data);
+			const payload = {
+				produtos_ids: productsWithQuantities.map((product) => ({
+					id: product.id,
+					quantidade: product.quantity,
+				})),
+
+				valorfrete: 0,
 				rua: data.rua,
+				numero: data.numero,
 				bairro: data.bairro,
-				estado: data.estado,
 				cep: data.cep,
 				cidade: data.cidade,
-				usuario_id: id,
-				numero: data.numero,
+				estado: data.estado,
 				complemento: data.complemento,
+				formaenvio: isPickupInStore ? "Retirar na Loja" : "Sedex",
+				telefone: data.telefone,
+				consultor_id: 11,
+				nomecliente: data.nomecliente,
+				emailcliente: data.emailcliente,
+				cpfcliente: data.cpfcliente,
 			};
+			console.log(payload.produtos_ids);
 
-			const headers = getHeaders();
+			console.log("payload", payload);
 
-			const req = await api.post("/endereco", body, {
-				headers,
-			});
+			const response = await api.post(
+				"http://85.31.61.50:3000/pedidos/web",
+				payload,
+			);
 
-			return req.data;
+			setLink(response.data.link);
+
+			console.log("resposta2", response.data.link);
+
+			return response.data;
 		},
 		onSuccess: () => {
 			success("Usuário cadastrado com sucesso!");
+
 			onReset();
 		},
 		onError: (err: any) => {
@@ -116,65 +169,15 @@ const UserProductsForm = () => {
 		},
 	});
 
-	const postCertified = useMutation({
-		mutationFn: async (certified: any) => {
-			const formData = new FormData();
+	useEffect(() => {
+		if (link) {
+			console.log("link", link);
+			window.location.href = link;
+		}
+	}, [link]);
 
-			formData.append("file", certified.originFileObj as File);
-
-			const headers = {
-				...getHeaders(),
-				"Content-Type": "multipart/form-data",
-			};
-
-			await api.post("/perfil/certificado", formData, {
-				headers,
-			});
-		},
-		onSuccess: () => console.log("Sucesso ao registrar certificado!"),
-		onError: (err) => console.log("Erro ao registrar certificado: ", err),
-	});
-
-	const postUser = useMutation({
-		mutationFn: async (data: UserData) => {
-			const headers = getHeaders();
-
-			const body = {
-				nome: data.nome,
-				cpf: data.cpf,
-				email: data.email,
-				telefone: data.telefone,
-				agencia: data.bankData.agencia,
-				conta: data.bankData.conta,
-				pix: data.bankData.pix,
-				senha: data.senha,
-				cargo_id: data.cargo_id,
-				banco: data.bankData.banco,
-				tipochave: getTypeOfPixKey(data.bankData.pix),
-			};
-
-			const req = await api.post("/usuarios", body, {
-				headers,
-			});
-
-			return req.data;
-		},
-
-		onSuccess: (res, context) => {
-			postAddress.mutate({ data: context, id: res.id });
-
-			if (context.certificado) {
-				postCertified.mutate(context.certificado);
-			}
-		},
-
-		onError: (err: any) => {
-			error(err.response.data.error || "Erro ao registrar usuário!");
-		},
-	});
-
-	const onSubmit = (data: UserData) => {
-		postUser.mutate(data);
+	const onSubmit = (data: any) => {
+		submitOrder.mutate(data);
 	};
 
 	const [form] = Form.useForm();
@@ -184,8 +187,13 @@ const UserProductsForm = () => {
 		reset({ cargo_id: UserRole.ADMIN });
 	};
 
+	console.log(
+		"product format antes de ir pro address componente: ",
+		productsWithQuantitiesAddress,
+	);
+
 	return (
-		<div className="flex max-w-6xl mx-auto gap-8 p-12">
+		<div className="flex flex-col md:flex-row  max-w-6xl mx-auto gap-8 p-12">
 			<div className="w-2/3">
 				{contextHolder}
 				<Form
@@ -215,7 +223,10 @@ const UserProductsForm = () => {
 							reset={reset}
 							handleSubmit={handleSubmit}
 							onSubmit={onSubmit}
-							product={productsWithQuantities}
+							product={productsWithQuantitiesAddress.map((product) => ({
+								product: product, // Aqui a estrutura do produto deve estar correta
+								quantity: product.quantity,
+							}))}
 						/>
 					)}
 					<div className="flex gap-2 mt-10 pb-12">
@@ -224,13 +235,13 @@ const UserProductsForm = () => {
 							size="large"
 							onClick={handleSubmit(onSubmit)}
 							aria-label="submit"
-							className="w-1/3"
+							className="w-1/3 text-xs md:text-base"
 						>
 							Enviar
 						</Button>
 						<Button
 							htmlType="reset"
-							className="w-1/3 bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
+							className="w-1/3 text-xs md:text-base bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
 							onClick={onReset}
 							aria-label="reset"
 							size="large"
@@ -240,8 +251,12 @@ const UserProductsForm = () => {
 					</div>
 				</Form>
 			</div>
-			<div className="w-2/3">
-				<ProductsList product={productsWithQuantities} total={total} />
+			<div className="w-full md:w-2/3">
+				<ProductsList
+					valores={valoresArray}
+					products={productsWithQuantities}
+					total={total}
+				/>
 			</div>
 		</div>
 	);
