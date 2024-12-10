@@ -204,7 +204,7 @@ type ExtendedRequests = Requests & {
 		telefone: string;
 		email: string;
 		cpf: string;
-	};
+	} | null;
 	user_data?: {
 		nome: string;
 		telefone: string;

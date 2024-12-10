@@ -14,13 +14,10 @@ import {
 } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useCalculateShipping from "../../../hooks/useCalculateShipping";
-import type {
-	KartProduct,
-	ProductResponseFromApi,
-} from "../../../@types/product";
+import type { ProductResponseFromApi } from "../../../@types/product";
 
-type ProductWithQuantity = {
-	product: KartProduct;
+export type ProductWithQuantity = {
+	product: ProductResponseFromApi;
 	quantity: number;
 };
 
@@ -62,9 +59,8 @@ export const AddressDataForm = ({
 	onSubmit,
 }: AddressFieldProps<UserData>) => {
 	const [loadingCep, setLoadingCep] = useState(false);
-	const [frete, setFrete] = useState<string>("SEDEX");
 
-	const [cep, setCep] = useState<string>(""); // Adicionando estado para armazenar o CEP
+	const [cep, setCep] = useState<string>("");
 
 	const { freteCalculate, calculateShipping } = useCalculateShipping(
 		(() => {
@@ -123,8 +119,6 @@ export const AddressDataForm = ({
 	};
 
 	const [form] = Form.useForm();
-
-	console.log("freteCalculate", freteCalculate);
 
 	return (
 		<Flex vertical className="w-full">
@@ -260,8 +254,8 @@ export const AddressDataForm = ({
 					{freteCalculate &&
 					Array.isArray(freteCalculate) &&
 					freteCalculate.length > 0
-						? parseFloat(
-								freteCalculate.find((i) => i.name === frete)?.price || "0",
+						? Number.parseFloat(
+								freteCalculate.find((i) => i.name === "SEDEX")?.price || "0",
 							).toLocaleString("PT-BR", { currency: "BRL", style: "currency" })
 						: "Frete não disponível"}
 				</p>

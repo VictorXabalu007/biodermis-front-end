@@ -29,7 +29,6 @@ import { useConsultorData } from "../../hooks/users/useConsultorData";
 import { normalizeText } from "../../functions/normalize-text";
 import SearchInput from "../shared/Input/search-input";
 import { urlParams } from "../../util/urlParams";
-import { InputRangePicker } from "../shared/Input/range-picker";
 import FilterButtons from "./util/button-filter";
 
 const ConsultorsTable = () => {
