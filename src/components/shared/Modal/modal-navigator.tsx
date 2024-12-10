@@ -9,15 +9,12 @@ import { UserRole } from "../../../util/userRole";
 import { RangeDateProvider } from "../../../context/RangeDate/RangeDateContext";
 import { UserForm } from "../UserForm";
 import { Button } from "antd";
-import { InputRangePicker } from "../Input/range-picker";
-import { useRangeDate } from "../../../context/RangeDate/RangeDateContext";
 
 export const ModalNavigator = ({
 	data,
 	isReadonly,
 }: FormType<UserCredentials>) => {
 	const [totalFaturamento, setTotalFaturamento] = useState(0);
-	const { state, dispatch } = useRangeDate();
 
 	const render = (key: string, isReadonly?: boolean) => {
 		switch (key) {
@@ -33,7 +30,6 @@ export const ModalNavigator = ({
 						<InovicingModal
 							onTotalFaturamento={setTotalFaturamento}
 							data={data}
-							rangeDate={state.rangeDate}
 						/>
 					)
 				);

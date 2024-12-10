@@ -1,5 +1,8 @@
 import { Button, Checkbox, Form } from "antd";
-import { AddressDataForm } from "./util/addressdata-form";
+import {
+	AddressDataForm,
+	type ProductWithQuantity,
+} from "./util/addressdata-form";
 import { useMessageAction } from "../../hooks/useMessageAction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +14,7 @@ import { useProductsData } from "../../hooks/products/useProductsData";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProductsList from "./util/products-list";
-import type { KartProduct, ProductResponseFromApi } from "../../@types/product";
+import type { ProductResponseFromApi } from "../../@types/product";
 import { z } from "zod";
 
 type UserData = {
@@ -26,6 +29,7 @@ type UserData = {
 	nomecliente: string;
 	emailcliente: string;
 	cpfcliente: string;
+	cargo_id?: number;
 };
 
 const UserProductsForm = () => {
@@ -34,7 +38,7 @@ const UserProductsForm = () => {
 		ProductResponseFromApi[]
 	>([]);
 	const [productsWithQuantitiesAddress, setProductsWithQuantitiesAddress] =
-		useState<KartProduct[]>([]);
+		useState<ProductWithQuantity[]>([]);
 	const [searchParams] = useSearchParams();
 	const [isPickupInStore, setIsPickupInStore] = useState(false);
 	const [link, setLink] = useState("");
@@ -101,8 +105,6 @@ const UserProductsForm = () => {
 				try {
 					const productsData = await getProductsById(produtosArray);
 
-					console.log("produtos", productsData);
-
 					const productsWithQty = productsData.map(
 						(product: any, index: number) => ({
 							...product,
@@ -129,7 +131,7 @@ const UserProductsForm = () => {
 					quantidade: product.quantity,
 				})),
 
-				valorfrete: 0,
+				valorfrete: isPickupInStore ? 0 : 10,
 				rua: data.rua,
 				numero: data.numero,
 				bairro: data.bairro,
@@ -155,12 +157,10 @@ const UserProductsForm = () => {
 
 			setLink(response.data.link);
 
-			console.log("resposta2", response.data.link);
-
 			return response.data;
 		},
 		onSuccess: () => {
-			success("Usuário cadastrado com sucesso!");
+			success("Pedido criado com sucesso!");
 
 			onReset();
 		},
@@ -204,31 +204,39 @@ const UserProductsForm = () => {
 					layout="vertical"
 				>
 					<PessoalDataFormApp errors={errors} control={control} />
+
+					<AddressDataForm
+						errors={errors}
+						setValue={setValue}
+						control={control}
+						register={register}
+						getValues={getValues}
+						reset={reset}
+						handleSubmit={handleSubmit}
+						onSubmit={onSubmit}
+						product={productsWithQuantitiesAddress}
+					/>
 					<Form.Item>
-						<Checkbox
-							checked={isPickupInStore}
-							onChange={(e) => setIsPickupInStore(e.target.checked)}
+						<div
+							className={` w-[40%] border-2 p-4 rounded-md text-center cursor-pointer ${
+								isPickupInStore
+									? "border-[#C882B7] bg-[#ecd6e6] text-[#C882B7]"
+									: "border-gray-300 bg-white text-gray-600 hover:border-gray-500"
+							}`}
+							onClick={() => setIsPickupInStore((prev) => !prev)}
 						>
-							Retirar na Loja
-						</Checkbox>
+							<Checkbox
+								checked={isPickupInStore}
+								onChange={(e) => setIsPickupInStore(e.target.checked)}
+								className="hidden"
+							/>
+							<div className="flex flex-col">
+								<span className="font-semibold">Retirar na Loja</span>
+								<span className="font-semibold">Frete: R$0</span>
+							</div>
+						</div>
 					</Form.Item>
 
-					{!isPickupInStore && (
-						<AddressDataForm
-							errors={errors}
-							setValue={setValue}
-							control={control}
-							register={register}
-							getValues={getValues}
-							reset={reset}
-							handleSubmit={handleSubmit}
-							onSubmit={onSubmit}
-							product={productsWithQuantitiesAddress.map((product) => ({
-								product: product, // Aqui a estrutura do produto deve estar correta
-								quantity: product.quantity,
-							}))}
-						/>
-					)}
 					<div className="flex gap-2 mt-10 pb-12">
 						<Button
 							htmlType="submit"
