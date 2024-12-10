@@ -1,141 +1,128 @@
-
 import { useCallback, useEffect, useState } from "react";
-import { FilterDateConstraints, RefinedRangeDate, useRangeDate } from "../../context/RangeDate/RangeDateContext";
+import {
+	type FilterDateConstraints,
+	type RefinedRangeDate,
+	useRangeDate,
+} from "../../context/RangeDate/RangeDateContext";
 import { getTotalBalance } from "../../components/WithdrawalRequests/service/getTotalBalance";
 import { useQuery } from "@tanstack/react-query";
 import { updateBalance } from "../../components/WithdrawalRequests/service/updateBalance";
 import { getWithdraw } from "../../components/WithdrawalRequests/service/getWithdraw";
 import { useConsultorData } from "../users/useConsultorData";
 
+export const useWithdrawData = ({
+	enableFilterDate = true,
+}: FilterDateConstraints = {}) => {
+	const mockWithDrawal: WithDrawal[] = [];
 
+	const { getConsultorName } = useConsultorData();
 
-export const useWithdrawData = ({ enableFilterDate = true }: FilterDateConstraints = {}) => {
+	const { state, getDates } = useRangeDate();
+	const [dates, setDates] = useState<RefinedRangeDate>();
 
-    const mockWithDrawal:WithDrawal[] = []
+	const { data: balance } = useQuery({
+		queryKey: ["balance"],
+		queryFn: getTotalBalance,
+	});
 
-    const {getConsultorName} = useConsultorData();
+	const [accessBalance, setBalance] = useState({
+		saldodisp: "0",
+	});
 
-    const {state, getDates} = useRangeDate();
-    const [dates, setDates] = useState<RefinedRangeDate>();
+	for (let i = 0; i < 10; i++) {
+		mockWithDrawal.push({
+			consultor_id: i,
+			id: i,
+			datasaque: new Date().toLocaleDateString(),
+			pedidos_ids: [i],
+			pedido_resto_id: i,
+			saldo_disp: accessBalance.saldodisp,
+			nome_consultor: `Consultor ${i}`,
+			srccomp: null,
+			status: i % 2 === 0 ? "aprovado" : "pendente",
+			valorresto: "100",
+			valorsaque: "100",
+		});
+	}
 
-    const {data:balance} = useQuery({
-        queryKey: ['balance'],
-        queryFn: getTotalBalance
-    })
+	const [mockData, _] = useState(mockWithDrawal);
 
-    const [accessBalance, setBalance] = useState({
-        saldodisp: "0"
-    });
+	useEffect(() => {
+		if (balance) {
+			setBalance(balance);
+		}
+	}, [balance]);
 
-    for(let i = 0; i < 10; i++){
-        mockWithDrawal.push({
-            consultor_id:i,
-            id: i,
-            datasaque: new Date().toLocaleDateString(),
-            pedidos_ids:[i],
-            pedido_resto_id:i,
-            saldo_disp: accessBalance.saldodisp,
-            nome_consultor:`Consultor ${i}`,
-            srccomp:null,
-            status: i % 2=== 0 ? 'aprovado' : 'pendente',
-            valorresto: '100',
-            valorsaque:'100'
+	useEffect(() => {
+		const { endDate, startDate } = getDates(state);
 
-            
-        })
-    }
+		setDates({ endDate, startDate });
+	}, [state.rangeDate]);
 
-    const [mockData, _] = useState(mockWithDrawal)
+	const fetchBalance = useCallback(
+		() => async () => {
+			await updateBalance();
+		},
+		[],
+	);
 
-    useEffect(()=>{
+	useEffect(() => {
+		fetchBalance();
+	}, [fetchBalance]);
 
-        
+	const { data: withdraw, isLoading } = useQuery({
+		queryKey: ["withdraw"],
+		queryFn: getWithdraw,
+	});
 
-        if(balance){
-            setBalance(balance)
-        }
+	const [data, setData] = useState<WithDrawal[]>([]);
 
-    
-    },[balance])
-    
-    
-    useEffect(()=> {
+	useEffect(() => {
+		if (enableFilterDate && dates && dates.startDate && dates.endDate) {
+			const start = new Date(dates.startDate.split("/").reverse().join("-"));
+			const end = new Date(dates.endDate.split("/").reverse().join("-"));
 
-        const {endDate, startDate} = getDates(state);
+			const filteredData =
+				withdraw?.filter((d: any) => {
+					const datasaque = new Date(
+						d.datasaque.split("/").reverse().join("-"),
+					);
+					return datasaque >= start && datasaque <= end;
+				}) || [];
 
-        setDates({endDate, startDate});
-        
-    },[state.rangeDate]);
+			setData(filteredData);
+		} else if (withdraw) {
+			setData(withdraw);
+		}
+	}, [dates, withdraw]);
 
+	useEffect(() => {
+		if (withdraw) {
+			setData(withdraw);
+		}
+	}, [withdraw]);
 
-    const fetchBalance = useCallback(() => (async ()  => {
-        await updateBalance();
-    }),[])
+	const isWithdrawEmpty = () => {
+		return data.length === 0;
+	};
 
-    useEffect(()=> {
+	const getWithdrawDateById = (id: number) => {
+		console.log("datadata", data);
 
-        fetchBalance();
+		const dataSaque =
+			data?.find((r) => r.id === id)?.datasaque || "sem data para este saque";
+		console.log("Data saque original:", dataSaque);
+		return dataSaque;
+	};
 
-    },[fetchBalance]);
-
-    const {data:withdraw,isLoading} = useQuery({
-        queryKey: ['withdraw'],
-        queryFn: getWithdraw
-    })
-    
-    const [data, setData] = useState<WithDrawal[]>([]);
-
-
-    useEffect(() => {
-
-
-        if (enableFilterDate && dates && dates.startDate && dates.endDate) {
-            const start = new Date(dates.startDate.split('/').reverse().join('-'));
-            const end = new Date(dates.endDate.split('/').reverse().join('-'));
-
-            const filteredData = withdraw?.filter((d: any) => {
-                const datasaque = new Date(d.datasaque.split('/').reverse().join('-'));
-                return datasaque >= start && datasaque <= end;
-            }) || [];
-
-            setData(filteredData);
-
-        } else if (withdraw) {
-            setData(withdraw);
-        }
-        
-    }, [dates, withdraw]);
-
-    useEffect(()=> {
-
-        if(withdraw){
-            setData(withdraw)
-        }
-
-    },[withdraw]);
-    
-
-    const isWithdrawEmpty = () => {
-        return data.length === 0;
-    }
-
-    const getWithdrawDateById = (id:number) => {
-
-        return data?.find(r => r.id === id)?.datasaque || 'sem data para este saque'
-
-    }
-
-    return {
-        data,
-        setData,
-        isLoading,
-        isWithdrawEmpty,
-        getConsultorName,
-        getWithdrawDateById,
-        accessBalance,
-        mockData
-    }
-
-
-
-}
+	return {
+		data,
+		setData,
+		isLoading,
+		isWithdrawEmpty,
+		getConsultorName,
+		getWithdrawDateById,
+		accessBalance,
+		mockData,
+	};
+};

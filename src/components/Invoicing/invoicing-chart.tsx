@@ -5,35 +5,26 @@ import { ChartWrapper } from "../shared/Chart/components/ChartWrapper";
 import { useChartSeries } from "../../hooks/useInvoicingChart";
 
 const InvoicingChartContainer = () => {
+	const { series, options } = useChartSeries();
 
-  const {series,options} = useChartSeries();
+	return (
+		<ChartWrapper>
+			<ChartHeader.Root>
+				<ChartHeader.Wrapper>
+					<ChartHeader.Icon icon={FaMoneyBills} />
 
-  return (
+					<ChartHeader.Content content=" mensal (entradas e saídas)" />
+				</ChartHeader.Wrapper>
+			</ChartHeader.Root>
 
-    <ChartWrapper>
-
-      <ChartHeader.Root>
-
-        <ChartHeader.Wrapper>
-
-          <ChartHeader.Icon icon={FaMoneyBills} />
-
-          <ChartHeader.Content content="Faturamento mensal (entradas e saídas)" />
-          
-        </ChartHeader.Wrapper>
-
-      </ChartHeader.Root>
-
-      <Chart
-        // @ts-ignore
-        options={options}
-        series={series}
-        type="bar"
-      />
-
-    </ChartWrapper>
-
-  );
+			<Chart
+				// @ts-ignore
+				options={options}
+				series={series}
+				type="bar"
+			/>
+		</ChartWrapper>
+	);
 };
 
-export default InvoicingChartContainer
+export default InvoicingChartContainer;

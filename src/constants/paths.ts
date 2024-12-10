@@ -1,40 +1,37 @@
+export const DEFAULT_PATH = "/";
 
+export const FORGOT_PASS_1 = "/esqueceu+senha";
 
+export const FORGOT_PASS_2 = "/esqueceu-senha-2";
 
-export const DEFAULT_PATH = '/';
+export const HOME = "/home";
 
-export const FORGOT_PASS_1 = '/esqueceu+senha'
+export const REQUESTS = "/pedidos";
 
-export const FORGOT_PASS_2 = '/esqueceu-senha-2'
+export const CONSULTORS = "/consultores";
 
-export const HOME = '/home';
+export const USERS = "/usuarios";
 
-export const REQUESTS = '/pedidos';
+export const PRODUCTS = "/produtos";
 
-export const CONSULTORS = '/consultores';
+export const WITHDRAWAL = "/pedidos-de-saque";
 
-export const USERS = '/usuarios';
+export const INVOICING = "/faturamento";
 
-export const PRODUCTS = '/produtos';
+export const REGISTER_CONSULTOR = "/consultores/registrar+consultor";
 
-export const WITHDRAWAL = '/pedidos-de-saque';
+export const REGISTER_PRODUCTS = "/produtos/registrar+produto";
 
-export const INVOICING = '/faturamento';
+export const EDIT_PRODUCT = "edit/:id";
 
-export const REGISTER_CONSULTOR = '/consultores/registrar+consultor'
+export const CATEGORIES = "/categorias";
 
-export const REGISTER_PRODUCTS = '/produtos/registrar+produto'
+export const MERCADO_PAGO_SUCCESS = "/mercadopagosuccess";
 
-export const EDIT_PRODUCT = 'edit/:id'
+export const MERCADO_PAGO_FAILURE = "/mercadopagofailure";
 
-export const CATEGORIES = '/categorias'
+export const FORBIDDEN = "/403";
 
-export const MERCADO_PAGO_SUCCESS = '/mercadopagosuccess';
+export const BANNERS = "/banners";
 
-export const MERCADO_PAGO_FAILURE = '/mercadopagofailure';
-
-export const FORBIDDEN = '/403'
-
-export const BANNERS = '/banners'
-
-
+export const USERDATASELL = "/pedidoweb";

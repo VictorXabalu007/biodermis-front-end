@@ -6,85 +6,80 @@ import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
 import { useMessageAction } from "../useMessageAction";
 
-
 type Props = {
-    id : number
-}
+	id: number;
+};
 
 const proofSchema = z.object({
-    pixProof: z.array(z.custom().refine(file => file !== null, 'Por favor, insira um arquivo'),
-    {required_error: 'Insira o comprovante!'}).refine(arr => arr.length !== 0,
-         'Insira um arquivo válido!')
-    .transform(files => files[0])
-})
+	pixProof: z
+		.array(
+			z
+				.custom()
+				.refine((file) => file !== null, "Por favor, insira um arquivo"),
+			{ required_error: "Insira o comprovante!" },
+		)
+		.refine((arr) => arr.length !== 0, "Insira um arquivo válido!")
+		.transform((files) => files[0]),
+});
 
 export type RegisterPixProofType = z.infer<typeof proofSchema>;
 
-export const useComprovantRegister = ({id}:Props) => {
+export const useComprovantRegister = ({ id }: Props) => {
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm<RegisterPixProofType>({
+		resolver: zodResolver(proofSchema),
+		criteriaMode: "all",
+		mode: "all",
+	});
 
+	const { contextHolder, success, error } = useMessageAction();
 
+	const uploadComprovant = useMutation({
+		mutationFn: async (data: RegisterPixProofType) => {
+			const headers = {
+				...getHeaders(),
+				"Contety-Type": "multipart/form-data",
+			};
 
-    const {handleSubmit, control, formState: {errors}} = useForm<RegisterPixProofType>({
-        resolver: zodResolver(proofSchema),
-        criteriaMode: 'all',
-        mode: 'all'
-    });
+			const { pixProof } = data;
 
-    
-    const {contextHolder,success,error} = useMessageAction();
+			const formData = new FormData();
 
-    
-    const uploadComprovant = useMutation({
-        mutationFn:async (data:RegisterPixProofType)=> {
+			//@ts-ignore
+			formData.append("file", pixProof.originFileObj as File);
 
-            const headers = {
-                ...getHeaders(),
-                'Contety-Type': 'multipart/form-data',
-            }
+			const req = await api.post(`/saques/comprovante/${id}`, formData, {
+				headers,
+			});
 
-            
-            const {pixProof} = data
+			console.log("req", req);
 
-     
-            const formData = new FormData();
-            
-            //@ts-ignore
-            formData.append('file',pixProof.originFileObj as File)
+			return req.data;
+		},
+		onSuccess: (res) => {
+			success(res.success);
 
-            const req = await api.post(`/saques/comprovante/${id}`,formData,{
-                headers
-            })
+			window.location.reload();
+		},
+		onError: (err: any) => {
+			console.log("Erro ao realizar upload do comprovante: ", err);
 
-            return req.data
-        },
-        onSuccess : (res)=> {
-            
-            success(res.success)
-            
-        },
-        onError: (err:any) => {
-            console.log('Erro ao realizar upload do comprovante: ', err);
-            
-            error(err.response.data.error)
-            
-        }
-    })
+			error(err.response.data.error);
+		},
+	});
 
-    const onSubmit = (data:RegisterPixProofType) => {
+	const onSubmit = (data: RegisterPixProofType) => {
+		uploadComprovant.mutate(data);
+	};
 
-        uploadComprovant.mutate(data);
-           
-    }
-
-  
-
-
-    return {
-        handleSubmit,
-        control,
-        errors,
-        contextHolder,
-        onSubmit
-    }
-  
-}
+	return {
+		handleSubmit,
+		control,
+		errors,
+		contextHolder,
+		onSubmit,
+	};
+};

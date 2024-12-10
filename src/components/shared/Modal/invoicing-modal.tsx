@@ -1,70 +1,95 @@
-import { Empty } from "antd"
+import { Empty } from "antd";
+import { MoneyDataCard } from "../Card/MoneyDataCard";
+import { buildInvoicingIcon } from "./functions/buildInvoicingIcon";
+import { useRequestsData } from "../../../hooks/orders/useRequestsData";
+import { useEffect, useState } from "react";
 
-import { MoneyDataCard } from "../Card/MoneyDataCard"
-import { buildInvoicingIcon } from "./functions/buildInvoicingIcon"
-import { useRequestsData } from "../../../hooks/orders/useRequestsData"
+export const InovicingModal = ({
+	data,
+	onTotalFaturamento,
+}: {
+	data: UserCredentials;
+	onTotalFaturamento: (total: number) => void;
+}) => {
+	const { getRequestDataOfConsultorId } = useRequestsData();
 
+	const consultorData = getRequestDataOfConsultorId(data.id);
 
+	console.log("consultordata", consultorData);
 
-export const InovicingModal = ({data}:{data:UserCredentials}) => {
+	const [sortOrder, setSortOrder] = useState<string>("");
 
+	const convertDateToISO = (dateStr: string) => {
+		const [day, month, year] = dateStr.split("/");
+		return `${year}-${month}-${day}`;
+	};
 
-    const {getRequestDataOfConsultorId} = useRequestsData();
-    
-    const consultorData = getRequestDataOfConsultorId(data.id);
- 
-    return (
+	const sortData = (data: any[], order: string) => {
+		if (order === "asc") {
+			return data.sort((a, b) =>
+				convertDateToISO(a.datapedido) > convertDateToISO(b.datapedido)
+					? 1
+					: -1,
+			);
+		}
+		if (order === "desc") {
+			return data.sort((a, b) =>
+				convertDateToISO(a.datapedido) < convertDateToISO(b.datapedido)
+					? 1
+					: -1,
+			);
+		}
+		return data;
+	};
 
-        consultorData.length > 0 ? (
+	// Ordenar os dados filtrados
+	const sortedConsultorData = sortData([...consultorData], sortOrder);
+	console.log("sortedConsultorData", sortedConsultorData);
 
-            <div className="flex flex-col max-h-[350px] overflow-y-scroll">
+	useEffect(() => {
+		// Calcular o total de faturamento
+		const totalFaturamento = sortedConsultorData.reduce(
+			(acc, item) => acc + Number.parseFloat(item.valor),
+			0,
+		);
+		onTotalFaturamento(totalFaturamento);
+	}, [sortedConsultorData, onTotalFaturamento]);
 
-            {consultorData.map((item,index) => {
+	const handleSortChange = (order: string) => {
+		setSortOrder(order); // Altera a direção da ordenação
+	};
 
-                return (
-
-                <MoneyDataCard.Root
-                key={index}
-                >
-
-                <MoneyDataCard.LeftWrapper>
-
-                    {buildInvoicingIcon(item.statuspag)}
-
-                    <MoneyDataCard.Text
-                    title={item.statuspag}
-                    subtitle={item.datapedido}
-                    />
-
-                </MoneyDataCard.LeftWrapper>
-
-                    <MoneyDataCard.Value
-                    cardType="generic"
-                    value={parseFloat(item.valor)}
-                    />
-
-                </MoneyDataCard.Root>
-
-                )
-
-
-            })}
-
-
-
-        </div>
-
-
-        ) : (
-
-            <Empty
-                description="Nenhum dado para esse consultor no momento"
-            />
-
-        )
-
-
-        
-    )
-
-}
+	return sortedConsultorData.length > 0 ? (
+		<div>
+			<div className="flex justify-center m-4">
+				<button
+					type="button"
+					className="px-4 py-2 bg-gray-300 rounded-md"
+					onClick={() => handleSortChange(sortOrder === "asc" ? "desc" : "asc")}
+				>
+					Ordenar por Data de Saque (
+					{sortOrder === "asc" ? "Crescente" : "Decrescente"})
+				</button>
+			</div>
+			<div className="flex flex-col max-h-[350px] overflow-y-scroll">
+				{sortedConsultorData.map((item, index) => (
+					<MoneyDataCard.Root key={index}>
+						<MoneyDataCard.LeftWrapper>
+							{buildInvoicingIcon(item.statuspag)}
+							<MoneyDataCard.Text
+								title={item.statuspag}
+								subtitle={item.datapedido}
+							/>
+						</MoneyDataCard.LeftWrapper>
+						<MoneyDataCard.Value
+							cardType="generic"
+							value={parseFloat(item.valor)}
+						/>
+					</MoneyDataCard.Root>
+				))}
+			</div>
+		</div>
+	) : (
+		<Empty description="Nenhum dado para o consultor nesta data." />
+	);
+};
