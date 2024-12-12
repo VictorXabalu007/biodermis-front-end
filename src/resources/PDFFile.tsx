@@ -222,15 +222,25 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 	const [userDetails, setUserDetails] = useState<any>(null);
 
 	useEffect(() => {
-		const user =
-			data.modelo === "venda" ? data.consultora_data : data.user_data;
+		const user = data;
 
 		console.log("user", user);
-
+		console.log("dadwdawd");
 		console.log("user_data", data.user_data);
+		console.log("dasdasdasds", data);
+		console.log("consultor data", data.consultora_data);
+		console.log("datadatadsadasdsa", data.cpfcliente);
 
 		setUserDetails(user);
-	}, [data.modelo, data.consultora_data, data.user_data]);
+		console.log("usuario detalhes", userDetails);
+	}, [
+		data.modelo,
+		data.consultora_data,
+		data.user_data,
+		data,
+		data.cpfcliente,
+		userDetails,
+	]);
 
 	console.log("user_data", data.user_data);
 
@@ -246,16 +256,22 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 				<View style={styles.subheaderSection}>
 					<View style={styles.subTitleSection}>
 						<Text style={styles.subtitle}>Dados do cliente</Text>
-						<Text style={styles.subtitleText}>Nome: {userDetails?.nome}</Text>
+						<Text style={styles.subtitleText}>
+							Nome: {userDetails?.nomecliente}
+						</Text>
 						<Text style={styles.subtitleText}>
 							Telefone: {userDetails?.telefone}
 						</Text>
-						<Text style={styles.subtitleText}>Email: {userDetails?.email}</Text>
+						<Text style={styles.subtitleText}>
+							Email: {userDetails?.emailcliente}
+						</Text>
 					</View>
 					<View style={styles.separator} />
 					<View style={styles.subTitleSection}>
 						<Text style={styles.subtitle}>Informações adicionais</Text>
-						<Text style={styles.subtitleText}>CPF: {userDetails?.cpf}</Text>
+						<Text style={styles.subtitleText}>
+							CPF: {userDetails?.cpfcliente}
+						</Text>
 					</View>
 					<View style={styles.separator} />
 					<View style={styles.subTitleSection}>
