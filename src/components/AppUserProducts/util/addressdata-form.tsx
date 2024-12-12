@@ -15,6 +15,8 @@ import {
 import { useEffect, useState } from "react";
 import useCalculateShipping from "../../../hooks/useCalculateShipping";
 import type { ProductResponseFromApi } from "../../../@types/product";
+import { api } from "../../../service/connection";
+import Api from "../../../service/api";
 
 export type ProductWithQuantity = {
 	product: ProductResponseFromApi;
@@ -62,7 +64,7 @@ export const AddressDataForm = ({
 
 	const [cep, setCep] = useState<string>("");
 
-	const { freteCalculate, calculateShipping } = useCalculateShipping(
+	const { freteCalculate } = useCalculateShipping(
 		(() => {
 			const arr = [] as ProductResponseFromApi[];
 
@@ -79,11 +81,55 @@ export const AddressDataForm = ({
 		cep,
 	);
 
+	const featchCalculateShipping = async () => {
+		const response = await api.post(Api.calcularFrete, {
+			zipCodeAdress: "62875-000",
+			productsData: [
+				{
+					id: 1,
+					nome: "ELIXIR DE TRATAMENTO BIOEYES - 60 G",
+					descricao: "teste",
+					valormin: "0.50",
+					valormax: "1.50",
+					valorvenda: "1.00",
+					inativo: false,
+					mediaavs: "0.0",
+					estoque: 0,
+					altura: "4.00",
+					peso: "70.00",
+					largura: "2.00",
+					profundidade: "4.00",
+					imagens: null,
+					categoria_ids: [1],
+				},
+				{
+					id: 2,
+					nome: "Teste templs",
+					descricao: "teste",
+					valormin: "0.50",
+					valormax: "1.50",
+					valorvenda: "1.00",
+					inativo: false,
+					mediaavs: "0.0",
+					estoque: 0,
+					altura: "4.00",
+					peso: "70.00",
+					largura: "2.00",
+					profundidade: "4.00",
+					imagens: null,
+					categoria_ids: [1],
+				},
+			],
+		});
+
+		console.log("rearae", response.data);
+	};
+
 	useEffect(() => {
 		if (cep.length === 8) {
-			calculateShipping();
+			featchCalculateShipping();
 		}
-	}, [cep, calculateShipping]);
+	}, [cep]);
 
 	const handleCepChange = async (value: string) => {
 		const numericCep = value.replace(/\D/g, "");

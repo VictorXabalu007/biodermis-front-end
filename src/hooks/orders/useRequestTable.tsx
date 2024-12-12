@@ -13,6 +13,7 @@ import { useUserData } from "../useUserData";
 import { getFormaPag } from "../../functions/Getters/getFormaPag";
 import { useConsultorData } from "../users/useConsultorData";
 import { useProductsData } from "../products/useProductsData";
+import Api from "../../service/api";
 
 export const useRequestTable = () => {
 	const { consultor } = useConsultorData();
@@ -56,7 +57,41 @@ export const useRequestTable = () => {
 
 	const { products } = useProductsData();
 
+	const fetchConsultorProducts = async (
+		consultorId: number,
+		produtoIds: number[],
+	) => {
+		try {
+			const headers = getHeaders();
+			const payload = {
+				consultor_id: consultorId,
+				produto_ids: produtoIds,
+			};
+			const response = await api.post(Api.consultorProduct, payload, {
+				headers,
+			});
+
+			console.log(api);
+			console.log("resposta dos produtos", response.data);
+			console.log("batatatatatat");
+			return response.data;
+		} catch (err: any) {
+			console.error(
+				"Erro ao buscar produtos do consultor:",
+				err.response?.data || err,
+			);
+			throw new Error(err.response?.data?.error || "Erro ao buscar produtos");
+		}
+	};
+
 	const dowloadPdf = async (record: Requests) => {
+		const currentProductsValue = await fetchConsultorProducts(
+			record.consultor_id,
+			record.produtos_ids.map((prod) => prod.id),
+		);
+
+		console.log("valores", currentProductsValue);
+
 		const currentProducts = products?.filter((p) =>
 			record.produtos_ids.find((r) => r.id === p.id),
 		);
@@ -69,10 +104,9 @@ export const useRequestTable = () => {
 			user_data: getUserById(record.cliente_id),
 			formaPag: getFormaPag(record.formapag_id),
 			products: currentProducts,
+			values: currentProductsValue,
 			condicional: record.modelo,
 		};
-
-		console.log("user_data", data.user_data);
 
 		const blob = await ReactPDF.pdf(<PDFFile data={data} />).toBlob();
 		if (blob) {

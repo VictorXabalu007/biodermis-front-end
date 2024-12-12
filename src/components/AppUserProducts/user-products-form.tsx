@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import ProductsList from "./util/products-list";
 import type { ProductResponseFromApi } from "../../@types/product";
 import { z } from "zod";
+import Api from "../../service/api";
 
 type UserData = {
 	cep: string;
@@ -150,10 +151,9 @@ const UserProductsForm = () => {
 
 			console.log("payload", payload);
 
-			const response = await api.post(
-				"http://85.31.61.50:3000/pedidos/web",
-				payload,
-			);
+			const response = await api.post(Api.pedidoWeb, payload);
+
+			console.log;
 
 			setLink(response.data.link);
 
