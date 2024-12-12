@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import ProductsList from "./util/products-list";
 import type { ProductResponseFromApi } from "../../@types/product";
 import { z } from "zod";
-import BiodermisApi from "../../service/baseURL";
 import Api from "../../service/api";
 
 type UserData = {
@@ -153,6 +152,8 @@ const UserProductsForm = () => {
 			console.log("payload", payload);
 
 			const response = await api.post(Api.pedidoWeb, payload);
+
+			console.log;
 
 			setLink(response.data.link);
 

@@ -64,7 +64,7 @@ export const AddressDataForm = ({
 
 	const [cep, setCep] = useState<string>("");
 
-	const { freteCalculate, calculateShipping } = useCalculateShipping(
+	const { freteCalculate } = useCalculateShipping(
 		(() => {
 			const arr = [] as ProductResponseFromApi[];
 
