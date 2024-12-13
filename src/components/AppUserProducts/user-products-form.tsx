@@ -53,6 +53,7 @@ const UserProductsForm = () => {
 	const total = searchParams.get("total") ?? "";
 	const quantidades = searchParams.get("quantidades");
 	const valores = searchParams.get("valores");
+	const consultorId = searchParams.get("User");
 
 	const produtosArray = produtos ? produtos.split(",").map(Number) : [];
 	const valoresArray = valores ? valores.split(",").map(Number) : [];
@@ -155,7 +156,7 @@ const UserProductsForm = () => {
 				complemento: data.complemento,
 				formaenvio: selectedShipping || "Retirar na Loja",
 				telefone: data.telefone,
-				consultor_id: 11,
+				consultor_id: consultorId,
 				nomecliente: data.nomecliente,
 				emailcliente: data.emailcliente,
 				cpfcliente: data.cpfcliente,
@@ -207,7 +208,7 @@ const UserProductsForm = () => {
 
 	return (
 		<div className="flex flex-col-reverse md:flex-row  max-w-6xl mx-auto gap-8 p-12">
-			<div className="w-2/3">
+			<div className="w-full">
 				{contextHolder}
 				<Form
 					form={form}
@@ -215,6 +216,7 @@ const UserProductsForm = () => {
 						onSubmit(data);
 					})}
 					layout="vertical"
+					className="w-full"
 				>
 					<PessoalDataFormApp errors={errors} control={control} />
 
@@ -240,8 +242,7 @@ const UserProductsForm = () => {
 								}`}
 								onClick={() => handleShippingOption("Retirar na Loja", 0)}
 							>
-								<span className="font-semibold">Retirar na Loja</span>
-								<span className="font-semibold">Frete: R$0</span>
+								<span className="font-semibold">Retirar na Loja: R$0</span>
 							</div>
 
 							{freteCalculate
@@ -270,19 +271,19 @@ const UserProductsForm = () => {
 						</div>
 					</Form.Item>
 
-					<div className="flex gap-2 mt-10 pb-12">
+					<div className="flex w-full gap-2 mt-10 pb-12">
 						<Button
 							htmlType="submit"
 							size="large"
 							onClick={handleSubmit(onSubmit)}
 							aria-label="submit"
-							className="w-1/3 text-xs md:text-base"
+							className="w-full text-xs md:text-base"
 						>
 							Enviar
 						</Button>
 						<Button
 							htmlType="reset"
-							className="w-1/3 text-xs md:text-base bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
+							className="w-full text-xs md:text-base bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
 							onClick={onReset}
 							aria-label="reset"
 							size="large"
