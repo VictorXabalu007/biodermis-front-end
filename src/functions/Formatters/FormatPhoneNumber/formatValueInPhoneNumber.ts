@@ -1,6 +1,6 @@
 export const formatPhoneNumber = (value: string) => {
   // Remove todos os caracteres não numéricos
-  const onlyNumbers = value.replace(/\D/g, "");
+  const onlyNumbers = value.replace(/\D/g, "").slice(0, 11); // Limita a 11 caracteres (DDD + 9 números)
 
   // Aplica a máscara com base no comprimento
   if (onlyNumbers.length <= 10) {

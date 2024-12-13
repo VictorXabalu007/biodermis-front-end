@@ -69,10 +69,10 @@ const UserProductsForm = () => {
 		complemento: z.string(),
 		bairro: z.string(),
 		estado: z.string(),
-		telefone: z.string(),
+		telefone: z.string().min(14,'Isso não é um telefone'),
 		nomecliente: z.string(),
-		emailcliente: z.string(),
-		cpfcliente: z.string(),
+		emailcliente: z.string().email('Isso não é um email!'),
+		cpfcliente: z.string().min(14,'Isso não é um CPF'),
 	});
 
 	const {
@@ -259,7 +259,7 @@ const UserProductsForm = () => {
 											handleShippingOption(frete.name, frete.price)
 										}
 									>
-										<span className="font-semibold">{frete.name}</span>
+										<span className="font-semibold me-1">{`${frete.name}:`}</span>
 										<span className="font-semibold">
 											{Number(frete.price).toLocaleString("pt-BR", {
 												style: "currency",
