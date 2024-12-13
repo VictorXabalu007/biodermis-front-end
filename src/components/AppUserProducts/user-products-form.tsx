@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form } from "antd";
+import { Button, Form } from "antd";
 import {
 	AddressDataForm,
 	type ProductWithQuantity,
@@ -31,6 +31,7 @@ type UserData = {
 	emailcliente: string;
 	cpfcliente: string;
 	cargo_id?: number;
+	valorfrete?: number;
 };
 
 const UserProductsForm = () => {
@@ -41,7 +42,9 @@ const UserProductsForm = () => {
 	const [productsWithQuantitiesAddress, setProductsWithQuantitiesAddress] =
 		useState<ProductWithQuantity[]>([]);
 	const [searchParams] = useSearchParams();
-	const [isPickupInStore, setIsPickupInStore] = useState(false);
+	const [freteCalculate, setFreteCalculate] = useState<any[]>([]);
+	const [selectedShipping, setSelectedShipping] = useState<string | null>(null);
+
 	const [link, setLink] = useState("");
 
 	const { getProductsById } = useProductsData();
@@ -50,6 +53,7 @@ const UserProductsForm = () => {
 	const total = searchParams.get("total") ?? "";
 	const quantidades = searchParams.get("quantidades");
 	const valores = searchParams.get("valores");
+	const consultorId = searchParams.get("User");
 
 	const produtosArray = produtos ? produtos.split(",").map(Number) : [];
 	const valoresArray = valores ? valores.split(",").map(Number) : [];
@@ -98,7 +102,14 @@ const UserProductsForm = () => {
 		},
 	});
 
-	// http://localhost:5173/pedidoweb?produtos=293,202,180&quantidades=1,5,3&total=1355,00&totalProdutos=9&User=11
+	const handleFreteCalculate = (data: any[]) => {
+		setFreteCalculate(data);
+	};
+
+	const handleShippingOption = (option: string, price: number) => {
+		setSelectedShipping(option);
+		setValue("valorfrete", price);
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -132,7 +143,10 @@ const UserProductsForm = () => {
 					quantidade: product.quantity,
 				})),
 
-				valorfrete: isPickupInStore ? 0 : 10,
+				valorfrete: selectedShipping
+					? freteCalculate.find((frete) => frete.name === selectedShipping)
+							?.price
+					: 0,
 				rua: data.rua,
 				numero: data.numero,
 				bairro: data.bairro,
@@ -140,9 +154,9 @@ const UserProductsForm = () => {
 				cidade: data.cidade,
 				estado: data.estado,
 				complemento: data.complemento,
-				formaenvio: isPickupInStore ? "Retirar na Loja" : "Sedex",
+				formaenvio: selectedShipping || "Retirar na Loja",
 				telefone: data.telefone,
-				consultor_id: 11,
+				consultor_id: consultorId,
 				nomecliente: data.nomecliente,
 				emailcliente: data.emailcliente,
 				cpfcliente: data.cpfcliente,
@@ -193,8 +207,8 @@ const UserProductsForm = () => {
 	);
 
 	return (
-		<div className="flex flex-col md:flex-row  max-w-6xl mx-auto gap-8 p-12">
-			<div className="w-2/3">
+		<div className="flex flex-col-reverse md:flex-row  max-w-6xl mx-auto gap-8 p-12">
+			<div className="w-full">
 				{contextHolder}
 				<Form
 					form={form}
@@ -202,6 +216,7 @@ const UserProductsForm = () => {
 						onSubmit(data);
 					})}
 					layout="vertical"
+					className="w-full"
 				>
 					<PessoalDataFormApp errors={errors} control={control} />
 
@@ -214,42 +229,61 @@ const UserProductsForm = () => {
 						reset={reset}
 						handleSubmit={handleSubmit}
 						onSubmit={onSubmit}
+						setFreteCalculate={handleFreteCalculate}
 						product={productsWithQuantitiesAddress}
 					/>
 					<Form.Item>
-						<div
-							className={` w-[40%] border-2 p-4 rounded-md text-center cursor-pointer ${
-								isPickupInStore
-									? "border-[#C882B7] bg-[#ecd6e6] text-[#C882B7]"
-									: "border-gray-300 bg-white text-gray-600 hover:border-gray-500"
-							}`}
-							onClick={() => setIsPickupInStore((prev) => !prev)}
-						>
-							<Checkbox
-								checked={isPickupInStore}
-								onChange={(e) => setIsPickupInStore(e.target.checked)}
-								className="hidden"
-							/>
-							<div className="flex flex-col">
-								<span className="font-semibold">Retirar na Loja</span>
-								<span className="font-semibold">Frete: R$0</span>
+						<div className="flex flex-col md:flex-row gap-4">
+							<div
+								className={`border-2 p-4 rounded-md text-center cursor-pointer ${
+									selectedShipping === "Retirar na Loja"
+										? "border-[#C882B7] bg-[#ecd6e6] text-[#C882B7]"
+										: "border-gray-300 bg-white text-gray-600 hover:border-gray-500"
+								}`}
+								onClick={() => handleShippingOption("Retirar na Loja", 0)}
+							>
+								<span className="font-semibold">Retirar na Loja: R$0</span>
 							</div>
+
+							{freteCalculate
+								?.filter((frete) => ["PAC", "SEDEX"].includes(frete.name))
+								.map((frete) => (
+									<div
+										key={frete.name}
+										className={`border-2 p-4 rounded-md flex items-center justify-center text-center cursor-pointer ${
+											selectedShipping === frete.name
+												? "border-[#C882B7] bg-[#ecd6e6] text-[#C882B7]"
+												: "border-gray-300 bg-white text-gray-600 hover:border-gray-500"
+										}`}
+										onClick={() =>
+											handleShippingOption(frete.name, frete.price)
+										}
+									>
+										<span className="font-semibold">{frete.name}</span>
+										<span className="font-semibold">
+											{Number(frete.price).toLocaleString("pt-BR", {
+												style: "currency",
+												currency: "BRL",
+											})}
+										</span>
+									</div>
+								))}
 						</div>
 					</Form.Item>
 
-					<div className="flex gap-2 mt-10 pb-12">
+					<div className="flex w-full gap-2 mt-10 pb-12">
 						<Button
 							htmlType="submit"
 							size="large"
 							onClick={handleSubmit(onSubmit)}
 							aria-label="submit"
-							className="w-1/3 text-xs md:text-base"
+							className="w-full text-xs md:text-base"
 						>
 							Enviar
 						</Button>
 						<Button
 							htmlType="reset"
-							className="w-1/3 text-xs md:text-base bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
+							className="w-full text-xs md:text-base bg-gray-neutral-200 hover:bg-gray-neutral-400 text-gray-neutral-950"
 							onClick={onReset}
 							aria-label="reset"
 							size="large"

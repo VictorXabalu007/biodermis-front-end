@@ -13,7 +13,6 @@ import {
 	type UseFormSetValue,
 } from "react-hook-form";
 import { useEffect, useState } from "react";
-import useCalculateShipping from "../../../hooks/useCalculateShipping";
 import type { ProductResponseFromApi } from "../../../@types/product";
 import { api } from "../../../service/connection";
 import Api from "../../../service/api";
@@ -29,6 +28,7 @@ type AddressFieldProps<T extends FieldValues> = {
 	register: UseFormRegister<T>;
 	getValues: UseFormGetValues<T>;
 	reset: UseFormReset<T>;
+	setFreteCalculate: (data: any[]) => void;
 	setValue: UseFormSetValue<T>;
 	product: ProductWithQuantity[];
 	handleSubmit: UseFormHandleSubmit<T>;
@@ -58,78 +58,37 @@ export const AddressDataForm = ({
 	reset,
 	handleSubmit,
 	product,
+	setFreteCalculate,
 	onSubmit,
 }: AddressFieldProps<UserData>) => {
 	const [loadingCep, setLoadingCep] = useState(false);
 
 	const [cep, setCep] = useState<string>("");
 
-	const { freteCalculate } = useCalculateShipping(
-		(() => {
-			const arr = [] as ProductResponseFromApi[];
-
-			// biome-ignore lint/complexity/noForEach: <explanation>
-			product.forEach(({ product, quantity }) => {
-				for (let i = 0; i < quantity; i++) arr.push(product);
-				console.log("product", product, "quantidade", quantity);
-			});
-
-			console.log("arr", arr);
-
-			return arr;
-		})(),
-		cep,
-	);
-
 	const featchCalculateShipping = async () => {
-		const response = await api.post(Api.calcularFrete, {
-			zipCodeAdress: "62875-000",
-			productsData: [
-				{
-					id: 1,
-					nome: "ELIXIR DE TRATAMENTO BIOEYES - 60 G",
-					descricao: "teste",
-					valormin: "0.50",
-					valormax: "1.50",
-					valorvenda: "1.00",
-					inativo: false,
-					mediaavs: "0.0",
-					estoque: 0,
-					altura: "4.00",
-					peso: "70.00",
-					largura: "2.00",
-					profundidade: "4.00",
-					imagens: null,
-					categoria_ids: [1],
-				},
-				{
-					id: 2,
-					nome: "Teste templs",
-					descricao: "teste",
-					valormin: "0.50",
-					valormax: "1.50",
-					valorvenda: "1.00",
-					inativo: false,
-					mediaavs: "0.0",
-					estoque: 0,
-					altura: "4.00",
-					peso: "70.00",
-					largura: "2.00",
-					profundidade: "4.00",
-					imagens: null,
-					categoria_ids: [1],
-				},
-			],
-		});
+		try {
+			console.log("produtos", product);
+			const payload = {
+				zipCodeAdress: cep,
+				productsData: product,
+			};
 
-		console.log("rearae", response.data);
+			console.log("payload", payload);
+
+			// Fazer a chamada ao endpoint
+			const response = await api.post(Api.calcularFrete, payload);
+			setFreteCalculate(response.data);
+		} catch (error) {
+			console.error("Erro ao calcular frete:", error);
+			setFreteCalculate([]);
+		}
 	};
 
 	useEffect(() => {
 		if (cep.length === 8) {
 			featchCalculateShipping();
 		}
-	}, [cep]);
+	}, [cep, product]);
 
 	const handleCepChange = async (value: string) => {
 		const numericCep = value.replace(/\D/g, "");
@@ -285,27 +244,6 @@ export const AddressDataForm = ({
 					/>
 				</Form.Item>
 			</Form>
-
-			<div className=" gap-4">
-				{freteCalculate &&
-					Array.isArray(freteCalculate) &&
-					freteCalculate.length > 0 &&
-					freteCalculate
-						.filter((frete) => ["PAC", "SEDEX"].includes(frete.name))
-						.map((i) => <div key={i.name} />)}
-			</div>
-			<div className=" flex-row justify-between w-full">
-				<p className=" text-xl">Frete</p>
-				<p className="text-xl">
-					{freteCalculate &&
-					Array.isArray(freteCalculate) &&
-					freteCalculate.length > 0
-						? Number.parseFloat(
-								freteCalculate.find((i) => i.name === "SEDEX")?.price || "0",
-							).toLocaleString("PT-BR", { currency: "BRL", style: "currency" })
-						: "Frete não disponível"}
-				</p>
-			</div>
 		</Flex>
 	);
 };

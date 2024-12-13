@@ -56,10 +56,10 @@ export const PessoalDataFormApp = ({
 				style={{ color: colors.primaryPurple }}
 				subtext="Informe os dados pessoais do novo usuário"
 			/>
-			<Row gutter={[16, 16]}>
+			<Row className="w-full" gutter={[10, 2]}>
 				{fields.map((f, key) => (
-					<Col lg={12} key={key}>
-						{f}
+					<Col lg={12} span={24} key={key} className="w-full">
+						<div className="w-full">{f}</div>
 					</Col>
 				))}
 			</Row>
