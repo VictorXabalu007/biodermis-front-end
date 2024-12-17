@@ -67,13 +67,10 @@ export const AddressDataForm = ({
 
 	const featchCalculateShipping = async () => {
 		try {
-			console.log("produtos", product);
 			const payload = {
 				zipCodeAdress: cep,
 				productsData: product,
 			};
-
-			console.log("payload", payload);
 
 			// Fazer a chamada ao endpoint
 			const response = await api.post(Api.calcularFrete, payload);
@@ -102,7 +99,6 @@ export const AddressDataForm = ({
 				);
 				const data = await response.json();
 
-				console.log("data", data);
 				if (data.erro) {
 					console.error("CEP não encontrado");
 					return;

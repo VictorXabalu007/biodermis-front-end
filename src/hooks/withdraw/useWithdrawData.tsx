@@ -40,6 +40,7 @@ export const useWithdrawData = ({
 			nome_consultor: `Consultor ${i}`,
 			srccomp: null,
 			status: i % 2 === 0 ? "aprovado" : "pendente",
+			datacomp: new Date().toLocaleDateString(),
 			valorresto: "100",
 			valorsaque: "100",
 		});
@@ -107,11 +108,18 @@ export const useWithdrawData = ({
 	};
 
 	const getWithdrawDateById = (id: number) => {
-		console.log("datadata", data);
-
 		const dataSaque =
-			data?.find((r) => r.id === id)?.datasaque || "sem data para este saque";
-		console.log("Data saque original:", dataSaque);
+			data?.find((r) => r.id === id && r.status === "realizado")?.datacomp ||
+			"sem data para este saque";
+
+		return dataSaque;
+	};
+
+	const getWithdrawValueById = (id: number) => {
+		const dataSaque =
+			data?.find((r) => r.id === id && r.status === "realizado")?.valorsaque ||
+			"sem valor";
+
 		return dataSaque;
 	};
 
@@ -122,6 +130,7 @@ export const useWithdrawData = ({
 		isWithdrawEmpty,
 		getConsultorName,
 		getWithdrawDateById,
+		getWithdrawValueById,
 		accessBalance,
 		mockData,
 	};

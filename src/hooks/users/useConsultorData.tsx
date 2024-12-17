@@ -22,8 +22,6 @@ export const useConsultorData = () => {
 				)
 				.filter((c) => c.cargo_id === UserRole.CONSULTOR);
 
-			console.log("sortedData", sortedData);
-
 			const rankedData = sortedData.map((d, index) => {
 				const { srcperfil } = d;
 				const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
@@ -36,7 +34,6 @@ export const useConsultorData = () => {
 				};
 			});
 
-			console.log("rankedData", rankedData);
 			setConsultor(rankedData);
 		}
 	}, [data]);

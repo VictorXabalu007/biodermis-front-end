@@ -69,10 +69,10 @@ const UserProductsForm = () => {
 		complemento: z.string(),
 		bairro: z.string(),
 		estado: z.string(),
-		telefone: z.string().min(14,'Isso não é um telefone'),
+		telefone: z.string().min(14, "Isso não é um telefone"),
 		nomecliente: z.string(),
-		emailcliente: z.string().email('Isso não é um email!'),
-		cpfcliente: z.string().min(14,'Isso não é um CPF'),
+		emailcliente: z.string().email("Isso não é um email!"),
+		cpfcliente: z.string().min(14, "Isso não é um CPF"),
 	});
 
 	const {
@@ -136,7 +136,6 @@ const UserProductsForm = () => {
 
 	const submitOrder = useMutation({
 		mutationFn: async (data: any) => {
-			console.log("DATATATATA", data);
 			const payload = {
 				produtos_ids: productsWithQuantities.map((product) => ({
 					id: product.id,
@@ -161,13 +160,8 @@ const UserProductsForm = () => {
 				emailcliente: data.emailcliente,
 				cpfcliente: data.cpfcliente,
 			};
-			console.log(payload.produtos_ids);
-
-			console.log("payload", payload);
 
 			const response = await api.post(Api.pedidoWeb, payload);
-
-			console.log;
 
 			setLink(response.data.link);
 
@@ -185,7 +179,6 @@ const UserProductsForm = () => {
 
 	useEffect(() => {
 		if (link) {
-			console.log("link", link);
 			window.location.href = link;
 		}
 	}, [link]);
@@ -200,11 +193,6 @@ const UserProductsForm = () => {
 		form.resetFields();
 		reset({ cargo_id: UserRole.ADMIN });
 	};
-
-	console.log(
-		"product format antes de ir pro address componente: ",
-		productsWithQuantitiesAddress,
-	);
 
 	return (
 		<div className="flex flex-col-reverse md:flex-row  max-w-6xl mx-auto gap-8 p-12">

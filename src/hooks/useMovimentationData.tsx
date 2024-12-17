@@ -15,12 +15,14 @@ export const useMovimentationData = () => {
 		queryFn: getMovimentations,
 	});
 
-	console.log("data", data);
-
 	const [movimentations, setMovimentations] = useState<MovimentationType[]>([]);
 	const { data: requests, getRequestDateById } = useRequestsData();
 
-	const { data: withdraw, getWithdrawDateById } = useWithdrawData();
+	const {
+		data: withdraw,
+		getWithdrawDateById,
+		getWithdrawValueById,
+	} = useWithdrawData();
 
 	const [dates, setDates] = useState<RefinedRangeDate>();
 
@@ -104,25 +106,19 @@ export const useMovimentationData = () => {
 	};
 
 	const getOutputData = () => {
-		console.log("movimentations", movimentations);
 		const outputData = movimentations
 			.filter((m) => m.tipo === "saída")
 			.map((d) => {
 				const mes_saida = getRequestDateById(d.pedido_id);
 				const parsedDate = parseDate(mes_saida);
 
-				console.log("mes", mes_saida);
-
 				return {
 					...d,
-					data_saida: getWithdrawDateById(d.id),
+					data_saida: getWithdrawDateById(d.saque_id),
 					mes_saida: parsedDate.getMonth(),
-					valor: parseFloat(d.valor),
+					valor: Number.parseInt(getWithdrawValueById(d.saque_id)),
 				};
 			});
-
-		console.log("movimentations2", movimentations);
-		console.log("outputdata", outputData);
 
 		if (dates?.startDate && dates.endDate) {
 			const start = new Date(dates.startDate.split("/").reverse().join("-"));
@@ -136,8 +132,6 @@ export const useMovimentationData = () => {
 					return dataSaida >= start && dataSaida <= end;
 				}) || [];
 
-			console.log("filtro de data", filteredData);
-
 			return calculateMonthlyTotals(filteredData, "mes_saida");
 		}
 
@@ -148,8 +142,6 @@ export const useMovimentationData = () => {
 		const OutputData = getOutputData();
 
 		const total = OutputData.reduce((sum, item) => sum + (item.total || 0), 0);
-
-		console.log("total output", total);
 
 		return total;
 	};
@@ -175,7 +167,7 @@ export const useMovimentationData = () => {
 	const getNameOfWithdraw = (id: number | null) => {
 		const date =
 			withdraw.find((r) => r.id === id)?.nome_consultor ||
-			"Sem modelo disponível";
+			"Pagamento pedido de saque";
 		return date;
 	};
 

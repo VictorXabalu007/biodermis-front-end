@@ -198,51 +198,102 @@ const footerCardStyles = StyleSheet.create({
 	},
 });
 
-type ExtendedRequests = Requests & {
-	consultora_data?: {
-		nome: string;
-		telefone: string;
-		email: string;
-		cpf: string;
-	} | null;
-	user_data?: {
-		nome: string;
-		telefone: string;
-		email: string;
-		cpf: string;
-	};
+type Product = {
+	id: number;
+	nome: string;
+	produto_id: number;
+	valorvenda: string;
+	valortotal: string;
+	valormin: string;
+	peso: string;
 };
 
-// Atualize o tipo do componente PDFFileProps
+type ProductId = {
+	id: number;
+	quantidade: number;
+};
+
+type DataProps = {
+	id: number;
+	consultor_id: number;
+	cliente_id: number;
+	modelo: string;
+	produtos: Product[];
+	produtos_ids: ProductId[];
+	[key: string]: any;
+};
+
 type PDFFileProps = {
-	data: ExtendedRequests;
+	data?: DataProps;
 };
 
-export const PDFFile = ({ data }: PDFFileProps) => {
-	const [userDetails, setUserDetails] = useState<any>(null);
+export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
+	const [userType, setUserType] = useState<"consultor" | "cliente" | null>(
+		null,
+	);
+	const [valueSale, setValueSale] = useState<
+		{ id: number; nome: string; valor: string; quantidade: number }[]
+	>([]);
 
 	useEffect(() => {
-		const user = data;
+		if (data?.consultor_id && data.consultor_id > 1) {
+			setUserType("consultor");
+		} else if (data?.cliente_id && data.cliente_id > 1) {
+			setUserType("cliente");
+		}
+	}, [data]);
 
-		console.log("user", user);
-		console.log("dadwdawd");
-		console.log("user_data", data.user_data);
-		console.log("dasdasdasds", data);
-		console.log("consultor data", data.consultora_data);
-		console.log("datadatadsadasdsa", data.cpfcliente);
+	useEffect(() => {
+		if (!userType) return;
 
-		setUserDetails(user);
-		console.log("usuario detalhes", userDetails);
-	}, [
-		data.modelo,
-		data.consultora_data,
-		data.user_data,
-		data,
-		data.cpfcliente,
-		userDetails,
-	]);
+		// Realizar verificações e mapeamento de valores
+		const mappedValues = data.produtos_ids
+			.map((produtoId: ProductId) => {
+				// Localizar o produto correspondente
+				const produto = data.produtos.find((p) => p.id === produtoId.id);
+				if (!produto) return null;
+				if (userType === "consultor") {
+					if (data.modelo === "venda") {
+						return {
+							id: produto.id,
+							nome: produto.nome,
+							valor: produto.valortotal,
+							quantidade: produtoId.quantidade,
+						};
+					}
+					if (data.modelo === "abastecimento") {
+						return {
+							id: produto.id,
+							nome: produto.nome,
+							valor: produto.valormin,
+							quantidade: produtoId.quantidade,
+						};
+					}
+				} else if (userType === "cliente") {
+					return {
+						id: produto.id,
+						nome: produto.nome,
+						valor: produto.valorvenda,
+						quantidade: produtoId.quantidade,
+					};
+				}
 
-	console.log("user_data", data.user_data);
+				return null;
+			})
+			.filter(
+				(
+					item,
+				): item is {
+					id: number;
+					nome: string;
+					valor: string;
+					quantidade: number;
+				} => !!item,
+			);
+
+		// Atualizar estado com valores válidos
+		setValueSale(mappedValues);
+	}, [data, userType]);
 
 	return (
 		<Document>
@@ -256,22 +307,14 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 				<View style={styles.subheaderSection}>
 					<View style={styles.subTitleSection}>
 						<Text style={styles.subtitle}>Dados do cliente</Text>
-						<Text style={styles.subtitleText}>
-							Nome: {userDetails?.nomecliente}
-						</Text>
-						<Text style={styles.subtitleText}>
-							Telefone: {userDetails?.telefone}
-						</Text>
-						<Text style={styles.subtitleText}>
-							Email: {userDetails?.emailcliente}
-						</Text>
+						<Text style={styles.subtitleText}>Nome: {data?.nomecliente}</Text>
+						<Text style={styles.subtitleText}>Telefone: {data?.telefone}</Text>
+						<Text style={styles.subtitleText}>Email: {data?.emailcliente}</Text>
 					</View>
 					<View style={styles.separator} />
 					<View style={styles.subTitleSection}>
 						<Text style={styles.subtitle}>Informações adicionais</Text>
-						<Text style={styles.subtitleText}>
-							CPF: {userDetails?.cpfcliente}
-						</Text>
+						<Text style={styles.subtitleText}>CPF: {data?.cpfcliente}</Text>
 					</View>
 					<View style={styles.separator} />
 					<View style={styles.subTitleSection}>
@@ -295,7 +338,7 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 							<Text style={tableStyles.tableCellHeader}>Quantidade</Text>
 						</View>
 						<View style={tableStyles.tableCol}>
-							<Text style={tableStyles.tableCellHeader}>Valor unitário</Text>
+							<Text style={tableStyles.tableCellHeader}>Valor venda</Text>
 						</View>
 						<View style={tableStyles.tableCol}>
 							<Text style={tableStyles.tableCellHeader}>Total</Text>
@@ -304,7 +347,7 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 
 					<View>
 						{data.products.length > 0 ? (
-							data.products.map((p) => {
+							valueSale.map((p) => {
 								const quantity =
 									data.produtos_ids.find((r) => r.id === p.id)?.quantidade ?? 1;
 
@@ -318,13 +361,13 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 										</View>
 										<View style={tableStyles.tableCol}>
 											<Text style={tableStyles.tableCell}>
-												<NumericFormatter value={parseFloat(p.valorvenda)} />
+												<NumericFormatter value={Number.parseFloat(p.valor)} />
 											</Text>
 										</View>
 										<View style={tableStyles.tableCol}>
 											<Text style={tableStyles.tableCell}>
 												<NumericFormatter
-													value={parseFloat(p.valorvenda) * quantity}
+													value={Number.parseFloat(p.valor) * quantity}
 												/>
 											</Text>
 										</View>
@@ -425,7 +468,10 @@ export const PDFFile = ({ data }: PDFFileProps) => {
 						<View style={footerCardStyles.subcardContent}>
 							<Text style={footerCardStyles.subcardText}>
 								Peso do Pedido:{" "}
-								{data.products.reduce((acc, p) => acc + parseFloat(p.peso), 0)}{" "}
+								{data.products.reduce(
+									(acc: any, p: any) => acc + Number.parseFloat(p.peso),
+									0,
+								)}{" "}
 								gramas
 							</Text>
 						</View>

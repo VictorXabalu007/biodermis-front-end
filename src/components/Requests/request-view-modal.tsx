@@ -26,8 +26,6 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 		}
 	}, [products]);
 
-	console.log("são as requests", requests);
-
 	const data = [
 		{
 			title: "Data de pagamento",
