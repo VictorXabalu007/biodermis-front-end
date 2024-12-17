@@ -104,7 +104,7 @@ export const useRequestTable = () => {
 			user_data: getUserById(record.cliente_id),
 			formaPag: getFormaPag(record.formapag_id),
 			products: currentProducts,
-			// values: currentProductsValue,
+			produtos: currentProducts,
 			condicional: record.modelo,
 		};
 

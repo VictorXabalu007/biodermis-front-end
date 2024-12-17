@@ -15,8 +15,6 @@ export const InovicingModal = ({
 
 	const consultorData = getRequestDataOfConsultorId(data.id);
 
-	console.log("consultordata", consultorData);
-
 	const [sortOrder, setSortOrder] = useState<string>("");
 
 	const convertDateToISO = (dateStr: string) => {
@@ -44,7 +42,6 @@ export const InovicingModal = ({
 
 	// Ordenar os dados filtrados
 	const sortedConsultorData = sortData([...consultorData], sortOrder);
-	console.log("sortedConsultorData", sortedConsultorData);
 
 	useEffect(() => {
 		// Calcular o total de faturamento

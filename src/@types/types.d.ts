@@ -154,11 +154,12 @@ declare global {
   type WithDrawal = {
     consultor_id: number;
     datasaque: string;
+    datacomp: string;
     id: number;
     pedido_resto_id: number;
     pedidos_ids: number[];
     srccomp: string | null;
-    status: "pendente" | "aprovado" | "rejeitado";
+    status: "pendente" | "realizado" | "rejeitado" | "aprovado";
     valorresto: string;
     valorsaque: string;
     nome_consultor: string;
@@ -195,7 +196,7 @@ declare global {
     id: number;
     tipo: "entrada" | "saída";
     valor: string;
-    saque_id: number | null;
+    saque_id: number;
     pedido_id: number | null;
   };
 

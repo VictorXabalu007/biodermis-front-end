@@ -120,8 +120,6 @@ export const StatusModal = ({ data, handleClose }: StatusModalProps) => {
 							placeholder={"selecione"}
 							options={selectOps}
 							onChange={(e) => {
-								console.log(e);
-
 								field.onChange(e);
 							}}
 						/>

@@ -48,7 +48,6 @@ export const useRequestsData = ({
 	const { state, getDates } = useRangeDate();
 	const [dates, setDates] = useState<RefinedRangeDate>();
 	const [data, setData] = useState<Requests[]>([]);
-	console.log(data);
 
 	useEffect(() => {
 		if (requests && products) {
