@@ -250,7 +250,7 @@ export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
 		const mappedValues = data.produtos_ids
 			.map((produtoId: ProductId) => {
 				// Localizar o produto correspondente
-				const produto = data.produtos.find((p) => p.id === produtoId.id);
+				const produto = data.produtos.find((p) => p.produto_id == produtoId.id);
 				if (!produto) return null;
 				if (userType === "consultor") {
 					if (data.modelo === "venda") {
@@ -348,8 +348,8 @@ export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
 					<View>
 						{data.products.length > 0 ? (
 							valueSale.map((p) => {
-								const quantity =
-									data.produtos_ids.find((r) => r.id === p.id)?.quantidade ?? 1;
+								// const quantity =
+								// 	data.produtos_ids.find((r) => r.id === p.id)?.quantidade ?? 1;
 
 								return (
 									<View style={tableStyles.tableRow}>
@@ -357,7 +357,7 @@ export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
 											<Text style={tableStyles.tableCell}>{p.nome}</Text>
 										</View>
 										<View style={tableStyles.tableCol}>
-											<Text style={tableStyles.tableCell}>{quantity}</Text>
+											<Text style={tableStyles.tableCell}>{p.quantidade}</Text>
 										</View>
 										<View style={tableStyles.tableCol}>
 											<Text style={tableStyles.tableCell}>
@@ -367,7 +367,7 @@ export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
 										<View style={tableStyles.tableCol}>
 											<Text style={tableStyles.tableCell}>
 												<NumericFormatter
-													value={Number.parseFloat(p.valor) * quantity}
+													value={Number.parseFloat(p.valor) * p.quantidade}
 												/>
 											</Text>
 										</View>

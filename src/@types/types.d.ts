@@ -134,6 +134,7 @@ declare global {
     formaPag: string;
     nomecliente: string;
     telefone: string;
+    produtos: [];
   };
 
   type DeliveryStatus = "Em andamento" | "Recebido";
