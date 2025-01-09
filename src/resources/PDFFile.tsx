@@ -388,7 +388,13 @@ export const PDFFile = ({ data = {} as DataProps }: PDFFileProps) => {
 				<View style={cardStyles.cardContainer}>
 					<View style={cardStyles.card}>
 						<Text style={cardStyles.cardTitle}>Observação Loja virtual</Text>
-						<Text style={cardStyles.cardText}>{data.formaPag}</Text>
+						{
+							(data.formapag_id == 2 && data.qtdParcelas != null) ? 
+							<Text style={cardStyles.cardText}>{`${data.formaPag} parcelado em ${data.qtdParcelas}x`}</Text> 
+							: 
+							<Text style={cardStyles.cardText}>{data.formaPag}</Text>
+						}
+						
 					</View>
 
 					<View style={cardStyles.totalCard}>

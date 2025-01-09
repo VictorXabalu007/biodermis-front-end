@@ -135,6 +135,7 @@ declare global {
     nomecliente: string;
     telefone: string;
     produtos: [];
+    qtdParcelas: number | null;
   };
 
   type DeliveryStatus = "Em andamento" | "Recebido";

@@ -103,6 +103,8 @@ export const useRequestTable = () => {
 			consultora_data: getConsultorById(record.consultor_id),
 			user_data: getUserById(record.cliente_id),
 			formaPag: getFormaPag(record.formapag_id),
+			formapag_id: record.formapag_id,
+			qtdParcelas: record.qtdParcelas,
 			products: currentProducts,
 			produtos: record.produtos,
 			condicional: record.modelo,
