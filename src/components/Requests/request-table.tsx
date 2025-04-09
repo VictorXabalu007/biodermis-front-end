@@ -222,7 +222,7 @@ const RequestsTable = () => {
 							<Flex
 								align="start"
 								justify="space-between"
-								className="w-full"
+								className="w-full flex-wrap"
 								gap={10}
 							>
 								<Flex gap={15} vertical>
@@ -233,27 +233,35 @@ const RequestsTable = () => {
 										/>
 
 										{!showFilters && (
-											<Button size="large" onClick={handleOpenFilters}>
-												<Flex gap={5} align="center">
-													Filtros avançados
-													<IoFilter />
-												</Flex>
-											</Button>
+											<Flex gap={10} className=" flex-wrap">
+												<Button size="large" onClick={handleOpenFilters}>
+													<Flex gap={5} align="center">
+														Filtros avançados
+														<IoFilter />
+													</Flex>
+												</Button>
+												<InputRangePicker />
+
+											</Flex>
 										)}
 
 										{showFilters && (
-											<Button
-												size="large"
-												onClick={() => {
-													clearAllFilters();
-													setShowFilters(false);
-												}}
-											>
-												<Flex gap={5} align="center">
-													Ocultar filtros
-													<MdOutlineCancelPresentation />
-												</Flex>
-											</Button>
+											<Flex gap={10} className=" flex-wrap">
+												<Button
+													size="large"
+													onClick={() => {
+														clearAllFilters();
+														setShowFilters(false);
+													}}
+												>
+													<Flex gap={5} align="center">
+														Ocultar filtros
+														<MdOutlineCancelPresentation />
+													</Flex>
+												</Button>
+												<InputRangePicker />
+
+											</Flex>
 										)}
 									</Flex>
 
@@ -292,7 +300,6 @@ const RequestsTable = () => {
 									</div>
 								</Flex>
 
-								<InputRangePicker />
 							</Flex>
 						</Flex>
 					</Flex>
