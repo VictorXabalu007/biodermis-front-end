@@ -48,7 +48,6 @@ export const ModalNavigator = ({
 
 	const SELECTED_CLASSNAME = "bg-brand-purple text-white";
 	useEffect(() => {
-		console.log('Data mudou')
 		setComponent(render(selected, isReadonly));
 	}, [data])
 	return (

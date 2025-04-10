@@ -26,7 +26,7 @@ export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
                 cpf: data.cpf,
                 email: data.email,
                 phone: data.telefone,
-                password: data.senha
+                password: ""
             },
             addressData: {
                 cep: data.cep,
@@ -61,7 +61,7 @@ export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
                 cpf: data.cpf,
                 email: data.email,
                 phone: data.telefone,
-                password: data.senha
+                password: ""
             },
             addressData: {
                 cep: data.cep,
@@ -109,7 +109,8 @@ export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
                 "pix": data.pix,
                 "tipochave": getTypeOfPixKey(data.pix),
                 "banco": data.banco,
-                "email": data.email
+                "email": data.email,
+                "senha": userData.personalData.password,
             }
 
             const req = await api.patch(`/usuarios/${data.id}`, body, {
