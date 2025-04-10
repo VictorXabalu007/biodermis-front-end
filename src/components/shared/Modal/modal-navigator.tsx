@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { buttonItems } from "./buttomItems";
 import { UserImage } from "../Image/user-image";
@@ -47,7 +47,10 @@ export const ModalNavigator = ({
 	};
 
 	const SELECTED_CLASSNAME = "bg-brand-purple text-white";
-
+	useEffect(() => {
+		console.log('Data mudou')
+		setComponent(render(selected, isReadonly));
+	}, [data])
 	return (
 		<div className="mt-10 w-full">
 			{data.cargo_id === UserRole.CONSULTOR && (
