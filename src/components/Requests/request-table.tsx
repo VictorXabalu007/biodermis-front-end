@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
 	Button,
 	Flex,
@@ -240,7 +241,12 @@ const RequestsTable = () => {
 														<IoFilter />
 													</Flex>
 												</Button>
-												<InputRangePicker />
+												<InputRangePicker
+													defaultValue={[
+														dayjs().subtract(1, "month"),
+														dayjs(),
+													]}
+												/>
 
 											</Flex>
 										)}
@@ -259,7 +265,12 @@ const RequestsTable = () => {
 														<MdOutlineCancelPresentation />
 													</Flex>
 												</Button>
-												<InputRangePicker />
+												<InputRangePicker
+													defaultValue={[
+														dayjs().subtract(1, "month"),
+														dayjs(),
+													]}
+												/>
 
 											</Flex>
 										)}
