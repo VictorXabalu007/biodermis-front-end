@@ -14,7 +14,14 @@ const { RangePicker } = DP;
 
 export const InputRangePicker = (props: RangePickerProps) => {
 	const today = dayjs().format("DD/MM/YYYY");
-	const [dateRange, setDateRange] = useState<[string, string]>([today, today]);
+	const [dateRange, setDateRange] = useState<[string, string]>(
+		props.defaultValue && props.defaultValue[0] && props.defaultValue[1]
+			? [
+				props.defaultValue[0].format("DD/MM/YYYY"),
+				props.defaultValue[1].format("DD/MM/YYYY"),
+			]
+			: [today, today]
+	);
 	const { dispatch } = useRangeDate();
 
 	const handleDateChange = useCallback(
@@ -25,7 +32,7 @@ export const InputRangePicker = (props: RangePickerProps) => {
 			if (value) {
 				setDateRange(dateStrings);
 			} else {
-				setDateRange(["", ""]);
+				setDateRange(["01/01/1970", today]);
 			}
 		},
 		[],
@@ -49,7 +56,7 @@ export const InputRangePicker = (props: RangePickerProps) => {
 			style={{ color: "#FFF" }}
 			className="text-white w-full md:w-[250px] p-2 bg-brand-purple flex gap-0 hover:bg-brand-purple/75 hover:border-brand-purple/75"
 			suffixIcon={<IoCalendarNumberOutline className="text-white text-2xl" />}
-			defaultValue={[
+			defaultValue={props.defaultValue || [
 				dayjs(defaultValue, dateFormat),
 				dayjs(defaultValue, dateFormat),
 			]}

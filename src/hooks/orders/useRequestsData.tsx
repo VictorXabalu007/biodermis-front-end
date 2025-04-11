@@ -92,7 +92,7 @@ export const useRequestsData = ({
 
 	useEffect(() => {
 		const { endDate, startDate } = getDates(state);
-
+		console.log({ endDate, startDate })
 		setDates({ endDate, startDate });
 	}, [state.rangeDate]);
 

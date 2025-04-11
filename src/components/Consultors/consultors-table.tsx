@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { TableWrapper } from "../shared/Table/table-wrapper";
 import {
@@ -31,6 +32,7 @@ import SearchInput from "../shared/Input/search-input";
 import { urlParams } from "../../util/urlParams";
 import FilterButtons from "./util/button-filter";
 import { useRequestsData } from "../../hooks/orders/useRequestsData";
+import { InputRangePicker } from "../shared/Input/range-picker";
 
 const ConsultorsTable = () => {
 	const { consultor, setConsultor, isLoading } = useConsultorData();
@@ -225,6 +227,12 @@ const ConsultorsTable = () => {
 						<FilterButtons
 							options={userStatusOptions}
 							onFilterChange={handleStatusChange}
+						/>
+						<InputRangePicker
+							defaultValue={[
+								dayjs().subtract(2, 'year'),
+								dayjs()
+							]}
 						/>
 					</Flex>
 
