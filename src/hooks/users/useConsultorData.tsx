@@ -10,7 +10,6 @@ export const useConsultorData = () => {
 		queryKey: ["consultor"],
 		queryFn: getConsultors,
 	});
-
 	const [consultor, setConsultor] = useState<UserCredentials[]>([]);
 
 	useEffect(() => {
@@ -21,11 +20,10 @@ export const useConsultorData = () => {
 						Number.parseFloat(b.totalfat) - Number.parseFloat(a.totalfat),
 				)
 				.filter((c) => c.cargo_id === UserRole.CONSULTOR);
-
+			console.log({ sortedData })
 			const rankedData = sortedData.map((d, index) => {
 				const { srcperfil } = d;
 				const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
-
 				return {
 					...d,
 					rank: String(index + 1),
@@ -33,7 +31,7 @@ export const useConsultorData = () => {
 					srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
 				};
 			});
-
+			console.log({ rankedData });
 			setConsultor(rankedData);
 		}
 	}, [data]);

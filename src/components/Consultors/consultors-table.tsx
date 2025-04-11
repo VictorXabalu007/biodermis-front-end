@@ -30,12 +30,13 @@ import { normalizeText } from "../../functions/normalize-text";
 import SearchInput from "../shared/Input/search-input";
 import { urlParams } from "../../util/urlParams";
 import FilterButtons from "./util/button-filter";
+import { useRequestsData } from "../../hooks/orders/useRequestsData";
 
 const ConsultorsTable = () => {
 	const { consultor, setConsultor, isLoading } = useConsultorData();
+	const { data, getTotalByConsultorId, getRankPositionByConsultorId } = useRequestsData();
 	const { consultor: initialData } = useConsultorData();
 	const [searchValue, setSearchValue] = useState("");
-
 	const [selectedStatus, setSelectedStatus] = useState("ativo");
 
 	const { filteredData, setFilteredData } = useTableActions({
@@ -87,17 +88,17 @@ const ConsultorsTable = () => {
 			title: "Rank",
 			dataIndex: "rank",
 			key: "rank",
-			sorter: (a, b) => a.nome.localeCompare(b.nome),
-			render: (value) => buildPodium(value),
+			sorter: (a, b) => getRankPositionByConsultorId(a.id) - getRankPositionByConsultorId(b.id),
+			render: (value, { id }) => buildPodium(getRankPositionByConsultorId(Number(id)).toString()),
 			align: "center",
 		},
 		{
 			title: "Faturamento",
 			dataIndex: "totalfat",
 			key: "totalfat",
-			render: (value) => `R$ ${Number.parseFloat(value).toFixed(2)}`,
+			render: (value, { id }) => `R$ ${getTotalByConsultorId(id).toFixed(2)}`,
 			sorter: (a, b) =>
-				Number.parseFloat(a.totalfat) - Number.parseFloat(b.totalfat),
+				getTotalByConsultorId(a.id) - getTotalByConsultorId(b.id),
 			align: "center",
 		},
 
