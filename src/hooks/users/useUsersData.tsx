@@ -11,7 +11,7 @@ export const useUsersData = () => {
     queryKey: ["users"],
     queryFn: getUsers,
   });
-  const { data: address } = useQuery<UserAddress[]>({
+  const { data: address, isLoading: loadingAdress } = useQuery<UserAddress[]>({
     queryKey: ["user-address"],
     queryFn: getAddress,
   });
@@ -31,7 +31,7 @@ export const useUsersData = () => {
         data.map((d) => {
           const hasAddress = userAddress.find((add) => add.usuario_id === d.id);
 
-          const {srcperfil} = d;
+          const { srcperfil } = d;
           const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
 
 
@@ -59,6 +59,6 @@ export const useUsersData = () => {
   return {
     users,
     setUsers,
-    isLoading,
+    isLoading: isLoading || loadingAdress,
   };
 };

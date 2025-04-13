@@ -17,7 +17,6 @@ import { useEffect } from "react";
 export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
 
     const { contextHolder, success, error } = useMessageAction()
-
     const formMethods = useForm<UserEditType>({
         defaultValues: {
             formType: UserEditSteps.PersonalData,
@@ -176,8 +175,9 @@ export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
                     "cep": userData.addressData.cep,
                     "cidade": userData.addressData.city,
                     "estado": userData.addressData.state,
-                    "usuario_id": data.id
-
+                    "usuario_id": data.id,
+                    "nomecliente": data.nome,
+                    "telefone": data.telefone,
                 }
 
                 const req = await api.post(`/endereco`, body, {
@@ -275,7 +275,7 @@ export const UserForm = ({ isReadonly, data }: FormType<UserCredentials>) => {
             <Form
                 layout="vertical"
                 onFinish={handleSubmit(onSubmit)}
-                disabled={data.cargo_id === UserRole.USER}
+                disabled={data.cargo_id === UserRole.USER && !isAddressData}
 
             >
 
