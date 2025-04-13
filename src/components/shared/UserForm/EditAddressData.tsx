@@ -1,6 +1,6 @@
 import { Col, Row } from "antd"
 import { Controller, useFormContext } from "react-hook-form";
-import { UserEditRole, UserEditType } from "../../../validations/updateUserValidation";
+import { UserEditType } from "../../../validations/updateUserValidation";
 import { Input } from "../Input/Input";
 import { FormItem } from "../Form/FormItem";
 import { GrLocation } from "react-icons/gr";
