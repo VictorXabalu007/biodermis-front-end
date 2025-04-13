@@ -17,7 +17,6 @@ const EditAddressData = () => {
     } = useFormContext<UserEditType>()
 
 
-    const isUser = getValues().userType === UserEditRole.UserClient
 
     const {
         cep,

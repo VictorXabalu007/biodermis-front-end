@@ -36,7 +36,7 @@ import { InputRangePicker } from "../shared/Input/range-picker";
 
 const ConsultorsTable = () => {
 	const { consultor, setConsultor, isLoading } = useConsultorData();
-	const { data, getTotalByConsultorId, getRankPositionByConsultorId } = useRequestsData();
+	const { data: _, getTotalByConsultorId, getRankPositionByConsultorId } = useRequestsData();
 	const { consultor: initialData } = useConsultorData();
 	const [searchValue, setSearchValue] = useState("");
 	const [selectedStatus, setSelectedStatus] = useState("ativo");
@@ -91,14 +91,14 @@ const ConsultorsTable = () => {
 			dataIndex: "rank",
 			key: "rank",
 			sorter: (a, b) => getRankPositionByConsultorId(a.id) - getRankPositionByConsultorId(b.id),
-			render: (value, { id }) => buildPodium(getRankPositionByConsultorId(Number(id)).toString()),
+			render: (_, { id }) => buildPodium(getRankPositionByConsultorId(Number(id)).toString()),
 			align: "center",
 		},
 		{
 			title: "Faturamento",
 			dataIndex: "totalfat",
 			key: "totalfat",
-			render: (value, { id }) => `R$ ${getTotalByConsultorId(id).toFixed(2)}`,
+			render: (_, { id }) => `R$ ${getTotalByConsultorId(id).toFixed(2)}`,
 			sorter: (a, b) =>
 				getTotalByConsultorId(a.id) - getTotalByConsultorId(b.id),
 			align: "center",
