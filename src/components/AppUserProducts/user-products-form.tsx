@@ -155,7 +155,7 @@ const UserProductsForm = () => {
 				complemento: data.complemento,
 				formaenvio: selectedShipping || "Retirar na Loja",
 				telefone: data.telefone,
-				consultor_id: consultorId,
+				consultor_id: Number(consultorId),
 				nomecliente: data.nomecliente,
 				emailcliente: data.emailcliente,
 				cpfcliente: data.cpfcliente,

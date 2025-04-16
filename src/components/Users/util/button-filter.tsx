@@ -19,7 +19,7 @@ const FilterButtons = ({ options, onFilterChange }: FilterButtonsProps) => {
 		} else if (value === -1) {
 			filterValues = [UserRole.ADMIN, UserRole.STOCK, UserRole.MANAGER];
 		} else if (value === UserRole.USER) {
-			filterValues = [UserRole.USER, UserRole.CONSULTOR];
+			filterValues = [UserRole.USER];
 		} else {
 			filterValues = [value];
 		}

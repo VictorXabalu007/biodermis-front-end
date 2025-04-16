@@ -86,7 +86,7 @@ const UsersTable = () => {
 
 	const handleUserRoleChange = (userRoles: number[]) => {
 		setActiveFilters(userRoles);
-
+		console.log(userRoles, UserRole.USER)
 		if (userRoles.includes(-1)) {
 			setSelectOptions(
 				userSelectOptions.filter(
@@ -98,7 +98,7 @@ const UsersTable = () => {
 						option.value === UserRole.USER,
 				),
 			);
-		} else if (userRoles.includes(UserRole.USER)) {
+		} else if (userRoles.includes(UserRole.USER) || userRoles.includes(UserRole.CONSULTOR)) {
 			setSelectOptions(
 				userSelectOptions.filter(
 					(option) =>
@@ -245,7 +245,7 @@ const UsersTable = () => {
 	useEffect(() => {
 		setSelectOptions(userSelectOptions);
 	}, []);
-
+	console.log({ filteredSelectOptions, selectOptions })
 	return (
 		<TableWrapper>
 			<TableHeaderWrapper heading="Lista de usuários">
@@ -264,7 +264,7 @@ const UsersTable = () => {
 						<Select
 							options={filteredSelectOptions}
 							onChange={(selectedRole) => handleUserRoleChange([selectedRole])}
-							defaultValue={userSelectOptions[0].value}
+							defaultValue={filteredSelectOptions[0].value}
 						/>
 
 						<FilterButton

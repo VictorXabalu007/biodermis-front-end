@@ -11,11 +11,44 @@ import { useEffect, useState } from "react";
 import { useProductsData } from "../../hooks/products/useProductsData";
 import Title from "../shared/Typography/typography-title";
 import { productFallback } from "../../util/projectImage";
+import { getFormaPag } from "../../functions/Getters/getFormaPag";
 
 export const RequestViewModal = ({ requests }: { requests: Requests }) => {
+	type ProductId = {
+		id: number;
+		quantidade: number;
+	};
+
+	type Product = {
+		id: number;
+		nome: string;
+		produto_id: number;
+		valorvenda: string;
+		valortotal: string;
+		valormin: string;
+		peso: string;
+	};
+
 	const [currentProducts, setCurrentProducts] = useState<Product[]>([]);
 
 	const { isLoading, products } = useProductsData();
+
+	const [userType, setUserType] = useState<"consultor" | "cliente" | null>(
+		null,
+	);
+	const [valueSale, setValueSale] = useState<
+		{
+			imagem: string | undefined; id: number; nome: string; valor: string; quantidade: number 
+}[]
+	>([]);
+
+	useEffect(() => {
+		if (requests?.consultor_id && requests.consultor_id > 1) {
+			setUserType("consultor");
+		} else if (requests?.cliente_id && requests.cliente_id > 1) {
+			setUserType("cliente");
+		}
+	}, [requests]);
 
 	useEffect(() => {
 		if (products) {
@@ -25,6 +58,67 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 			setCurrentProducts(currents);
 		}
 	}, [products]);
+
+
+	useEffect(() => {
+		if (!userType) return;
+
+		// Realizar verificações e mapeamento de valores
+		const mappedValues = requests.produtos_ids
+			.map((produtoId: ProductId) => {
+				// Localizar o produto correspondente
+				const produto: any = requests.produtos.find((p: Product) => p.produto_id == produtoId.id);
+				if (!produto) return null;
+
+				// const imgPath = (produto.imagens.length > 0 &&  produto.imagens[0] !== '') ? produto.imagens[0] : ''; 
+				console.log('OPAAAA');
+				console.log(produto.imagens);
+				if (userType === "consultor") {
+					if (requests.modelo === "venda") {
+						return {
+							id: produto.id,
+							nome: produto.nome,
+							valor: produto.valortotal,
+							quantidade: produtoId.quantidade,
+							imagem: produto.imagens !== null ? produto.imagens[0] : ''
+						};
+					}
+					if (requests.modelo === "abastecimento") {
+						return {
+							id: produto.id,
+							nome: produto.nome,
+							valor: produto.valormin,
+							quantidade: produtoId.quantidade,
+							imagem: produto.imagens !== null ? produto.imagens[0] : ''
+						};
+					}
+				} else if (userType === "cliente") {
+					return {
+						id: produto.id,
+						nome: produto.nome,
+						valor: produto.valorvenda,
+						quantidade: produtoId.quantidade,
+						imagem: produto.imagens !== null ? produto.imagens[0] : ''
+					};
+				}
+
+				return null;
+			})
+			.filter(
+				(
+					item,
+				): item is {
+					id: number,
+					nome: string,
+					valor: string,
+					quantidade: number,
+					imagem: string
+				} => !!item,
+			);
+
+		// Atualizar estado com valores válidos
+		setValueSale(mappedValues);
+	}, [requests, userType]);
 
 	const data = [
 		{
@@ -146,7 +240,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 		},
 		{
 			title: "Forma de pagamento:",
-			label: requests.formapag_id || "Não definida no momento",
+			label: requests.formapag_id == 2 && requests.qtdParcelas != null ? `${getFormaPag(requests.formapag_id)} parcelado em ${requests.qtdParcelas}x` : getFormaPag(requests.formapag_id)
 		},
 		{
 			title: "Forma de envio: ",
@@ -174,12 +268,12 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 			</Flex>
 
 			{currentProducts && currentProducts.length > 0 ? (
-				currentProducts.map((p) => (
+				valueSale.map((p) => (
 					<Flex key={p.id} className="flex mt-2 w-full justify-between gap-2">
 						<Flex gap={15}>
 							<Image
 								width={145}
-								src={p.imagePath}
+								src={p.imagem}
 								fallback={productFallback}
 								alt={p.nome}
 								style={{
@@ -199,8 +293,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 									Quant:{" "}
 									<span className="font-semibold">
 										{
-											requests.produtos_ids.find((r) => r.id === p.id)
-												?.quantidade
+											p.quantidade
 										}
 									</span>
 								</Text>
@@ -209,7 +302,7 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 
 						<div>
 							<Text className="mt-1 text-xl font-medium text-purple-solid-500">
-								<NumericFormatter value={parseFloat(p.valorvenda)} />
+								<NumericFormatter value={parseFloat(p.valor)} />
 							</Text>
 						</div>
 					</Flex>
