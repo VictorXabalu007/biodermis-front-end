@@ -9,10 +9,10 @@ export const RequestsTemplate = () => {
   return (
 
     <>
-      <RequestCardContainer />
-
-      <RequestsTable />
+      <RequestsTable>
+        <RequestCardContainer />
+      </RequestsTable>
     </>
-    
+
   );
 };

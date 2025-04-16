@@ -6,8 +6,11 @@ import {
 	Modal,
 	Skeleton,
 	Table,
+	Typography,
 	type TableColumnType,
 } from "antd";
+const { Text } = Typography;
+
 import { useTableActions } from "../../hooks/useTableActions";
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import { TableWrapper } from "../shared/Table/table-wrapper";
@@ -20,7 +23,7 @@ import {
 	sellChannelOptions,
 	statusOptions,
 } from "./util/selectOptions";
-import { type ChangeEvent, useCallback, useState } from "react";
+import React, { type ChangeEvent, useCallback, useState } from "react";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import { IoFilter } from "react-icons/io5";
 import EyeButton from "../shared/Button/edit-button";
@@ -37,8 +40,13 @@ import { useRequestUpdate } from "../../hooks/orders/useRequestUpdate";
 import { useRequestTableFilters } from "../../hooks/orders/useRequestTableFilters";
 import SearchInput from "../shared/Input/search-input";
 import { normalizeText } from "../../functions/normalize-text";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 
-const RequestsTable = () => {
+const RequestsTable = ({
+	children
+}: {
+	children: React.ReactNode
+}) => {
 	const { data, setData, isLoading, dowloadPdf } = useRequestTable();
 
 	const { filteredData, setFilteredData, rowClassName, clearAllFilters } =
@@ -206,9 +214,30 @@ const RequestsTable = () => {
 
 		setFilteredData(filtered);
 	};
-
+	const { state, getDates } = useRangeDate()
 	return (
 		<>
+			<Flex wrap>
+				<Flex gap={10}>
+					<Text strong>
+						{state.rangeDate[0].length > 0
+							? "Dados dos dias: "
+							: "Dados do dia: "}
+					</Text>
+
+					<Text>
+						{state.rangeDate[0].length > 0
+							? `${getDates(state).startDate} 
+					 até ${getDates(state).endDate}`
+							: new Date().toLocaleDateString()}
+					</Text>
+				</Flex>
+
+				<div className="lg:ms-auto">
+					<InputRangePicker />
+				</div>
+			</Flex>
+			{children}
 			{contextHolder}
 			<TableWrapper>
 				<TableHeaderWrapper heading="Pedidos">
@@ -292,7 +321,7 @@ const RequestsTable = () => {
 									</div>
 								</Flex>
 
-								<InputRangePicker />
+								{/* <InputRangePicker /> */}
 							</Flex>
 						</Flex>
 					</Flex>
