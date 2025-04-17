@@ -270,12 +270,12 @@ const RequestsTable = ({
 														<IoFilter />
 													</Flex>
 												</Button>
-												<InputRangePicker
+												{/* <InputRangePicker
 													defaultValue={[
 														dayjs().subtract(1, "month"),
 														dayjs(),
 													]}
-												/>
+												/> */}
 
 											</Flex>
 										)}
