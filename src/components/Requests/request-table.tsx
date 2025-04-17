@@ -24,7 +24,7 @@ import {
 	sellChannelOptions,
 	statusOptions,
 } from "./util/selectOptions";
-import React, { type ChangeEvent, useCallback, useState } from "react";
+import React, { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import { IoFilter } from "react-icons/io5";
 import EyeButton from "../shared/Button/edit-button";
@@ -216,6 +216,20 @@ const RequestsTable = ({
 		setFilteredData(filtered);
 	};
 	const { state, getDates } = useRangeDate()
+	const [dateRange, setDateRange] = useState([
+		dayjs().subtract(1, "month"),
+		dayjs(),
+	] as [dayjs.Dayjs, dayjs.Dayjs]);
+	useEffect(() => {
+		if (state.rangeDate[0].length > 0) {
+			const startDate = dayjs(state.rangeDate[0], 'DD/MM/YYYY');
+			const endDate = dayjs(state.rangeDate[1], 'DD/MM/YYYY');
+			console.log({ state, startDate, endDate })
+			setDateRange([startDate, endDate]);
+		} else {
+			setDateRange([dayjs().subtract(1, "month"), dayjs()]);
+		}
+	}, [state])
 	return (
 		<>
 			<Flex wrap>
@@ -235,7 +249,17 @@ const RequestsTable = ({
 				</Flex>
 
 				<div className="lg:ms-auto">
-					<InputRangePicker />
+					<InputRangePicker
+						value={dateRange && dateRange[0].isAfter('1970-01-01') ? dateRange : undefined}
+						onChange={(dates) => {
+							if (dates) {
+								if (!dates[0] || !dates[1]) return;
+								const startDate = dates[0].format("DD/MM/YYYY");
+								const endDate = dates[1].format("DD/MM/YYYY");
+								setDateRange([dates[0], dates[1]]);
+							}
+						}}
+					/>
 				</div>
 			</Flex>
 			{children}
@@ -294,12 +318,12 @@ const RequestsTable = ({
 														<MdOutlineCancelPresentation />
 													</Flex>
 												</Button>
-												<InputRangePicker
+												{/* <InputRangePicker
 													defaultValue={[
 														dayjs().subtract(1, "month"),
 														dayjs(),
 													]}
-												/>
+												/> */}
 
 											</Flex>
 										)}

@@ -2,58 +2,61 @@ import { SelectLabel } from "../../shared/Input/select-label";
 
 const DeliveryStatus = {
 
-    DELIVERY_STATUS_ALL : '',
-    DELIVERY_STATUS_IN_PROGRESS : 'pendente',
-    DELIVERY_STATUS_RECEIVED : 'realizada',
+    DELIVERY_STATUS_ALL: '',
+    DELIVERY_STATUS_IN_PROGRESS: 'pendente',
+    DELIVERY_STATUS_RECEIVED: 'realizada',
 
 } as const;
 
 
 export const deliveryOptions = [
 
-        {
-            value: DeliveryStatus.DELIVERY_STATUS_ALL,
-            label:  <SelectLabel onBold="Pedidos: " afterBold="Todos" />,
-        },
-        {
-            value: DeliveryStatus.DELIVERY_STATUS_IN_PROGRESS,
-            label:  <SelectLabel onBold="Pedidos: " afterBold="Em andamento" />,
-        },
-        {
-            value: DeliveryStatus.DELIVERY_STATUS_RECEIVED,
-            label:  <SelectLabel onBold="Pedidos: " afterBold="Realizados" />,
-        },
+    {
+        value: DeliveryStatus.DELIVERY_STATUS_ALL,
+        label: <SelectLabel onBold="Pedidos: " afterBold="Todos" />,
+    },
+    {
+        value: DeliveryStatus.DELIVERY_STATUS_IN_PROGRESS,
+        label: <SelectLabel onBold="Pedidos: " afterBold="Em andamento" />,
+    },
+    {
+        value: DeliveryStatus.DELIVERY_STATUS_RECEIVED,
+        label: <SelectLabel onBold="Pedidos: " afterBold="Realizados" />,
+    },
 
 ];
 
 export const daysOptions = [
+    {
+        value: '-1',
+        label: <SelectLabel onBold="" afterBold="Seguir o intervalo" />,
+    },
+    {
+        value: '90',
+        label: <SelectLabel onBold="Ultimos: " afterBold="90 dias" />,
 
-        {
-            value: '90',
-            label: <SelectLabel onBold="Ultimos: " afterBold="90 dias" />,
+    },
+    {
+        value: '45',
+        label: <SelectLabel onBold="Ultimos: " afterBold="45 dias" />,
 
-        },
-        {
-            value: '45',
-            label: <SelectLabel onBold="Ultimos: " afterBold="45 dias" />,
-     
-        },
-        {
-            value: '20',
-            label:  <SelectLabel onBold="Ultimos: " afterBold="20 dias" />,
+    },
+    {
+        value: '20',
+        label: <SelectLabel onBold="Ultimos: " afterBold="20 dias" />,
 
-        },
-        {
-            value: '10',
-            label:  <SelectLabel onBold="Ultimos: " afterBold="10 dias" />,
+    },
+    {
+        value: '10',
+        label: <SelectLabel onBold="Ultimos: " afterBold="10 dias" />,
 
-        },
-        {
-            value: '5',
-            label:  <SelectLabel onBold="Ultimos: " afterBold="5 dias" />,
+    },
+    {
+        value: '5',
+        label: <SelectLabel onBold="Ultimos: " afterBold="5 dias" />,
 
-        },
-  
+    },
+
 ];
 
 
@@ -83,7 +86,7 @@ export const statusOptions = [
 ]
 
 const SellChannelType = {
-    SELL_CHANNEL_ALL : 0,
+    SELL_CHANNEL_ALL: 0,
     SELL_CHANNEL_PIX: 1,
     SELL_CHANNEL_CREDITO: 2,
     SELL_CHANNEL_DEBITO: 3,
@@ -92,25 +95,25 @@ const SellChannelType = {
 
 export const sellChannelOptions = [
 
-        {
-            value: SellChannelType.SELL_CHANNEL_ALL,
-            label: <SelectLabel onBold="Canal de vendas: " afterBold="Todos" />
-        },
-        {
-            value: SellChannelType.SELL_CHANNEL_PIX,
-            label: <SelectLabel onBold="Canal de vendas: " afterBold="Pix" />
-        },
-        {
-            value: SellChannelType.SELL_CHANNEL_CREDITO,
-            label: <SelectLabel onBold="Canal de vendas: " afterBold="Crédito" />
-        },
-        {
-            value: SellChannelType.SELL_CHANNEL_DEBITO,
-            label: <SelectLabel onBold="Canal de vendas: " afterBold="Débito" />
-        },
-        {
-            value: SellChannelType.SELL_CHANNEL_BOLETO,
-            label: <SelectLabel onBold="Canal de vendas: " afterBold="Boleto" />
-        },
+    {
+        value: SellChannelType.SELL_CHANNEL_ALL,
+        label: <SelectLabel onBold="Canal de vendas: " afterBold="Todos" />
+    },
+    {
+        value: SellChannelType.SELL_CHANNEL_PIX,
+        label: <SelectLabel onBold="Canal de vendas: " afterBold="Pix" />
+    },
+    {
+        value: SellChannelType.SELL_CHANNEL_CREDITO,
+        label: <SelectLabel onBold="Canal de vendas: " afterBold="Crédito" />
+    },
+    {
+        value: SellChannelType.SELL_CHANNEL_DEBITO,
+        label: <SelectLabel onBold="Canal de vendas: " afterBold="Débito" />
+    },
+    {
+        value: SellChannelType.SELL_CHANNEL_BOLETO,
+        label: <SelectLabel onBold="Canal de vendas: " afterBold="Boleto" />
+    },
 
 ];

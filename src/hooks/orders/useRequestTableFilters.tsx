@@ -31,7 +31,7 @@ export const useRequestTableFilters = ({ setFilteredData }: Props) => {
 		}
 	};
 
-	const { dispatch } = useRangeDate();
+	const { dispatch, state } = useRangeDate();
 
 	const [showFilters, setShowFilters] = useState(false);
 
@@ -44,7 +44,15 @@ export const useRequestTableFilters = ({ setFilteredData }: Props) => {
 	const handleDaysChange = (days: string) => {
 		if (days) {
 			const daysCount = parseInt(days);
-
+			if (daysCount === -1) {
+				setDateRange(
+					[
+						state.rangeDate[0] || "",
+						state.rangeDate[1] || "",
+					]
+				)
+				return;
+			}
 			const endDate = new Date();
 			const startDate = new Date();
 			startDate.setDate(startDate.getDate() - daysCount);
