@@ -8,29 +8,42 @@ import { useMutation } from "@tanstack/react-query";
 import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
 import { useMessageAction } from "../useMessageAction";
+import { useEffect } from "react";
 
 type Props = {
   request: Requests
 }
 export const useRequestUpdate = ({
   request
-}:Props) => {
+}: Props) => {
+  console.log({ request })
   const {
     handleSubmit,
     control,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<UpdateRequestType>({
     resolver: zodResolver(updateOrderSchema),
     criteriaMode: "all",
     mode: "all",
+    defaultValues: {
+      sendDate: new Date().toLocaleDateString(),
+      sendCode: request.codigorastreio ?? "",
+    }
   });
-
+  console.log({ values: getValues() })
+  useEffect(() => {
+    if (request.codigorastreio) {
+      setValue("sendCode", request.codigorastreio);
+    }
+  }, [request])
   const {
     success,
     error,
     contextHolder,
   } = useMessageAction();
-  
+
 
   const updateRequest = useMutation({
     mutationFn: async (sendData: UpdateRequestType) => {
@@ -38,12 +51,12 @@ export const useRequestUpdate = ({
 
       const body = {
         statusentrega: "realizada",
-        formaenvio : request.formaenvio,
+        formaenvio: request.formaenvio,
         dataenvio: sendData.sendDate,
-        codigorastreio : sendData.sendCode,
+        codigorastreio: sendData.sendCode,
       };
 
-      
+
       const req = await api.patch(`/pedidos/${request.id}`, body, {
         headers,
       });
@@ -59,7 +72,7 @@ export const useRequestUpdate = ({
     },
     onError: (err: any) => {
       console.log('Erro ao atualizar pedido: ', err);
-      
+
       error(err.response.data.error);
     },
   });
