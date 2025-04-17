@@ -188,6 +188,8 @@ const RequestsTable = ({
 		handlePaymentStatusChange,
 		handleSellChannelChange,
 		setShowFilters,
+		updateDateFromPicker,
+		resetAllFilters,
 	} = useRequestTableFilters({
 		setFilteredData,
 	});
@@ -195,6 +197,13 @@ const RequestsTable = ({
 	const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = normalizeText(e.target.value);
 
+		if (!value.trim()) {
+			// Se a busca estiver vazia, aplicamos apenas os outros filtros já ativos
+			resetAllFilters();
+			return;
+		}
+
+		// Filtramos com base na pesquisa, mas mantemos outros filtros ativos
 		const filtered = data.filter((item) => {
 			const id = normalizeText(String(item.id));
 			const consultor = item.nomeconsultor
@@ -257,6 +266,13 @@ const RequestsTable = ({
 								const startDate = dates[0].format("DD/MM/YYYY");
 								const endDate = dates[1].format("DD/MM/YYYY");
 								setDateRange([dates[0], dates[1]]);
+
+								// Convertemos as datas para o formato de Data do JavaScript
+								const jsStartDate = new Date(dates[0].year(), dates[0].month(), dates[0].date());
+								const jsEndDate = new Date(dates[1].year(), dates[1].month(), dates[1].date());
+
+								// Atualizamos o filtro de intervalo de datas, mas mantemos os outros filtros
+								updateDateFromPicker(jsStartDate, jsEndDate);
 							}
 						}}
 					/>
@@ -309,7 +325,7 @@ const RequestsTable = ({
 												<Button
 													size="large"
 													onClick={() => {
-														clearAllFilters();
+														resetAllFilters();
 														setShowFilters(false);
 													}}
 												>
