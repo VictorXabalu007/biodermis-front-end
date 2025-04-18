@@ -20,7 +20,7 @@ export const useRequestTableFilters = ({ setFilteredData }: Props) => {
 	const [dateInterval, setDateInterval] = useState<[Date | null, Date | null]>([null, null]);
 	const [showFilters, setShowFilters] = useState(false);
 	const [dateRange, setDateRange] = useState<[string, string]>(["", ""]);
-
+	console.log({ orderStatus, paymentStatus, sellChannel })
 	const { dispatch, state } = useRangeDate();
 
 	// Função que aplica todos os filtros
@@ -51,14 +51,12 @@ export const useRequestTableFilters = ({ setFilteredData }: Props) => {
 				return dataPedido >= dateInterval[0]! && dataPedido <= dateInterval[1]!;
 			});
 		}
-
+		console.log('Filtrou aqui', { filteredResult, dateInterval })
 		setFilteredData(filteredResult);
 	};
 
 	// Atualiza os filtros sempre que qualquer um dos estados de filtro mudar
-	useEffect(() => {
-		applyAllFilters();
-	}, [paymentStatus, orderStatus, sellChannel, dateInterval, initialData]);
+	useEffect(applyAllFilters, [paymentStatus, orderStatus, sellChannel, dateInterval, initialData]);
 
 	const handleOpenFilters = () => {
 		setShowFilters(!showFilters);
