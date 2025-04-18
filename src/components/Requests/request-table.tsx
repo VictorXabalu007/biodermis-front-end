@@ -330,7 +330,7 @@ const RequestsTable = ({
 													}}
 												>
 													<Flex gap={5} align="center">
-														Ocultar filtros
+														Limpar filtros
 														<MdOutlineCancelPresentation />
 													</Flex>
 												</Button>
