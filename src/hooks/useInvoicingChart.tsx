@@ -75,6 +75,12 @@ export const useChartSeries = () => {
 	// Set maximum to be slightly higher than the actual maximum (just 5% above)
 	maxValue = maxValue + (range * 0.05);
 
+	// Determinar qual série tem os valores menores em média para colocá-la por cima
+	const inputAvg = formattedInputData.reduce((sum, item) => sum + item.y, 0) / 
+		(formattedInputData.length || 1);
+	const outputAvg = formattedOutputData.reduce((sum, item) => sum + item.y, 0) / 
+		(formattedOutputData.length || 1);
+
 	const options: ApexOptions = {
 		chart: {
 			height: 350,
@@ -86,12 +92,34 @@ export const useChartSeries = () => {
 			},
 			toolbar: {
 				show: true,
+				tools: {
+					download: true,
+					selection: false,
+					zoom: false,
+					zoomin: false,
+					zoomout: false,
+					pan: false,
+					reset: false,
+				},
 			},
 			zoom: {
-				enabled: true,
+				enabled: false,
 			},
 		},
 		colors: [RED_500, GREEN_700],
+		fill: {
+			type: 'gradient',
+			gradient: {
+				shade: 'light',
+				type: "vertical",
+				shadeIntensity: 0.4,
+				gradientToColors: undefined,
+				inverseColors: false,
+				opacityFrom: 0.7,
+				opacityTo: 0.3,
+				stops: [0, 90, 100]
+			},
+		},
 		xaxis: {
 			type: "datetime",
 			labels: {
@@ -134,7 +162,15 @@ export const useChartSeries = () => {
 		},
 		tooltip: {
 			x: {
-				format: "dd MMM yyyy",
+				// format: "dd MMM yyyy",
+				formatter(val, opts) {
+					const date = new Date(val).toLocaleDateString("pt-BR", {
+						day: "2-digit",
+						month: "long",
+						year: "numeric",
+					});
+					return date;
+				},
 			},
 		},
 		markers: {
@@ -146,16 +182,32 @@ export const useChartSeries = () => {
 		},
 	};
 
-	const series = [
-		{
-			name: "Saídas",
-			data: formattedOutputData,
-		},
-		{
-			name: "Entradas",
-			data: formattedInputData,
-		},
-	];
+	// Ordenar séries para que a menor fique por cima
+	const series = inputAvg < outputAvg
+		? [
+			{
+				name: "Saídas",
+				data: formattedOutputData,
+				type: "area",
+			},
+			{
+				name: "Entradas",
+				data: formattedInputData,
+				type: "area",
+			},
+		]
+		: [
+			{
+				name: "Entradas",
+				data: formattedInputData,
+				type: "area",
+			},
+			{
+				name: "Saídas",
+				data: formattedOutputData,
+				type: "area",
+			},
+		];
 
 	return {
 		series,

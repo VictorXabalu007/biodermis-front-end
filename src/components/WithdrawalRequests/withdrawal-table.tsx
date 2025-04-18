@@ -1,5 +1,6 @@
 import { useTableData } from "../../hooks/withdraw/useTableData";
 import { TableWrapper } from "../shared/Table/table-wrapper";
+import dayjs from "dayjs";
 import {
 	Avatar,
 	Button,
@@ -218,7 +219,12 @@ const WithdrawalTable = () => {
 								isFiltered={isFiltered}
 							/>
 						</Flex>
-						<InputRangePicker />
+						<InputRangePicker
+							defaultValue={[
+								dayjs().subtract(3, "month"),
+								dayjs(),
+							]}
+						/>
 					</Flex>
 				</TableHeaderWrapper>
 
