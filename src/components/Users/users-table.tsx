@@ -245,13 +245,28 @@ const UsersTable = () => {
 	useEffect(() => {
 		setSelectOptions(userSelectOptions);
 	}, []);
-	console.log({ filteredSelectOptions, selectOptions })
+	const [selectedFilter, setSelectedFilter] = useState<{
+		label: string;
+		value: number;
+	}>();
+	const onTabChange = (value: number) => {
+		if (value === 0) {
+			setSelectedFilter(userSelectOptions[0]);
+		}
+		if (value === -1) {
+			setSelectedFilter(userSelectOptions[2]);
+		}
+		if (value === 5) {
+			setSelectedFilter(userSelectOptions[6]);
+		}
+	}
 	return (
 		<TableWrapper>
 			<TableHeaderWrapper heading="Lista de usuários">
 				<FilterButtons
 					options={userSelectOptions}
 					onFilterChange={handleUserRoleChange}
+					onChangeTab={onTabChange}
 				/>
 				<Flex wrap justify="space-between" align="center">
 					<Flex align="center" gap={10} className="md:flex-nowrap flex-wrap">
@@ -263,9 +278,18 @@ const UsersTable = () => {
 
 						<Select
 							options={filteredSelectOptions}
+							value={selectedFilter}
+							onChange={(selectedRole) => {
+								setSelectedFilter(selectedRole);
+								handleUserRoleChange([selectedRole])
+							}}
+						/>
+						{/* 
+						<Select
+							options={filteredSelectOptions}
 							onChange={(selectedRole) => handleUserRoleChange([selectedRole])}
 							defaultValue={filteredSelectOptions[0].value}
-						/>
+						/> */}
 
 						<FilterButton
 							isFiltered={isFiltered}
