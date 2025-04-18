@@ -38,8 +38,8 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 	);
 	const [valueSale, setValueSale] = useState<
 		{
-			imagem: string | undefined; id: number; nome: string; valor: string; quantidade: number 
-}[]
+			imagem: string | undefined; id: number; nome: string; valor: string; quantidade: number
+		}[]
 	>([]);
 
 	useEffect(() => {
@@ -67,7 +67,11 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 		const mappedValues = requests.produtos_ids
 			.map((produtoId: ProductId) => {
 				// Localizar o produto correspondente
-				const produto: any = requests.produtos.find((p: Product) => p.produto_id == produtoId.id);
+				console.log({ requests })
+				const produto: any = requests.produtos.find((p: Product) => {
+					if (!p) return false;
+					return p.produto_id == produtoId.id
+				});
 				if (!produto) return null;
 
 				// const imgPath = (produto.imagens.length > 0 &&  produto.imagens[0] !== '') ? produto.imagens[0] : ''; 
