@@ -226,17 +226,16 @@ const RequestsTable = ({
 	};
 	const { state, getDates } = useRangeDate()
 	const [dateRange, setDateRange] = useState([
-		dayjs().subtract(1, "month"),
+		dayjs().subtract(3, "month"),
 		dayjs(),
 	] as [dayjs.Dayjs, dayjs.Dayjs]);
 	useEffect(() => {
 		if (state.rangeDate[0].length > 0) {
 			const startDate = dayjs(state.rangeDate[0], 'DD/MM/YYYY');
 			const endDate = dayjs(state.rangeDate[1], 'DD/MM/YYYY');
-			console.log({ state, startDate, endDate })
 			setDateRange([startDate, endDate]);
 		} else {
-			setDateRange([dayjs().subtract(1, "month"), dayjs()]);
+			setDateRange([dayjs().subtract(3, "month"), dayjs()]);
 		}
 	}, [state])
 	return (

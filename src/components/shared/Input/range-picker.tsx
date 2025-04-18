@@ -20,7 +20,10 @@ export const InputRangePicker = (props: RangePickerProps) => {
 				props.defaultValue[0].format("DD/MM/YYYY"),
 				props.defaultValue[1].format("DD/MM/YYYY"),
 			]
-			: [today, today]
+			: [
+				dayjs().subtract(3, "month").format("DD/MM/YYYY"),
+				today,
+			]
 	);
 	const { dispatch } = useRangeDate();
 

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
 	createContext,
 	type PropsWithChildren,
@@ -36,7 +37,10 @@ enum RangeDateActions {
 const RangeDateContext = createContext<ContextType | undefined>(undefined);
 
 const initialData = {
-	rangeDate: ["", ""],
+	rangeDate: [
+		dayjs().subtract(3, "month").format("YYYY-MM-DD"),
+		dayjs().format("YYYY-MM-DD"),
+	],
 };
 
 const rangeDateReducer = (state: RangeDateState, action: Action) => {
@@ -51,7 +55,7 @@ const rangeDateReducer = (state: RangeDateState, action: Action) => {
 
 const RangeDateProvider = ({ children }: PropsWithChildren) => {
 	const [state, dispatch] = useReducer(rangeDateReducer, initialData);
-
+	console.log({ state, initialData })
 	const value = { state, dispatch, getDates };
 
 	return (

@@ -16,7 +16,6 @@ type Props = {
 export const useRequestUpdate = ({
   request
 }: Props) => {
-  console.log({ request })
   const {
     handleSubmit,
     control,
@@ -32,7 +31,6 @@ export const useRequestUpdate = ({
       sendCode: request.codigorastreio ?? "",
     }
   });
-  console.log({ values: getValues() })
   useEffect(() => {
     if (request.codigorastreio) {
       setValue("sendCode", request.codigorastreio);
