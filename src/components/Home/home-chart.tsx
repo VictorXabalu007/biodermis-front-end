@@ -26,7 +26,7 @@ const HomeChart = () => {
 				// @ts-ignore
 				options={options}
 				series={series}
-				type="bar"
+				type="line"
 				height={350}
 			/>
 		</ChartWrapper>

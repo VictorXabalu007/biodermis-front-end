@@ -6,7 +6,7 @@ import { useChartSeries } from "../../hooks/useInvoicingChart";
 
 const InvoicingChartContainer = () => {
 	const { series, options } = useChartSeries();
-
+	console.log({ series, options })
 	return (
 		<ChartWrapper>
 			<ChartHeader.Root>
@@ -21,7 +21,7 @@ const InvoicingChartContainer = () => {
 				// @ts-ignore
 				options={options}
 				series={series}
-				type="bar"
+				type="line"
 			/>
 		</ChartWrapper>
 	);

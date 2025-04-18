@@ -5,13 +5,19 @@ import { MoneyDataCard } from "../shared/Card/MoneyDataCard";
 import { Card, Empty, Flex } from "antd";
 import { ContainerPagination } from "../shared/Pagination/container-pagination";
 import { usePagination } from "../../hooks/usePagination";
-import { useMovimentationData } from "../../hooks/useMovimentationData";
 import Title from "../shared/Typography/typography-title";
 
 type DataItemProps = {
 	title: string;
 	subtitle: string;
-	cardData: MovimentationType[];
+	cardData: {
+		id: number;
+		tipo: string;
+		valor: string;
+		saque_id: number | null;
+		pedido_id: number | null;
+		datarealizado: string;
+	}[];
 	cardType: MoneyCardType;
 };
 
@@ -28,15 +34,28 @@ export const DataItem = ({
 		pageSize: PAGE_SIZE,
 	});
 
-	const {
-		getDateOfRequest,
-		getNameOfRequest,
-		getDateOfWithDrawal,
-		getNameOfWithdraw,
-	} = useMovimentationData();
-
 	const handlePageChange = (page: number) => {
 		paginationItems.setCurrentPage(page);
+	};
+
+	// Format date from YYYY-MM-DD to DD/MM/YYYY
+	const formatDate = (dateString: string) => {
+		const date = new Date(dateString);
+		return date.toLocaleDateString('pt-BR');
+	};
+
+	// Function to determine what to display as title and subtitle
+	const getDisplayInfo = (item: any) => {
+		const title = formatDate(item.datarealizado);
+		let subtitle = '';
+
+		if (cardType === "input") {
+			subtitle = item.pedido_id ? `Pedido #${item.pedido_id}` : 'Entrada';
+		} else {
+			subtitle = item.saque_id ? `Saque #${item.saque_id}` : 'Saída';
+		}
+
+		return { title, subtitle };
 	};
 
 	return (
@@ -65,22 +84,16 @@ export const DataItem = ({
 				</>
 			) : (
 				paginationItems.currentItems.map((data) => {
+					const displayInfo = getDisplayInfo(data);
+
 					return (
-						<MoneyDataCard.Root>
+						<MoneyDataCard.Root key={data.id}>
 							<MoneyDataCard.LeftWrapper>
 								<MoneyDataCard.Icon cardType={cardType} />
 
 								<MoneyDataCard.Text
-									title={
-										cardType === "input"
-											? getDateOfRequest(data.pedido_id)
-											: getDateOfWithDrawal(data.saque_id)
-									}
-									subtitle={
-										cardType === "input"
-											? getNameOfRequest(data.pedido_id)
-											: getNameOfWithdraw(data.saque_id)
-									}
+									title={displayInfo.title}
+									subtitle={displayInfo.subtitle}
 								/>
 							</MoneyDataCard.LeftWrapper>
 
