@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import dayjs from "dayjs";
 import {
   updateOrderSchema,
   UpdateRequestType,
@@ -27,13 +28,19 @@ export const useRequestUpdate = ({
     criteriaMode: "all",
     mode: "all",
     defaultValues: {
-      sendDate: new Date().toLocaleDateString(),
+      sendDate: new Date(request.dataenvio ?? new Date()).toLocaleDateString(),
       sendCode: request.codigorastreio ?? "",
     }
   });
   useEffect(() => {
     if (request.codigorastreio) {
       setValue("sendCode", request.codigorastreio);
+    }
+    if (request.dataenvio) {
+      console.log(dayjs(request.dataenvio, 'DD/MM/YYYY'), request.dataenvio);
+      setValue("sendDate", dayjs(request.dataenvio, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+    } else {
+      setValue("sendDate", dayjs().format('MM/DD/YYYY'));
     }
   }, [request])
   const {
@@ -46,14 +53,13 @@ export const useRequestUpdate = ({
   const updateRequest = useMutation({
     mutationFn: async (sendData: UpdateRequestType) => {
       const headers = getHeaders();
-
       const body = {
         statusentrega: "realizada",
         formaenvio: request.formaenvio,
-        dataenvio: sendData.sendDate,
+        dataenvio: dayjs(sendData.sendDate).format('DD/MM/YYYY'),
         codigorastreio: sendData.sendCode,
       };
-
+      console.log({ body })
 
       const req = await api.patch(`/pedidos/${request.id}`, body, {
         headers,

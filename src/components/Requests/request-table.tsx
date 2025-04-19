@@ -55,7 +55,6 @@ const RequestsTable = ({
 			data,
 			setData,
 		});
-	console.log({ filteredData })
 	const [currentRequest, setCurrentRequest] = useState({} as Requests);
 	const [openView, setViewOpen] = useState(false);
 	const [openEditor, setEditorOpen] = useState(false);

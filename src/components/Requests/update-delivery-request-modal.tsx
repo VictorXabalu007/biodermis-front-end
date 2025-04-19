@@ -1,4 +1,5 @@
 
+import dayjs from "dayjs";
 import { InputDatePicker } from "../shared/Input/date-picker";
 import { ConfigProvider, Flex, Input, Skeleton, Typography } from "antd";
 import { Form } from "antd/lib";
@@ -126,7 +127,7 @@ export const RequestEditor = ({
                         <Controller
                             control={control}
                             name="sendDate"
-                            render={({ field: { onChange } }) => (
+                            render={({ field: { onChange, value } }) => (
 
                                 <Form.Item
                                     name="sendDate"
@@ -134,11 +135,15 @@ export const RequestEditor = ({
                                     help={errors.sendDate && errors.sendDate.message}
                                     hasFeedback
                                 >
-
+                                    <p className=" sr-only">
+                                        {value}
+                                    </p>
                                     <InputDatePicker
-                                        onChange={(_, dateString) => (
-                                            onChange(dateString)
-                                        )}
+                                        value={dayjs(dayjs(value))}
+                                        onChange={(_, dateString) => {
+                                            console.log({ dateString, _ })
+                                            onChange(_.format('MM/DD/YYYY'));
+                                        }}
                                     />
 
                                 </Form.Item>
