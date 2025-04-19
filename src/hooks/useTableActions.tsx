@@ -8,11 +8,13 @@ import { colors } from "../theme/colors";
 type UseTableActionsProps<T extends { id: React.Key }> = {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
+    canRedisplay?: boolean
 }
 
 export const useTableActions = <T extends { id: React.Key }>({
     data,
-    setData
+    setData,
+    canRedisplay = false
 }: UseTableActionsProps<T>) => {
     type DataIndex = keyof T;
 
@@ -25,7 +27,7 @@ export const useTableActions = <T extends { id: React.Key }>({
 
     useEffect(() => {
         if (data) {
-            if (!filteredData.length || originalData.length !== data.length) {
+            if ((!filteredData.length || originalData.length !== data.length) || canRedisplay) {
                 setFilteredData(data)
             }
             setOriginalData(data)

@@ -40,8 +40,8 @@ const ConsultorsTable = () => {
 	const { filteredData, setFilteredData } = useTableActions({
 		data: consultor,
 		setData: setConsultor,
+		canRedisplay: true,
 	});
-	console.log({ consultor, filteredData })
 	useEffect(() => {
 		if (consultor && selectedStatus !== '') {
 			const filtered = consultor.filter(

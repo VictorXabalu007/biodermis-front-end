@@ -4,12 +4,21 @@ import { getConsultors } from "../../components/Consultors/service/getConsultors
 import { UserRole } from "../../util/userRole";
 import { API_URL } from "../../service/url";
 import { isValidURL } from "../../functions/Validators/isLink";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 
 export const useConsultorData = (status?: string) => {
-	const { data, isLoading, isError } = useQuery({
-		queryKey: ["consultor", status == '' ? "todos" : status],
-		queryFn: () => getConsultors(status || ""),
+	const { state, getDates } = useRangeDate()
+	const { data, isLoading, isError, refetch } = useQuery({
+		queryKey: ["consultor", status == '' ? "todos" : status, JSON.stringify(getDates(state))],
+		staleTime: 0,
+		queryFn: () => getConsultors(status || "", getDates(state)),
 	});
+	useEffect(() => {
+		if (data) {
+			console.log('refetch')
+			refetch();
+		}
+	}, [state])
 	const [consultor, setConsultor] = useState<UserCredentials[]>([]);
 	useEffect(() => {
 		if (data) {
