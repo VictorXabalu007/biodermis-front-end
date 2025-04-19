@@ -76,9 +76,9 @@ export const useChartSeries = () => {
 	maxValue = maxValue + (range * 0.05);
 
 	// Determinar qual série tem os valores menores em média para colocá-la por cima
-	const inputAvg = formattedInputData.reduce((sum, item) => sum + item.y, 0) / 
+	const inputAvg = formattedInputData.reduce((sum, item) => sum + item.y, 0) /
 		(formattedInputData.length || 1);
-	const outputAvg = formattedOutputData.reduce((sum, item) => sum + item.y, 0) / 
+	const outputAvg = formattedOutputData.reduce((sum, item) => sum + item.y, 0) /
 		(formattedOutputData.length || 1);
 
 	const options: ApexOptions = {
@@ -107,6 +107,7 @@ export const useChartSeries = () => {
 			},
 		},
 		colors: [RED_500, GREEN_700],
+		/* Comentando a configuração de gradiente
 		fill: {
 			type: 'gradient',
 			gradient: {
@@ -120,6 +121,7 @@ export const useChartSeries = () => {
 				stops: [0, 90, 100]
 			},
 		},
+		*/
 		xaxis: {
 			type: "datetime",
 			labels: {
@@ -188,24 +190,24 @@ export const useChartSeries = () => {
 			{
 				name: "Saídas",
 				data: formattedOutputData,
-				type: "area",
+				type: "line", // Alterado de "area" para "line"
 			},
 			{
 				name: "Entradas",
 				data: formattedInputData,
-				type: "area",
+				type: "line", // Alterado de "area" para "line"
 			},
 		]
 		: [
 			{
 				name: "Entradas",
 				data: formattedInputData,
-				type: "area",
+				type: "line", // Alterado de "area" para "line"
 			},
 			{
 				name: "Saídas",
 				data: formattedOutputData,
-				type: "area",
+				type: "line", // Alterado de "area" para "line"
 			},
 		];
 
