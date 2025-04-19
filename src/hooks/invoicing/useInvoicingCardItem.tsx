@@ -20,7 +20,12 @@ export const useInvoicingCardItem = ({
 	} = useRequestsData({ enableFilterDate });
 
 	const { getInputDataTotal, getOutputDataTotal } = useMovimentationData();
-
+	const formatBRL = (value: number) => {
+		return value.toLocaleString("pt-BR", {
+			style: "currency",
+			currency: "BRL",
+		});
+	}
 	const items = useMemo(
 		() => [
 			{
@@ -34,7 +39,7 @@ export const useInvoicingCardItem = ({
 			{
 				icon: GoPackage,
 				title: "Faturamento Total",
-				footerHeding: `R$ ${getInputDataTotal()}`,
+				footerHeding: `${formatBRL(getInputDataTotal())}`,
 				footerText: "(entradas)",
 				percentual: `${getSellPercentualChange()}%`,
 				status: getSellStatusChange(),
@@ -43,7 +48,7 @@ export const useInvoicingCardItem = ({
 			{
 				icon: BsGraphUpArrow,
 				title: "Saídas Total",
-				footerHeding: `R$ ${getOutputDataTotal()}`,
+				footerHeding: `${formatBRL(getOutputDataTotal())}`,
 				footerText: "(saídas)",
 				percentual: ` ${getSellPercentualChange()}%`,
 				status: getSellStatusChange(),
