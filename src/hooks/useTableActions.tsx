@@ -28,6 +28,7 @@ export const useTableActions = <T extends { id: React.Key }>({
     useEffect(() => {
         if (data) {
             if ((!filteredData.length || originalData.length !== data.length) || canRedisplay) {
+                console.log("setFilteredData", data, { filteredData, originalData, data })
                 setFilteredData(data)
             }
             setOriginalData(data)

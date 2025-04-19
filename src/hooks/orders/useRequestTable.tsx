@@ -17,7 +17,7 @@ import { useProductsData } from "../products/useProductsData";
 
 export const useRequestTable = () => {
 	const { consultor } = useConsultorData();
-	const { data, setData, isLoading } = useRequestsData();
+	const { data, setData, isLoading } = useRequestsData({ enableFilterDate: false });
 
 	const { contextHolder, success, error } = useMessageAction();
 
