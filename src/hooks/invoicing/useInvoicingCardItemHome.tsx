@@ -23,7 +23,7 @@ export const useInvoicingCardItemHome = ({
 		getSellStatusChange,
 		getRequestOrderStatusChange,
 		getTotalOrders,
-	} = useRequestsData({ enableFilterDate });
+	} = useRequestsData({ enableFilterDate: true });
 
 	const items = useMemo(
 		() => [
