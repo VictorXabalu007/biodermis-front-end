@@ -18,7 +18,7 @@ import { useConsultorData } from "../users/useConsultorData";
 export const useRequestsData = ({
 	enableFilterDate = true,
 }: FilterDateConstraints = {}) => {
-	const { getConsultorName, consultor } = useConsultorData();
+	const { getConsultorName } = useConsultorData();
 
 	const now = new Date();
 	const currentMonth = getMonth(now);

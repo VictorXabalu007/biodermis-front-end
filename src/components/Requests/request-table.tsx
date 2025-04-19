@@ -50,7 +50,7 @@ const RequestsTable = ({
 }) => {
 	const { data, setData, isLoading, dowloadPdf } = useRequestTable();
 
-	const { filteredData, setFilteredData, rowClassName, clearAllFilters } =
+	const { filteredData, setFilteredData, rowClassName } =
 		useTableActions({
 			data,
 			setData,
@@ -261,8 +261,6 @@ const RequestsTable = ({
 						onChange={(dates) => {
 							if (dates) {
 								if (!dates[0] || !dates[1]) return;
-								const startDate = dates[0].format("DD/MM/YYYY");
-								const endDate = dates[1].format("DD/MM/YYYY");
 								setDateRange([dates[0], dates[1]]);
 
 								// Convertemos as datas para o formato de Data do JavaScript

@@ -164,8 +164,7 @@ export const useChartSeries = () => {
 		},
 		tooltip: {
 			x: {
-				// format: "dd MMM yyyy",
-				formatter(val, opts) {
+				formatter(val) {
 					const date = new Date(val).toLocaleDateString("pt-BR", {
 						day: "2-digit",
 						month: "long",

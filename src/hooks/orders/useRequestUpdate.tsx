@@ -21,7 +21,6 @@ export const useRequestUpdate = ({
     handleSubmit,
     control,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<UpdateRequestType>({
     resolver: zodResolver(updateOrderSchema),
