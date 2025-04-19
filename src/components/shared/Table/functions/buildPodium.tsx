@@ -4,6 +4,7 @@ import { Text } from "../../Typography/typography-text";
 
 
 export const buildPodium = (rank: string) => {
+    console.log({ rank })
     switch (rank) {
         case '1':
             return (

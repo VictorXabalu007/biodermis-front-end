@@ -14,23 +14,23 @@ export const useConsultorData = () => {
 
 	useEffect(() => {
 		if (data) {
-			const sortedData = [...data]
-				.sort(
-					(a, b) =>
-						Number.parseFloat(b.totalfat) - Number.parseFloat(a.totalfat),
-				)
-				.filter((c) => c.cargo_id === UserRole.CONSULTOR);
-			const rankedData = sortedData.map((d, index) => {
+			// Filtrar apenas consultores
+			const filteredData = data.filter(
+				(c: any) => c.cargo_id === UserRole.CONSULTOR
+			);
+
+			// Processar URLs de perfil
+			const processedData = filteredData.map((d: any) => {
 				const { srcperfil } = d;
 				const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
 				return {
 					...d,
-					rank: String(index + 1),
 					status: d.status.toLocaleLowerCase() as UserStatus,
 					srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
 				};
 			});
-			setConsultor(rankedData);
+
+			setConsultor(processedData);
 		}
 	}, [data]);
 

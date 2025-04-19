@@ -31,13 +31,10 @@ import { normalizeText } from "../../functions/normalize-text";
 import SearchInput from "../shared/Input/search-input";
 import { urlParams } from "../../util/urlParams";
 import FilterButtons from "./util/button-filter";
-import { useRequestsData } from "../../hooks/orders/useRequestsData";
 import { InputRangePicker } from "../shared/Input/range-picker";
 
 const ConsultorsTable = () => {
 	const { consultor, setConsultor, isLoading } = useConsultorData();
-	const { data: _, getTotalByConsultorId, getRankPositionByConsultorId } = useRequestsData();
-	const { consultor: initialData } = useConsultorData();
 	const [searchValue, setSearchValue] = useState("");
 	const [selectedStatus, setSelectedStatus] = useState("ativo");
 
@@ -54,7 +51,7 @@ const ConsultorsTable = () => {
 
 			setFilteredData(filtered);
 		}
-	}, [consultor, initialData]);
+	}, [consultor]);
 
 	const navigate = useNavigate();
 
@@ -76,7 +73,7 @@ const ConsultorsTable = () => {
 		setSelectedStatus(selectedOption);
 
 		if (selectedOption === "") {
-			setFilteredData(initialData);
+			setFilteredData(consultor);
 		} else {
 			const filtered = consultor.filter(
 				(item) => item.status === selectedOption,
@@ -88,22 +85,20 @@ const ConsultorsTable = () => {
 	const columns: TableColumnsType<UserCredentials> = [
 		{
 			title: "Rank",
-			dataIndex: "rank",
-			key: "rank",
-			sorter: (a, b) => getRankPositionByConsultorId(a.id) - getRankPositionByConsultorId(b.id),
-			render: (_, { id }) => buildPodium(getRankPositionByConsultorId(Number(id)).toString()),
+			dataIndex: "position",
+			key: "position",
+			sorter: (a, b) => a.position - b.position,
+			render: (position) => buildPodium(position.toString()),
 			align: "center",
 		},
 		{
 			title: "Faturamento",
-			dataIndex: "totalfat",
-			key: "totalfat",
-			render: (_, { id }) => `R$ ${getTotalByConsultorId(id).toFixed(2)}`,
-			sorter: (a, b) =>
-				getTotalByConsultorId(a.id) - getTotalByConsultorId(b.id),
+			dataIndex: "faturamentoAgregado",
+			key: "faturamentoAgregado",
+			render: (value) => `R$ ${parseFloat(value).toFixed(2)}`,
+			sorter: (a, b) => parseFloat(a.faturamentoAgregado) - parseFloat(b.faturamentoAgregado),
 			align: "center",
 		},
-
 		{
 			dataIndex: "id",
 			title: "Pedidos",
@@ -243,17 +238,7 @@ const ConsultorsTable = () => {
 								placeholder="Pesquisar por nome, email, telefone"
 								onChange={handleSearch}
 							/>
-							{/* <Select
-								options={userStatusOptions}
-								onChange={handleStatusChange}
-								defaultValue={userStatusOptions[0]}
-							/>
-							<FilterButton
-								onFilterCancel={clearAllFilters}
-								isFiltered={isFiltered}
-							/> */}
 						</Flex>
-						{/* <InputRangePicker /> */}
 						<Flex wrap gap={10} className="mt-3 xl:mt-0">
 							<Button size="large" onClick={() => navigate(REGISTER_CONSULTOR)}>
 								<Flex gap={5} align="center">
