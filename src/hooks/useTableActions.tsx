@@ -19,12 +19,16 @@ export const useTableActions = <T extends { id: React.Key }>({
     const [_, setSearchText] = useState("");
     const [__, setSearchedColumn] = useState<DataIndex | "">("");
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+    const [originalData, setOriginalData] = useState<T[]>([]);
     const [filteredData, setFilteredData] = useState<T[]>([]);
     const [isFiltered, setIsFiltered] = useState(false)
 
     useEffect(() => {
-        if (data && !filteredData.length) {
-            setFilteredData(data)
+        if (data) {
+            if (!filteredData.length || originalData.length !== data.length) {
+                setFilteredData(data)
+            }
+            setOriginalData(data)
         }
     }, [data])
 

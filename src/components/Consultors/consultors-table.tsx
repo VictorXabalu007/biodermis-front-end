@@ -34,17 +34,16 @@ import FilterButtons from "./util/button-filter";
 import { InputRangePicker } from "../shared/Input/range-picker";
 
 const ConsultorsTable = () => {
-	const { consultor, setConsultor, isLoading } = useConsultorData();
 	const [searchValue, setSearchValue] = useState("");
 	const [selectedStatus, setSelectedStatus] = useState("ativo");
-
+	const { consultor, setConsultor, isLoading } = useConsultorData(selectedStatus);
 	const { filteredData, setFilteredData } = useTableActions({
 		data: consultor,
 		setData: setConsultor,
 	});
-
+	console.log({ consultor, filteredData })
 	useEffect(() => {
-		if (consultor) {
+		if (consultor && selectedStatus !== '') {
 			const filtered = consultor.filter(
 				(item) => item.status === selectedStatus,
 			);

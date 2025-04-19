@@ -5,13 +5,12 @@ import { UserRole } from "../../util/userRole";
 import { API_URL } from "../../service/url";
 import { isValidURL } from "../../functions/Validators/isLink";
 
-export const useConsultorData = () => {
+export const useConsultorData = (status?: string) => {
 	const { data, isLoading, isError } = useQuery({
-		queryKey: ["consultor"],
-		queryFn: getConsultors,
+		queryKey: ["consultor", status == '' ? "todos" : status],
+		queryFn: () => getConsultors(status || ""),
 	});
 	const [consultor, setConsultor] = useState<UserCredentials[]>([]);
-
 	useEffect(() => {
 		if (data) {
 			// Filtrar apenas consultores
@@ -29,11 +28,9 @@ export const useConsultorData = () => {
 					srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
 				};
 			});
-
 			setConsultor(processedData);
 		}
 	}, [data]);
-
 	const getConsultorName = (id: number) => {
 		const consultorData = consultor.find((c) => c.id === id);
 		return consultorData ? consultorData.nome : "Consultor não encontrado";
