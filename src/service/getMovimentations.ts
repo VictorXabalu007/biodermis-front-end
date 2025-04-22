@@ -1,11 +1,17 @@
 import { api } from "./connection";
 import { getHeaders } from "./getHeaders";
 
-export const getMovimentations = async () => {
+export const getMovimentations = async ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) => {
   const headers = getHeaders();
-
+  const url = `/movimentacoes?startDate=${startDate}&endDate=${endDate}`;
   try {
-    const req = await api.get("/movimentacoes", {
+    const req = await api.get(url, {
       headers,
     });
 

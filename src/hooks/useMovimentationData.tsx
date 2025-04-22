@@ -19,16 +19,17 @@ type DailyDataType = {
 };
 
 export const useMovimentationData = () => {
-	const { data, isLoading } = useQuery({
+	const { state, getDates } = useRangeDate();
+	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["movimentations"],
-		queryFn: getMovimentations,
+		queryFn: () => getMovimentations(getDates(state)),
 	});
 
 	const [movimentations, setMovimentations] = useState<MovimentationType[]>([]);
-	const { state, getDates } = useRangeDate();
 	const [dateRange, setDateRange] = useState<{ startDate: string; endDate: string } | undefined>();
 
 	useEffect(() => {
+		refetch();
 		const { endDate, startDate } = getDates(state);
 		setDateRange({ endDate, startDate });
 	}, [state.rangeDate, getDates]);
