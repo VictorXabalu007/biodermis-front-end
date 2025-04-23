@@ -1,14 +1,26 @@
+import dayjs from "dayjs";
 import { ApexOptions } from "apexcharts";
 import { GREEN_700, RED_500 } from "../constants/classnames";
 import { useMovimentationData } from "./useMovimentationData";
+import { useRangeDate } from "../context/RangeDate/RangeDateContext";
 
 export const useChartSeries = () => {
 	const { getInputData, getOutputData } = useMovimentationData();
+	const { state, getDates } = useRangeDate();
 
 	// Function to aggregate and limit data points to 10
-	const processChartData = (data: any[], maxPoints = 10) => {
+	const processChartData = (data: any[]) => {
+		const maxPoints = (() => {
+			const st = getDates(state);
+			const startDate = dayjs(st.startDate, 'DD/MM/YYYY').toDate();
+			const endDate = dayjs(st.endDate, 'DD/MM/YYYY').toDate();
+			const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+			const diff = Math.min(diffDays + 1, 10 * Math.floor(Math.log(diffDays)))
+			return diff
+		})()
 		if (data.length <= maxPoints) return data;
-
+		console.log({ maxPoints, data })
 		// Sort data by date
 		const sortedData = [...data].sort((a, b) => {
 			return new Date(a.date).getTime() - new Date(b.date).getTime();
@@ -45,8 +57,8 @@ export const useChartSeries = () => {
 	const outputData = getOutputData();
 
 	// Process and limit data points to 10
-	const processedInputData = processChartData(inputData, 10);
-	const processedOutputData = processChartData(outputData, 10);
+	const processedInputData = processChartData(inputData);
+	const processedOutputData = processChartData(outputData);
 
 	// Format data for line chart with dates
 	const formattedInputData = processedInputData.map((item) => ({
@@ -95,11 +107,11 @@ export const useChartSeries = () => {
 				tools: {
 					download: true,
 					selection: false,
-					zoom: false,
-					zoomin: false,
-					zoomout: false,
-					pan: false,
-					reset: false,
+					zoom: true,
+					zoomin: true,
+					zoomout: true,
+					pan: true,
+					reset: true,
 				},
 			},
 			zoom: {
@@ -126,6 +138,14 @@ export const useChartSeries = () => {
 			type: "datetime",
 			labels: {
 				format: "dd/MM",
+				formatter: function (val: string) {
+					const date = new Date(val);
+					date.setDate(date.getDate() + 1); // Adiciona um dia para evitar problemas de fuso horário
+					return date.toLocaleDateString("pt-BR", {
+						day: "2-digit",
+						month: "2-digit",
+					});
+				}
 			},
 		},
 		yaxis: {
@@ -165,12 +185,13 @@ export const useChartSeries = () => {
 		tooltip: {
 			x: {
 				formatter(val) {
-					const date = new Date(val).toLocaleDateString("pt-BR", {
+					const date = new Date(val);
+					date.setDate(date.getDate() + 1); // Adiciona um dia para evitar problemas de fuso horário
+					return date.toLocaleDateString("pt-BR", {
 						day: "2-digit",
 						month: "long",
 						year: "numeric",
 					});
-					return date;
 				},
 			},
 		},
@@ -209,7 +230,6 @@ export const useChartSeries = () => {
 				type: "line", // Alterado de "area" para "line"
 			},
 		];
-
 	return {
 		series,
 		options,
