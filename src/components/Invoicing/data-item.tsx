@@ -33,7 +33,7 @@ export const DataItem = ({
 		data: cardData,
 		pageSize: PAGE_SIZE,
 	});
-
+	console.log({ paginationItems })
 	const handlePageChange = (page: number) => {
 		paginationItems.setCurrentPage(page);
 	};
@@ -41,6 +41,7 @@ export const DataItem = ({
 	// Format date from YYYY-MM-DD to DD/MM/YYYY
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
+		date.setDate(date.getDate() + 1); // Adjust for timezone difference
 		return date.toLocaleDateString("pt-BR", {
 			day: "2-digit",
 			month: "long",
@@ -113,7 +114,8 @@ export const DataItem = ({
 			{paginationItems.currentItems.length > 0 && (
 				<ContainerPagination
 					currentPage={paginationItems.currentPage}
-					totalItems={paginationItems.totalPages}
+					totalItems={cardData.length}
+					pageSize={5}
 					onPageChange={handlePageChange}
 					style={{
 						marginTop: "10px",
