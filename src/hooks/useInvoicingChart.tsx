@@ -15,7 +15,7 @@ export const useChartSeries = () => {
 			const endDate = dayjs(st.endDate, 'DD/MM/YYYY').toDate();
 			const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
 			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-			const diff = Math.min(diffDays + 1, 10 * Math.floor(Math.log(diffDays)))
+			const diff = Math.min(diffDays + 1, 60 * Math.ceil(Math.log(diffDays)))
 			return diff
 		})()
 		if (data.length <= maxPoints) return data;
