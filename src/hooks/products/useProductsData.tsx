@@ -10,13 +10,31 @@ import { getHeaders } from "../../service/getHeaders";
 import { api } from "../../service/connection";
 import BiodermisApi from "../../service/baseURL";
 import Api from "../../service/api";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 
 export const useProductsData = () => {
 	const { data, isLoading } = useQuery<Product[]>({
 		queryKey: ["products"],
 		queryFn: () => getProducts(),
 	});
-
+	const { state, getDates } = useRangeDate()
+	const { data: prodMoreSelled, isLoading: isLoadingMoreSelled, refetch } = useQuery({
+		queryKey: ['mais-vendido'],
+		queryFn: async () => {
+			const headers = getHeaders();
+			const st = getDates(state);
+			const startDate = st.startDate;
+			const endDate = st.endDate;
+			const url = `/pedido-mais-vendido/?startDate=${startDate}&endDate=${endDate}`;
+			const req = await api.get(url, {
+				headers
+			});
+			return req.data.length && req.data[0];
+		}
+	})
+	useEffect(() => {
+		refetch()
+	}, [state])
 	const { data: totalProducts } = useQuery<Product[]>({
 		queryKey: ["allProducts"],
 		queryFn: () => getAllProducts(),
@@ -101,15 +119,17 @@ export const useProductsData = () => {
 				headers,
 			});
 			return req.data;
-		} catch (e: any) {}
+		} catch (e: any) { }
 	};
 
 	const getGreatherSoldProduct = () => {
-		const product =
-			products?.sort(
-				(a, b) => parseFloat(a.mediaavs) - parseFloat(b.mediaavs),
-			)[0] || {};
-		return product;
+		console.log('called')
+		// const product =
+		// 	products?.sort(
+		// 		(a, b) => parseFloat(a.mediaavs) - parseFloat(b.mediaavs),
+		// 	)[0] || {};
+		// return product;
+		return prodMoreSelled;
 	};
 
 	const getProductIdByName = (name: string) => {

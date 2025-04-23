@@ -234,7 +234,7 @@ export const useRequestsData = ({
 
 	const getTotalSells = () => {
 		const currentMonthSales = data.filter((d) => {
-			return normalizeText(d.modelo) === "venda";
+			return normalizeText(d.modelo) === "venda" && d.statuspag === 'realizado';
 		});
 		return currentMonthSales.length;
 	};
@@ -297,11 +297,7 @@ export const useRequestsData = ({
 	};
 
 	const getTotalOrders = () => {
-		const currentMonthSales = data.filter((d) =>
-			parse(d.datapedido, "dd/MM/yyyy", new Date()),
-		);
-
-		return currentMonthSales.length;
+		return data.length;
 	};
 
 	return {
