@@ -35,7 +35,7 @@ export const InputRangePicker = (props: RangePickerProps) => {
 			if (value) {
 				setDateRange(dateStrings);
 			} else {
-				setDateRange(["01/01/1970", today]);
+				setDateRange(["01/01/2024", today]);
 			}
 		},
 		[],
