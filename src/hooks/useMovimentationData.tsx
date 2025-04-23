@@ -40,23 +40,37 @@ export const useMovimentationData = () => {
 		}
 	}, [data]);
 
-	const calculateDailyTotals = (data: MovimentationType[]) => {
-		const totals: Record<string, { total: number; items: MovimentationType[] }> = {};
+	const generateDateRange = (start: Date, end: Date): string[] => {
+		const dates: string[] = [];
+		const current = new Date(start);
+		while (current <= end) {
+			dates.push(current.toISOString().split("T")[0]); // YYYY-MM-DD
+			current.setDate(current.getDate() + 1);
+		}
+		return dates;
+	};
 
+	const calculateDailyMap = (
+		data: MovimentationType[],
+		dates: string[]
+	): DailyDataType[] => {
+		const map = new Map<string, MovimentationType[]>();
+
+		// Organiza por data
 		data.forEach((item) => {
 			const date = item.datarealizado;
-			if (!totals[date]) {
-				totals[date] = { total: 0, items: [] };
+			if (!map.has(date)) {
+				map.set(date, []);
 			}
-			totals[date].total += parseFloat(item.valor);
-			totals[date].items.push(item);
+			map.get(date)!.push(item);
 		});
 
-		return Object.keys(totals).map((date) => ({
-			date,
-			total: totals[date].total,
-			items: totals[date].items,
-		}));
+		// Garante que todas as datas estejam representadas
+		return dates.map((date) => {
+			const items = map.get(date) ?? [];
+			const total = items.reduce((sum, item) => sum + parseFloat(item.valor), 0);
+			return { date, total, items };
+		});
 	};
 
 	const getInputData = (): DailyDataType[] => {
@@ -65,16 +79,17 @@ export const useMovimentationData = () => {
 		if (dateRange?.startDate && dateRange.endDate) {
 			const start = new Date(dateRange.startDate.split("/").reverse().join("-"));
 			const end = new Date(dateRange.endDate.split("/").reverse().join("-"));
+			const range = generateDateRange(start, end);
 
 			const filteredData = inputData.filter((d) => {
 				const dataRealizado = new Date(d.datarealizado);
 				return dataRealizado >= start && dataRealizado <= end;
 			});
 
-			return calculateDailyTotals(filteredData);
+			return calculateDailyMap(filteredData, range);
 		}
 
-		return calculateDailyTotals(inputData);
+		return [];
 	};
 
 	const getInputDataTotal = () => {
@@ -88,16 +103,17 @@ export const useMovimentationData = () => {
 		if (dateRange?.startDate && dateRange.endDate) {
 			const start = new Date(dateRange.startDate.split("/").reverse().join("-"));
 			const end = new Date(dateRange.endDate.split("/").reverse().join("-"));
+			const range = generateDateRange(start, end);
 
 			const filteredData = outputData.filter((d) => {
 				const dataRealizado = new Date(d.datarealizado);
 				return dataRealizado >= start && dataRealizado <= end;
 			});
 
-			return calculateDailyTotals(filteredData);
+			return calculateDailyMap(filteredData, range);
 		}
 
-		return calculateDailyTotals(outputData);
+		return [];
 	};
 
 	const getOutputDataTotal = () => {

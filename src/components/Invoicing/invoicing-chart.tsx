@@ -18,7 +18,6 @@ const InvoicingChartContainer = () => {
 			</ChartHeader.Root>
 
 			<Chart
-				// @ts-ignore
 				options={options}
 				series={series}
 				type="line"

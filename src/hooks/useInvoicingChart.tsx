@@ -7,7 +7,6 @@ import { useRangeDate } from "../context/RangeDate/RangeDateContext";
 export const useChartSeries = () => {
 	const { getInputData, getOutputData } = useMovimentationData();
 	const { state, getDates } = useRangeDate();
-
 	// Function to aggregate and limit data points to 10
 	const processChartData = (data: any[]) => {
 		const maxPoints = (() => {
@@ -118,7 +117,7 @@ export const useChartSeries = () => {
 				enabled: false,
 			},
 		},
-		colors: [RED_500, GREEN_700],
+		colors: [GREEN_700, RED_500],
 		/* Comentando a configuração de gradiente
 		fill: {
 			type: 'gradient',
@@ -138,7 +137,11 @@ export const useChartSeries = () => {
 			type: "datetime",
 			labels: {
 				format: "dd/MM",
-				formatter: function (val: string) {
+				formatter: function (val: string, index, ops) {
+					if (formattedOutputData.length < 7 && formattedInputData.length < 7) {
+						console.log({ val, index, ops })
+						return ""
+					}
 					const date = new Date(val);
 					date.setDate(date.getDate() + 1); // Adiciona um dia para evitar problemas de fuso horário
 					return date.toLocaleDateString("pt-BR", {
