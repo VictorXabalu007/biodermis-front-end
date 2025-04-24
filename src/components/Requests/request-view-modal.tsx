@@ -255,7 +255,9 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 	if (isLoading) {
 		return <Skeleton />;
 	}
-
+	const loadImgApi = (img: string) => {
+		return `${import.meta.env.VITE_API_URL}/${img}`
+	}
 	return (
 		<Flex align="center" justify="center" vertical>
 			<Flex
@@ -275,9 +277,10 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 				valueSale.map((p) => (
 					<Flex key={p.id} className="flex mt-2 w-full justify-between gap-2">
 						<Flex gap={15}>
+							{/* <h1>{p.imagem && loadImgApi(p.imagem)}</h1> */}
 							<Image
 								width={145}
-								src={p.imagem}
+								src={p.imagem && loadImgApi(p.imagem)}
 								fallback={productFallback}
 								alt={p.nome}
 								style={{

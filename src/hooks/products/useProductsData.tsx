@@ -141,6 +141,7 @@ export const useProductsData = () => {
 		if (products.length === 0) return 0;
 
 		const totalMediaavs = products.reduce((sum, product) => {
+			if (!product.mediaavs) return sum;
 			const mediaavs = parseFloat(product.mediaavs);
 			return sum + (isNaN(mediaavs) ? 0 : mediaavs);
 		}, 0);
