@@ -114,7 +114,7 @@ export const useChartSeries = () => {
 				},
 			},
 			zoom: {
-				enabled: false,
+				enabled: true,
 			},
 		},
 		colors: [GREEN_700, RED_500],
