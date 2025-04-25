@@ -149,15 +149,15 @@ export const useProductsData = () => {
 		const greatherSoldProduct = getGreatherSoldProduct();
 
 		if (
-			!greatherSoldProduct.mediaavs ||
-			isNaN(parseFloat(greatherSoldProduct.mediaavs)) ||
+			!greatherSoldProduct?.mediaavs ||
+			isNaN(parseFloat(greatherSoldProduct?.mediaavs)) ||
 			totalMediaavs === 0
 		) {
 			return 0;
 		}
 
 		const percentual =
-			(parseFloat(greatherSoldProduct.mediaavs) / totalMediaavs) * 100;
+			(parseFloat(greatherSoldProduct?.mediaavs) / totalMediaavs) * 100;
 		return percentual;
 	};
 

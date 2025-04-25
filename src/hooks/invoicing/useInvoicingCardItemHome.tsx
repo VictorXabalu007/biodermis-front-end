@@ -35,7 +35,7 @@ export const useInvoicingCardItemHome = ({
 					style: 'currency',
 					minimumFractionDigits: 2,
 				}),
-				footerText: "(rendidos)",
+				footerText: "(vendidos)",
 				percentual: getSellPercentualChange() + "%",
 				status: getSellStatusChange(),
 			},

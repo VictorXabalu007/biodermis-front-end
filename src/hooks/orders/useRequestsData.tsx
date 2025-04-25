@@ -234,9 +234,12 @@ export const useRequestsData = ({
 
 	const getTotalSells = () => {
 		const currentMonthSales = data.filter((d) => {
-			return normalizeText(d.modelo) === "venda" && d.statuspag === 'realizado';
+			// return normalizeText(d.modelo) === "venda" && d.statuspag === 'realizado';
+			return d.statuspag === 'realizado'
 		});
-		return currentMonthSales.length;
+		return currentMonthSales.reduce((acc, d) => {
+			return acc + parseFloat(d.valor);
+		}, 0);
 	};
 
 	const getTotalPayments = () => {
