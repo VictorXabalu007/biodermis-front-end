@@ -157,7 +157,7 @@ const UserProductsForm = () => {
         cpfcliente: data.cpfcliente,
       };
 
-      const response = await api.post(`${Api.pedidoWeb}/${pedidoId}`, payload);
+      const response = await api.post(`${Api.pedidoWebWithProducts}/${pedidoId}`, payload);
 
       setLink(response.data.linkpagamento);
 

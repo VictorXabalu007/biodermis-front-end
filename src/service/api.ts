@@ -1,7 +1,8 @@
 const Api = {
   baseUrl: import.meta.env.VITE_API_URL || "",
   productsById: "produtos/",
-  pedidoWeb: "/pedidos/produtos",
+  pedidoWeb: "/pedidos/web",
+  pedidoWebWithProducts: "/pedidos/produtos",
   calcularFrete: "calcularfrete",
   consultorProduct: "consultor/produtos/params",
 };

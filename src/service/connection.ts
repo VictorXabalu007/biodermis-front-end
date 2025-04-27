@@ -3,12 +3,12 @@ import { API_URL } from "./url";
 
 export const api = axios.create({
   baseURL: API_URL,
-//   validateStatus: (status) => {
-//     if (status === 401) {
-//       window.location.href = "/";
-//     }
-//     return status >= 200 && status < 300;
-//   },
+  validateStatus: (status) => {
+    if (status === 401) {
+      window.location.href = "/";
+    }
+    return status >= 200 && status < 300;
+  },
 });
 
 const token = JSON.parse(sessionStorage.getItem("token") ?? "{}");
