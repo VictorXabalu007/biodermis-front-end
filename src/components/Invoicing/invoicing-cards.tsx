@@ -3,7 +3,7 @@ import { useInvoicingCardItem } from "../../hooks/invoicing/useInvoicingCardItem
 import { StatsCard } from "../shared/Card/StatsCard";
 import { InputRangePicker } from "../shared/Input/range-picker";
 import { Flex, Skeleton, Typography } from "antd";
-
+import dayjs from "dayjs";
 const { Text } = Typography;
 
 const InvoicingCardContainer = () => {
@@ -33,7 +33,12 @@ const InvoicingCardContainer = () => {
 				</Flex>
 
 				<div className="lg:ms-auto">
-					<InputRangePicker />
+					<InputRangePicker
+						defaultValue={[
+							dayjs().subtract(3, "month"),
+							dayjs(),
+						]}
+					/>
 				</div>
 			</Flex>
 

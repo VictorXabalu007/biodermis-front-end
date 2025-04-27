@@ -20,7 +20,10 @@ export const InputRangePicker = (props: RangePickerProps) => {
 				props.defaultValue[0].format("DD/MM/YYYY"),
 				props.defaultValue[1].format("DD/MM/YYYY"),
 			]
-			: [today, today]
+			: [
+				dayjs().subtract(3, "month").format("DD/MM/YYYY"),
+				today,
+			]
 	);
 	const { dispatch } = useRangeDate();
 
@@ -32,7 +35,7 @@ export const InputRangePicker = (props: RangePickerProps) => {
 			if (value) {
 				setDateRange(dateStrings);
 			} else {
-				setDateRange(["01/01/1970", today]);
+				setDateRange(["01/01/2024", today]);
 			}
 		},
 		[],

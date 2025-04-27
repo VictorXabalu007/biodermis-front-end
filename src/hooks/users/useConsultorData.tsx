@@ -4,38 +4,42 @@ import { getConsultors } from "../../components/Consultors/service/getConsultors
 import { UserRole } from "../../util/userRole";
 import { API_URL } from "../../service/url";
 import { isValidURL } from "../../functions/Validators/isLink";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 
-export const useConsultorData = () => {
-	const { data, isLoading, isError } = useQuery({
-		queryKey: ["consultor"],
-		queryFn: getConsultors,
+export const useConsultorData = (status?: string) => {
+	const { state, getDates } = useRangeDate()
+	const { data, isLoading, isError, refetch } = useQuery({
+		queryKey: ["consultor", status == '' ? "todos" : status, JSON.stringify(getDates(state))],
+		staleTime: 0,
+		queryFn: () => getConsultors(status || "", getDates(state)),
 	});
-	const [consultor, setConsultor] = useState<UserCredentials[]>([]);
-
 	useEffect(() => {
 		if (data) {
-			const sortedData = [...data]
-				.sort(
-					(a, b) =>
-						Number.parseFloat(b.totalfat) - Number.parseFloat(a.totalfat),
-				)
-				.filter((c) => c.cargo_id === UserRole.CONSULTOR);
-			console.log({ sortedData })
-			const rankedData = sortedData.map((d, index) => {
+			console.log('refetch')
+			refetch();
+		}
+	}, [state])
+	const [consultor, setConsultor] = useState<UserCredentials[]>([]);
+	useEffect(() => {
+		if (data) {
+			// Filtrar apenas consultores
+			const filteredData = data.filter(
+				(c: any) => c.cargo_id === UserRole.CONSULTOR
+			);
+
+			// Processar URLs de perfil
+			const processedData = filteredData.map((d: any) => {
 				const { srcperfil } = d;
 				const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
 				return {
 					...d,
-					rank: String(index + 1),
 					status: d.status.toLocaleLowerCase() as UserStatus,
 					srcperfil: isLink ? srcperfil : `${API_URL}/${srcperfil}`,
 				};
 			});
-			console.log({ rankedData });
-			setConsultor(rankedData);
+			setConsultor(processedData);
 		}
 	}, [data]);
-
 	const getConsultorName = (id: number) => {
 		const consultorData = consultor.find((c) => c.id === id);
 		return consultorData ? consultorData.nome : "Consultor não encontrado";

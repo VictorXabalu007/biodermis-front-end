@@ -7,8 +7,11 @@ import {
 	Modal,
 	Skeleton,
 	Table,
+	Typography,
 	type TableColumnType,
 } from "antd";
+const { Text } = Typography;
+
 import { useTableActions } from "../../hooks/useTableActions";
 import { TableHeaderWrapper } from "../shared/Table/table-header-wrapper";
 import { TableWrapper } from "../shared/Table/table-wrapper";
@@ -21,7 +24,7 @@ import {
 	sellChannelOptions,
 	statusOptions,
 } from "./util/selectOptions";
-import { type ChangeEvent, useCallback, useState } from "react";
+import React, { type ChangeEvent, useCallback, useEffect, useState } from "react";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import { IoFilter } from "react-icons/io5";
 import EyeButton from "../shared/Button/edit-button";
@@ -38,16 +41,20 @@ import { useRequestUpdate } from "../../hooks/orders/useRequestUpdate";
 import { useRequestTableFilters } from "../../hooks/orders/useRequestTableFilters";
 import SearchInput from "../shared/Input/search-input";
 import { normalizeText } from "../../functions/normalize-text";
+import { useRangeDate } from "../../context/RangeDate/RangeDateContext";
 
-const RequestsTable = () => {
+const RequestsTable = ({
+	children
+}: {
+	children: React.ReactNode
+}) => {
 	const { data, setData, isLoading, dowloadPdf } = useRequestTable();
 
-	const { filteredData, setFilteredData, rowClassName, clearAllFilters } =
+	const { filteredData, setFilteredData, rowClassName } =
 		useTableActions({
 			data,
 			setData,
 		});
-
 	const [currentRequest, setCurrentRequest] = useState({} as Requests);
 	const [openView, setViewOpen] = useState(false);
 	const [openEditor, setEditorOpen] = useState(false);
@@ -180,6 +187,8 @@ const RequestsTable = () => {
 		handlePaymentStatusChange,
 		handleSellChannelChange,
 		setShowFilters,
+		updateDateFromPicker,
+		resetAllFilters,
 	} = useRequestTableFilters({
 		setFilteredData,
 	});
@@ -187,6 +196,13 @@ const RequestsTable = () => {
 	const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = normalizeText(e.target.value);
 
+		if (!value.trim()) {
+			// Se a busca estiver vazia, aplicamos apenas os outros filtros já ativos
+			resetAllFilters();
+			return;
+		}
+
+		// Filtramos com base na pesquisa, mas mantemos outros filtros ativos
 		const filtered = data.filter((item) => {
 			const id = normalizeText(String(item.id));
 			const consultor = item.nomeconsultor
@@ -207,9 +223,58 @@ const RequestsTable = () => {
 
 		setFilteredData(filtered);
 	};
-
+	const { state, getDates } = useRangeDate()
+	const [dateRange, setDateRange] = useState([
+		dayjs().subtract(3, "month"),
+		dayjs(),
+	] as [dayjs.Dayjs, dayjs.Dayjs]);
+	useEffect(() => {
+		if (state.rangeDate[0].length > 0) {
+			const startDate = dayjs(state.rangeDate[0], 'DD/MM/YYYY');
+			const endDate = dayjs(state.rangeDate[1], 'DD/MM/YYYY');
+			setDateRange([startDate, endDate]);
+		} else {
+			setDateRange([dayjs().subtract(3, "month"), dayjs()]);
+		}
+	}, [state])
 	return (
 		<>
+			<Flex wrap>
+				<Flex gap={10}>
+					<Text strong>
+						{state.rangeDate[0].length > 0
+							? "Dados dos dias: "
+							: "Dados do dia: "}
+					</Text>
+
+					<Text>
+						{state.rangeDate[0].length > 0
+							? `${getDates(state).startDate} 
+					 até ${getDates(state).endDate}`
+							: new Date().toLocaleDateString()}
+					</Text>
+				</Flex>
+
+				<div className="lg:ms-auto">
+					<InputRangePicker
+						value={dateRange && dateRange[0].isAfter('1970-01-01') ? dateRange : undefined}
+						onChange={(dates) => {
+							if (dates) {
+								if (!dates[0] || !dates[1]) return;
+								setDateRange([dates[0], dates[1]]);
+
+								// Convertemos as datas para o formato de Data do JavaScript
+								const jsStartDate = new Date(dates[0].year(), dates[0].month(), dates[0].date());
+								const jsEndDate = new Date(dates[1].year(), dates[1].month(), dates[1].date());
+
+								// Atualizamos o filtro de intervalo de datas, mas mantemos os outros filtros
+								updateDateFromPicker(jsStartDate, jsEndDate);
+							}
+						}}
+					/>
+				</div>
+			</Flex>
+			{children}
 			{contextHolder}
 			<TableWrapper>
 				<TableHeaderWrapper heading="Pedidos">
@@ -241,12 +306,12 @@ const RequestsTable = () => {
 														<IoFilter />
 													</Flex>
 												</Button>
-												<InputRangePicker
+												{/* <InputRangePicker
 													defaultValue={[
 														dayjs().subtract(1, "month"),
 														dayjs(),
 													]}
-												/>
+												/> */}
 
 											</Flex>
 										)}
@@ -256,21 +321,21 @@ const RequestsTable = () => {
 												<Button
 													size="large"
 													onClick={() => {
-														clearAllFilters();
+														resetAllFilters();
 														setShowFilters(false);
 													}}
 												>
 													<Flex gap={5} align="center">
-														Ocultar filtros
+														Limpar filtros
 														<MdOutlineCancelPresentation />
 													</Flex>
 												</Button>
-												<InputRangePicker
+												{/* <InputRangePicker
 													defaultValue={[
 														dayjs().subtract(1, "month"),
 														dayjs(),
 													]}
-												/>
+												/> */}
 
 											</Flex>
 										)}
@@ -311,6 +376,7 @@ const RequestsTable = () => {
 									</div>
 								</Flex>
 
+								{/* <InputRangePicker /> */}
 							</Flex>
 						</Flex>
 					</Flex>

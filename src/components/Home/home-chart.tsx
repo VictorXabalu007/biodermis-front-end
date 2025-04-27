@@ -4,7 +4,7 @@ import { ChartHeader } from "../shared/Chart/components/ChartHeader";
 import { InputRangePicker } from "../shared/Input/range-picker";
 import { ChartWrapper } from "../shared/Chart/components/ChartWrapper";
 import { useChartSeries } from "../../hooks/useInvoicingChart";
-
+import dayjs from "dayjs";
 const HomeChart = () => {
 	const { series, options } = useChartSeries();
 
@@ -18,7 +18,12 @@ const HomeChart = () => {
 				</ChartHeader.Wrapper>
 
 				<ChartHeader.Prefix>
-					<InputRangePicker />
+					<InputRangePicker
+						defaultValue={[
+							dayjs().subtract(3, "month"),
+							dayjs(),
+						]}
+					/>
 				</ChartHeader.Prefix>
 			</ChartHeader.Root>
 
@@ -26,7 +31,7 @@ const HomeChart = () => {
 				// @ts-ignore
 				options={options}
 				series={series}
-				type="bar"
+				type="line"
 				height={350}
 			/>
 		</ChartWrapper>

@@ -44,6 +44,8 @@ declare global {
     email: string;
     id: number;
     nome: string;
+    position: number;
+    faturamentoAgregado: string;
     pix: string;
     addressId: number;
     senharesettempo: string | null;

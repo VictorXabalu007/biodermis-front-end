@@ -8,33 +8,40 @@ import { colors } from "../theme/colors";
 type UseTableActionsProps<T extends { id: React.Key }> = {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
+    canRedisplay?: boolean
 }
 
 export const useTableActions = <T extends { id: React.Key }>({
     data,
-    setData
+    setData,
+    canRedisplay = false
 }: UseTableActionsProps<T>) => {
     type DataIndex = keyof T;
 
     const [_, setSearchText] = useState("");
     const [__, setSearchedColumn] = useState<DataIndex | "">("");
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+    const [originalData, setOriginalData] = useState<T[]>([]);
     const [filteredData, setFilteredData] = useState<T[]>([]);
     const [isFiltered, setIsFiltered] = useState(false)
 
-    useEffect(()=> {
-        if(data){
-            setFilteredData(data)
+    useEffect(() => {
+        if (data) {
+            if ((!filteredData.length || originalData.length !== data.length) || canRedisplay) {
+                console.log("setFilteredData", data, { filteredData, originalData, data })
+                setFilteredData(data)
+            }
+            setOriginalData(data)
         }
-      },[data])
+    }, [data])
 
     const handleSearch = (
         selectedKeys: string[],
         dataIndex: DataIndex
     ) => {
-        
-        
-        if(selectedKeys.length > 0){
+
+
+        if (selectedKeys.length > 0) {
 
             notification.info({
                 message: `Filtrando por: ${selectedKeys[0]}`,
@@ -64,18 +71,18 @@ export const useTableActions = <T extends { id: React.Key }>({
     };
 
     useEffect(() => {
-       
+
         if (filteredData.length !== data.length) {
             setIsFiltered(true);
         } else {
-    
+
             const isDifferent = filteredData.some((filteredItem, index) => {
                 return filteredItem.id !== data[index].id;
             });
-    
+
             setIsFiltered(isDifferent);
         }
-        
+
     }, [filteredData, data]);
 
     const searchInput = useRef<InputRef>(null);
@@ -122,19 +129,18 @@ export const useTableActions = <T extends { id: React.Key }>({
                     ref={searchInput}
                     placeholder={`Pesquise por: ${label}`}
                     value={selectedKeys[0]}
-                    onChange={(e) =>
-                    {
-                        
+                    onChange={(e) => {
+
                         setSelectedKeys(e.target.value ? [e.target.value] : [])
 
-                        if(e.target.value === ''){
+                        if (e.target.value === '') {
                             setFilteredData(data)
                             handleSearch([] as string[], dataIndex)
                         }
 
-                      
+
                     }
-                      
+
                     }
                     onPressEnter={() =>
                         handleSearch(selectedKeys as string[], dataIndex)
@@ -156,7 +162,7 @@ export const useTableActions = <T extends { id: React.Key }>({
                     <Button
                         onClick={() => {
                             clearFilters && handleReset(clearFilters);
-                            handleSearch([] as string[],dataIndex)
+                            handleSearch([] as string[], dataIndex)
                         }}
                         size="small"
                         style={{ width: 90 }}
@@ -192,16 +198,16 @@ export const useTableActions = <T extends { id: React.Key }>({
                 style={{ color: filtered ? colors.primaryPurple : undefined }}
             />
         ),
-        onFilter: (value, record) =>{
-            if(value && value !== undefined){
+        onFilter: (value, record) => {
+            if (value && value !== undefined) {
                 return record[dataIndex]
-                //@ts-ignore
-                .toString()
-                .toLowerCase()
-                .includes((value as string).toLowerCase())
+                    //@ts-ignore
+                    .toString()
+                    .toLowerCase()
+                    .includes((value as string).toLowerCase())
             }
         }
-            ,
+        ,
         onFilterDropdownOpenChange: (visible) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);
@@ -230,13 +236,13 @@ export const useTableActions = <T extends { id: React.Key }>({
     };
 
     const rowClassName = (record: T) => {
-      return selectedKeys.includes(record.id) ? "selected-row" : "";
+        return selectedKeys.includes(record.id) ? "selected-row" : "";
     };
 
     const clearAllFilters = () => {
-    
+
         setFilteredData(data);
-  
+
         notification.success({
             message: "Filtros apagados!",
         })
@@ -259,7 +265,7 @@ export const useTableActions = <T extends { id: React.Key }>({
         setFilteredData,
         clearAllFilters,
         isFiltered
-        
-  
+
+
     };
 };

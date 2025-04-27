@@ -1,38 +1,38 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getMovimentations } from "../service/getMovimentations";
+import { useRangeDate } from "../context/RangeDate/RangeDateContext";
 
-import {
-	type RefinedRangeDate,
-	useRangeDate,
-} from "../context/RangeDate/RangeDateContext";
-import { useWithdrawData } from "./withdraw/useWithdrawData";
-import { useRequestsData } from "./orders/useRequestsData";
+type MovimentationType = {
+	id: number;
+	tipo: "entrada" | "saída";
+	valor: string;
+	saque_id: number | null;
+	pedido_id: number | null;
+	datarealizado: string; // Format: "YYYY-MM-DD"
+};
+
+type DailyDataType = {
+	date: string;
+	total: number;
+	items: MovimentationType[];
+};
 
 export const useMovimentationData = () => {
-	const { data, isLoading } = useQuery({
+	const { state, getDates } = useRangeDate();
+	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["movimentations"],
-		queryFn: getMovimentations,
+		queryFn: () => getMovimentations(getDates(state)),
 	});
 
 	const [movimentations, setMovimentations] = useState<MovimentationType[]>([]);
-	const { data: requests, getRequestDateById } = useRequestsData();
-
-	const {
-		data: withdraw,
-		getWithdrawDateById,
-		getWithdrawValueById,
-	} = useWithdrawData();
-
-	const [dates, setDates] = useState<RefinedRangeDate>();
-
-	const { state, getDates } = useRangeDate();
+	const [dateRange, setDateRange] = useState<{ startDate: string; endDate: string } | undefined>();
 
 	useEffect(() => {
+		refetch();
 		const { endDate, startDate } = getDates(state);
-
-		setDates({ endDate, startDate });
-	}, [state.rangeDate]);
+		setDateRange({ endDate, startDate });
+	}, [state.rangeDate, getDates]);
 
 	useEffect(() => {
 		if (data) {
@@ -40,135 +40,85 @@ export const useMovimentationData = () => {
 		}
 	}, [data]);
 
-	const parseDate = (dateString: string) => {
-		const [day, month, year] = dateString.split("/");
-		return new Date(`${year}-${month}-${day}`);
+	const generateDateRange = (start: Date, end: Date): string[] => {
+		const dates: string[] = [];
+		const current = new Date(start);
+		while (current <= end) {
+			dates.push(current.toISOString().split("T")[0]); // YYYY-MM-DD
+			current.setDate(current.getDate() + 1);
+		}
+		return dates;
 	};
 
-	const calculateMonthlyTotals = (data: any[], monthKey: string) => {
-		const totals: { [key: string]: { total: number; items: any[] } } = {};
+	const calculateDailyMap = (
+		data: MovimentationType[],
+		dates: string[]
+	): DailyDataType[] => {
+		const map = new Map<string, MovimentationType[]>();
 
+		// Organiza por data
 		data.forEach((item) => {
-			const month = item[monthKey];
-			if (!totals[month]) {
-				totals[month] = { total: 0, items: [] };
+			const date = item.datarealizado;
+			if (!map.has(date)) {
+				map.set(date, []);
 			}
-			totals[month].total += item.valor;
-			totals[month].items.push(item);
+			map.get(date)!.push(item);
 		});
 
-		return Object.keys(totals).map((month) => ({
-			month: parseInt(month),
-			total: totals[month].total,
-			monthData: totals[month].items,
-		}));
+		// Garante que todas as datas estejam representadas
+		return dates.map((date) => {
+			const items = map.get(date) ?? [];
+			const total = items.reduce((sum, item) => sum + parseFloat(item.valor), 0);
+			return { date, total, items };
+		});
 	};
 
-	const getInputData = () => {
-		const inputData = movimentations
-			.filter((m) => m.tipo === "entrada")
-			.map((d) => {
-				const mes_entrada = getRequestDateById(d.pedido_id);
-				const parsedDate = parseDate(mes_entrada);
+	const getInputData = (): DailyDataType[] => {
+		const inputData = movimentations.filter((m) => m.tipo === "entrada");
 
-				return {
-					...d,
-					data_entrada: getRequestDateById(d.pedido_id),
-					mes_entrada: parsedDate.getMonth(),
-					valor: parseFloat(d.valor),
-				};
+		if (dateRange?.startDate && dateRange.endDate) {
+			const start = new Date(dateRange.startDate.split("/").reverse().join("-"));
+			const end = new Date(dateRange.endDate.split("/").reverse().join("-"));
+			const range = generateDateRange(start, end);
+
+			const filteredData = inputData.filter((d) => {
+				const dataRealizado = new Date(d.datarealizado);
+				return dataRealizado >= start && dataRealizado <= end;
 			});
 
-		if (dates?.startDate && dates.endDate) {
-			const start = new Date(dates.startDate.split("/").reverse().join("-"));
-			const end = new Date(dates.endDate.split("/").reverse().join("-"));
-
-			const filteredData =
-				inputData.filter((d) => {
-					const dataEntrada = new Date(
-						d.data_entrada.split("/").reverse().join("-"),
-					);
-					return dataEntrada >= start && dataEntrada <= end;
-				}) || [];
-
-			return calculateMonthlyTotals(filteredData, "mes_entrada");
+			return calculateDailyMap(filteredData, range);
 		}
 
-		return calculateMonthlyTotals(inputData, "mes_entrada");
+		return [];
 	};
 
 	const getInputDataTotal = () => {
 		const inputData = getInputData();
-
-		const total = inputData.reduce((sum, item) => sum + (item.total || 0), 0);
-
-		return total;
+		return inputData.reduce((sum, item) => sum + item.total, 0);
 	};
 
-	const getOutputData = () => {
-		const outputData = movimentations
-			.filter((m) => m.tipo === "saída")
-			.map((d) => {
-				const mes_saida = getRequestDateById(d.pedido_id);
-				const parsedDate = parseDate(mes_saida);
+	const getOutputData = (): DailyDataType[] => {
+		const outputData = movimentations.filter((m) => m.tipo === "saída");
 
-				return {
-					...d,
-					data_saida: getWithdrawDateById(d.saque_id),
-					mes_saida: parsedDate.getMonth(),
-					valor: Number.parseInt(getWithdrawValueById(d.saque_id)),
-				};
+		if (dateRange?.startDate && dateRange.endDate) {
+			const start = new Date(dateRange.startDate.split("/").reverse().join("-"));
+			const end = new Date(dateRange.endDate.split("/").reverse().join("-"));
+			const range = generateDateRange(start, end);
+
+			const filteredData = outputData.filter((d) => {
+				const dataRealizado = new Date(d.datarealizado);
+				return dataRealizado >= start && dataRealizado <= end;
 			});
 
-		if (dates?.startDate && dates.endDate) {
-			const start = new Date(dates.startDate.split("/").reverse().join("-"));
-			const end = new Date(dates.endDate.split("/").reverse().join("-"));
-
-			const filteredData =
-				outputData.filter((d) => {
-					const dataSaida = new Date(
-						d.data_saida.split("/").reverse().join("-"),
-					);
-					return dataSaida >= start && dataSaida <= end;
-				}) || [];
-
-			return calculateMonthlyTotals(filteredData, "mes_saida");
+			return calculateDailyMap(filteredData, range);
 		}
 
-		return calculateMonthlyTotals(outputData, "mes_saida");
+		return [];
 	};
 
 	const getOutputDataTotal = () => {
-		const OutputData = getOutputData();
-
-		const total = OutputData.reduce((sum, item) => sum + (item.total || 0), 0);
-
-		return total;
-	};
-
-	const getDateOfRequest = (id: number | null) => {
-		const date =
-			requests.find((r) => r.id === id)?.datapedido || "Sem data disponível";
-		return date;
-	};
-
-	const getDateOfWithDrawal = (id: number | null) => {
-		const date =
-			withdraw.find((r) => r.id === id)?.datasaque || "Sem data disponível";
-		return date;
-	};
-
-	const getNameOfRequest = (id: number | null) => {
-		const date =
-			requests.find((r) => r.id === id)?.modelo || "Sem modelo disponível";
-		return date;
-	};
-
-	const getNameOfWithdraw = (id: number | null) => {
-		const date =
-			withdraw.find((r) => r.id === id)?.nome_consultor ||
-			"Pagamento pedido de saque";
-		return date;
+		const outputData = getOutputData();
+		return outputData.reduce((sum, item) => sum + item.total, 0);
 	};
 
 	return {
@@ -178,9 +128,5 @@ export const useMovimentationData = () => {
 		getInputDataTotal,
 		getOutputData,
 		getOutputDataTotal,
-		getDateOfRequest,
-		getNameOfRequest,
-		getDateOfWithDrawal,
-		getNameOfWithdraw,
 	};
 };

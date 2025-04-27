@@ -3,26 +3,26 @@ import { PaginationProps } from "antd/lib";
 
 type Props = {
     onPageChange: (page: number) => void;
-    totalItems: number; 
-    currentPage: number; 
-    pageSize?: number; 
+    totalItems: number;
+    currentPage: number;
+    pageSize?: number;
 } & PaginationProps
 
 export const ContainerPagination = ({
     onPageChange,
     totalItems,
     currentPage,
-    pageSize = 10, 
+    pageSize = 10,
     ...rest
 }: Props) => {
-
+    console.log({ totalItems, currentPage })
     return (
         <Pagination
-            current={currentPage} 
-            total={totalItems} 
-            pageSize={pageSize} 
+            current={currentPage}
+            total={totalItems}
+            pageSize={pageSize}
             onChange={onPageChange}
-            showSizeChanger={false} 
+            showSizeChanger={false}
             {...rest}
         />
     );

@@ -5,25 +5,26 @@ import { UserRole } from "../../../util/userRole";
 interface FilterButtonsProps {
 	options: { label: ReactNode; value: number }[];
 	onFilterChange: (values: number[]) => void;
+	onChangeTab: (value: number) => void;
 }
 
-const FilterButtons = ({ options, onFilterChange }: FilterButtonsProps) => {
+const FilterButtons = ({ options, onFilterChange, onChangeTab }: FilterButtonsProps) => {
 	const [activeValue, setActiveValue] = useState<number>(options[0].value);
 
 	const handleClick = (value: number) => {
 		setActiveValue(value);
-
+		console.log({ value })
 		let filterValues: number[];
 		if (value === 0) {
 			filterValues = options.map((option) => option.value);
 		} else if (value === -1) {
-			filterValues = [UserRole.ADMIN, UserRole.STOCK, UserRole.MANAGER];
+			filterValues = [UserRole.ADMIN];
 		} else if (value === UserRole.USER) {
 			filterValues = [UserRole.USER];
 		} else {
 			filterValues = [value];
 		}
-
+		onChangeTab(value);
 		onFilterChange(filterValues);
 	};
 

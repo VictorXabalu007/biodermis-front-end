@@ -6,22 +6,25 @@ import { Flex } from "antd";
 const InvoicingDataContainer = () => {
 	const { getInputData, getOutputData } = useMovimentationData();
 
-	const allInputData = getInputData().flatMap((d) => d.monthData);
-	const allOutputData = getOutputData().flatMap((d) => d.monthData);
+	const inputData = getInputData();
+	const outputData = getOutputData();
 
+	// Flatten the data structure to get all items
+	const allInputItems = inputData.flatMap(d => d.items).toReversed();
+	const allOutputItems = outputData.flatMap(d => d.items).toReversed();
 	return (
 		<Flex className="mt-10" justify="space-between" align="center" gap={15}>
 			<DataItem
 				title={"Entradas"}
 				subtitle="(entradas totais)"
-				cardData={allInputData}
+				cardData={allInputItems}
 				cardType="input"
 			/>
 
 			<DataItem
 				title={"Saídas"}
 				subtitle="(saídas totais)"
-				cardData={allOutputData}
+				cardData={allOutputItems}
 				cardType="output"
 			/>
 		</Flex>

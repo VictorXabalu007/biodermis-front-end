@@ -25,12 +25,12 @@ const HomeConsultorsTable = () => {
 	const columns: TableColumnType<UserCredentials>[] = [
 		{
 			title: "Rank",
-			dataIndex: "rank",
-			key: "rank",
-			sorter: (a, b) => Number.parseInt(a.rank) - Number.parseInt(b.rank),
+			dataIndex: "position",
+			key: "position",
+			sorter: (a, b) => (a.position) - (b.position),
 			render: (value) =>
-				value === "1" || value === "2" || value === "3" ? (
-					buildPodium(value)
+				value === 1 || value === 2 || value === 3 ? (
+					buildPodium(String(value))
 				) : (
 					<div className="flex px-2 gap-2 items-center">
 						<Text>{value}</Text>

@@ -18,7 +18,7 @@ import { useConsultorData } from "../users/useConsultorData";
 export const useRequestsData = ({
 	enableFilterDate = true,
 }: FilterDateConstraints = {}) => {
-	const { getConsultorName, consultor } = useConsultorData();
+	const { getConsultorName } = useConsultorData();
 
 	const now = new Date();
 	const currentMonth = getMonth(now);
@@ -113,22 +113,7 @@ export const useRequestsData = ({
 			setData((prev) => prev);
 		}
 	}, [dates, requests]);
-	const getTotalByConsultorId = (id: number) => {
-		const filteredData = data.filter((d) => d.consultor_id === id);
-		const total = filteredData.reduce((acc, d) => acc + parseFloat(d.valor), 0);
-		return total;
-	}
-	const getRankPositionByConsultorId: (i: number) => number = (consultorId: number) => {
-		const consultorTotals = consultor.map((c) => {
-			const total = getTotalByConsultorId(c.id);
-			return { ...c, total };
-		});
-		const sortedConsultorTotals = consultorTotals.sort(
-			(a, b) => b.total - a.total,
-		);
-		const rankPosition = sortedConsultorTotals.findIndex((c) => c.id === consultorId);
-		return rankPosition >= 0 ? rankPosition + 1 : sortedConsultorTotals.length + 1; // Ensure incremental indexation
-	};
+
 	const getSellPercentualChange = () => {
 		const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
 		const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
@@ -249,9 +234,12 @@ export const useRequestsData = ({
 
 	const getTotalSells = () => {
 		const currentMonthSales = data.filter((d) => {
-			return normalizeText(d.modelo) === "venda";
+			// return normalizeText(d.modelo) === "venda" && d.statuspag === 'realizado';
+			return d.statuspag === 'realizado'
 		});
-		return currentMonthSales.length;
+		return currentMonthSales.reduce((acc, d) => {
+			return acc + parseFloat(d.valor);
+		}, 0);
 	};
 
 	const getTotalPayments = () => {
@@ -312,31 +300,7 @@ export const useRequestsData = ({
 	};
 
 	const getTotalOrders = () => {
-		const currentMonthSales = data.filter((d) =>
-			parse(d.datapedido, "dd/MM/yyyy", new Date()),
-		);
-
-		return currentMonthSales.length;
-	};
-
-	const getTotalByConsultor = () => {
-		// Cria um objeto para armazenar o valor total de cada consultor
-		const consultorTotals: Record<number, number> = {};
-
-		// Itera sobre os pedidos e soma o valor para cada consultor
-		for (const pedido of data) {
-			const consultorId = pedido.consultor_id;
-			const valor = parseFloat(pedido.valor);
-
-			// Verifica se o consultor já existe no objeto, se não, cria uma nova entrada
-			if (consultorTotals[consultorId]) {
-				consultorTotals[consultorId] += valor;
-			} else {
-				consultorTotals[consultorId] = valor;
-			}
-		}
-
-		return consultorTotals;
+		return data.length;
 	};
 
 	return {
@@ -354,10 +318,7 @@ export const useRequestsData = ({
 		getRequestOrderPercentChange,
 		getRequestDataOfConsultorId,
 		getSellStatusChange,
-		getTotalByConsultor,
 		getRequestOrderStatusChange,
-		getTotalOrders,
-		getTotalByConsultorId,
-		getRankPositionByConsultorId
+		getTotalOrders
 	};
 };

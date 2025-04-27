@@ -38,8 +38,8 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 	);
 	const [valueSale, setValueSale] = useState<
 		{
-			imagem: string | undefined; id: number; nome: string; valor: string; quantidade: number 
-}[]
+			imagem: string | undefined; id: number; nome: string; valor: string; quantidade: number
+		}[]
 	>([]);
 
 	useEffect(() => {
@@ -67,7 +67,11 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 		const mappedValues = requests.produtos_ids
 			.map((produtoId: ProductId) => {
 				// Localizar o produto correspondente
-				const produto: any = requests.produtos.find((p: Product) => p.produto_id == produtoId.id);
+				console.log({ requests })
+				const produto: any = requests.produtos.find((p: Product) => {
+					if (!p) return false;
+					return p.produto_id == produtoId.id
+				});
 				if (!produto) return null;
 
 				// const imgPath = (produto.imagens.length > 0 &&  produto.imagens[0] !== '') ? produto.imagens[0] : ''; 
@@ -251,7 +255,9 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 	if (isLoading) {
 		return <Skeleton />;
 	}
-
+	const loadImgApi = (img: string) => {
+		return `${import.meta.env.VITE_API_URL}/${img}`
+	}
 	return (
 		<Flex align="center" justify="center" vertical>
 			<Flex
@@ -271,9 +277,10 @@ export const RequestViewModal = ({ requests }: { requests: Requests }) => {
 				valueSale.map((p) => (
 					<Flex key={p.id} className="flex mt-2 w-full justify-between gap-2">
 						<Flex gap={15}>
+							{/* <h1>{p.imagem && loadImgApi(p.imagem)}</h1> */}
 							<Image
 								width={145}
-								src={p.imagem}
+								src={p.imagem && loadImgApi(p.imagem)}
 								fallback={productFallback}
 								alt={p.nome}
 								style={{
