@@ -17,6 +17,7 @@ import ProductsList from "./util/products-list";
 import type { ProductResponseFromApi } from "../../@types/product";
 import { z } from "zod";
 import Api from "../../service/api";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
 
 type UserData = {
   cep: string;
@@ -140,7 +141,7 @@ const UserProductsForm = () => {
         valorfrete: selectedShipping
           ? parseFloat(
               freteCalculate.find((frete) => frete.name === selectedShipping)
-                ?.price
+                ?.price ?? 0
             )
           : 0,
         rua: data.rua,
