@@ -6,7 +6,6 @@ import { isValidURL } from "../../functions/Validators/isLink";
 import { API_URL } from "../../service/url";
 
 export const useUsersData = () => {
-
   const { data, isLoading } = useQuery<UserCredentials[]>({
     queryKey: ["users"],
     queryFn: getUsers,
@@ -34,7 +33,6 @@ export const useUsersData = () => {
           const { srcperfil } = d;
           const isLink = srcperfil !== null ? isValidURL(srcperfil) : false;
 
-
           if (hasAddress) {
             return {
               ...d,
@@ -54,7 +52,6 @@ export const useUsersData = () => {
       );
     }
   }, [data, userAddress, address]);
-
 
   return {
     users,
