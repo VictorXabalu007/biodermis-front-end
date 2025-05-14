@@ -227,7 +227,7 @@ const UserProductsForm = () => {
                 }`}
                 onClick={() => handleShippingOption("Retirar na Loja", 0)}
               >
-                <span className="font-semibold">Retirar na Loja: R$0</span>
+                <span className="font-semibold">Motoboy (Consultar preço com vendedor): R$0</span>
               </div>
 
               {freteCalculate
