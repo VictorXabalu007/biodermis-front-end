@@ -99,10 +99,10 @@ const ConsultorsTable = () => {
 			align: "center",
 		},
 		{
-			dataIndex: "id",
+			dataIndex: "pedidosCount",
 			title: "Pedidos",
 			render: (value) => (value < 10 ? `0${value}` : value),
-			sorter: (a, b) => a.id - b.id,
+			sorter: (a, b) => a.pedidosCount - b.pedidosCount,
 			align: "center",
 		},
 		{
