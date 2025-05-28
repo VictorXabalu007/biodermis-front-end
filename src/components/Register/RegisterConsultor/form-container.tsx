@@ -1,6 +1,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { AddressDataForm } from "./addressdata-form";
 import { BankDataForm } from "./bankdata-form";
 import { Uploader } from "./upload-certified";
@@ -61,7 +61,9 @@ export const FormContainer = () => {
                 "cidade": data.cidade,
                 "usuario_id":id,
                 "numero":data.numero,
-                "complemento":data.complemento
+                "complemento":data.complemento,
+                "nomecliente":data.nome,
+                "telefone":data.telefone,
             }
 
             const headers = getHeaders();
@@ -78,6 +80,11 @@ export const FormContainer = () => {
             
             success('Usuário cadastrado com sucesso!');
             onReset();
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
         },
         onError: (err:any)=> {
 
@@ -121,12 +128,12 @@ export const FormContainer = () => {
                 "cpf": data.cpf,
                 "email": data.email,
                 "telefone": data.telefone,
-                "agencia": data.bankData.agencia,
-                "conta": data.bankData.conta,
-                "pix": data.bankData.pix,
+                "agencia": data.bankData.agencia || '',
+                "conta": data.bankData.conta|| '',
+                "pix": data.bankData.pix|| '',
                 "senha": data.senha,
                 "cargo_id": data.cargo_id,
-                "banco":data.bankData.banco,
+                "banco":data.bankData.banco || '',
                 "tipochave": getTypeOfPixKey(data.bankData.pix)
             }
 

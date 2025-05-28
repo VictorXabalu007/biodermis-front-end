@@ -90,6 +90,10 @@ export const StatusModal = ({ data, handleClose }: StatusModalProps) => {
 			console.log(err);
 
 			error(err.response.data.error || "Ops, um erro ocorreu!");
+
+			setTimeout(() => {
+				window.location.reload();
+			}, 1000);
 		},
 	});
 

@@ -24,7 +24,23 @@ export const buildPaymentStatus = (status:string) => {
                 key="statuspag"
                 /> 
             )
-
+        
+        case 'recusado':
+            return (
+                <Tag
+                content={status}
+                className="text-red-solid-950 fill-red-solid-950 bg-red-solid-400"
+                key="statuspag"
+                /> 
+            )
+        default:
+            return (
+                <Tag
+                content={status}
+                className="text-gray-900 fill-gray-900 bg-gray-neutral-200"
+                key="statuspag"
+                /> 
+            )
     }
 
 }
